@@ -1,4 +1,3 @@
-import React from 'react'
 import { IconButton, Box, Stack } from '@mui/material'
 import TelegramIcon from '@mui/icons-material/Telegram'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'

@@ -1,14 +1,16 @@
 import { Box } from '@mui/material'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Footer from '../layout/footer/Footer'
 import Layout from '../layout/Layout'
+import Auth from '../pages/auth/Auth'
 import NotFound from '../pages/notfound/NotFound'
+import { useAuth } from '../providers/useAuth'
 import { routes } from './routes'
 
 type Props = {}
 
 const RoutesList = (props: Props) => {
-  const isAuth = true
+  const { user } = useAuth()
+
   return (
     <Box
       sx={{
@@ -21,16 +23,12 @@ const RoutesList = (props: Props) => {
       <Router>
         <Routes>
           {routes.map((route, index) => {
-            if (route.auth && !isAuth) {
-              return false
-            }
-
             return (
               <Route
                 path={route.path}
                 element={
                   <Layout>
-                    <route.component />
+                    {route.auth && !user ? <Auth /> : <route.component />}
                   </Layout>
                 }
                 key={index}

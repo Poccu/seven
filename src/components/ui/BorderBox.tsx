@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { blueGrey, grey } from '@mui/material/colors'
+import { grey } from '@mui/material/colors'
 
 type Props = {
   children: any
@@ -11,9 +11,9 @@ const BorderBox = ({ children }: Props) => {
       sx={{
         border: 2,
         borderRadius: 2,
-        // borderColor: grey[300],
+        boxShadow: 7,
         borderColor: grey[900],
-        backgroundColor: grey[900],
+        backgroundColor: '#151515',
       }}
     >
       {children}

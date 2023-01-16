@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import UserItems from './UserItems'
 import Menu from './menu/Menu'
-import BorderBox from '../BorderBox'
+import BorderBox from '../../ui/BorderBox'
 
 type Props = {}
 
