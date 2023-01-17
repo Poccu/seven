@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import BorderBox from '../../../ui/BorderBox'
 import { useNavigate } from 'react-router-dom'
-import { Key, Logout } from '@mui/icons-material'
+import { InfoOutlined, Login, Logout } from '@mui/icons-material'
 import { useAuth } from '../../../providers/useAuth'
 import { signOut } from 'firebase/auth'
 
@@ -35,6 +35,14 @@ const Menu = (props: Props) => {
                 </ListItem>
               ))}
               <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/about')}>
+                  <ListItemIcon sx={{ mr: -2 }}>
+                    <InfoOutlined color="info" />
+                  </ListItemIcon>
+                  <ListItemText primary="About" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
                 <ListItemButton onClick={() => signOut(ga)}>
                   <ListItemIcon sx={{ mr: -2 }}>
                     <Logout color="error" />
@@ -44,14 +52,24 @@ const Menu = (props: Props) => {
               </ListItem>
             </>
           ) : (
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate('/auth')}>
-                <ListItemIcon sx={{ mr: -2 }}>
-                  <Key color="error" />
-                </ListItemIcon>
-                <ListItemText primary="Auth" />
-              </ListItemButton>
-            </ListItem>
+            <>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/auth')}>
+                  <ListItemIcon sx={{ mr: -2 }}>
+                    <Login color="error" />
+                  </ListItemIcon>
+                  <ListItemText primary="Sign in" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/about')}>
+                  <ListItemIcon sx={{ mr: -2 }}>
+                    <InfoOutlined color="info" />
+                  </ListItemIcon>
+                  <ListItemText primary="About" />
+                </ListItemButton>
+              </ListItem>
+            </>
           )}
         </List>
       </nav>

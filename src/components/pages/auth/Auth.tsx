@@ -1,15 +1,14 @@
 import { SyntheticEvent, useEffect, useState } from 'react'
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import BorderBox from '../../ui/BorderBox'
-import { IUserData } from './types'
-
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from 'firebase/auth'
 import { useAuth } from '../../providers/useAuth'
 import { useNavigate } from 'react-router-dom'
+import { IUserData } from '../../../types'
 
 type Props = {}
 
@@ -20,30 +19,28 @@ function Auth({}: Props) {
   const [userData, setUserData] = useState<IUserData>({
     email: '',
     password: '',
+    name: '',
+    avatar: '',
   } as IUserData)
 
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const auth = getAuth()
 
     if (isRegForm) {
-      await createUserWithEmailAndPassword(
-        auth,
+      const { user } = await createUserWithEmailAndPassword(
+        ga,
         userData.email,
         userData.password
       )
-        .then((userCredential) => {
-          console.log('REGISTERED', userCredential)
-          // Signed in
-          // const user = userCredential.user;
-        })
-        .catch((error) => {
-          const errorCode = error.code
-          const errorMessage = error.message
-          console.log(error.code, error.message)
-        })
+      console.log(`User ${user.uid} created`)
+      await updateProfile(user, {
+        displayName: userData.name,
+      })
+      console.log('User profile updated')
+      navigate('/')
+      // window.location.reload()
     } else {
-      await signInWithEmailAndPassword(auth, userData.email, userData.password)
+      await signInWithEmailAndPassword(ga, userData.email, userData.password)
         .then((userCredential) => {
           // Signed in
           // const user = userCredential.user
@@ -57,6 +54,8 @@ function Auth({}: Props) {
     setUserData({
       email: '',
       password: '',
+      name: '',
+      avatar: '',
     })
   }
 
@@ -70,7 +69,7 @@ function Auth({}: Props) {
     <>
       <BorderBox>
         <Box sx={{ p: 3 }}>
-          Auth
+          <Typography>Sign in to Seven</Typography>
           <Box
             component="form"
             onSubmit={handleLogin}
@@ -80,6 +79,15 @@ function Auth({}: Props) {
             // noValidate
             autoComplete="off"
           >
+            <TextField
+              label="Name"
+              variant="outlined"
+              required
+              value={userData.name}
+              onChange={(e) =>
+                setUserData({ ...userData, name: e.target.value })
+              }
+            />
             <TextField
               type="email"
               label="Email"
@@ -102,17 +110,17 @@ function Auth({}: Props) {
             />
             <Button
               type="submit"
-              color="error"
+              color="info"
               onClick={() => setIsRegForm(false)}
             >
-              Auth
+              Sign in
             </Button>
             <Button
               type="submit"
               color="error"
               onClick={() => setIsRegForm(true)}
             >
-              Reg
+              Register
             </Button>
           </Box>
         </Box>

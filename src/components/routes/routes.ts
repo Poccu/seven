@@ -1,3 +1,4 @@
+import About from '../pages/about/About'
 import Auth from '../pages/auth/Auth'
 import Home from '../pages/home/Home'
 import Profile from '../pages/profile/Profile'
@@ -37,6 +38,12 @@ export const routes = [
     path: '/auth',
     exact: false,
     component: Auth,
+    auth: false,
+  },
+  {
+    path: '/about',
+    exact: true,
+    component: About,
     auth: false,
   },
 ]

@@ -1,53 +1,53 @@
 import { Avatar, Box, Stack, Typography } from '@mui/material'
 import BorderBox from '../../ui/BorderBox'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import NewPost from './NewPost'
+import AddPost from './AddPost'
 import { Link, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../../providers/useAuth'
+import { IPost } from '../../../types'
+import { collection, onSnapshot, query, where } from 'firebase/firestore'
+import moment from 'moment'
 
 type Props = {}
 
-let posts = [
-  {
-    author: 'Ilon Mask',
-    avatar: 'https://i.pravatar.cc/200?img=13',
-    time: '10 minutes ago',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus est odio, molestie et enim non, porttitor vehicula ex. Mauris pellentesque, ante nec dignissim efficitur, purus urna pellentesque odio, eget ornare tortor ante nec lectus. Proin aliquet massa leo, nec ultricies sem ullamcorper sed. Nam porta odio nec metus blandit condimentum.',
-  },
-  {
-    author: 'Asia Filina',
-    avatar: 'https://i.pravatar.cc/200?img=49',
-    time: '21 minutes ago',
-    text: 'Pellentesque ultricies interdum scelerisque. Cras dapibus volutpat odio, sed iaculis lorem vestibulum a. Nunc sed sapien blandit, rhoncus eros vel, ultricies ipsum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus luctus a dolor vel laoreet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec porta tellus ac elementum aliquam. Vestibulum vitae tellus eu sem elementum tincidunt et nec ipsum.',
-  },
-  {
-    author: 'Max Pelts',
-    avatar: 'https://i.pravatar.cc/200?img=59',
-    time: '2 hours ago',
-    text: 'Vivamus luctus a dolor vel laoreet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec porta tellus ac elementum aliquam. Vestibulum vitae tellus eu sem elementum tincidunt et nec ipsum.',
-  },
-  {
-    author: 'Greg Fessoni',
-    avatar: 'https://i.pravatar.cc/200?img=65',
-    time: '4 hours ago',
-    text: 'Pellentesque ultricies interdum scelerisque. Cras dapibus volutpat odio, sed iaculis lorem vestibulum a. Sed posuere sem magna, in efficitur dolor rutrum eget. Pellentesque ultricies interdum scelerisque. Cras dapibus volutpat odio, sed iaculis lorem vestibulum a. Nunc sed sapien blandit, rhoncus eros vel, ultricies ipsum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus luctus a dolor vel laoreet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec porta tellus ac elementum aliquam. Vestibulum vitae tellus eu sem elementum tincidunt et nec ipsum.',
-  },
-]
-
 function Home({}: Props) {
-  const { ga, user } = useAuth()
+  const [posts, setPosts] = useState<IPost[]>([])
+
+  const { user, db } = useAuth()
   console.log(user)
 
-  const navigate = useNavigate()
-
   useEffect(() => {
-    !user && navigate('/auth')
+    console.log('TEST')
+    const q = query(
+      collection(db, 'posts')
+      // , where("state", "==", "CA")
+    )
+    const unsub = onSnapshot(q, (querySnapshot: any) => {
+      const postsArr: any[] = []
+      querySnapshot.forEach((doc: any) => {
+        console.log(doc.data().createdAt)
+        postsArr.push(doc.data())
+      })
+      const filter = postsArr.sort((a, b) => b.createdAt - a.createdAt)
+      console.log(postsArr)
+      setPosts(filter)
+    })
+
+    return () => {
+      unsub()
+    }
   }, [])
+
+  // const navigate = useNavigate()
+
+  // useEffect(() => {
+  //   !user && navigate('/auth')
+  // }, [])
 
   return (
     <>
-      <NewPost />
+      <AddPost setPosts={setPosts} />
       {posts.map((post, index) => (
         <Box sx={{ mb: 2 }} key={index}>
           <BorderBox>
@@ -58,24 +58,28 @@ function Home({}: Props) {
                 spacing={2}
                 sx={{ mb: 2 }}
               >
-                <Link to="/profile">
-                  <Avatar
-                    alt={post.author}
-                    src={post.avatar}
-                    sx={{ width: 46, height: 46 }}
-                    draggable={false}
-                  />
-                </Link>
+                {/* <Link to="/profile"> */}
+                <Avatar
+                  alt={post.author.name}
+                  src={post.author.avatar}
+                  sx={{ width: 46, height: 46 }}
+                  draggable={false}
+                >
+                  <b>
+                    {post.author.name.replace(/\B\w+/g, '').split(' ').join('')}
+                  </b>
+                </Avatar>
+                {/* </Link> */}
                 <Stack>
-                  <Link to="/profile">
-                    <Typography variant="h6">{post.author}</Typography>
-                  </Link>
+                  {/* <Link to="/profile"> */}
+                  <Typography variant="h6">{post.author.name}</Typography>
+                  {/* </Link> */}
                   <Typography variant="body2" color="textSecondary">
-                    {post.time}
+                    {moment(post.createdAt).fromNow()}
                   </Typography>
                 </Stack>
               </Stack>
-              <Typography variant="body1">{post.text}</Typography>
+              <Typography variant="body1">{post.content}</Typography>
               <Stack
                 alignItems="center"
                 direction="row"
