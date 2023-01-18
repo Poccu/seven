@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Divider,
   IconButton,
   Stack,
   Typography,
@@ -12,11 +11,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import ClearIcon from '@mui/icons-material/Clear'
-import AddPost from './AddPost'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useAuth } from '../../providers/useAuth'
-import { IPost } from '../../../types'
 import {
   collection,
   onSnapshot,
@@ -32,29 +29,30 @@ import {
 } from 'firebase/firestore'
 import moment from 'moment'
 import { grey } from '@mui/material/colors'
-import AddComment from './AddComment'
+import AddMessage from './AddMessage'
+import { IMessage } from '../../../types'
 
 type Props = {}
 
-function Home({}: Props) {
-  const [posts, setPosts] = useState<IPost[]>([])
+function Messenger({}: Props) {
+  const [messages, setMessages] = useState<IMessage[]>([])
 
-  const { db, cur } = useAuth()
+  const { cur, db } = useAuth()
 
   useEffect(() => {
     const q = query(
-      collection(db, 'posts'),
-      orderBy('createdAt', 'desc')
-      // limit(4)
+      collection(db, 'messages'),
+      orderBy('createdAt', 'asc')
+      // limit(2)
     )
 
     const unsub = onSnapshot(q, (querySnapshot: any) => {
-      const postsArr: any[] = []
+      const messagesArr: any[] = []
       querySnapshot.forEach(async (d: any) => {
-        postsArr.push(d.data())
+        messagesArr.push(d.data())
       })
-      setPosts(postsArr)
-      console.log('postsArr', postsArr)
+      setMessages(messagesArr)
+      console.log('messagesArr', messagesArr)
     })
 
     return () => {
@@ -62,70 +60,41 @@ function Home({}: Props) {
     }
   }, [])
 
-  // const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   !cur && navigate('/auth')
-  // }, [])
-
-  // useEffect(() => {
-  //   const sfDocRef = doc(db, 'posts', 'gI54O3LWqbcKBSWw0PNX')
-
-  //   try {
-  //     const newPopulation = runTransaction(db, async (transaction) => {
-  //       const sfDoc = await transaction.get(sfDocRef)
-  //       if (!sfDoc.exists()) {
-  //         throw 'Document does not exist!'
-  //       }
-
-  //       const newViews = sfDoc.data().views + 1
-  //       if (newViews <= 1000000) {
-  //         transaction.update(sfDocRef, { views: newViews })
-  //         return newViews
-  //       } else {
-  //         return Promise.reject('Sorry! Population is too big')
-  //       }
-  //     })
-
-  //     console.log('Population increased to ', newPopulation)
-  //   } catch (e) {
-  //     // This will be a "population is too big" error.
-  //     console.error(e)
-  //   }
-  // }, [])
-
   return (
     <>
-      <AddPost />
-      {posts.map((post, index) => (
+      {messages.map((message, index) => (
         <Box sx={{ mb: 2 }} key={index}>
           <BorderBox>
             <Box sx={{ p: 3 }}>
               <Stack
-                direction="row"
+                direction={
+                  message.author.uid !== cur?.uid ? 'row' : 'row-reverse'
+                }
                 justifyContent="space-between"
                 // alignItems="center"
                 // spacing={2}
               >
                 <NavLink
-                  to={`/profile/${post.author.uid}`}
+                  to={`/profile/${message.author.uid}`}
                   style={{ textDecoration: 'none' }}
                 >
                   <Stack
                     alignItems="center"
-                    direction="row"
+                    direction={
+                      message.author.uid !== cur?.uid ? 'row' : 'row-reverse'
+                    }
                     spacing={2}
                     sx={{ mb: 2 }}
                   >
-                    {/* <Link to={`/profile/${post.author.uid}`}> */}
+                    {/* <Link to={`/profile/${message.author.uid}`}> */}
                     <Avatar
-                      alt={post.author.displayName}
-                      src={post.author.photoURL}
+                      alt={message.author.displayName}
+                      src={message.author.photoURL}
                       sx={{ width: 46, height: 46 }}
                       draggable={false}
                     >
                       <b>
-                        {post?.author?.displayName
+                        {message?.author?.displayName
                           ?.replace(/\B\w+/g, '')
                           .split(' ')
                           .join('')}
@@ -133,21 +102,21 @@ function Home({}: Props) {
                     </Avatar>
                     {/* </Link> */}
                     <Stack>
-                      {/* <Link to={`/profile/${post.author.uid}`}> */}
+                      {/* <Link to={`/profile/${message.author.uid}`}> */}
                       <Typography variant="h6">
-                        {post.author.displayName}
+                        {message.author.displayName}
                       </Typography>
                       {/* </Link> */}
                       <Typography variant="body2" color="textSecondary">
-                        {moment(post.createdAt).fromNow()}
+                        {moment(message.createdAt).fromNow()}
                       </Typography>
                     </Stack>
                   </Stack>
                 </NavLink>
-                {post.author.uid === cur?.uid && (
+                {message.author.uid === cur?.uid && (
                   <IconButton
                     onClick={async () => {
-                      await deleteDoc(doc(db, 'posts', post.id))
+                      await deleteDoc(doc(db, 'messages', message.id))
                     }}
                     color="inherit"
                     sx={{ width: '40px ', height: '40px' }}
@@ -156,7 +125,13 @@ function Home({}: Props) {
                   </IconButton>
                 )}
               </Stack>
-              <Typography variant="body1">{post.content}</Typography>
+              {message.author.uid === cur?.uid ? (
+                <Typography variant="body1" sx={{ textAlign: 'end' }}>
+                  {message.content}
+                </Typography>
+              ) : (
+                <Typography variant="body1">{message.content}</Typography>
+              )}
               <Stack
                 direction="row"
                 justifyContent="space-between"
@@ -169,10 +144,10 @@ function Home({}: Props) {
                   spacing={0.2}
                   sx={{ mt: 2 }}
                 >
-                  {cur?.uid && !post.likes.includes(cur?.uid) ? (
+                  {cur?.uid && !message.likes.includes(cur?.uid) ? (
                     <IconButton
                       onClick={async () => {
-                        const docRef = doc(db, 'posts', post.id)
+                        const docRef = doc(db, 'messages', message.id)
 
                         try {
                           await runTransaction(db, async (transaction) => {
@@ -201,7 +176,7 @@ function Home({}: Props) {
                   ) : (
                     <IconButton
                       onClick={async () => {
-                        const docRef = doc(db, 'posts', post.id)
+                        const docRef = doc(db, 'messages', message.id)
 
                         try {
                           await runTransaction(db, async (transaction) => {
@@ -227,29 +202,17 @@ function Home({}: Props) {
                   )}
 
                   <Typography variant="body1" color="textSecondary">
-                    <b>{post.likes.length > 0 && post.likes.length}</b>
-                  </Typography>
-                </Stack>
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={1}
-                  sx={{ mt: 2 }}
-                >
-                  <VisibilityIcon sx={{ color: grey[700] }} />
-                  <Typography variant="body2" color="textSecondary">
-                    {post.views}
+                    <b>{message.likes.length > 0 && message.likes.length}</b>
                   </Typography>
                 </Stack>
               </Stack>
-              <Divider />
-              <AddComment />
             </Box>
           </BorderBox>
         </Box>
       ))}
+      <AddMessage />
     </>
   )
 }
 
-export default Home
+export default Messenger

@@ -7,21 +7,31 @@ export let themeLight = createTheme({
       main: grey[50],
     },
     secondary: {
-      main: red[700],
+      main: grey[500],
     },
     background: {
-      default: grey[100],
+      default: grey[50],
+      paper: grey[100],
     },
     text: {
       primary: '#000000',
       secondary: grey[600],
     },
-    // search: {
-    //   primary: '#000000',
-    // },
-    // button: {
-    //   primary: '#000000',
-    // },
+    warning: {
+      main: '#000000',
+      light: '#000000',
+      dark: '#000000',
+    },
+    action: {
+      active: grey[400],
+      activatedOpacity: 0.1,
+      hover: grey[300],
+      hoverOpacity: 0.1,
+      focus: grey[300],
+      focusOpacity: 0.1,
+      selected: grey[400],
+      selectedOpacity: 0.1,
+    },
   },
   components: {
     MuiCssBaseline: {
@@ -61,22 +71,27 @@ export let themeDark = createTheme({
       main: '#191919',
     },
     secondary: {
-      main: red[500],
+      main: grey[800],
     },
     background: {
       default: '#121212',
+      paper: '#151515',
     },
     text: {
       primary: grey[50],
       secondary: grey[500],
     },
-    // search: {
-    //   primary: grey[50],
-    // },
-    // button: {
-    //   primary: grey[50],
-    // },
-    divider: grey[800],
+    action: {
+      active: grey[800],
+      activatedOpacity: 0.1,
+      hover: grey[900],
+      hoverOpacity: 0.1,
+      focus: grey[900],
+      focusOpacity: 0.1,
+      selected: grey[800],
+      selectedOpacity: 0.1,
+    },
+    divider: grey[900],
   },
   components: {
     MuiCssBaseline: {

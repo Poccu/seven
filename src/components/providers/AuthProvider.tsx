@@ -12,30 +12,32 @@ interface IContext {
   setUser: TypeSetState<IUser | null>
   ga: Auth
   db: Firestore
+  cur: any
 }
 
 export const AuthContext = createContext<IContext>({} as IContext)
 
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<IUser | null>({
-    _id: '',
-    avatar: '',
-    name: '',
+    uid: '',
+    photoURL: '',
+    displayName: '',
     // isInNetwork?: boolean
   })
 
   const ga = getAuth()
   const db = getFirestore()
+  const cur = ga.currentUser
 
   useEffect(() => {
-    const unListen = onAuthStateChanged(ga, (authUser) => {
-      if (authUser) {
+    const unListen = onAuthStateChanged(ga, (cur) => {
+      if (cur) {
         setUser({
-          _id: authUser.uid,
-          avatar: `https://i.pravatar.cc/100?img=${
+          uid: cur.uid,
+          photoURL: `https://i.pravatar.cc/200?img=${
             Math.floor(Math.random() * 70) + 1
           }`,
-          name: authUser?.displayName || '',
+          displayName: cur?.displayName || '',
         })
       } else {
         setUser(null)
@@ -47,7 +49,10 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }, [])
 
-  const values = useMemo(() => ({ user, setUser, ga, db }), [user, ga, db])
+  const values = useMemo(
+    () => ({ user, setUser, ga, db, cur }),
+    [user, ga, db, cur]
+  )
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
 }

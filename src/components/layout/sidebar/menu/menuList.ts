@@ -3,11 +3,6 @@ import { IMenuItem } from '../../../../types'
 
 export const menu: IMenuItem[] = [
   {
-    title: 'My profile',
-    link: '/profile',
-    icon: Icons.Home,
-  },
-  {
     title: 'News',
     link: '/',
     icon: Icons.Article,
@@ -20,12 +15,12 @@ export const menu: IMenuItem[] = [
   {
     title: 'Friends',
     link: '/friends',
-    icon: Icons.Person,
+    icon: Icons.Group,
   },
   {
     title: 'Communities',
     link: '/groups',
-    icon: Icons.Group,
+    icon: Icons.Groups,
   },
   {
     title: 'Photos',

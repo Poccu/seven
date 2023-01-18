@@ -9,18 +9,19 @@ import {
 import { useAuth } from '../../providers/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { IUserData } from '../../../types'
+import { doc, setDoc } from 'firebase/firestore'
 
 type Props = {}
 
 function Auth({}: Props) {
-  const { ga, user } = useAuth()
+  const { cur, ga, db } = useAuth()
 
   const [isRegForm, setIsRegForm] = useState(false)
   const [userData, setUserData] = useState<IUserData>({
+    displayName: '',
     email: '',
     password: '',
-    name: '',
-    avatar: '',
+    photoURL: '',
   } as IUserData)
 
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
@@ -34,11 +35,32 @@ function Auth({}: Props) {
       )
       console.log(`User ${user.uid} created`)
       await updateProfile(user, {
-        displayName: userData.name,
+        displayName: userData.displayName,
+        photoURL: `https://i.pravatar.cc/200?img=${
+          Math.floor(Math.random() * 70) + 1
+        }`,
       })
-      console.log('User profile updated')
+      console.log('User profile updated', user)
+
+      try {
+        await setDoc(doc(db, 'users', user.uid), {
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          password: userData.password,
+          photoURL: user.photoURL,
+          friends: [],
+          groups: [],
+          photos: [],
+          music: [],
+          bookmarks: [],
+          createdAt: Date.now(),
+        })
+      } catch (e) {
+        console.error('Error adding document: ', e)
+      }
+
       navigate('/')
-      // window.location.reload()
     } else {
       await signInWithEmailAndPassword(ga, userData.email, userData.password)
         .then((userCredential) => {
@@ -51,19 +73,20 @@ function Auth({}: Props) {
           const errorMessage = error.message
         })
     }
+    navigate('/')
     setUserData({
       email: '',
       password: '',
-      name: '',
-      avatar: '',
+      displayName: '',
+      photoURL: '',
     })
   }
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    user && navigate('/')
-  }, [user])
+    cur && navigate('/')
+  }, [cur])
 
   return (
     <>
@@ -83,10 +106,12 @@ function Auth({}: Props) {
               label="Name"
               variant="outlined"
               required
-              value={userData.name}
+              value={userData.displayName}
               onChange={(e) =>
-                setUserData({ ...userData, name: e.target.value })
+                setUserData({ ...userData, displayName: e.target.value })
               }
+              error
+              helperText="Incorrect entry."
             />
             <TextField
               type="email"
@@ -97,6 +122,8 @@ function Auth({}: Props) {
               onChange={(e) =>
                 setUserData({ ...userData, email: e.target.value })
               }
+              error
+              helperText="Incorrect entry."
             />
             <TextField
               type="password"
@@ -107,6 +134,8 @@ function Auth({}: Props) {
               onChange={(e) =>
                 setUserData({ ...userData, password: e.target.value })
               }
+              error
+              helperText="Incorrect entry."
             />
             <Button
               type="submit"

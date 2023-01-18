@@ -6,50 +6,77 @@ import {
   ListItemButton,
   ListItemText,
 } from '@mui/material'
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IUser } from '../../../types'
+import { useAuth } from '../../providers/useAuth'
 
 type Props = {}
 
-const users: IUser[] = [
+const usersArr: IUser[] = [
   {
-    _id: 'lsm9012je',
-    avatar: 'https://i.pravatar.cc/100?img=52',
-    name: 'Remy Sharp',
+    uid: 'lsm9012je',
+    photoURL: 'https://i.pravatar.cc/200?img=52',
+    displayName: 'Remy Sharp',
     isInNetwork: true,
   },
   {
-    _id: 'lsm901asd2je',
-    avatar: 'https://i.pravatar.cc/100?img=1',
-    name: 'Lea Sanity',
+    uid: 'lsm901asd2je',
+    photoURL: 'https://i.pravatar.cc/200?img=1',
+    displayName: 'Lea Sanity',
     isInNetwork: true,
   },
   {
-    _id: 'lsm901123412je',
-    avatar: 'https://i.pravatar.cc/100?img=12',
-    name: 'Alex Black',
+    uid: 'lsm901123412je',
+    photoURL: 'https://i.pravatar.cc/200?img=12',
+    displayName: 'Alex Black',
     isInNetwork: false,
   },
   {
-    _id: 'lsm9512012je',
-    avatar: 'https://i.pravatar.cc/100?img=24',
-    name: 'Fiona Stars',
+    uid: 'lsm9512012je',
+    photoURL: 'https://i.pravatar.cc/200?img=24',
+    displayName: 'Fiona Stars',
     isInNetwork: false,
   },
 ]
 
 const UserItems = (props: Props) => {
+  const [userz, setUserz] = useState<IUser[]>([])
+  const { db } = useAuth()
+
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const q = query(
+      collection(db, 'users'),
+      orderBy('createdAt', 'desc')
+      // limit(4)
+    )
+
+    const unsub = onSnapshot(q, (querySnapshot: any) => {
+      const usersArr: any[] = []
+      querySnapshot.forEach(async (d: any) => {
+        usersArr.push(d.data())
+      })
+      setUserz(usersArr)
+      console.log(usersArr)
+    })
+
+    return () => {
+      unsub()
+    }
+  }, [])
 
   return (
     <List>
-      {users.map((user, index) => (
+      {usersArr.map((user, index) => (
         <ListItem key={index} disablePadding>
-          <ListItemButton onClick={() => navigate('/profile')}>
+          <ListItemButton onClick={() => navigate(`/profile/${user.uid}`)}>
             <ListItemAvatar>
-              <Avatar alt={user.name} src={user.avatar} />
+              <Avatar alt={user.displayName} src={user.photoURL} />
             </ListItemAvatar>
-            <ListItemText primary={user.name} secondary="Jan 9, 2014" />
+            <ListItemText primary={user.displayName} secondary="Jan 9, 2014" />
           </ListItemButton>
         </ListItem>
       ))}

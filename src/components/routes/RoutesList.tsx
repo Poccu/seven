@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Layout from '../layout/Layout'
 import Auth from '../pages/auth/Auth'
 import NotFound from '../pages/notfound/NotFound'
+import Profile from '../pages/profile/Profile'
 import { useAuth } from '../providers/useAuth'
 import { routes } from './routes'
 
 type Props = {}
 
 const RoutesList = (props: Props) => {
-  const { user } = useAuth()
+  const { cur } = useAuth()
 
   return (
     <Box
@@ -28,13 +29,21 @@ const RoutesList = (props: Props) => {
                 path={route.path}
                 element={
                   <Layout>
-                    {route.auth && !user ? <Auth /> : <route.component />}
+                    {route.auth && !cur ? <Auth /> : <route.component />}
                   </Layout>
                 }
                 key={index}
               />
             )
           })}
+          <Route
+            path={`/profile/${cur?.uid}`}
+            element={
+              <Layout>
+                <Profile />
+              </Layout>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

@@ -1,17 +1,24 @@
-import { Avatar, Box, Stack, TextField } from '@mui/material'
+import { Avatar, Box, IconButton, Stack, TextField } from '@mui/material'
 import { useState } from 'react'
 import { useAuth } from '../../providers/useAuth'
 import BorderBox from '../../ui/BorderBox'
-import { doc, setDoc } from 'firebase/firestore'
+import SendIcon from '@mui/icons-material/Send'
+import {
+  collection,
+  doc,
+  runTransaction,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore'
 
 type Props = {}
 
-const AddPost = ({}: Props) => {
+const AddMessage = ({}: Props) => {
   const [content, setContent] = useState('')
   // const [views, setViews] = useState([])
-  const { db, ga, cur } = useAuth()
+  const { cur, db, ga } = useAuth()
 
-  const addPostHandler = async (e: any) => {
+  const addMessageHandler = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
       let charList =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
@@ -28,7 +35,7 @@ const AddPost = ({}: Props) => {
       }
 
       try {
-        await setDoc(doc(db, 'posts', idDb), {
+        await setDoc(doc(db, 'messages', idDb), {
           author: {
             uid: cur.uid,
             displayName: cur.displayName,
@@ -114,8 +121,19 @@ const AddPost = ({}: Props) => {
               // focused
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              onKeyPress={addPostHandler}
+              onKeyPress={addMessageHandler}
             />
+            <IconButton
+              onClick={() => console.log('test')}
+              // onClick={async () => {
+              //   await deleteDoc(doc(db, 'posts', post.id))
+              // }}
+              color="inherit"
+              // sx={{ width: '40px ', height: '40px' }}
+              size="large"
+            >
+              <SendIcon sx={{ fontSize: 30 }} />
+            </IconButton>
           </Stack>
         </Box>
       </BorderBox>
@@ -123,4 +141,4 @@ const AddPost = ({}: Props) => {
   )
 }
 
-export default AddPost
+export default AddMessage

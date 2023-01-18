@@ -2,14 +2,20 @@ import { Avatar, Box, Stack, TextField } from '@mui/material'
 import { useState } from 'react'
 import { useAuth } from '../../providers/useAuth'
 import BorderBox from '../../ui/BorderBox'
-import { doc, setDoc } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  runTransaction,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore'
 
 type Props = {}
 
-const AddPost = ({}: Props) => {
+const AddComment = ({}: Props) => {
   const [content, setContent] = useState('')
   // const [views, setViews] = useState([])
-  const { db, ga, cur } = useAuth()
+  const { cur, db, ga } = useAuth()
 
   const addPostHandler = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
@@ -27,24 +33,24 @@ const AddPost = ({}: Props) => {
         }
       }
 
-      try {
-        await setDoc(doc(db, 'posts', idDb), {
-          author: {
-            uid: cur.uid,
-            displayName: cur.displayName,
-            photoURL: cur.photoURL,
-          },
-          content,
-          createdAt: Date.now(),
-          comments: [],
-          likes: [],
-          views: 0,
-          id: idDb,
-        })
-        setContent('')
-      } catch (e) {
-        console.error('Error adding document: ', e)
-      }
+      // try {
+      //   await setDoc(doc(db, 'posts', idDb), {
+      //     author: {
+      //       uid: cur.uid,
+      //       name: cur.displayName,
+      //       avatar: cur.photoURL,
+      //     },
+      //     content,
+      //     createdAt: Date.now(),
+      //     comments: [],
+      //     likes: [],
+      //     views: 0,
+      //     id: idDb,
+      //   })
+      //   setContent('')
+      // } catch (e) {
+      //   console.error('Error adding document: ', e)
+      // }
 
       // const docRef = doc(db, 'views', 'viewsId')
 
@@ -91,36 +97,34 @@ const AddPost = ({}: Props) => {
   // }, [])
 
   return (
-    <Box sx={{ mb: 2 }}>
-      <BorderBox>
-        <Box sx={{ p: 3 }}>
-          <Stack alignItems="center" direction="row" spacing={2}>
-            <Avatar
-              alt={cur?.displayName}
-              src={cur?.photoURL}
-              sx={{ width: 46, height: 46 }}
-            >
-              <b>
-                {cur?.displayName?.replace(/\B\w+/g, '').split(' ').join('')}
-              </b>
-            </Avatar>
-            <TextField
-              id="outlined-textarea"
-              label={<b>Whats's new?</b>}
-              // placeholder="Placeholder"
-              // multiline
-              fullWidth
-              color="secondary"
-              // focused
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              onKeyPress={addPostHandler}
-            />
-          </Stack>
-        </Box>
-      </BorderBox>
+    <Box sx={{ mt: 2 }}>
+      <Stack
+        // alignItems="center"
+        direction="row"
+        spacing={2}
+      >
+        <Avatar
+          alt={cur?.dislpayName}
+          src={cur?.photoURL}
+          sx={{ width: 46, height: 46 }}
+        >
+          <b>{cur?.dislpayName?.replace(/\B\w+/g, '').split(' ').join('')}</b>
+        </Avatar>
+        <TextField
+          id="outlined-textarea"
+          label="Leave a comment..."
+          // placeholder="Placeholder"
+          // multiline
+          fullWidth
+          color="secondary"
+          // focused
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          onKeyPress={addPostHandler}
+        />
+      </Stack>
     </Box>
   )
 }
 
-export default AddPost
+export default AddComment

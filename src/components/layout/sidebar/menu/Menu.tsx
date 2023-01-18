@@ -8,27 +8,40 @@ import {
 } from '@mui/material'
 import BorderBox from '../../../ui/BorderBox'
 import { useNavigate } from 'react-router-dom'
-import { InfoOutlined, Login, Logout } from '@mui/icons-material'
+import { Home, InfoOutlined, Login, Logout } from '@mui/icons-material'
 import { useAuth } from '../../../providers/useAuth'
 import { signOut } from 'firebase/auth'
 
 type Props = {}
 
 const Menu = (props: Props) => {
-  const { user, ga } = useAuth()
+  const { cur, ga } = useAuth()
   const navigate = useNavigate()
+
+  const logoutHandler = () => {
+    signOut(ga)
+    navigate('/')
+  }
 
   return (
     <BorderBox>
       <nav>
         <List>
-          {user ? (
+          {cur ? (
             <>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate(`/profile/${cur.uid}`)}>
+                  <ListItemIcon sx={{ mr: -2 }}>
+                    <Home color="secondary" />
+                  </ListItemIcon>
+                  <ListItemText primary="My profile" />
+                </ListItemButton>
+              </ListItem>
               {menu.map((item, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => navigate(item.link)}>
                     <ListItemIcon sx={{ mr: -2 }}>
-                      <item.icon color="info" />
+                      <item.icon color="secondary" />
                     </ListItemIcon>
                     <ListItemText primary={item.title} />
                   </ListItemButton>
@@ -43,7 +56,7 @@ const Menu = (props: Props) => {
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton onClick={() => signOut(ga)}>
+                <ListItemButton onClick={logoutHandler}>
                   <ListItemIcon sx={{ mr: -2 }}>
                     <Logout color="error" />
                   </ListItemIcon>
