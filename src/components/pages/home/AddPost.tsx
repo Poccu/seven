@@ -9,7 +9,7 @@ type Props = {}
 const AddPost = ({}: Props) => {
   const [content, setContent] = useState('')
   // const [views, setViews] = useState([])
-  const { db, ga, cur } = useAuth()
+  const { db, cur } = useAuth()
 
   const addPostHandler = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
@@ -38,6 +38,7 @@ const AddPost = ({}: Props) => {
           createdAt: Date.now(),
           comments: [],
           likes: [],
+          bookmarks: [],
           views: 0,
           id: idDb,
         })
@@ -97,7 +98,7 @@ const AddPost = ({}: Props) => {
           <Stack alignItems="center" direction="row" spacing={2}>
             <Avatar
               alt={cur?.displayName}
-              src={cur?.photoURL}
+              src={cur.photoURL}
               sx={{ width: 46, height: 46 }}
             >
               <b>
@@ -112,6 +113,7 @@ const AddPost = ({}: Props) => {
               fullWidth
               color="secondary"
               // focused
+              autoComplete="off"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               onKeyPress={addPostHandler}

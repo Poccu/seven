@@ -6,12 +6,14 @@ import Footer from './footer/Footer'
 
 type Props = {
   children: any
+  light: boolean
+  setLight: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, light, setLight }: Props) => {
   return (
     <>
-      <Header />
+      <Header light={light} setLight={setLight} />
       <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
         <Grid2 container spacing={2}>
           <Grid2 md={3}>

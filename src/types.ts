@@ -4,6 +4,11 @@ import { Dispatch, SetStateAction } from 'react'
 
 export type TypeSetState<T> = Dispatch<SetStateAction<T>>
 
+export type Theme = {
+  light: boolean
+  setLight: React.Dispatch<React.SetStateAction<boolean>>
+}
+
 export interface IUser {
   uid: string
   photoURL: string
@@ -25,6 +30,7 @@ export interface IPost {
   comments: string[]
   images?: string[]
   likes: string[]
+  bookmarks: string[]
   views: number
   id: string
 }

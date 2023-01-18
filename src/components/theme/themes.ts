@@ -1,5 +1,5 @@
 import { createTheme, responsiveFontSizes } from '@mui/material'
-import { grey, red } from '@mui/material/colors'
+import { grey } from '@mui/material/colors'
 
 export let themeLight = createTheme({
   palette: {
@@ -31,6 +31,7 @@ export let themeLight = createTheme({
       focusOpacity: 0.1,
       selected: grey[400],
       selectedOpacity: 0.1,
+      disabled: grey[200],
     },
   },
   components: {
@@ -71,7 +72,7 @@ export let themeDark = createTheme({
       main: '#191919',
     },
     secondary: {
-      main: grey[800],
+      main: grey[700],
     },
     background: {
       default: '#121212',
@@ -90,6 +91,7 @@ export let themeDark = createTheme({
       focusOpacity: 0.1,
       selected: grey[800],
       selectedOpacity: 0.1,
+      disabled: '#1c1c1c',
     },
     divider: grey[900],
   },

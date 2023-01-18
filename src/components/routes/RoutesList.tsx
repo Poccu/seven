@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Theme } from '../../types'
 import Layout from '../layout/Layout'
 import Auth from '../pages/auth/Auth'
 import NotFound from '../pages/notfound/NotFound'
@@ -7,9 +8,7 @@ import Profile from '../pages/profile/Profile'
 import { useAuth } from '../providers/useAuth'
 import { routes } from './routes'
 
-type Props = {}
-
-const RoutesList = (props: Props) => {
+const RoutesList = ({ light, setLight }: Theme) => {
   const { cur } = useAuth()
 
   return (
@@ -28,7 +27,7 @@ const RoutesList = (props: Props) => {
               <Route
                 path={route.path}
                 element={
-                  <Layout>
+                  <Layout light={light} setLight={setLight}>
                     {route.auth && !cur ? <Auth /> : <route.component />}
                   </Layout>
                 }
@@ -39,7 +38,7 @@ const RoutesList = (props: Props) => {
           <Route
             path={`/profile/${cur?.uid}`}
             element={
-              <Layout>
+              <Layout light={light} setLight={setLight}>
                 <Profile />
               </Layout>
             }

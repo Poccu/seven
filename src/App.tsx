@@ -10,9 +10,12 @@ const App = (props: Props) => {
   const [light, setLight] = useState(true) // set light/dark theme
 
   // localStorage
-  // useEffect(() => {
-  //   setLight(JSON.parse(localStorage.getItem('light')))
-  // }, [])
+  useEffect(() => {
+    let value = localStorage.getItem('light')
+    if (value !== null) {
+      setLight(JSON.parse(value) === true)
+    }
+  }, [])
 
   useEffect(() => {
     if (light !== null) {
@@ -23,9 +26,7 @@ const App = (props: Props) => {
   return (
     <ThemeProvider theme={light ? themeLight : themeDark}>
       <CssBaseline />
-      <RoutesList
-      // light={light} setLight={setLight}
-      />
+      <RoutesList light={light} setLight={setLight} />
     </ThemeProvider>
   )
 }

@@ -119,6 +119,7 @@ const AddMessage = ({}: Props) => {
               fullWidth
               color="secondary"
               // focused
+              autoComplete="off"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               onKeyPress={addMessageHandler}
