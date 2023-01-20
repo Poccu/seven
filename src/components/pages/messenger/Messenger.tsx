@@ -1,18 +1,13 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  Stack,
-  Typography,
-} from '@mui/material'
+import { FC, useEffect, useState } from 'react'
+import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
 import BorderBox from '../../ui/BorderBox'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import ClearIcon from '@mui/icons-material/Clear'
+import {
+  FavoriteBorder,
+  Favorite,
+  Visibility,
+  Clear,
+} from '@mui/icons-material'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import { useAuth } from '../../providers/useAuth'
 import {
   collection,
@@ -28,13 +23,11 @@ import {
   deleteDoc,
 } from 'firebase/firestore'
 import moment from 'moment'
-import { grey } from '@mui/material/colors'
 import AddMessage from './AddMessage'
 import { IMessage } from '../../../types'
+import { ThemeAvatar } from '../../ui/ThemeAvatar'
 
-type Props = {}
-
-function Messenger({}: Props) {
+const Messenger: FC = () => {
   const [messages, setMessages] = useState<IMessage[]>([])
 
   const { cur, db } = useAuth()
@@ -87,7 +80,7 @@ function Messenger({}: Props) {
                     sx={{ mb: 2 }}
                   >
                     {/* <Link to={`/profile/${message.author.uid}`}> */}
-                    <Avatar
+                    <ThemeAvatar
                       alt={message.author.displayName}
                       src={message.author.photoURL}
                       sx={{ width: 46, height: 46 }}
@@ -99,7 +92,7 @@ function Messenger({}: Props) {
                           .split(' ')
                           .join('')}
                       </b>
-                    </Avatar>
+                    </ThemeAvatar>
                     {/* </Link> */}
                     <Stack>
                       {/* <Link to={`/profile/${message.author.uid}`}> */}
@@ -121,7 +114,7 @@ function Messenger({}: Props) {
                     color="inherit"
                     sx={{ width: '40px ', height: '40px' }}
                   >
-                    <ClearIcon color="inherit" />
+                    <Clear color="inherit" />
                   </IconButton>
                 )}
               </Stack>
@@ -171,7 +164,7 @@ function Messenger({}: Props) {
                       }}
                       color="inherit"
                     >
-                      <FavoriteBorderIcon />
+                      <FavoriteBorder />
                     </IconButton>
                   ) : (
                     <IconButton
@@ -197,7 +190,7 @@ function Messenger({}: Props) {
                       }}
                       color="error"
                     >
-                      <FavoriteIcon />
+                      <Favorite />
                     </IconButton>
                   )}
 

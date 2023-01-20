@@ -10,9 +10,17 @@ export type Theme = {
 }
 
 export interface IUser {
-  uid: string
-  photoURL: string
+  bookmarks: any[]
+  createdAt: string
   displayName: string
+  email: string
+  friends: any[]
+  groups: any[]
+  music: any[]
+  password: string
+  photoURL: string
+  photos: any[]
+  uid: string
   isInNetwork?: boolean
 }
 

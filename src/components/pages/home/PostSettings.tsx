@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
 import Grow from '@mui/material/Grow'
 import Popper from '@mui/material/Popper'
@@ -21,9 +21,9 @@ const ThemeBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.action.disabled,
 }))
 
-const PostSettings = ({ post }: Props) => {
-  const [open, setOpen] = React.useState(false)
-  const anchorRef = React.useRef<HTMLButtonElement>(null)
+const PostSettings: FC<Props> = ({ post }) => {
+  const [open, setOpen] = useState(false)
+  const anchorRef = useRef<HTMLButtonElement>(null)
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
@@ -63,7 +63,7 @@ const PostSettings = ({ post }: Props) => {
     deleteDoc(doc(db, 'posts', post.id))
   }
 
-  function handleListKeyDown(event: React.KeyboardEvent) {
+  const handleListKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Tab') {
       event.preventDefault()
       setOpen(false)
@@ -73,8 +73,9 @@ const PostSettings = ({ post }: Props) => {
   }
 
   // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open)
-  React.useEffect(() => {
+  const prevOpen = useRef(open)
+
+  useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current!.focus()
     }

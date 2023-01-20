@@ -1,23 +1,28 @@
-import { Avatar, Box, Typography } from '@mui/material'
+import { FC } from 'react'
+import { Box, Typography } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import BorderBox from '../../ui/BorderBox'
+import { ThemeAvatar } from '../../ui/ThemeAvatar'
 
-type Props = {}
-
-const Profile = ({}: Props) => {
+const Profile: FC = () => {
   const { cur } = useAuth()
+  console.log(cur)
 
   return (
     <BorderBox>
       <Box sx={{ p: 3 }}>
         <Typography variant="h2">
-          <b>{cur?.displayName}</b>
+          <b>{cur?.displayName?.replace(/[\p{Emoji}\u200d]+/gu, '')}</b>
         </Typography>
-        <Avatar
+        <ThemeAvatar
           alt={cur?.displayName}
           src={cur?.photoURL}
           sx={{ height: '200px', width: '200px' }}
-        />
+        >
+          <Typography variant="h1">
+            {cur?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
+          </Typography>
+        </ThemeAvatar>
       </Box>
     </BorderBox>
   )

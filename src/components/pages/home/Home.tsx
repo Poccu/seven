@@ -1,19 +1,9 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Stack,
-  Typography,
-} from '@mui/material'
+import { FC, useEffect, useState } from 'react'
+import { Box, Divider, IconButton, Stack, Typography } from '@mui/material'
 import BorderBox from '../../ui/BorderBox'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import VisibilityIcon from '@mui/icons-material/Visibility'
+import { FavoriteBorder, Favorite, Visibility } from '@mui/icons-material'
 import AddPost from './AddPost'
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import { useAuth } from '../../providers/useAuth'
 import { IPost } from '../../../types'
 import {
@@ -30,10 +20,9 @@ import AddComment from './AddComment'
 import PostSettings from './PostSettings'
 import { TransitionGroup } from 'react-transition-group'
 import Collapse from '@mui/material/Collapse'
+import { ThemeAvatar } from '../../ui/ThemeAvatar'
 
-type Props = {}
-
-function Home({}: Props) {
+const Home: FC = () => {
   const [posts, setPosts] = useState<IPost[]>([])
 
   const { db, cur } = useAuth()
@@ -81,24 +70,34 @@ function Home({}: Props) {
                       sx={{ mb: 2 }}
                     >
                       <Link to={`/profile/${post.author.uid}`}>
-                        <Avatar
+                        <ThemeAvatar
                           alt={post.author.displayName}
                           src={post.author.photoURL}
-                          sx={{ width: 46, height: 46 }}
                           draggable={false}
                         >
-                          <b>
+                          {/* <b>
                             {post?.author?.displayName
+                              ?.replace(/[\p{Emoji}\u200d]+/gu, '')
                               ?.replace(/\B\w+/g, '')
                               .split(' ')
                               .join('')}
-                          </b>
-                        </Avatar>
+                          </b> */}
+                          {post?.author?.displayName?.match(
+                            /[\p{Emoji}\u200d]+/gu
+                          )}
+                        </ThemeAvatar>
                       </Link>
                       <Stack>
                         <Link to={`/profile/${post.author.uid}`}>
                           <Typography variant="h6">
-                            <b>{post.author.displayName}</b>
+                            <b>
+                              {post?.author?.displayName?.replace(
+                                /[\p{Emoji}\u200d]+/gu,
+                                ''
+                              )}
+                              {post.author.uid ===
+                                'HgxGhdMZc6TcrYNf80IfzoURccH2' && '⭐'}
+                            </b>
                           </Typography>
                         </Link>
                         <Typography variant="body2" color="textSecondary">
@@ -151,7 +150,7 @@ function Home({}: Props) {
                           }}
                           color="secondary"
                         >
-                          <FavoriteBorderIcon />
+                          <FavoriteBorder />
                         </IconButton>
                       ) : (
                         <IconButton
@@ -179,7 +178,7 @@ function Home({}: Props) {
                           }}
                           color="error"
                         >
-                          <FavoriteIcon />
+                          <Favorite />
                         </IconButton>
                       )}
 
@@ -193,7 +192,7 @@ function Home({}: Props) {
                       spacing={1}
                       sx={{ mt: 2 }}
                     >
-                      <VisibilityIcon color="secondary" />
+                      <Visibility color="secondary" />
                       <Typography variant="body2" color="textSecondary">
                         {post.views}
                       </Typography>

@@ -1,15 +1,16 @@
+import { FC } from 'react'
 import { AppBar, Box, Container, IconButton, Stack } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { DarkModeOutlined, LightModeOutlined } from '@mui/icons-material'
 import { Theme } from '../../../types'
 
-const Header = ({ light, setLight }: Theme) => {
+const Header: FC<Theme> = ({ light, setLight }) => {
   return (
     <header>
       <Box sx={{ mb: 8 }}>
         <AppBar
           position="fixed"
-          color="primary"
+          color="inherit"
           elevation={0}
           sx={{ boxShadow: 3 }}
         >
@@ -23,7 +24,7 @@ const Header = ({ light, setLight }: Theme) => {
                 <Box
                   display="flex"
                   alignItems="center"
-                  sx={{ height: '60px', ml: 1 }}
+                  sx={{ height: '65px', ml: 1 }}
                 >
                   <img
                     src={`${process.env.PUBLIC_URL}/assets/images/logo7.png`}

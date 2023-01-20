@@ -1,6 +1,6 @@
+import { createContext, FC, useEffect, useMemo, useState } from 'react'
 import { getAuth, onAuthStateChanged, Auth } from 'firebase/auth'
 import { getFirestore, Firestore } from 'firebase/firestore'
-import { createContext, useEffect, useMemo, useState } from 'react'
 import { IUser, TypeSetState } from '../../types'
 
 type Props = {
@@ -17,11 +17,19 @@ interface IContext {
 
 export const AuthContext = createContext<IContext>({} as IContext)
 
-export const AuthProvider = ({ children }: Props) => {
+export const AuthProvider: FC<Props> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>({
-    uid: '',
-    photoURL: '',
+    bookmarks: [],
+    createdAt: '',
     displayName: '',
+    email: '',
+    friends: [],
+    groups: [],
+    music: [],
+    password: '',
+    photoURL: '',
+    photos: [],
+    uid: '',
     // isInNetwork?: boolean
   })
 
@@ -33,11 +41,17 @@ export const AuthProvider = ({ children }: Props) => {
     const unListen = onAuthStateChanged(ga, (cur) => {
       if (cur) {
         setUser({
-          uid: cur.uid,
-          photoURL: `https://i.pravatar.cc/200?img=${
-            Math.floor(Math.random() * 70) + 1
-          }`,
+          bookmarks: [],
+          createdAt: cur?.metadata?.creationTime || '',
           displayName: cur?.displayName || '',
+          email: cur?.email || '',
+          friends: [],
+          groups: [],
+          music: [],
+          password: '',
+          photoURL: '',
+          photos: [],
+          uid: cur.uid,
         })
       } else {
         setUser(null)

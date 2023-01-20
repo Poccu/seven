@@ -1,12 +1,12 @@
-import { Avatar, Box, Stack, TextField } from '@mui/material'
-import { useState } from 'react'
+import { FC, useState } from 'react'
+import { Box, Stack } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import BorderBox from '../../ui/BorderBox'
 import { doc, setDoc } from 'firebase/firestore'
+import { ThemeAvatar } from '../../ui/ThemeAvatar'
+import { ThemeTextFieldAddPost } from '../../ui/ThemeTextField'
 
-type Props = {}
-
-const AddPost = ({}: Props) => {
+const AddPost: FC = () => {
   const [content, setContent] = useState('')
   // const [views, setViews] = useState([])
   const { db, cur } = useAuth()
@@ -96,16 +96,10 @@ const AddPost = ({}: Props) => {
       <BorderBox>
         <Box sx={{ p: 3 }}>
           <Stack alignItems="center" direction="row" spacing={2}>
-            <Avatar
-              alt={cur?.displayName}
-              src={cur.photoURL}
-              sx={{ width: 46, height: 46 }}
-            >
-              <b>
-                {cur?.displayName?.replace(/\B\w+/g, '').split(' ').join('')}
-              </b>
-            </Avatar>
-            <TextField
+            <ThemeAvatar alt={cur?.displayName} src={cur.photoURL}>
+              {cur?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
+            </ThemeAvatar>
+            <ThemeTextFieldAddPost
               id="outlined-textarea"
               label={<b>Whats's new?</b>}
               // placeholder="Placeholder"

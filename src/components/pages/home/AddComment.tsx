@@ -1,7 +1,6 @@
-import { Avatar, Box, Stack, TextField } from '@mui/material'
-import { useState } from 'react'
+import { FC, useState } from 'react'
+import { Box, Stack, TextField } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
-import BorderBox from '../../ui/BorderBox'
 import {
   collection,
   doc,
@@ -9,10 +8,9 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore'
+import { ThemeAvatar } from '../../ui/ThemeAvatar'
 
-type Props = {}
-
-const AddComment = ({}: Props) => {
+const AddComment: FC = () => {
   const [content, setContent] = useState('')
   // const [views, setViews] = useState([])
   const { cur, db, ga } = useAuth()
@@ -37,8 +35,8 @@ const AddComment = ({}: Props) => {
       //   await setDoc(doc(db, 'posts', idDb), {
       //     author: {
       //       uid: cur.uid,
-      //       name: cur.displayName,
-      //       avatar: cur.photoURL,
+      //       displayName: cur.displayName,
+      //       photoURL: cur.photoURL,
       //     },
       //     content,
       //     createdAt: Date.now(),
@@ -103,13 +101,13 @@ const AddComment = ({}: Props) => {
         direction="row"
         spacing={2}
       >
-        <Avatar
+        <ThemeAvatar
           alt={cur?.dislpayName}
           src={cur?.photoURL}
           sx={{ width: 46, height: 46 }}
         >
           <b>{cur?.dislpayName?.replace(/\B\w+/g, '').split(' ').join('')}</b>
-        </Avatar>
+        </ThemeAvatar>
         <TextField
           id="outlined-textarea"
           label="Leave a comment..."

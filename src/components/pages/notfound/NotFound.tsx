@@ -1,9 +1,8 @@
 import { Box, Button, Grid, Typography } from '@mui/material'
+import { FC } from 'react'
 import { Link, LinkProps } from 'react-router-dom'
 import { styled, alpha } from '@mui/material/styles'
-import CottageOutlinedIcon from '@mui/icons-material/CottageOutlined'
-
-type Props = {}
+import { CottageOutlined } from '@mui/icons-material'
 
 type ButtonProps = {
   component: React.ForwardRefExoticComponent<
@@ -14,20 +13,20 @@ type ButtonProps = {
 
 const ThemeButton = styled(Button)<ButtonProps>(({ theme }) => ({
   fontSize: 22,
-  color: theme.palette.text.primary,
-  borderRadius: 50,
+  color: theme.palette.primary.main,
+  borderRadius: 8,
   height: 58,
   padding: '0 24px',
   border: '2px solid',
-  borderColor: alpha(theme.palette.text.primary, 0.1),
+  borderColor: alpha(theme.palette.primary.main, 0.1),
   '&:hover': {
     border: '2px solid',
-    borderColor: alpha(theme.palette.text.primary, 0),
-    backgroundColor: alpha(theme.palette.text.primary, 0.1),
+    borderColor: alpha(theme.palette.primary.main, 0),
+    backgroundColor: alpha(theme.palette.primary.main, 0.1),
   },
 }))
 
-const NotFound = (props: Props) => {
+const NotFound: FC = () => {
   return (
     <Box
       sx={{
@@ -52,7 +51,7 @@ const NotFound = (props: Props) => {
         <ThemeButton
           variant="outlined"
           color="inherit"
-          startIcon={<CottageOutlinedIcon style={{ fontSize: 30 }} />}
+          startIcon={<CottageOutlined style={{ fontSize: 30 }} />}
           component={Link}
           to="/"
         >

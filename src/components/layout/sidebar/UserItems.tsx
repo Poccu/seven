@@ -1,56 +1,30 @@
+import { FC, useEffect, useState } from 'react'
 import {
-  Avatar,
+  Box,
   List,
   ListItem,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
 } from '@mui/material'
+import BorderBox from '../../ui/BorderBox'
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IUser } from '../../../types'
 import { useAuth } from '../../providers/useAuth'
+import { ThemeAvatar } from '../../ui/ThemeAvatar'
+import moment from 'moment'
 
-type Props = {}
-
-const usersArr: IUser[] = [
-  {
-    uid: 'lsm9012je',
-    photoURL: 'https://i.pravatar.cc/200?img=52',
-    displayName: 'Remy Sharp',
-    isInNetwork: true,
-  },
-  {
-    uid: 'lsm901asd2je',
-    photoURL: 'https://i.pravatar.cc/200?img=1',
-    displayName: 'Lea Sanity',
-    isInNetwork: true,
-  },
-  {
-    uid: 'lsm901123412je',
-    photoURL: 'https://i.pravatar.cc/200?img=12',
-    displayName: 'Alex Black',
-    isInNetwork: false,
-  },
-  {
-    uid: 'lsm9512012je',
-    photoURL: 'https://i.pravatar.cc/200?img=24',
-    displayName: 'Fiona Stars',
-    isInNetwork: false,
-  },
-]
-
-const UserItems = (props: Props) => {
-  const [userz, setUserz] = useState<IUser[]>([])
-  const { db } = useAuth()
+const UserItems: FC = () => {
+  const [users, setUsers] = useState<IUser[]>([])
+  const { db, cur } = useAuth()
 
   const navigate = useNavigate()
 
   useEffect(() => {
     const q = query(
       collection(db, 'users'),
-      orderBy('createdAt', 'desc')
+      orderBy('createdAt', 'asc')
       // limit(4)
     )
 
@@ -59,8 +33,8 @@ const UserItems = (props: Props) => {
       querySnapshot.forEach(async (d: any) => {
         usersArr.push(d.data())
       })
-      setUserz(usersArr)
-      console.log(usersArr)
+      setUsers(usersArr)
+      console.log('usersArr', usersArr)
     })
 
     return () => {
@@ -69,18 +43,31 @@ const UserItems = (props: Props) => {
   }, [])
 
   return (
-    <List>
-      {usersArr.map((user, index) => (
-        <ListItem key={index} disablePadding>
-          <ListItemButton onClick={() => navigate(`/profile/${user.uid}`)}>
-            <ListItemAvatar>
-              <Avatar alt={user.displayName} src={user.photoURL} />
-            </ListItemAvatar>
-            <ListItemText primary={user.displayName} secondary="Jan 9, 2014" />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
+    <Box sx={{ mb: 2 }}>
+      <BorderBox>
+        <List>
+          {users.map((user, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton onClick={() => navigate(`/profile/${user.uid}`)}>
+                <ListItemAvatar>
+                  <ThemeAvatar alt={user.displayName} src={user.photoURL}>
+                    {user?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
+                  </ThemeAvatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={user?.displayName?.replace(
+                    /[\p{Emoji}\u200d]+/gu,
+                    ''
+                  )}
+                  secondary={moment(+user.createdAt).format('DD MMM - HH:mm')}
+                  // secondary={user.createdAt}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </BorderBox>
+    </Box>
   )
 }
 

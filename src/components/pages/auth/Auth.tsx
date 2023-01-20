@@ -1,6 +1,13 @@
-import { SyntheticEvent, useEffect, useState } from 'react'
-import { Box, Button, TextField, Typography } from '@mui/material'
-import BorderBox from '../../ui/BorderBox'
+import { FC, SyntheticEvent, useEffect, useState } from 'react'
+import {
+  Box,
+  Typography,
+  Tab,
+  Tabs,
+  InputAdornment,
+  IconButton,
+  Stack,
+} from '@mui/material'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -10,10 +17,45 @@ import { useAuth } from '../../providers/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { IUserData } from '../../../types'
 import { doc, setDoc } from 'firebase/firestore'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { emojis } from './emojis'
+import { ThemeTextFieldAuth } from '../../ui/ThemeTextField'
+import { ThemeButton } from '../../ui/ThemeButton'
 
-type Props = {}
+interface TabPanelProps {
+  children?: React.ReactNode
+  index: number
+  value: number
+}
 
-function Auth({}: Props) {
+const TabPanel = (props: TabPanelProps) => {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Box>{children}</Box>
+        </Box>
+      )}
+    </div>
+  )
+}
+
+const a11yProps = (index: number) => {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
+}
+
+const Auth: FC = () => {
   const { cur, ga, db } = useAuth()
 
   const [isRegForm, setIsRegForm] = useState(false)
@@ -22,43 +64,79 @@ function Auth({}: Props) {
     email: '',
     password: '',
     photoURL: '',
-  } as IUserData)
+  })
+
+  const [invalidEmail, setInvalidEmail] = useState(false)
+  const [alreadyInUseEmail, setAlreadyInUseEmail] = useState(false)
+  const [invalidPassword, setInvalidPassword] = useState(false)
+
+  const [userNotFound, setUserNotFound] = useState(false)
+  const [wrongPassword, setWrongPassword] = useState(false)
+
+  const [value, setValue] = useState(0)
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue)
+  }
+
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show)
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault()
+  }
 
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    const random = Math.floor(Math.random() * emojis.length)
+
     if (isRegForm) {
-      const { user } = await createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
         ga,
         userData.email,
         userData.password
       )
-      console.log(`User ${user.uid} created`)
-      await updateProfile(user, {
-        displayName: userData.displayName,
-        photoURL: `https://i.pravatar.cc/200?img=${
-          Math.floor(Math.random() * 70) + 1
-        }`,
-      })
-      console.log('User profile updated', user)
+        .then(async (userCredential) => {
+          // console.log('REGISTERED', userCredential)
+          const user = userCredential.user
 
-      try {
-        await setDoc(doc(db, 'users', user.uid), {
-          uid: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-          password: userData.password,
-          photoURL: user.photoURL,
-          friends: [],
-          groups: [],
-          photos: [],
-          music: [],
-          bookmarks: [],
-          createdAt: Date.now(),
+          await updateProfile(user, {
+            displayName: `${userData.displayName} ${emojis[random]}`,
+            photoURL: '',
+          })
+          console.log('User profile updated', user)
+
+          try {
+            await setDoc(doc(db, 'users', user.uid), {
+              uid: user.uid,
+              displayName: user.displayName,
+              email: user.email,
+              password: userData.password,
+              photoURL: user.photoURL,
+              friends: [],
+              groups: [],
+              photos: [],
+              music: [],
+              bookmarks: [],
+              createdAt: Date.now(),
+            })
+          } catch (e) {
+            console.error('Error adding document: ', e)
+          }
         })
-      } catch (e) {
-        console.error('Error adding document: ', e)
-      }
+        .catch((error) => {
+          const errorCode = error.code
+          const errorMessage = error.message
+          error.code === 'auth/invalid-email' && setInvalidEmail(true)
+          error.code === 'auth/email-already-in-use' &&
+            setAlreadyInUseEmail(true)
+          error.code === 'auth/weak-password' && setInvalidPassword(true)
+          // console.log('-----------', error.code, 'ZZZ', error.message)
+        })
 
       navigate('/')
     } else {
@@ -71,6 +149,9 @@ function Auth({}: Props) {
         .catch((error) => {
           const errorCode = error.code
           const errorMessage = error.message
+          error.code === 'auth/user-not-found' && setUserNotFound(true)
+          error.code === 'auth/wrong-password' && setWrongPassword(true)
+          // console.log('-----------', error.code, 'ZZZ', error.message)
         })
     }
     navigate('/')
@@ -90,70 +171,234 @@ function Auth({}: Props) {
 
   return (
     <>
-      <BorderBox>
+      <Box>
         <Box sx={{ p: 3 }}>
-          <Typography>Sign in to Seven</Typography>
           <Box
-            component="form"
-            onSubmit={handleLogin}
-            sx={{
-              '& > :not(style)': { m: 1, width: '25ch' },
-            }}
-            // noValidate
-            autoComplete="off"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            // sx={{ mt: 4 }}
           >
-            <TextField
-              label="Name"
-              variant="outlined"
-              required
-              value={userData.displayName}
-              onChange={(e) =>
-                setUserData({ ...userData, displayName: e.target.value })
-              }
-              error
-              helperText="Incorrect entry."
+            <img
+              src={`${process.env.PUBLIC_URL}/assets/images/logo7.png`}
+              alt="Seven"
+              height="150px"
+              width="150px"
+              draggable={false}
             />
-            <TextField
-              type="email"
-              label="Email"
-              variant="outlined"
-              required
-              value={userData.email}
-              onChange={(e) =>
-                setUserData({ ...userData, email: e.target.value })
-              }
-              error
-              helperText="Incorrect entry."
-            />
-            <TextField
-              type="password"
-              label="Password"
-              variant="outlined"
-              required
-              value={userData.password}
-              onChange={(e) =>
-                setUserData({ ...userData, password: e.target.value })
-              }
-              error
-              helperText="Incorrect entry."
-            />
-            <Button
-              type="submit"
-              color="info"
-              onClick={() => setIsRegForm(false)}
-            >
-              Sign in
-            </Button>
-            <Button
-              type="submit"
-              color="error"
-              onClick={() => setIsRegForm(true)}
-            >
-              Register
-            </Button>
+          </Box>
+          <Box>
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                textColor="primary"
+                indicatorColor="primary"
+              >
+                <Tab
+                  label={
+                    <Typography variant="h6">
+                      <b>Sign in</b>
+                    </Typography>
+                  }
+                  {...a11yProps(0)}
+                />
+                <Tab
+                  label={
+                    <Typography variant="h6">
+                      <b>Register</b>
+                    </Typography>
+                  }
+                  {...a11yProps(1)}
+                />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                sx={{ mt: 2 }}
+              >
+                <Box
+                  component="form"
+                  onSubmit={handleLogin}
+                  // noValidate
+                  autoComplete="off"
+                >
+                  <Stack
+                    direction="column"
+                    justifyContent="space-center"
+                    alignItems="center"
+                    spacing={1}
+                  >
+                    <ThemeTextFieldAuth
+                      type="email"
+                      label="Email"
+                      variant="outlined"
+                      required
+                      autoComplete="off"
+                      color="primary"
+                      sx={{ width: '300px' }}
+                      value={userData.email}
+                      onChange={(e) =>
+                        setUserData({ ...userData, email: e.target.value })
+                      }
+                      onFocus={() => setUserNotFound(false)}
+                      error={userNotFound}
+                      helperText={(userNotFound && 'Wrong email') || ' '}
+                    />
+                    <ThemeTextFieldAuth
+                      type={showPassword ? 'text' : 'password'}
+                      label="Password"
+                      variant="outlined"
+                      required
+                      autoComplete="off"
+                      color="primary"
+                      sx={{ width: '300px' }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      value={userData.password}
+                      onChange={(e) =>
+                        setUserData({ ...userData, password: e.target.value })
+                      }
+                      onFocus={() => setWrongPassword(false)}
+                      error={wrongPassword}
+                      helperText={(wrongPassword && 'Wrong password') || ' '}
+                    />
+                    <ThemeButton
+                      type="submit"
+                      onClick={() => setIsRegForm(false)}
+                    >
+                      <b>Sign in</b>
+                    </ThemeButton>
+                  </Stack>
+                </Box>
+              </Box>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <Box
+                display="flex" //todo
+                alignItems="center"
+                justifyContent="center"
+                sx={{ mt: 2 }}
+              >
+                <Box
+                  component="form"
+                  onSubmit={handleLogin}
+                  // noValidate
+                  autoComplete="off"
+                >
+                  <Stack
+                    direction="column"
+                    justifyContent="space-center"
+                    alignItems="center"
+                    spacing={1}
+                  >
+                    <ThemeTextFieldAuth
+                      label="Name"
+                      variant="outlined"
+                      required
+                      autoComplete="off"
+                      color="primary"
+                      sx={{ width: '300px' }}
+                      value={userData.displayName}
+                      onChange={(e) =>
+                        setUserData({
+                          ...userData,
+                          displayName: e.target.value,
+                        })
+                      }
+                      helperText={' '}
+                    />
+                    <ThemeTextFieldAuth
+                      type="email"
+                      label="Email"
+                      variant="outlined"
+                      required
+                      autoComplete="off"
+                      color="primary"
+                      sx={{ width: '300px' }}
+                      value={userData.email}
+                      onChange={(e) =>
+                        setUserData({ ...userData, email: e.target.value })
+                      }
+                      onFocus={() => {
+                        setInvalidEmail(false)
+                        setAlreadyInUseEmail(false)
+                      }}
+                      error={invalidEmail || alreadyInUseEmail}
+                      helperText={
+                        invalidEmail
+                          ? 'Invalid email'
+                          : alreadyInUseEmail
+                          ? 'Email is already in use'
+                          : ' '
+                      }
+                    />
+                    <ThemeTextFieldAuth
+                      type={showPassword ? 'text' : 'password'}
+                      label="Password"
+                      variant="outlined"
+                      required
+                      autoComplete="off"
+                      color="primary"
+                      sx={{ width: '300px' }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      value={userData.password}
+                      onChange={(e) =>
+                        setUserData({ ...userData, password: e.target.value })
+                      }
+                      onFocus={() => setInvalidPassword(false)}
+                      error={invalidPassword}
+                      helperText={
+                        invalidPassword ? 'At least 6 characters' : ' '
+                      }
+                    />
+                    <ThemeButton
+                      type="submit"
+                      onClick={() => setIsRegForm(true)}
+                    >
+                      <b>Register</b>
+                    </ThemeButton>
+                  </Stack>
+                </Box>
+              </Box>
+            </TabPanel>
           </Box>
         </Box>
-      </BorderBox>
+      </Box>
     </>
   )
 }

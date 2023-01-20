@@ -1,8 +1,10 @@
+import { FC } from 'react'
 import { Container } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import Sidebar from './sidebar/Sidebar'
 import Header from './header/Header'
 import Footer from './footer/Footer'
+import { useAuth } from '../providers/useAuth'
 
 type Props = {
   children: any
@@ -10,16 +12,16 @@ type Props = {
   setLight: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Layout = ({ children, light, setLight }: Props) => {
+const Layout: FC<Props> = ({ children, light, setLight }) => {
+  const { cur } = useAuth()
+
   return (
     <>
       <Header light={light} setLight={setLight} />
       <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
         <Grid2 container spacing={2}>
-          <Grid2 md={3}>
-            <Sidebar />
-          </Grid2>
-          <Grid2 md={9}>
+          <Grid2 md={cur && 3}>{cur && <Sidebar />}</Grid2>
+          <Grid2 md={cur ? 9 : 12}>
             <>{children}</>
           </Grid2>
         </Grid2>

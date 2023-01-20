@@ -1,9 +1,8 @@
+import { FC } from 'react'
 import { IconButton, Box, Stack } from '@mui/material'
-import TelegramIcon from '@mui/icons-material/Telegram'
-import LinkedInIcon from '@mui/icons-material/LinkedIn'
-import GitHubIcon from '@mui/icons-material/GitHub'
+import { Telegram, LinkedIn, GitHub } from '@mui/icons-material'
 
-export default function Socials() {
+const Socials: FC = () => {
   return (
     <Box>
       <Stack justifyContent="center" direction="row" spacing={1}>
@@ -14,7 +13,7 @@ export default function Socials() {
           rel="noreferrer"
           color="inherit"
         >
-          <TelegramIcon />
+          <Telegram />
         </IconButton>
         <IconButton
           aria-label="linkedin"
@@ -23,7 +22,7 @@ export default function Socials() {
           rel="noreferrer"
           color="inherit"
         >
-          <LinkedInIcon />
+          <LinkedIn />
         </IconButton>
         <IconButton
           aria-label="github"
@@ -32,9 +31,11 @@ export default function Socials() {
           rel="noreferrer"
           color="inherit"
         >
-          <GitHubIcon />
+          <GitHub />
         </IconButton>
       </Stack>
     </Box>
   )
 }
+
+export default Socials

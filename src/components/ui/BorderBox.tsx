@@ -1,5 +1,5 @@
-import { alpha, Box, styled } from '@mui/material'
-import { grey } from '@mui/material/colors'
+import { Box, styled } from '@mui/material'
+import { FC } from 'react'
 
 type Props = {
   children: any
@@ -13,7 +13,7 @@ const ThemeBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }))
 
-const BorderBox = ({ children }: Props) => {
+const BorderBox: FC<Props> = ({ children }) => {
   return <ThemeBox>{children}</ThemeBox>
 }
 

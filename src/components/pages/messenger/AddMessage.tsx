@@ -1,5 +1,5 @@
-import { Avatar, Box, IconButton, Stack, TextField } from '@mui/material'
-import { useState } from 'react'
+import { Box, IconButton, Stack, TextField } from '@mui/material'
+import { FC, useState } from 'react'
 import { useAuth } from '../../providers/useAuth'
 import BorderBox from '../../ui/BorderBox'
 import SendIcon from '@mui/icons-material/Send'
@@ -10,10 +10,9 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore'
+import { ThemeAvatar } from '../../ui/ThemeAvatar'
 
-type Props = {}
-
-const AddMessage = ({}: Props) => {
+const AddMessage: FC = () => {
   const [content, setContent] = useState('')
   // const [views, setViews] = useState([])
   const { cur, db, ga } = useAuth()
@@ -102,7 +101,7 @@ const AddMessage = ({}: Props) => {
       <BorderBox>
         <Box sx={{ p: 3 }}>
           <Stack alignItems="center" direction="row" spacing={2}>
-            <Avatar
+            <ThemeAvatar
               alt={cur?.displayName}
               src={cur?.photoURL}
               sx={{ width: 46, height: 46 }}
@@ -110,7 +109,7 @@ const AddMessage = ({}: Props) => {
               <b>
                 {cur?.displayName?.replace(/\B\w+/g, '').split(' ').join('')}
               </b>
-            </Avatar>
+            </ThemeAvatar>
             <TextField
               id="outlined-textarea"
               label={<b>Whats's new?</b>}

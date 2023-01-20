@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { menu } from './menuList'
 import {
   List,
@@ -12,9 +13,7 @@ import { Home, InfoOutlined, Login, Logout } from '@mui/icons-material'
 import { useAuth } from '../../../providers/useAuth'
 import { signOut } from 'firebase/auth'
 
-type Props = {}
-
-const Menu = (props: Props) => {
+const Menu: FC = () => {
   const { cur, ga } = useAuth()
   const navigate = useNavigate()
 
@@ -32,7 +31,7 @@ const Menu = (props: Props) => {
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate(`/profile/${cur.uid}`)}>
                   <ListItemIcon sx={{ mr: -2 }}>
-                    <Home color="secondary" />
+                    <Home color="primary" />
                   </ListItemIcon>
                   <ListItemText primary="My profile" />
                 </ListItemButton>
@@ -58,7 +57,7 @@ const Menu = (props: Props) => {
               <ListItem disablePadding>
                 <ListItemButton onClick={logoutHandler}>
                   <ListItemIcon sx={{ mr: -2 }}>
-                    <Logout color="error" />
+                    <Logout color="primary" />
                   </ListItemIcon>
                   <ListItemText primary="Logout" />
                 </ListItemButton>
@@ -69,7 +68,7 @@ const Menu = (props: Props) => {
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('/auth')}>
                   <ListItemIcon sx={{ mr: -2 }}>
-                    <Login color="error" />
+                    <Login color="primary" />
                   </ListItemIcon>
                   <ListItemText primary="Sign in" />
                 </ListItemButton>

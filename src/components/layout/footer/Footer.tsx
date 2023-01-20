@@ -1,9 +1,8 @@
+import { FC } from 'react'
 import { Container, Typography, Box } from '@mui/material'
 import Socials from './Socials'
 
-type Props = {}
-
-const Footer = (props: Props) => {
+const Footer: FC = () => {
   let currentYear = new Date().getFullYear()
 
   return (
