@@ -18,14 +18,16 @@ const Layout: FC<Props> = ({ children, light, setLight }) => {
   return (
     <>
       <Header light={light} setLight={setLight} />
-      <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-        <Grid2 container spacing={2}>
-          <Grid2 md={cur && 3}>{cur && <Sidebar />}</Grid2>
-          <Grid2 md={cur ? 9 : 12}>
-            <>{children}</>
+      <main>
+        <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
+          <Grid2 container spacing={4}>
+            <Grid2 md={cur && 3}>{cur && <Sidebar />}</Grid2>
+            <Grid2 md={cur ? 9 : 12}>
+              <>{children}</>
+            </Grid2>
           </Grid2>
-        </Grid2>
-      </Container>
+        </Container>
+      </main>
       <Footer />
     </>
   )

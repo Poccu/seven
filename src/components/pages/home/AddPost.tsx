@@ -5,10 +5,10 @@ import BorderBox from '../../ui/BorderBox'
 import { doc, setDoc } from 'firebase/firestore'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { ThemeTextFieldAddPost } from '../../ui/ThemeTextField'
+import { Link } from 'react-router-dom'
 
 const AddPost: FC = () => {
   const [content, setContent] = useState('')
-  // const [views, setViews] = useState([])
   const { db, cur } = useAuth()
 
   const addPostHandler = async (e: any) => {
@@ -46,59 +46,21 @@ const AddPost: FC = () => {
       } catch (e) {
         console.error('Error adding document: ', e)
       }
-
-      // const docRef = doc(db, 'views', 'viewsId')
-
-      // // try {
-      // await runTransaction(db, async (transaction) => {
-      //   const sfDoc = await transaction.get(docRef)
-      //   if (!sfDoc.exists()) {
-      //     throw 'Document does not exist!'
-      //   }
-      //   // if (!sfDoc.data().likes.includes(cur?.uid)) {
-      //   const newViews = [...sfDoc.data().views, 0]
-      //   console.log(sfDoc.data().views)
-      //   transaction.update(docRef, { views: newViews })
-      //   // }
-      // })
-      // //   console.log('Transaction successfully committed!')
-      // // } catch (e) {
-      // //   console.log('Transaction failed: ', e)
-      // // }
-
       setContent('')
       e.target.blur()
     }
   }
-
-  // useEffect(() => {
-  //   const docRef = doc(db, 'views', 'viewsId')
-
-  //   try {
-  //     runTransaction(db, async (transaction) => {
-  //       const sfDoc = await transaction.get(docRef)
-  //       if (!sfDoc.exists()) {
-  //         throw 'Document does not exist!'
-  //       }
-  //       // console.log(sfDoc.data())
-
-  //       const newViews = sfDoc.data().views + 1
-  //       transaction.update(docRef, { views: newViews })
-  //     })
-  //     // console.log('Transaction successfully committed!')
-  //   } catch (e) {
-  //     // console.log('Transaction failed: ', e)
-  //   }
-  // }, [])
 
   return (
     <Box sx={{ mb: 2 }}>
       <BorderBox>
         <Box sx={{ p: 3 }}>
           <Stack alignItems="center" direction="row" spacing={2}>
-            <ThemeAvatar alt={cur?.displayName} src={cur.photoURL}>
-              {cur?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
-            </ThemeAvatar>
+            <Link to={`/profile/${cur.uid}`}>
+              <ThemeAvatar alt={cur?.displayName} src={cur.photoURL}>
+                {cur?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
+              </ThemeAvatar>
+            </Link>
             <ThemeTextFieldAddPost
               id="outlined-textarea"
               label={<b>Whats's new?</b>}

@@ -14,6 +14,9 @@ import {
   doc,
   runTransaction,
   limit,
+  setDoc,
+  increment,
+  getDocs,
 } from 'firebase/firestore'
 import moment from 'moment'
 import AddComment from './AddComment'
@@ -34,17 +37,26 @@ const Home: FC = () => {
       // limit(4)
     )
 
-    const unsub = onSnapshot(q, (querySnapshot: any) => {
+    const incViews = async () => {
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach(async (d) => {
+        const docRef = doc(db, 'posts', d.id)
+        await setDoc(docRef, { views: increment(1) }, { merge: true })
+      })
+    }
+
+    const setPostsFunc = onSnapshot(q, (querySnapshot: any) => {
       const postsArr: any[] = []
       querySnapshot.forEach(async (d: any) => {
         postsArr.push(d.data())
       })
       setPosts(postsArr)
-      console.log('postsArr', postsArr)
+      // console.log('postsArr', postsArr)
     })
 
     return () => {
-      unsub()
+      incViews()
+      setPostsFunc()
     }
   }, [])
 

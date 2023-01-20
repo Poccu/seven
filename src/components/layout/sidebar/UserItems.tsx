@@ -8,7 +8,13 @@ import {
   ListItemText,
 } from '@mui/material'
 import BorderBox from '../../ui/BorderBox'
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
+import {
+  collection,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { IUser } from '../../../types'
 import { useAuth } from '../../providers/useAuth'
@@ -24,8 +30,8 @@ const UserItems: FC = () => {
   useEffect(() => {
     const q = query(
       collection(db, 'users'),
-      orderBy('createdAt', 'asc')
-      // limit(4)
+      orderBy('createdAt', 'asc'),
+      limit(3)
     )
 
     const unsub = onSnapshot(q, (querySnapshot: any) => {
@@ -34,7 +40,6 @@ const UserItems: FC = () => {
         usersArr.push(d.data())
       })
       setUsers(usersArr)
-      console.log('usersArr', usersArr)
     })
 
     return () => {
