@@ -10,8 +10,8 @@ export let themeLight = createTheme({
       main: grey[500],
     },
     background: {
-      default: grey[50],
-      paper: grey[100],
+      default: '#e9e9e9',
+      paper: grey[50],
     },
     text: {
       primary: '#000000',
@@ -23,15 +23,15 @@ export let themeLight = createTheme({
       dark: '#000000',
     },
     action: {
-      active: grey[400],
+      active: grey[300],
       activatedOpacity: 0.1,
-      hover: grey[300],
+      hover: grey[200],
       hoverOpacity: 0.1,
-      focus: grey[300],
+      focus: grey[200],
       focusOpacity: 0.1,
-      selected: grey[400],
+      selected: grey[300],
       selectedOpacity: 0.1,
-      disabled: grey[200],
+      disabled: grey[100],
     },
   },
   components: {
@@ -45,7 +45,7 @@ export let themeLight = createTheme({
             borderRadius: 8,
             backgroundColor: '#333333',
             minHeight: 24,
-            border: '3px solid #f5f5f5',
+            border: '3px solid #e9e9e9',
           },
           '&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus':
             {
@@ -76,14 +76,14 @@ export let themeDark = createTheme({
     },
     background: {
       default: '#121212',
-      paper: '#151515',
+      paper: '#181818',
     },
     text: {
       primary: grey[50],
       secondary: grey[500],
     },
     action: {
-      active: grey[800],
+      active: '#313131',
       activatedOpacity: 0.1,
       hover: grey[900],
       hoverOpacity: 0.1,

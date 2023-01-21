@@ -14,12 +14,12 @@ export interface IUser {
   createdAt: string
   displayName: string
   email: string
-  friends: any[]
+  friends: IUser[]
   groups: any[]
   music: any[]
   password: string
   photoURL: string
-  photos: any[]
+  photos: string[]
   uid: string
   isInNetwork?: boolean
 }
@@ -37,7 +37,7 @@ export interface IPost {
   content: string
   comments: string[]
   images?: string[]
-  likes: string[]
+  likes: IUser[]
   bookmarks: string[]
   views: number
   id: string
@@ -55,6 +55,6 @@ export interface IMessage {
   content: string
   comments: string[]
   images?: string[]
-  likes: string[]
+  likes: IUser[]
   id: string
 }

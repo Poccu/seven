@@ -6,9 +6,8 @@ type Props = {
 }
 
 const ThemeBox = styled(Box)(({ theme }) => ({
-  border: '2px solid',
+  border: '1px solid',
   borderRadius: '10px',
-  boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.1)',
   borderColor: theme.palette.divider,
   backgroundColor: theme.palette.background.paper,
 }))

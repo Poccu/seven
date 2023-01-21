@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import BorderBox from '../../../ui/BorderBox'
 import { useNavigate } from 'react-router-dom'
-import { Home, InfoOutlined, Login, Logout } from '@mui/icons-material'
+import { InfoOutlined, Login, Logout, Person } from '@mui/icons-material'
 import { useAuth } from '../../../providers/useAuth'
 import { signOut } from 'firebase/auth'
 
@@ -31,7 +31,7 @@ const Menu: FC = () => {
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate(`/profile/${cur.uid}`)}>
                   <ListItemIcon sx={{ mr: -2 }}>
-                    <Home color="primary" />
+                    <Person color="primary" />
                   </ListItemIcon>
                   <ListItemText primary="My profile" />
                 </ListItemButton>
@@ -40,7 +40,7 @@ const Menu: FC = () => {
                 <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => navigate(item.link)}>
                     <ListItemIcon sx={{ mr: -2 }}>
-                      <item.icon color="secondary" />
+                      <item.icon color="primary" />
                     </ListItemIcon>
                     <ListItemText primary={item.title} />
                   </ListItemButton>

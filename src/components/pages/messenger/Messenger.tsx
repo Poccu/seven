@@ -24,7 +24,7 @@ import {
 } from 'firebase/firestore'
 import moment from 'moment'
 import AddMessage from './AddMessage'
-import { IMessage } from '../../../types'
+import { IMessage, IUser } from '../../../types'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 
 const Messenger: FC = () => {
@@ -39,9 +39,9 @@ const Messenger: FC = () => {
       // limit(2)
     )
 
-    const unsub = onSnapshot(q, (querySnapshot: any) => {
+    const unsub = onSnapshot(q, (querySnapshot) => {
       const messagesArr: any[] = []
-      querySnapshot.forEach(async (d: any) => {
+      querySnapshot.forEach(async (d) => {
         messagesArr.push(d.data())
       })
       setMessages(messagesArr)
@@ -179,7 +179,7 @@ const Messenger: FC = () => {
                             }
                             const newLikesArr = sfDoc
                               .data()
-                              .likes.filter((id: any) => id !== cur?.uid)
+                              .likes.filter((id: IUser) => id !== cur?.uid)
                             // console.log(newLikesArr)
                             transaction.update(docRef, { likes: newLikesArr })
                           })

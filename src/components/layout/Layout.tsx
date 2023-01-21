@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, ReactElement } from 'react'
 import { Container } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import Sidebar from './sidebar/Sidebar'
@@ -7,7 +7,7 @@ import Footer from './footer/Footer'
 import { useAuth } from '../providers/useAuth'
 
 type Props = {
-  children: any
+  children: ReactElement
   light: boolean
   setLight: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -21,10 +21,12 @@ const Layout: FC<Props> = ({ children, light, setLight }) => {
       <main>
         <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
           <Grid2 container spacing={4}>
-            <Grid2 md={cur && 3}>{cur && <Sidebar />}</Grid2>
-            <Grid2 md={cur ? 9 : 12}>
-              <>{children}</>
-            </Grid2>
+            {cur && (
+              <Grid2 md={3}>
+                <Sidebar />
+              </Grid2>
+            )}
+            <Grid2 md={cur ? 9 : 12}>{children}</Grid2>
           </Grid2>
         </Container>
       </main>

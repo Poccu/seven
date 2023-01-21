@@ -10,6 +10,7 @@ import {
 import BorderBox from '../../ui/BorderBox'
 import {
   collection,
+  DocumentData,
   limit,
   onSnapshot,
   orderBy,
@@ -34,9 +35,9 @@ const UserItems: FC = () => {
       limit(3)
     )
 
-    const unsub = onSnapshot(q, (querySnapshot: any) => {
-      const usersArr: any[] = []
-      querySnapshot.forEach(async (d: any) => {
+    const unsub = onSnapshot(q, (querySnapshot) => {
+      const usersArr: IUser[] = []
+      querySnapshot.forEach(async (d: DocumentData) => {
         usersArr.push(d.data())
       })
       setUsers(usersArr)

@@ -5,7 +5,7 @@ import { FavoriteBorder, Favorite, Visibility } from '@mui/icons-material'
 import AddPost from './AddPost'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../providers/useAuth'
-import { IPost } from '../../../types'
+import { IPost, IUser } from '../../../types'
 import {
   collection,
   onSnapshot,
@@ -17,6 +17,7 @@ import {
   setDoc,
   increment,
   getDocs,
+  DocumentData,
 } from 'firebase/firestore'
 import moment from 'moment'
 import AddComment from './AddComment'
@@ -45,9 +46,9 @@ const Home: FC = () => {
       })
     }
 
-    const setPostsFunc = onSnapshot(q, (querySnapshot: any) => {
-      const postsArr: any[] = []
-      querySnapshot.forEach(async (d: any) => {
+    const setPostsFunc = onSnapshot(q, (querySnapshot) => {
+      const postsArr: IPost[] = []
+      querySnapshot.forEach(async (d: DocumentData) => {
         postsArr.push(d.data())
       })
       setPosts(postsArr)
@@ -117,7 +118,9 @@ const Home: FC = () => {
                         </Typography>
                       </Stack>
                     </Stack>
-                    <PostSettings post={post} />
+                    <Box sx={{ mt: -1, mr: -1 }}>
+                      <PostSettings post={post} />
+                    </Box>
                   </Stack>
                   <Typography variant="body1" sx={{ ml: 1 }}>
                     {post.content}
@@ -126,6 +129,7 @@ const Home: FC = () => {
                     direction="row"
                     justifyContent="space-between"
                     alignItems="center"
+                    sx={{ ml: -1, mb: -1 }}
                   >
                     <Stack
                       alignItems="center"
@@ -133,7 +137,8 @@ const Home: FC = () => {
                       // spacing={0.2}
                       sx={{ mt: 2 }}
                     >
-                      {cur?.uid && !post.likes.includes(cur?.uid) ? (
+                      {cur?.uid &&
+                      !post.likes.some((x) => x.uid === cur.uid) ? (
                         <IconButton
                           onClick={async () => {
                             const docRef = doc(db, 'posts', post.id)
@@ -147,7 +152,11 @@ const Home: FC = () => {
                                 if (!sfDoc.data().likes.includes(cur?.uid)) {
                                   const newLikesArr = [
                                     ...sfDoc.data().likes,
-                                    cur?.uid,
+                                    {
+                                      displayName: cur?.displayName,
+                                      photoURL: cur?.photoURL,
+                                      uid: cur?.uid,
+                                    },
                                   ]
                                   // console.log(newLikesArr)
                                   transaction.update(docRef, {
@@ -177,7 +186,9 @@ const Home: FC = () => {
                                 }
                                 const newLikesArr = sfDoc
                                   .data()
-                                  .likes.filter((id: any) => id !== cur?.uid)
+                                  .likes.filter(
+                                    (x: IUser) => x.uid !== cur?.uid
+                                  )
                                 // console.log(newLikesArr)
                                 transaction.update(docRef, {
                                   likes: newLikesArr,

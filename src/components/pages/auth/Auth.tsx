@@ -129,13 +129,10 @@ const Auth: FC = () => {
           }
         })
         .catch((error) => {
-          const errorCode = error.code
-          const errorMessage = error.message
           error.code === 'auth/invalid-email' && setInvalidEmail(true)
           error.code === 'auth/email-already-in-use' &&
             setAlreadyInUseEmail(true)
           error.code === 'auth/weak-password' && setInvalidPassword(true)
-          // console.log('-----------', error.code, 'ZZZ', error.message)
         })
 
       navigate('/')
@@ -147,11 +144,8 @@ const Auth: FC = () => {
           // ...
         })
         .catch((error) => {
-          const errorCode = error.code
-          const errorMessage = error.message
           error.code === 'auth/user-not-found' && setUserNotFound(true)
           error.code === 'auth/wrong-password' && setWrongPassword(true)
-          // console.log('-----------', error.code, 'ZZZ', error.message)
         })
     }
     navigate('/')
@@ -170,236 +164,216 @@ const Auth: FC = () => {
   }, [cur])
 
   return (
-    <>
+    <Box sx={{ my: 4 }}>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ my: 3 }}
+      >
+        <img
+          src={`${process.env.PUBLIC_URL}/assets/images/logo7.png`}
+          alt="Seven"
+          height="150px"
+          width="150px"
+          draggable={false}
+        />
+      </Box>
       <Box>
-        <Box sx={{ p: 3 }}>
+        <Box display="flex" alignItems="center" justifyContent="center">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            textColor="primary"
+            indicatorColor="primary"
+          >
+            <Tab
+              label={
+                <Typography variant="h6">
+                  <b>Sign in</b>
+                </Typography>
+              }
+              {...a11yProps(0)}
+            />
+            <Tab
+              label={
+                <Typography variant="h6">
+                  <b>Register</b>
+                </Typography>
+              }
+              {...a11yProps(1)}
+            />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
           <Box
             display="flex"
             alignItems="center"
             justifyContent="center"
-            // sx={{ mt: 4 }}
+            sx={{ mt: 2 }}
           >
-            <img
-              src={`${process.env.PUBLIC_URL}/assets/images/logo7.png`}
-              alt="Seven"
-              height="150px"
-              width="150px"
-              draggable={false}
-            />
-          </Box>
-          <Box>
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                textColor="primary"
-                indicatorColor="primary"
+            <Box
+              component="form"
+              onSubmit={handleLogin}
+              // noValidate
+              autoComplete="off"
+            >
+              <Stack
+                direction="column"
+                justifyContent="space-center"
+                alignItems="center"
+                spacing={1}
               >
-                <Tab
-                  label={
-                    <Typography variant="h6">
-                      <b>Sign in</b>
-                    </Typography>
+                <ThemeTextFieldAuth
+                  type="email"
+                  label="Email"
+                  variant="outlined"
+                  required
+                  autoComplete="off"
+                  color="primary"
+                  sx={{ width: '300px' }}
+                  value={userData.email}
+                  onChange={(e) =>
+                    setUserData({ ...userData, email: e.target.value })
                   }
-                  {...a11yProps(0)}
+                  onFocus={() => setUserNotFound(false)}
+                  error={userNotFound}
+                  helperText={(userNotFound && 'Wrong email') || ' '}
                 />
-                <Tab
-                  label={
-                    <Typography variant="h6">
-                      <b>Register</b>
-                    </Typography>
+                <ThemeTextFieldAuth
+                  type={showPassword ? 'text' : 'password'}
+                  label="Password"
+                  variant="outlined"
+                  required
+                  autoComplete="off"
+                  color="primary"
+                  sx={{ width: '300px' }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  value={userData.password}
+                  onChange={(e) =>
+                    setUserData({ ...userData, password: e.target.value })
                   }
-                  {...a11yProps(1)}
+                  onFocus={() => setWrongPassword(false)}
+                  error={wrongPassword}
+                  helperText={(wrongPassword && 'Wrong password') || ' '}
                 />
-              </Tabs>
+                <ThemeButton type="submit" onClick={() => setIsRegForm(false)}>
+                  <b>Sign in</b>
+                </ThemeButton>
+              </Stack>
             </Box>
-            <TabPanel value={value} index={0}>
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                sx={{ mt: 2 }}
-              >
-                <Box
-                  component="form"
-                  onSubmit={handleLogin}
-                  // noValidate
-                  autoComplete="off"
-                >
-                  <Stack
-                    direction="column"
-                    justifyContent="space-center"
-                    alignItems="center"
-                    spacing={1}
-                  >
-                    <ThemeTextFieldAuth
-                      type="email"
-                      label="Email"
-                      variant="outlined"
-                      required
-                      autoComplete="off"
-                      color="primary"
-                      sx={{ width: '300px' }}
-                      value={userData.email}
-                      onChange={(e) =>
-                        setUserData({ ...userData, email: e.target.value })
-                      }
-                      onFocus={() => setUserNotFound(false)}
-                      error={userNotFound}
-                      helperText={(userNotFound && 'Wrong email') || ' '}
-                    />
-                    <ThemeTextFieldAuth
-                      type={showPassword ? 'text' : 'password'}
-                      label="Password"
-                      variant="outlined"
-                      required
-                      autoComplete="off"
-                      color="primary"
-                      sx={{ width: '300px' }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      value={userData.password}
-                      onChange={(e) =>
-                        setUserData({ ...userData, password: e.target.value })
-                      }
-                      onFocus={() => setWrongPassword(false)}
-                      error={wrongPassword}
-                      helperText={(wrongPassword && 'Wrong password') || ' '}
-                    />
-                    <ThemeButton
-                      type="submit"
-                      onClick={() => setIsRegForm(false)}
-                    >
-                      <b>Sign in</b>
-                    </ThemeButton>
-                  </Stack>
-                </Box>
-              </Box>
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <Box
-                display="flex" //todo
-                alignItems="center"
-                justifyContent="center"
-                sx={{ mt: 2 }}
-              >
-                <Box
-                  component="form"
-                  onSubmit={handleLogin}
-                  // noValidate
-                  autoComplete="off"
-                >
-                  <Stack
-                    direction="column"
-                    justifyContent="space-center"
-                    alignItems="center"
-                    spacing={1}
-                  >
-                    <ThemeTextFieldAuth
-                      label="Name"
-                      variant="outlined"
-                      required
-                      autoComplete="off"
-                      color="primary"
-                      sx={{ width: '300px' }}
-                      value={userData.displayName}
-                      onChange={(e) =>
-                        setUserData({
-                          ...userData,
-                          displayName: e.target.value,
-                        })
-                      }
-                      helperText={' '}
-                    />
-                    <ThemeTextFieldAuth
-                      type="email"
-                      label="Email"
-                      variant="outlined"
-                      required
-                      autoComplete="off"
-                      color="primary"
-                      sx={{ width: '300px' }}
-                      value={userData.email}
-                      onChange={(e) =>
-                        setUserData({ ...userData, email: e.target.value })
-                      }
-                      onFocus={() => {
-                        setInvalidEmail(false)
-                        setAlreadyInUseEmail(false)
-                      }}
-                      error={invalidEmail || alreadyInUseEmail}
-                      helperText={
-                        invalidEmail
-                          ? 'Invalid email'
-                          : alreadyInUseEmail
-                          ? 'Email is already in use'
-                          : ' '
-                      }
-                    />
-                    <ThemeTextFieldAuth
-                      type={showPassword ? 'text' : 'password'}
-                      label="Password"
-                      variant="outlined"
-                      required
-                      autoComplete="off"
-                      color="primary"
-                      sx={{ width: '300px' }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      value={userData.password}
-                      onChange={(e) =>
-                        setUserData({ ...userData, password: e.target.value })
-                      }
-                      onFocus={() => setInvalidPassword(false)}
-                      error={invalidPassword}
-                      helperText={
-                        invalidPassword ? 'At least 6 characters' : ' '
-                      }
-                    />
-                    <ThemeButton
-                      type="submit"
-                      onClick={() => setIsRegForm(true)}
-                    >
-                      <b>Register</b>
-                    </ThemeButton>
-                  </Stack>
-                </Box>
-              </Box>
-            </TabPanel>
           </Box>
-        </Box>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Box
+            display="flex" //todo
+            alignItems="center"
+            justifyContent="center"
+            sx={{ mt: 2 }}
+          >
+            <Box
+              component="form"
+              onSubmit={handleLogin}
+              // noValidate
+              autoComplete="off"
+            >
+              <Stack
+                direction="column"
+                justifyContent="space-center"
+                alignItems="center"
+                spacing={1}
+              >
+                <ThemeTextFieldAuth
+                  label="Name"
+                  variant="outlined"
+                  required
+                  autoComplete="off"
+                  color="primary"
+                  sx={{ width: '300px' }}
+                  value={userData.displayName}
+                  onChange={(e) =>
+                    setUserData({
+                      ...userData,
+                      displayName: e.target.value,
+                    })
+                  }
+                  helperText={' '}
+                />
+                <ThemeTextFieldAuth
+                  type="email"
+                  label="Email"
+                  variant="outlined"
+                  required
+                  autoComplete="off"
+                  color="primary"
+                  sx={{ width: '300px' }}
+                  value={userData.email}
+                  onChange={(e) =>
+                    setUserData({ ...userData, email: e.target.value })
+                  }
+                  onFocus={() => {
+                    setInvalidEmail(false)
+                    setAlreadyInUseEmail(false)
+                  }}
+                  error={invalidEmail || alreadyInUseEmail}
+                  helperText={
+                    invalidEmail
+                      ? 'Invalid email'
+                      : alreadyInUseEmail
+                      ? 'Email is already in use'
+                      : ' '
+                  }
+                />
+                <ThemeTextFieldAuth
+                  type={showPassword ? 'text' : 'password'}
+                  label="Password"
+                  variant="outlined"
+                  required
+                  autoComplete="off"
+                  color="primary"
+                  sx={{ width: '300px' }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  value={userData.password}
+                  onChange={(e) =>
+                    setUserData({ ...userData, password: e.target.value })
+                  }
+                  onFocus={() => setInvalidPassword(false)}
+                  error={invalidPassword}
+                  helperText={invalidPassword ? 'At least 6 characters' : ' '}
+                />
+                <ThemeButton type="submit" onClick={() => setIsRegForm(true)}>
+                  <b>Register</b>
+                </ThemeButton>
+              </Stack>
+            </Box>
+          </Box>
+        </TabPanel>
       </Box>
-    </>
+    </Box>
   )
 }
 
