@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { Box, Stack } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
-import BorderBox from '../../ui/BorderBox'
+import { BorderBox } from '../../ui/ThemeBox'
 import { doc, setDoc } from 'firebase/firestore'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { ThemeTextFieldAddPost } from '../../ui/ThemeTextField'

@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Box } from '@mui/material'
-import BorderBox from '../../ui/BorderBox'
+import { BorderBox } from '../../ui/ThemeBox'
 
 const About: FC = () => {
   return (

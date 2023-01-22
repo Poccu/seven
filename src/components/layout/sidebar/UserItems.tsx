@@ -7,7 +7,7 @@ import {
   ListItemButton,
   ListItemText,
 } from '@mui/material'
-import BorderBox from '../../ui/BorderBox'
+import { BorderBox } from '../../ui/ThemeBox'
 import {
   collection,
   DocumentData,

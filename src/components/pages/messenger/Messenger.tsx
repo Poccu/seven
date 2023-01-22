@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
-import BorderBox from '../../ui/BorderBox'
+import { BorderBox } from '../../ui/ThemeBox'
 import {
   FavoriteBorder,
   Favorite,

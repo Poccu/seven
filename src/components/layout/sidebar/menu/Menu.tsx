@@ -7,7 +7,7 @@ import {
   ListItemText,
   ListItemButton,
 } from '@mui/material'
-import BorderBox from '../../../ui/BorderBox'
+import { BorderBox } from '../../../ui/ThemeBox'
 import { useNavigate } from 'react-router-dom'
 import { InfoOutlined, Login, Logout, Person } from '@mui/icons-material'
 import { useAuth } from '../../../providers/useAuth'

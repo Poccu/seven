@@ -4,13 +4,7 @@ import Grow from '@mui/material/Grow'
 import Popper from '@mui/material/Popper'
 import MenuItem from '@mui/material/MenuItem'
 import MenuList from '@mui/material/MenuList'
-import {
-  Box,
-  IconButton,
-  ListItemIcon,
-  styled,
-  Typography,
-} from '@mui/material'
+import { Box, IconButton, ListItemIcon, Typography } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import { IPost } from '../../../types'
 import { deleteDoc, doc, runTransaction } from 'firebase/firestore'
@@ -21,18 +15,11 @@ import {
   Clear,
   Edit,
 } from '@mui/icons-material'
+import { SettingsBox } from '../../ui/ThemeBox'
 
 type Props = {
   post: IPost
 }
-
-const ThemeBox = styled(Box)(({ theme }) => ({
-  borderRadius: '10px',
-  border: '1px solid',
-  borderColor: theme.palette.divider,
-  backgroundColor: theme.palette.action.disabled,
-  // backgroundColor: theme.palette.background.paper,
-}))
 
 const PostSettings: FC<Props> = ({ post }) => {
   const [open, setOpen] = useState(false)
@@ -107,7 +94,7 @@ const PostSettings: FC<Props> = ({ post }) => {
               transformOrigin: 'right top',
             }}
           >
-            <ThemeBox>
+            <SettingsBox>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
@@ -197,7 +184,7 @@ const PostSettings: FC<Props> = ({ post }) => {
                   )}
                 </MenuList>
               </ClickAwayListener>
-            </ThemeBox>
+            </SettingsBox>
           </Grow>
         )}
       </Popper>

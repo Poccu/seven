@@ -1,7 +1,7 @@
 import { Box, IconButton, Stack, TextField } from '@mui/material'
 import { FC, useState } from 'react'
 import { useAuth } from '../../providers/useAuth'
-import BorderBox from '../../ui/BorderBox'
+import { BorderBox } from '../../ui/ThemeBox'
 import SendIcon from '@mui/icons-material/Send'
 import {
   collection,
