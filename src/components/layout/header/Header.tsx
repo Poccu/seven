@@ -43,7 +43,7 @@ const Header: FC<Theme> = ({ light, setLight }) => {
                 </Box>
                 <Typography
                   variant="h6"
-                  sx={{ fontWeight: '400', letterSpacing: 3 }}
+                  sx={{ mr: 2, fontWeight: '400', letterSpacing: 3 }}
                   color="primary"
                 >
                   SEVEN
@@ -56,20 +56,20 @@ const Header: FC<Theme> = ({ light, setLight }) => {
                   onClick={() => setLight(true)}
                   color="primary"
                   size="large"
-                  title="Change Theme to Light Mode"
+                  title="Change to Light Mode"
                   sx={{ width: '50px ', height: '50px' }}
                 >
-                  <DarkModeOutlined fontSize="inherit" />
+                  <LightModeOutlined fontSize="inherit" />
                 </IconButton>
               ) : (
                 <IconButton
                   onClick={() => setLight(false)}
                   color="primary"
                   size="large"
-                  title="Change Theme to Dark Mode"
+                  title="Change to Dark Mode"
                   sx={{ width: '50px ', height: '50px' }}
                 >
-                  <LightModeOutlined fontSize="inherit" />
+                  <DarkModeOutlined fontSize="inherit" />
                 </IconButton>
               )}
             </Box>

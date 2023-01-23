@@ -19,9 +19,10 @@ import { SettingsBox } from '../../ui/ThemeBox'
 
 type Props = {
   post: IPost
+  setEditingId: React.Dispatch<React.SetStateAction<string>>
 }
 
-const PostSettings: FC<Props> = ({ post }) => {
+const PostSettings: FC<Props> = ({ post, setEditingId }) => {
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
 
@@ -41,6 +42,7 @@ const PostSettings: FC<Props> = ({ post }) => {
   }
 
   const handleCloseDelete = (event: Event | React.SyntheticEvent) => {
+    setOpen(false)
     if (
       anchorRef.current &&
       anchorRef.current.contains(event.target as HTMLElement)
@@ -48,7 +50,6 @@ const PostSettings: FC<Props> = ({ post }) => {
       return
     }
 
-    setOpen(false)
     deleteDoc(doc(db, 'posts', post.id))
   }
 
@@ -86,6 +87,7 @@ const PostSettings: FC<Props> = ({ post }) => {
         placement="bottom-end"
         transition
         disablePortal
+        sx={{ zIndex: 1 }}
       >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -166,14 +168,21 @@ const PostSettings: FC<Props> = ({ post }) => {
                       </Typography>
                     </MenuItem>
                   )}
-                  {post.author.uid === cur?.uid && (
-                    <MenuItem onClick={() => console.log('EDIT POST')}>
-                      <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
-                        <Edit color="primary" />
-                      </ListItemIcon>
-                      <Typography variant="body1">Edit</Typography>
-                    </MenuItem>
-                  )}
+                  {post.author.uid === cur?.uid &&
+                    Date.now() - +post?.createdAt < 86400000 &&
+                    post.likes.length < 2 && (
+                      <MenuItem
+                        onClick={() => {
+                          setOpen(false)
+                          setEditingId(post.id)
+                        }}
+                      >
+                        <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
+                          <Edit color="primary" />
+                        </ListItemIcon>
+                        <Typography variant="body1">Edit</Typography>
+                      </MenuItem>
+                    )}
                   {post.author.uid === cur?.uid && (
                     <MenuItem onClick={handleCloseDelete}>
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>

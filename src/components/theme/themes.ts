@@ -23,7 +23,7 @@ export let themeLight = createTheme({
       dark: '#000000',
     },
     action: {
-      active: grey[300],
+      active: '#cecece',
       activatedOpacity: 0.1,
       hover: grey[200],
       hoverOpacity: 0.1,
@@ -33,6 +33,7 @@ export let themeLight = createTheme({
       selectedOpacity: 0.1,
       disabled: grey[100],
     },
+    divider: grey[200],
   },
   components: {
     MuiCssBaseline: {

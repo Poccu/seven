@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { doc, DocumentData, onSnapshot } from 'firebase/firestore'
 import { IUser } from '../../../types'
 import PhotoSettings from './PhotoSettings'
+import { TaskAlt } from '@mui/icons-material'
 
 const Profile: FC = () => {
   const { db, cur } = useAuth()
@@ -49,17 +50,21 @@ const Profile: FC = () => {
             </ThemeAvatar>
             {cur.uid === profileId && <PhotoSettings />}
           </Box>
-          <Box
-            justifyContent="left"
-            //  alignItems="center"
-            display="flex"
-          >
-            <Typography variant="h4">
-              <b>
-                {user?.displayName?.replace(/[\p{Emoji}\u200d]+/gu, '')}
-                {user?.uid === 'HgxGhdMZc6TcrYNf80IfzoURccH2' && '⭐'}
-              </b>
-            </Typography>
+          <Box justifyContent="left" alignItems="baseline" display="flex">
+            <Stack alignItems="center" direction="row" spacing={0.7}>
+              <Typography variant="h4">
+                <b>{user?.displayName?.replace(/[\p{Emoji}\u200d]+/gu, '')}</b>
+              </Typography>
+              {user?.uid === 'HgxGhdMZc6TcrYNf80IfzoURccH2' && (
+                <TaskAlt
+                  color="info"
+                  sx={{
+                    width: '30px ',
+                    height: '30px',
+                  }}
+                />
+              )}
+            </Stack>
           </Box>
         </Stack>
       </Box>

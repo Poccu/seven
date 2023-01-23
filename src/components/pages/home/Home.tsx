@@ -1,7 +1,12 @@
 import { FC, useEffect, useState } from 'react'
 import { Box, Divider, IconButton, Stack, Typography } from '@mui/material'
 import { BorderBox } from '../../ui/ThemeBox'
-import { FavoriteBorder, Favorite, Visibility } from '@mui/icons-material'
+import {
+  FavoriteBorder,
+  Favorite,
+  Visibility,
+  TaskAlt,
+} from '@mui/icons-material'
 import AddPost from './AddPost'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../providers/useAuth'
@@ -25,9 +30,12 @@ import PostSettings from './PostSettings'
 import { TransitionGroup } from 'react-transition-group'
 import Collapse from '@mui/material/Collapse'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
+import EditPost from './EditPost'
 
 const Home: FC = () => {
   const [posts, setPosts] = useState<IPost[]>([])
+  const [editingId, setEditingId] = useState('')
+  // console.log('posts', posts)
 
   const { db, cur } = useAuth()
 
@@ -101,30 +109,48 @@ const Home: FC = () => {
                         </ThemeAvatar>
                       </Link>
                       <Stack>
-                        <Link to={`/profile/${post.author.uid}`}>
-                          <Typography variant="h6">
-                            <b>
-                              {post?.author?.displayName?.replace(
-                                /[\p{Emoji}\u200d]+/gu,
-                                ''
-                              )}
-                              {post.author.uid ===
-                                'HgxGhdMZc6TcrYNf80IfzoURccH2' && '⭐'}
-                            </b>
-                          </Typography>
-                        </Link>
+                        <Stack
+                          alignItems="center"
+                          direction="row"
+                          spacing={0.5}
+                        >
+                          <Link to={`/profile/${post.author.uid}`}>
+                            <Typography variant="h6">
+                              <b>
+                                {post?.author?.displayName?.replace(
+                                  /[\p{Emoji}\u200d]+/gu,
+                                  ''
+                                )}
+                              </b>
+                            </Typography>
+                          </Link>
+                          {post.author.uid ===
+                            'HgxGhdMZc6TcrYNf80IfzoURccH2' && (
+                            <TaskAlt
+                              color="info"
+                              sx={{
+                                width: '20px ',
+                                height: '20px',
+                              }}
+                            />
+                          )}
+                        </Stack>
                         <Typography variant="body2" color="textSecondary">
                           {moment(post.createdAt).fromNow()}
                         </Typography>
                       </Stack>
                     </Stack>
                     <Box sx={{ mt: -1, mr: -1 }}>
-                      <PostSettings post={post} />
+                      <PostSettings post={post} setEditingId={setEditingId} />
                     </Box>
                   </Stack>
-                  <Typography variant="body1" sx={{ ml: 1 }}>
-                    {post.content}
-                  </Typography>
+                  {editingId !== post.id ? (
+                    <Typography variant="body1" sx={{ ml: 1 }}>
+                      {post.content}
+                    </Typography>
+                  ) : (
+                    <EditPost post={post} setEditingId={setEditingId} />
+                  )}
                   <Stack
                     direction="row"
                     justifyContent="space-between"
