@@ -33,7 +33,7 @@ export let themeLight = createTheme({
       selectedOpacity: 0.1,
       disabled: grey[100],
     },
-    divider: grey[200],
+    divider: grey[300],
   },
   components: {
     MuiCssBaseline: {

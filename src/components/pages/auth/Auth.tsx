@@ -21,6 +21,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { emojis } from './emojis'
 import { ThemeTextFieldAuth } from '../../ui/ThemeTextField'
 import { ThemeButton } from '../../ui/ThemeButton'
+import { BackgroundPaperBox } from '../../ui/ThemeBox'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -165,6 +166,16 @@ const Auth: FC = () => {
 
   return (
     <Box sx={{ my: 4 }}>
+      <BackgroundPaperBox
+        sx={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          left: 0,
+          top: 0,
+          zIndex: -1,
+        }}
+      ></BackgroundPaperBox>
       <Box
         display="flex"
         alignItems="center"

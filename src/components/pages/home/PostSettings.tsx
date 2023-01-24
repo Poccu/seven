@@ -20,9 +20,10 @@ import { SettingsBox } from '../../ui/ThemeBox'
 type Props = {
   post: IPost
   setEditingId: React.Dispatch<React.SetStateAction<string>>
+  setDeletedPosts: React.Dispatch<React.SetStateAction<IPost[]>>
 }
 
-const PostSettings: FC<Props> = ({ post, setEditingId }) => {
+const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
 
@@ -43,14 +44,16 @@ const PostSettings: FC<Props> = ({ post, setEditingId }) => {
 
   const handleCloseDelete = (event: Event | React.SyntheticEvent) => {
     setOpen(false)
+
+    setDeletedPosts((prevDeletedPosts) => [...prevDeletedPosts, post])
+    setEditingId('')
+
     if (
       anchorRef.current &&
       anchorRef.current.contains(event.target as HTMLElement)
     ) {
       return
     }
-
-    deleteDoc(doc(db, 'posts', post.id))
   }
 
   const handleListKeyDown = (event: React.KeyboardEvent) => {

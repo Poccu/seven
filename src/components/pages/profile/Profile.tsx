@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { Box, Stack, Typography } from '@mui/material'
+import { Box, Stack, Tooltip, Typography } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import { BorderBox } from '../../ui/ThemeBox'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
@@ -56,13 +56,15 @@ const Profile: FC = () => {
                 <b>{user?.displayName?.replace(/[\p{Emoji}\u200d]+/gu, '')}</b>
               </Typography>
               {user?.uid === 'HgxGhdMZc6TcrYNf80IfzoURccH2' && (
-                <TaskAlt
-                  color="info"
-                  sx={{
-                    width: '30px ',
-                    height: '30px',
-                  }}
-                />
+                <Tooltip title="Admin" placement="top">
+                  <TaskAlt
+                    color="info"
+                    sx={{
+                      width: '30px ',
+                      height: '30px',
+                    }}
+                  />
+                </Tooltip>
               )}
             </Stack>
           </Box>

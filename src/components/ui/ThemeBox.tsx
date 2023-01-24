@@ -14,3 +14,7 @@ export const SettingsBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.action.disabled,
   // backgroundColor: theme.palette.background.paper,
 }))
+
+export const BackgroundPaperBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+}))
