@@ -10,3 +10,12 @@ export const ThemeIconButton = styled(IconButton)(({ theme }) => ({
     backgroundColor: theme.palette.primary.light,
   },
 }))
+
+export const ThemeLikeIconButton = styled(IconButton)(({ theme }) => ({
+  width: '30px ',
+  height: '30px',
+  backgroundColor: theme.palette.background.paper,
+  '&:hover': {
+    backgroundColor: theme.palette.background.paper,
+  },
+}))

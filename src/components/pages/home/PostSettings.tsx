@@ -79,7 +79,7 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         color="secondary"
-        sx={{ width: '40px ', height: '40px' }}
+        sx={{ width: '40px ', height: '40px', m: -1 }}
       >
         <MoreHoriz color="inherit" />
       </IconButton>

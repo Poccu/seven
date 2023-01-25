@@ -4,6 +4,7 @@ import {
   Box,
   Divider,
   IconButton,
+  Modal,
   Stack,
   Tooltip,
   Typography,
@@ -14,6 +15,7 @@ import {
   Favorite,
   Visibility,
   TaskAlt,
+  Clear,
 } from '@mui/icons-material'
 import AddPost from './AddPost'
 import { Link } from 'react-router-dom'
@@ -41,6 +43,7 @@ import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import EditPost from './EditPost'
 import DeletePost from './DeletePost'
 import { ThemeTooltip } from '../../ui/ThemeTooltip'
+import { ThemeLikeIconButton } from '../../ui/ThemeIconButton'
 
 const Home: FC = () => {
   const [posts, setPosts] = useState<IPost[]>([])
@@ -48,6 +51,9 @@ const Home: FC = () => {
   const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
   // console.log('deletedPosts', deletedPosts)
   // console.log('posts', posts)
+
+  const [openModal, setOpenModal] = useState(false)
+  const [modalData, setModalData] = useState<IUser[]>([])
 
   const { db, cur } = useAuth()
 
@@ -143,13 +149,11 @@ const Home: FC = () => {
                       </Typography>
                     </Stack>
                   </Stack>
-                  <Box sx={{ mt: -1, mr: -1 }}>
-                    <PostSettings
-                      post={post}
-                      setEditingId={setEditingId}
-                      setDeletedPosts={setDeletedPosts}
-                    />
-                  </Box>
+                  <PostSettings
+                    post={post}
+                    setEditingId={setEditingId}
+                    setDeletedPosts={setDeletedPosts}
+                  />
                 </Stack>
               )}
               {editingId !== post.id &&
@@ -184,12 +188,26 @@ const Home: FC = () => {
                     <ThemeTooltip
                       title={
                         post.likes.length > 0 && (
-                          <Link to={`/profile`}>
+                          <>
+                            <Typography
+                              textAlign="center"
+                              variant="body2"
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() => {
+                                setOpenModal(true)
+                                setModalData(post.likes)
+                              }}
+                            >
+                              Likes
+                            </Typography>
                             <AvatarGroup
                               max={4}
                               spacing={12}
-                              // sx={{ border: '4px solid' }}
-                              // color="primary"
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() => {
+                                setOpenModal(true)
+                                setModalData(post.likes)
+                              }}
                             >
                               {post.likes.map((user) => (
                                 <Link to={`/profile/${user.uid}`}>
@@ -204,7 +222,6 @@ const Home: FC = () => {
                                     sx={{
                                       width: '40px',
                                       height: '40px',
-                                      border: '4px solid',
                                     }}
                                   >
                                     {user?.displayName?.match(
@@ -214,7 +231,7 @@ const Home: FC = () => {
                                 </Link>
                               ))}
                             </AvatarGroup>
-                          </Link>
+                          </>
                         )
                       }
                       placement="top"
@@ -310,6 +327,85 @@ const Home: FC = () => {
           </Collapse>
         ))}
       </TransitionGroup>
+      <Modal
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false)
+          setModalData([])
+        }}
+        // BackdropProps={{
+        //   style: { backgroundColor: 'rgba(0, 0, 0, 0.55)' },
+        // }}
+        sx={{
+          zIndex: 1600,
+        }}
+      >
+        <BorderBox
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            p: 3,
+            transform: 'translate(-50%, -50%)',
+            width: 500,
+          }}
+        >
+          <Stack direction="row" justifyContent="space-between">
+            <Typography variant="body1">
+              Likes: {modalData.length > 0 && modalData.length}
+            </Typography>
+            <IconButton
+              onClick={() => {
+                setOpenModal(false)
+                setModalData([])
+              }}
+              color="secondary"
+              sx={{ width: '50px ', height: '50px', m: -2 }}
+            >
+              <Clear />
+            </IconButton>
+          </Stack>
+          <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 2, mt: 2 }}>
+            {modalData.map((user) => (
+              <Box key={user.uid} sx={{ width: '100px' }}>
+                <Link to={`/profile/${user.uid}`}>
+                  <ThemeAvatar
+                    alt={user.displayName}
+                    src={user.photoURL}
+                    sx={{
+                      width: '100px',
+                      height: '100px',
+                      mb: 1,
+                    }}
+                  >
+                    <Typography variant="h3">
+                      {user?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
+                    </Typography>
+                  </ThemeAvatar>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      top: '-33px',
+                      left: '74px',
+                      height: '30px',
+                      width: '30px',
+                      mb: '-33px',
+                      zIndex: 1,
+                    }}
+                  >
+                    <ThemeLikeIconButton color="error">
+                      <Favorite fontSize="small" />
+                    </ThemeLikeIconButton>
+                  </Box>
+                  <Typography variant="body2" textAlign="center">
+                    {user?.displayName?.replace(/[\p{Emoji}\u200d]+/gu, '')}
+                  </Typography>
+                </Link>
+              </Box>
+            ))}
+          </Stack>
+        </BorderBox>
+      </Modal>
     </>
   )
 }
