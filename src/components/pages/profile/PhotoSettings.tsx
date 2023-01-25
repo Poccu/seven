@@ -4,13 +4,7 @@ import Grow from '@mui/material/Grow'
 import Popper from '@mui/material/Popper'
 import MenuItem from '@mui/material/MenuItem'
 import MenuList from '@mui/material/MenuList'
-import {
-  Box,
-  CircularProgress,
-  LinearProgress,
-  ListItemIcon,
-  Typography,
-} from '@mui/material'
+import { Box, CircularProgress, ListItemIcon, Typography } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import {
   collection,
@@ -25,6 +19,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { updateProfile } from 'firebase/auth'
 import { ThemeIconButton } from '../../ui/ThemeIconButton'
 import { SettingsBox } from '../../ui/ThemeBox'
+import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
 
 const PhotoSettings: FC = () => {
   const { db, cur, st } = useAuth()
@@ -250,7 +245,7 @@ const PhotoSettings: FC = () => {
       </Box>
       {progress > 0 && (
         <>
-          <LinearProgress
+          <ThemeLinearProgress
             variant="determinate"
             value={progress}
             sx={{

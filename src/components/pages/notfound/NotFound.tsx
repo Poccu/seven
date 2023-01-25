@@ -1,30 +1,8 @@
-import { Box, Button, Grid, Typography } from '@mui/material'
 import { FC } from 'react'
-import { Link, LinkProps } from 'react-router-dom'
-import { styled, alpha } from '@mui/material/styles'
-import { CottageOutlined } from '@mui/icons-material'
-
-type ButtonProps = {
-  component: React.ForwardRefExoticComponent<
-    LinkProps & React.RefAttributes<HTMLAnchorElement>
-  >
-  to: string
-}
-
-const ThemeButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  fontSize: 22,
-  color: theme.palette.primary.main,
-  borderRadius: 8,
-  height: 58,
-  padding: '0 24px',
-  border: '2px solid',
-  borderColor: alpha(theme.palette.primary.main, 0.1),
-  '&:hover': {
-    border: '2px solid',
-    borderColor: alpha(theme.palette.primary.main, 0),
-    backgroundColor: alpha(theme.palette.primary.main, 0.1),
-  },
-}))
+import { Box, Grid, Typography } from '@mui/material'
+import { Link } from 'react-router-dom'
+import { ThemeButton } from '../../ui/ThemeButton'
+import { BackgroundPaperBox } from '../../ui/ThemeBox'
 
 const NotFound: FC = () => {
   return (
@@ -37,6 +15,16 @@ const NotFound: FC = () => {
         mt: 16,
       }}
     >
+      <BackgroundPaperBox
+        sx={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          left: 0,
+          top: 0,
+          zIndex: -1,
+        }}
+      ></BackgroundPaperBox>
       <Grid
         container
         direction="column"
@@ -48,15 +36,11 @@ const NotFound: FC = () => {
           <b>Oops! Page not found 😞</b>
         </Typography>
         <br />
-        <ThemeButton
-          variant="outlined"
-          color="inherit"
-          startIcon={<CottageOutlined style={{ fontSize: 30 }} />}
-          component={Link}
-          to="/"
-        >
-          <b>Home</b>
-        </ThemeButton>
+        <Box component={Link} to="/">
+          <ThemeButton>
+            <b>Home</b>
+          </ThemeButton>
+        </Box>
         <>
           <Box
             sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}

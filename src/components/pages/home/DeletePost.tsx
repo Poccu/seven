@@ -1,9 +1,11 @@
 import { FC, useEffect, useState } from 'react'
-import { Box, LinearProgress, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import { IPost } from '../../../types'
 import { deleteDoc, doc } from 'firebase/firestore'
 import { ThemeButton } from '../../ui/ThemeButton'
+import { Clear } from '@mui/icons-material'
+import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
 
 type Props = {
   post: IPost
@@ -22,7 +24,7 @@ const DeletePost: FC<Props> = ({ post, deletedPosts, setDeletedPosts }) => {
 
     const interval = setInterval(
       () => setProgress((prevProgress: number) => prevProgress + 10),
-      400
+      300
       // prevProgress >= 100 ? 0 : prevProgress + 10
     )
     // console.log('interval')
@@ -39,9 +41,11 @@ const DeletePost: FC<Props> = ({ post, deletedPosts, setDeletedPosts }) => {
     }
   }, [])
 
-  if (progress > 100) {
-    deleteDoc(doc(db, 'posts', post.id))
-    // console.log('TIMEOUT DELETED', post.id)
+  if (progress === 100) {
+    const timeout = setTimeout(() => {
+      deleteDoc(doc(db, 'posts', post.id))
+      // console.log('TIMEOUT DELETED', post.id)
+    }, 290)
   }
 
   // console.log('RENDER')
@@ -61,9 +65,17 @@ const DeletePost: FC<Props> = ({ post, deletedPosts, setDeletedPosts }) => {
 
   return (
     <Box textAlign="center">
-      <ThemeButton onClick={handleUndo}>Undo</ThemeButton>
-      <LinearProgress variant="determinate" value={progress} sx={{ my: 3 }} />
-      <Typography textAlign="left">Deleting post...</Typography>
+      <ThemeButton
+        onClick={handleUndo}
+        startIcon={<Clear style={{ fontSize: '30px' }} />}
+      >
+        <b>Undo</b>
+      </ThemeButton>
+      <ThemeLinearProgress
+        variant="determinate"
+        value={progress}
+        sx={{ mt: 3 }}
+      />
     </Box>
   )
 }

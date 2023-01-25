@@ -172,8 +172,8 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
                     </MenuItem>
                   )}
                   {post.author.uid === cur?.uid &&
-                    Date.now() - +post?.createdAt < 86400000 &&
-                    post.likes.length < 2 && (
+                    Date.now() - +post?.createdAt < 86400000 && (
+                      // post.likes.length < 2 &&
                       <MenuItem
                         onClick={() => {
                           setOpen(false)
