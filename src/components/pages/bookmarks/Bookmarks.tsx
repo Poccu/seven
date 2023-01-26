@@ -1,13 +1,8 @@
 import { FC } from 'react'
-import { Box } from '@mui/material'
-import BorderBox from '../../ui/BorderBox'
+import { BorderBox } from '../../ui/ThemeBox'
 
 const Bookmarks: FC = () => {
-  return (
-    <BorderBox>
-      <Box sx={{ p: 3 }}>Bookmarks</Box>
-    </BorderBox>
-  )
+  return <BorderBox sx={{ p: 3 }}>Bookmarks</BorderBox>
 }
 
 export default Bookmarks

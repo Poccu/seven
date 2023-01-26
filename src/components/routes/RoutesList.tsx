@@ -31,7 +31,7 @@ const RoutesList = ({ light, setLight }: Theme) => {
                     {route.auth && !cur ? <Auth /> : <route.component />}
                   </Layout>
                 }
-                key={index}
+                key={`route${index}`}
               />
             )
           })}

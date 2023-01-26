@@ -109,12 +109,9 @@ const AddComment: FC = () => {
           <b>{cur?.dislpayName?.replace(/\B\w+/g, '').split(' ').join('')}</b>
         </ThemeAvatar>
         <TextField
-          id="outlined-textarea"
           label="Leave a comment..."
-          // placeholder="Placeholder"
           // multiline
           fullWidth
-          color="secondary"
           // focused
           autoComplete="off"
           value={content}

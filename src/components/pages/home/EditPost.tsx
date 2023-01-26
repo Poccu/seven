@@ -30,7 +30,6 @@ const EditPost: FC<Props> = ({ post, setEditingId }) => {
   return (
     <Box>
       <ThemeTextFieldAddPost
-        id="outlined-textarea"
         label={<b>Edit post</b>}
         multiline
         fullWidth

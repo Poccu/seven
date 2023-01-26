@@ -52,32 +52,25 @@ const AddPost: FC = () => {
   }
 
   return (
-    <Box sx={{ mb: 2 }}>
-      <BorderBox>
-        <Box sx={{ p: 3 }}>
-          <Stack alignItems="center" direction="row" spacing={2}>
-            <Link to={`/profile/${cur.uid}`}>
-              <ThemeAvatar alt={cur?.displayName} src={cur.photoURL}>
-                {cur?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
-              </ThemeAvatar>
-            </Link>
-            <ThemeTextFieldAddPost
-              id="outlined-textarea"
-              label={<b>Whats's new?</b>}
-              // placeholder="Placeholder"
-              // multiline
-              fullWidth
-              color="secondary"
-              // focused
-              autoComplete="off"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              onKeyPress={addPostHandler}
-            />
-          </Stack>
-        </Box>
-      </BorderBox>
-    </Box>
+    <BorderBox sx={{ p: 3, mb: 2 }}>
+      <Stack alignItems="center" direction="row" spacing={2}>
+        <Link to={`/profile/${cur.uid}`}>
+          <ThemeAvatar alt={cur?.displayName} src={cur.photoURL}>
+            {cur?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
+          </ThemeAvatar>
+        </Link>
+        <ThemeTextFieldAddPost
+          label={<b>Whats's new?</b>}
+          // multiline
+          fullWidth
+          // focused
+          autoComplete="off"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          onKeyPress={addPostHandler}
+        />
+      </Stack>
+    </BorderBox>
   )
 }
 

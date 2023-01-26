@@ -37,7 +37,7 @@ const Menu: FC = () => {
                 </ListItemButton>
               </ListItem>
               {menu.map((item, index) => (
-                <ListItem key={index} disablePadding>
+                <ListItem key={`menu${index}`} disablePadding>
                   <ListItemButton onClick={() => navigate(item.link)}>
                     <ListItemIcon sx={{ mr: -2 }}>
                       <item.icon color="primary" />

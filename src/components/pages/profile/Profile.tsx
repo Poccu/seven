@@ -29,47 +29,45 @@ const Profile: FC = () => {
   }, [id])
 
   return (
-    <BorderBox>
-      <Box sx={{ p: 3 }}>
-        <Stack direction="row" spacing={3}>
-          <Box>
-            <ThemeAvatar
-              alt={user?.displayName}
-              src={user?.photoURL}
-              sx={{
-                height: '150px',
-                width: '150px',
-                // border: '3px solid',
-                // borderColor: '#b59261',
-              }}
-              draggable="false"
-            >
-              <Typography variant="h2">
-                {user?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
-              </Typography>
-            </ThemeAvatar>
-            {cur.uid === profileId && <PhotoSettings />}
-          </Box>
-          <Box justifyContent="left" alignItems="baseline" display="flex">
-            <Stack alignItems="center" direction="row" spacing={0.7}>
-              <Typography variant="h4">
-                <b>{user?.displayName?.replace(/[\p{Emoji}\u200d]+/gu, '')}</b>
-              </Typography>
-              {user?.uid === 'HgxGhdMZc6TcrYNf80IfzoURccH2' && (
-                <Tooltip title="Admin" placement="top">
-                  <TaskAlt
-                    color="info"
-                    sx={{
-                      width: '30px ',
-                      height: '30px',
-                    }}
-                  />
-                </Tooltip>
-              )}
-            </Stack>
-          </Box>
-        </Stack>
-      </Box>
+    <BorderBox sx={{ p: 3 }}>
+      <Stack direction="row" spacing={3}>
+        <Box>
+          <ThemeAvatar
+            alt={user?.displayName}
+            src={user?.photoURL}
+            sx={{
+              height: '150px',
+              width: '150px',
+              // border: '3px solid',
+              // borderColor: '#b59261',
+            }}
+            draggable="false"
+          >
+            <Typography variant="h2">
+              {user?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
+            </Typography>
+          </ThemeAvatar>
+          {cur.uid === profileId && <PhotoSettings />}
+        </Box>
+        <Box justifyContent="left" alignItems="baseline" display="flex">
+          <Stack alignItems="center" direction="row" spacing={0.7}>
+            <Typography variant="h4">
+              <b>{user?.displayName?.replace(/[\p{Emoji}\u200d]+/gu, '')}</b>
+            </Typography>
+            {user?.uid === 'HgxGhdMZc6TcrYNf80IfzoURccH2' && (
+              <Tooltip title="Admin" placement="top">
+                <TaskAlt
+                  color="info"
+                  sx={{
+                    width: '30px ',
+                    height: '30px',
+                  }}
+                />
+              </Tooltip>
+            )}
+          </Stack>
+        </Box>
+      </Stack>
     </BorderBox>
   )
 }

@@ -111,12 +111,9 @@ const AddMessage: FC = () => {
               </b>
             </ThemeAvatar>
             <TextField
-              id="outlined-textarea"
               label={<b>Whats's new?</b>}
-              // placeholder="Placeholder"
               // multiline
               fullWidth
-              color="secondary"
               // focused
               autoComplete="off"
               value={content}

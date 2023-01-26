@@ -31,7 +31,7 @@ const UserItems: FC = () => {
   useEffect(() => {
     const q = query(
       collection(db, 'users'),
-      orderBy('createdAt', 'asc'),
+      orderBy('createdAt', 'desc'),
       limit(3)
     )
 
@@ -49,31 +49,26 @@ const UserItems: FC = () => {
   }, [])
 
   return (
-    <Box sx={{ mb: 2 }}>
-      <BorderBox>
-        <List>
-          {users.map((user, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => navigate(`/profile/${user.uid}`)}>
-                <ListItemAvatar>
-                  <ThemeAvatar alt={user.displayName} src={user.photoURL}>
-                    {user?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
-                  </ThemeAvatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={user?.displayName?.replace(
-                    /[\p{Emoji}\u200d]+/gu,
-                    ''
-                  )}
-                  secondary={moment(+user.createdAt).format('DD MMM - HH:mm')}
-                  // secondary={user.createdAt}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </BorderBox>
-    </Box>
+    <BorderBox sx={{ mb: 2 }}>
+      <List>
+        {users.map((user) => (
+          <ListItem key={user.uid} disablePadding>
+            <ListItemButton onClick={() => navigate(`/profile/${user.uid}`)}>
+              <ListItemAvatar>
+                <ThemeAvatar alt={user.displayName} src={user.photoURL}>
+                  {user?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
+                </ThemeAvatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={user?.displayName?.replace(/[\p{Emoji}\u200d]+/gu, '')}
+                secondary={moment(+user.createdAt).format('DD MMM - HH:mm')}
+                // secondary={user.createdAt}
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </BorderBox>
   )
 }
 

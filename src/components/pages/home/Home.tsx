@@ -91,8 +91,8 @@ const Home: FC = () => {
     <>
       <AddPost />
       <TransitionGroup>
-        {posts.map((post, index) => (
-          <Collapse key={index}>
+        {posts.map((post) => (
+          <Collapse key={post.id}>
             <BorderBox sx={{ p: 3, mb: 2 }}>
               {!deletedPosts.some((x) => x.id === post.id) && (
                 <Stack direction="row" justifyContent="space-between">
@@ -210,11 +210,13 @@ const Home: FC = () => {
                               }}
                             >
                               {post.likes.map((user) => (
-                                <Link to={`/profile/${user.uid}`}>
+                                <Link
+                                  to={`/profile/${user.uid}`}
+                                  key={user.uid}
+                                >
                                   <ThemeAvatar
                                     alt={user.displayName}
                                     src={user.photoURL}
-                                    key={user.uid}
                                     title={user?.displayName?.replace(
                                       /[\p{Emoji}\u200d]+/gu,
                                       ''
