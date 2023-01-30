@@ -14,6 +14,7 @@ export interface IUser {
   createdAt: string
   displayName: string
   email: string
+  emoji: string
   friends: IUser[]
   groups: any[]
   music: any[]

@@ -106,8 +106,7 @@ const Auth: FC = () => {
           const user = userCredential.user
 
           await updateProfile(user, {
-            displayName: `${userData.displayName} ${emojis[random]}`,
-            photoURL: '',
+            displayName: userData.displayName,
           })
           console.log('User profile updated', user)
 
@@ -124,6 +123,7 @@ const Auth: FC = () => {
               music: [],
               bookmarks: [],
               createdAt: Date.now(),
+              emoji: emojis[random],
             })
           } catch (e) {
             console.error('Error adding document: ', e)

@@ -55,7 +55,7 @@ const Home: FC = () => {
   const [openModal, setOpenModal] = useState(false)
   const [modalData, setModalData] = useState<IUser[]>([])
 
-  const { db, cur } = useAuth()
+  const { db, cur, user } = useAuth()
 
   useEffect(() => {
     const q = query(
@@ -115,24 +115,17 @@ const Home: FC = () => {
                               .split(' ')
                               .join('')}
                           </b> */}
-                        {post?.author?.displayName?.match(
-                          /[\p{Emoji}\u200d]+/gu
-                        )}
+                        {post.author.emoji}
                       </ThemeAvatar>
                     </Link>
                     <Stack>
                       <Stack alignItems="center" direction="row" spacing={0.5}>
                         <Link to={`/profile/${post.author.uid}`}>
                           <Typography variant="h6">
-                            <b>
-                              {post?.author?.displayName?.replace(
-                                /[\p{Emoji}\u200d]+/gu,
-                                ''
-                              )}
-                            </b>
+                            <b>{post.author.displayName}</b>
                           </Typography>
                         </Link>
-                        {post.author.uid === 'HgxGhdMZc6TcrYNf80IfzoURccH2' && (
+                        {post.author.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
                           <Tooltip title="Admin" placement="top">
                             <TaskAlt
                               color="info"
@@ -217,18 +210,13 @@ const Home: FC = () => {
                                   <ThemeAvatar
                                     alt={user.displayName}
                                     src={user.photoURL}
-                                    title={user?.displayName?.replace(
-                                      /[\p{Emoji}\u200d]+/gu,
-                                      ''
-                                    )}
+                                    title={user.displayName}
                                     sx={{
                                       width: '40px',
                                       height: '40px',
                                     }}
                                   >
-                                    {user?.displayName?.match(
-                                      /[\p{Emoji}\u200d]+/gu
-                                    )}
+                                    {user.emoji}
                                   </ThemeAvatar>
                                 </Link>
                               ))}
@@ -238,8 +226,7 @@ const Home: FC = () => {
                       }
                       placement="top"
                     >
-                      {cur?.uid &&
-                      !post.likes.some((x) => x.uid === cur.uid) ? (
+                      {cur.uid && !post.likes.some((x) => x.uid === cur.uid) ? (
                         <IconButton
                           onClick={async () => {
                             const docRef = doc(db, 'posts', post.id)
@@ -250,13 +237,14 @@ const Home: FC = () => {
                                 if (!sfDoc.exists()) {
                                   throw 'Document does not exist!'
                                 }
-                                if (!sfDoc.data().likes.includes(cur?.uid)) {
+                                if (!sfDoc.data().likes.includes(cur.uid)) {
                                   const newLikesArr = [
                                     ...sfDoc.data().likes,
                                     {
-                                      displayName: cur?.displayName,
-                                      photoURL: cur?.photoURL,
-                                      uid: cur?.uid,
+                                      displayName: cur.displayName,
+                                      photoURL: cur.photoURL,
+                                      uid: cur.uid,
+                                      emoji: user?.emoji,
                                     },
                                   ]
                                   // console.log(newLikesArr)
@@ -287,9 +275,7 @@ const Home: FC = () => {
                                 }
                                 const newLikesArr = sfDoc
                                   .data()
-                                  .likes.filter(
-                                    (x: IUser) => x.uid !== cur?.uid
-                                  )
+                                  .likes.filter((x: IUser) => x.uid !== cur.uid)
                                 // console.log(newLikesArr)
                                 transaction.update(docRef, {
                                   likes: newLikesArr,
@@ -380,9 +366,7 @@ const Home: FC = () => {
                       mb: 1,
                     }}
                   >
-                    <Typography variant="h3">
-                      {user?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
-                    </Typography>
+                    <Typography variant="h3">{user.emoji}</Typography>
                   </ThemeAvatar>
                   <Box
                     sx={{
@@ -400,7 +384,7 @@ const Home: FC = () => {
                     </ThemeLikeIconButton>
                   </Box>
                   <Typography variant="body2" textAlign="center">
-                    {user?.displayName?.replace(/[\p{Emoji}\u200d]+/gu, '')}
+                    {user.displayName.replace(/ .*/, '')}
                   </Typography>
                 </Link>
               </Box>

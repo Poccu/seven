@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 
 const AddPost: FC = () => {
   const [content, setContent] = useState('')
-  const { db, cur } = useAuth()
+  const { db, cur, user } = useAuth()
 
   const addPostHandler = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
@@ -33,6 +33,7 @@ const AddPost: FC = () => {
             uid: cur.uid,
             displayName: cur.displayName,
             photoURL: cur.photoURL,
+            emoji: user?.emoji,
           },
           content,
           createdAt: Date.now(),
@@ -55,8 +56,8 @@ const AddPost: FC = () => {
     <BorderBox sx={{ p: 3, mb: 2 }}>
       <Stack alignItems="center" direction="row" spacing={2}>
         <Link to={`/profile/${cur.uid}`}>
-          <ThemeAvatar alt={cur?.displayName} src={cur.photoURL}>
-            {cur?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
+          <ThemeAvatar alt={cur.displayName} src={cur.photoURL}>
+            {user?.emoji}
           </ThemeAvatar>
         </Link>
         <ThemeTextFieldAddPost

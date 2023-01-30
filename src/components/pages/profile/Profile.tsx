@@ -8,6 +8,7 @@ import { doc, DocumentData, onSnapshot } from 'firebase/firestore'
 import { IUser } from '../../../types'
 import PhotoSettings from './PhotoSettings'
 import { TaskAlt } from '@mui/icons-material'
+import AddFriend from './AddFriend'
 
 const Profile: FC = () => {
   const { db, cur } = useAuth()
@@ -43,18 +44,16 @@ const Profile: FC = () => {
             }}
             draggable="false"
           >
-            <Typography variant="h2">
-              {user?.displayName?.match(/[\p{Emoji}\u200d]+/gu)}
-            </Typography>
+            <Typography variant="h2">{user?.emoji}</Typography>
           </ThemeAvatar>
           {cur.uid === profileId && <PhotoSettings />}
         </Box>
         <Box justifyContent="left" alignItems="baseline" display="flex">
           <Stack alignItems="center" direction="row" spacing={0.7}>
             <Typography variant="h4">
-              <b>{user?.displayName?.replace(/[\p{Emoji}\u200d]+/gu, '')}</b>
+              <b>{user?.displayName}</b>
             </Typography>
-            {user?.uid === 'HgxGhdMZc6TcrYNf80IfzoURccH2' && (
+            {user?.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
               <Tooltip title="Admin" placement="top">
                 <TaskAlt
                   color="info"
@@ -68,6 +67,8 @@ const Profile: FC = () => {
           </Stack>
         </Box>
       </Stack>
+      {cur.uid !== profileId && <AddFriend />}
+      {/* {user?.email} */}
     </BorderBox>
   )
 }

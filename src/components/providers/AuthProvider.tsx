@@ -1,6 +1,12 @@
 import { createContext, FC, useEffect, useMemo, useState } from 'react'
 import { getAuth, onAuthStateChanged, Auth } from 'firebase/auth'
-import { getFirestore, Firestore } from 'firebase/firestore'
+import {
+  getFirestore,
+  Firestore,
+  onSnapshot,
+  DocumentData,
+  doc,
+} from 'firebase/firestore'
 import { IUser, TypeSetState } from '../../types'
 import { FirebaseStorage, getStorage } from 'firebase/storage'
 
@@ -25,6 +31,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     createdAt: '',
     displayName: '',
     email: '',
+    emoji: '',
     friends: [],
     groups: [],
     music: [],
@@ -43,18 +50,25 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   useEffect(() => {
     const unListen = onAuthStateChanged(ga, (cur) => {
       if (cur) {
-        setUser({
-          bookmarks: [],
-          createdAt: cur?.metadata?.creationTime || '',
-          displayName: cur?.displayName || '',
-          email: cur?.email || '',
-          friends: [],
-          groups: [],
-          music: [],
-          password: '',
-          photoURL: '',
-          photos: [],
-          uid: cur.uid,
+        const unsub = onSnapshot(doc(db, 'users', cur.uid), (doc) => {
+          const userData: DocumentData | undefined = doc.data()
+          if (userData) {
+            console.log('userData', userData)
+            setUser({
+              bookmarks: [...userData.bookmarks],
+              createdAt: userData.createdAt,
+              displayName: userData.displayName,
+              email: userData.email,
+              emoji: userData.emoji,
+              friends: [...userData.friends],
+              groups: [...userData.groups],
+              music: [...userData.music],
+              password: userData.password,
+              photoURL: userData.photoURL,
+              photos: [...userData.photos],
+              uid: userData.uid,
+            })
+          }
         })
       } else {
         setUser(null)

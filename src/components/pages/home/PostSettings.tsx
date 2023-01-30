@@ -107,7 +107,7 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
-                  {cur?.uid && !post?.bookmarks?.includes(cur?.uid) ? (
+                  {cur.uid && !post?.bookmarks?.includes(cur.uid) ? (
                     <MenuItem
                       onClick={async () => {
                         const docRef = doc(db, 'posts', post.id)
@@ -118,10 +118,10 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
                             if (!sfDoc.exists()) {
                               throw 'Document does not exist!'
                             }
-                            if (!sfDoc.data().bookmarks.includes(cur?.uid)) {
+                            if (!sfDoc.data().bookmarks.includes(cur.uid)) {
                               const newBookmarksArr = [
                                 ...sfDoc.data().bookmarks,
-                                cur?.uid,
+                                cur.uid,
                               ]
                               // console.log(newBookmarksArr)
                               transaction.update(docRef, {
@@ -152,7 +152,7 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
                             }
                             const newBookmarksArr = sfDoc
                               .data()
-                              .bookmarks.filter((id: string) => id !== cur?.uid)
+                              .bookmarks.filter((id: string) => id !== cur.uid)
                             // console.log(newBookmarksArr)
                             transaction.update(docRef, {
                               bookmarks: newBookmarksArr,
@@ -171,7 +171,7 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
                       </Typography>
                     </MenuItem>
                   )}
-                  {post.author.uid === cur?.uid &&
+                  {post.author.uid === cur.uid &&
                     Date.now() - +post?.createdAt < 86400000 && (
                       // post.likes.length < 2 &&
                       <MenuItem
@@ -186,7 +186,7 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
                         <Typography variant="body1">Edit</Typography>
                       </MenuItem>
                     )}
-                  {post.author.uid === cur?.uid && (
+                  {post.author.uid === cur.uid && (
                     <MenuItem onClick={handleCloseDelete}>
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <Clear color="error" />
