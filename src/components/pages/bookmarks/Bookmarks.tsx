@@ -60,11 +60,88 @@ const Bookmarks: FC = () => {
         postsArr.push(d.data())
       })
       setPosts(postsArr)
-      // console.log('postsArr', postsArr)
     })
 
     return () => {
       setPostsFunc()
+    }
+  }, [])
+
+  const handleOpenModal = (post: IPost) => {
+    setOpenModal(true)
+    setModalData(post.likes)
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
+    setModalData([])
+  }
+
+  const handleLike = async (post: IPost) => {
+    const docRef = doc(db, 'posts', post.id)
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(docRef)
+        if (!sfDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        if (!sfDoc.data().likes.includes(cur.uid)) {
+          const newLikesArr = [
+            ...sfDoc.data().likes,
+            {
+              displayName: cur.displayName,
+              photoURL: cur.photoURL,
+              uid: cur.uid,
+              emoji: user?.emoji,
+            },
+          ]
+          transaction.update(docRef, {
+            likes: newLikesArr,
+          })
+        }
+      })
+    } catch (e) {
+      console.log('Like failed: ', e)
+    }
+  }
+
+  const handleDislike = async (post: IPost) => {
+    const docRef = doc(db, 'posts', post.id)
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(docRef)
+        if (!sfDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        const newLikesArr = sfDoc
+          .data()
+          .likes.filter((x: IUser) => x.uid !== cur.uid)
+        transaction.update(docRef, {
+          likes: newLikesArr,
+        })
+      })
+    } catch (e) {
+      console.log('Dislike failed: ', e)
+    }
+  }
+
+  useEffect(() => {
+    const curUserRef = doc(db, 'users', cur.uid)
+
+    try {
+      runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(curUserRef)
+        if (!sfDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        transaction.update(curUserRef, {
+          bookmarks: [],
+        })
+      })
+    } catch (e) {
+      console.log('Delete Bookmark failed: ', e)
     }
   }, [])
 
@@ -155,10 +232,7 @@ const Bookmarks: FC = () => {
                             textAlign="center"
                             variant="body2"
                             sx={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              setOpenModal(true)
-                              setModalData(post.likes)
-                            }}
+                            onClick={() => handleOpenModal(post)}
                           >
                             Likes
                           </Typography>
@@ -166,10 +240,7 @@ const Bookmarks: FC = () => {
                             max={4}
                             spacing={12}
                             sx={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              setOpenModal(true)
-                              setModalData(post.likes)
-                            }}
+                            onClick={() => handleOpenModal(post)}
                           >
                             {post.likes.map((user) => (
                               <Link to={`/profile/${user.uid}`} key={user.uid}>
@@ -194,64 +265,14 @@ const Bookmarks: FC = () => {
                   >
                     {cur.uid && !post.likes.some((x) => x.uid === cur.uid) ? (
                       <IconButton
-                        onClick={async () => {
-                          const docRef = doc(db, 'posts', post.id)
-
-                          try {
-                            await runTransaction(db, async (transaction) => {
-                              const sfDoc = await transaction.get(docRef)
-                              if (!sfDoc.exists()) {
-                                throw 'Document does not exist!'
-                              }
-                              if (!sfDoc.data().likes.includes(cur.uid)) {
-                                const newLikesArr = [
-                                  ...sfDoc.data().likes,
-                                  {
-                                    displayName: cur.displayName,
-                                    photoURL: cur.photoURL,
-                                    uid: cur.uid,
-                                    emoji: user?.emoji,
-                                  },
-                                ]
-                                // console.log(newLikesArr)
-                                transaction.update(docRef, {
-                                  likes: newLikesArr,
-                                })
-                              }
-                            })
-                            // console.log('Like!')
-                          } catch (e) {
-                            console.log('Like failed: ', e)
-                          }
-                        }}
+                        onClick={() => handleLike(post)}
                         color="secondary"
                       >
                         <FavoriteBorder />
                       </IconButton>
                     ) : (
                       <IconButton
-                        onClick={async () => {
-                          const docRef = doc(db, 'posts', post.id)
-
-                          try {
-                            await runTransaction(db, async (transaction) => {
-                              const sfDoc = await transaction.get(docRef)
-                              if (!sfDoc.exists()) {
-                                throw 'Document does not exist!'
-                              }
-                              const newLikesArr = sfDoc
-                                .data()
-                                .likes.filter((x: IUser) => x.uid !== cur.uid)
-                              // console.log(newLikesArr)
-                              transaction.update(docRef, {
-                                likes: newLikesArr,
-                              })
-                            })
-                            // console.log('Dislike!')
-                          } catch (e) {
-                            console.log('Dislike failed: ', e)
-                          }
-                        }}
+                        onClick={() => handleDislike(post)}
                         color="error"
                       >
                         <Favorite />
@@ -308,10 +329,7 @@ const Bookmarks: FC = () => {
               Likes: {modalData.length > 0 && modalData.length}
             </Typography>
             <IconButton
-              onClick={() => {
-                setOpenModal(false)
-                setModalData([])
-              }}
+              onClick={handleCloseModal}
               color="secondary"
               sx={{ width: '50px ', height: '50px', m: -2 }}
             >
