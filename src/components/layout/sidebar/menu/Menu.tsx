@@ -6,15 +6,23 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemButton,
+  Badge,
+  Box,
 } from '@mui/material'
 import { BorderBox } from '../../../ui/ThemeBox'
 import { useNavigate } from 'react-router-dom'
-import { InfoOutlined, Login, Logout, Person } from '@mui/icons-material'
+import {
+  BookmarkBorder,
+  InfoOutlined,
+  Login,
+  Logout,
+  Person,
+} from '@mui/icons-material'
 import { useAuth } from '../../../providers/useAuth'
 import { signOut } from 'firebase/auth'
 
 const Menu: FC = () => {
-  const { cur, ga } = useAuth()
+  const { cur, ga, user } = useAuth()
   const navigate = useNavigate()
 
   const logoutHandler = () => {
@@ -46,10 +54,33 @@ const Menu: FC = () => {
                   </ListItemButton>
                 </ListItem>
               ))}
+              <Box
+                sx={{ height: '48px', cursor: 'pointer' }}
+                onClick={() => navigate('/bookmarks')}
+              >
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon sx={{ mr: -2 }}>
+                      <BookmarkBorder color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="Bookmarks" />
+                  </ListItemButton>
+                </ListItem>
+                <Badge
+                  color="primary"
+                  badgeContent={user?.bookmarks.length}
+                  max={99}
+                  sx={{
+                    position: 'relative',
+                    top: '-37px',
+                    left: '245px',
+                  }}
+                />
+              </Box>
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('/about')}>
                   <ListItemIcon sx={{ mr: -2 }}>
-                    <InfoOutlined color="info" />
+                    <InfoOutlined color="primary" />
                   </ListItemIcon>
                   <ListItemText primary="About" />
                 </ListItemButton>
@@ -76,7 +107,7 @@ const Menu: FC = () => {
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('/about')}>
                   <ListItemIcon sx={{ mr: -2 }}>
-                    <InfoOutlined color="info" />
+                    <InfoOutlined color="primary" />
                   </ListItemIcon>
                   <ListItemText primary="About" />
                 </ListItemButton>

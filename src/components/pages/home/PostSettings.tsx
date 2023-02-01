@@ -7,7 +7,7 @@ import MenuList from '@mui/material/MenuList'
 import { Box, IconButton, ListItemIcon, Typography } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import { IPost } from '../../../types'
-import { deleteDoc, doc, runTransaction } from 'firebase/firestore'
+import { doc, runTransaction } from 'firebase/firestore'
 import {
   MoreHoriz,
   BookmarkAddOutlined,
@@ -70,6 +70,86 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
 
   const { db, cur } = useAuth()
 
+  const handleAddBookmark = async (post: IPost) => {
+    const docRef = doc(db, 'posts', post.id)
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(docRef)
+        if (!sfDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        if (!sfDoc.data().bookmarks.includes(cur.uid)) {
+          const newBookmarksArr = [...sfDoc.data().bookmarks, cur.uid]
+          transaction.update(docRef, {
+            bookmarks: newBookmarksArr,
+          })
+        }
+      })
+    } catch (e) {
+      console.log('Bookmark failed: ', e)
+    }
+
+    const curUserRef = doc(db, 'users', cur.uid)
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(curUserRef)
+        if (!sfDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        if (!sfDoc.data().bookmarks.includes(post.id)) {
+          const newBookmarksArr = [...sfDoc.data().bookmarks, post.id]
+          transaction.update(curUserRef, {
+            bookmarks: newBookmarksArr,
+          })
+        }
+      })
+    } catch (e) {
+      console.log('Bookmark failed: ', e)
+    }
+  }
+
+  const handleRemoveBookmark = async (post: IPost) => {
+    const docRef = doc(db, 'posts', post.id)
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(docRef)
+        if (!sfDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        const newBookmarksArr = sfDoc
+          .data()
+          .bookmarks.filter((id: string) => id !== cur.uid)
+        transaction.update(docRef, {
+          bookmarks: newBookmarksArr,
+        })
+      })
+    } catch (e) {
+      console.log('Delete Bookmark failed: ', e)
+    }
+
+    const curUserRef = doc(db, 'users', cur.uid)
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(curUserRef)
+        if (!sfDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        const newBookmarksArr = sfDoc
+          .data()
+          .bookmarks.filter((x: string) => x !== post.id)
+        transaction.update(curUserRef, {
+          bookmarks: newBookmarksArr,
+        })
+      })
+    } catch (e) {
+      console.log('Delete Bookmark failed: ', e)
+    }
+  }
+
   return (
     <Box onMouseOver={handleToggle} onMouseOut={handleToggle}>
       <IconButton
@@ -108,61 +188,14 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
                   onKeyDown={handleListKeyDown}
                 >
                   {cur.uid && !post?.bookmarks?.includes(cur.uid) ? (
-                    <MenuItem
-                      onClick={async () => {
-                        const docRef = doc(db, 'posts', post.id)
-
-                        try {
-                          await runTransaction(db, async (transaction) => {
-                            const sfDoc = await transaction.get(docRef)
-                            if (!sfDoc.exists()) {
-                              throw 'Document does not exist!'
-                            }
-                            if (!sfDoc.data().bookmarks.includes(cur.uid)) {
-                              const newBookmarksArr = [
-                                ...sfDoc.data().bookmarks,
-                                cur.uid,
-                              ]
-                              // console.log(newBookmarksArr)
-                              transaction.update(docRef, {
-                                bookmarks: newBookmarksArr,
-                              })
-                            }
-                          })
-                        } catch (e) {
-                          console.log('Bookmark failed: ', e)
-                        }
-                      }}
-                    >
+                    <MenuItem onClick={() => handleAddBookmark(post)}>
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <BookmarkAddOutlined color="primary" />
                       </ListItemIcon>
                       <Typography variant="body1">Add to Bookmarks</Typography>
                     </MenuItem>
                   ) : (
-                    <MenuItem
-                      onClick={async () => {
-                        const docRef = doc(db, 'posts', post.id)
-
-                        try {
-                          await runTransaction(db, async (transaction) => {
-                            const sfDoc = await transaction.get(docRef)
-                            if (!sfDoc.exists()) {
-                              throw 'Document does not exist!'
-                            }
-                            const newBookmarksArr = sfDoc
-                              .data()
-                              .bookmarks.filter((id: string) => id !== cur.uid)
-                            // console.log(newBookmarksArr)
-                            transaction.update(docRef, {
-                              bookmarks: newBookmarksArr,
-                            })
-                          })
-                        } catch (e) {
-                          console.log('Delete Bookmark failed: ', e)
-                        }
-                      }}
-                    >
+                    <MenuItem onClick={() => handleRemoveBookmark(post)}>
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <BookmarkRemoveOutlined color="primary" />
                       </ListItemIcon>

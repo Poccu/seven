@@ -24,12 +24,12 @@ export const routes = [
     component: Home,
     auth: true,
   },
-  {
-    path: '/messenger',
-    exact: true,
-    component: Messenger,
-    auth: true,
-  },
+  // {
+  //   path: '/messenger',
+  //   exact: true,
+  //   component: Messenger,
+  //   auth: true,
+  // },
   {
     path: '/friends/:id',
     exact: false,

@@ -32,9 +32,4 @@ export const menu: IMenuItem[] = [
     link: '/music',
     icon: Icons.MusicNote,
   },
-  {
-    title: 'Bookmarks',
-    link: '/bookmarks',
-    icon: Icons.BookmarkBorder,
-  },
 ]
