@@ -10,7 +10,7 @@ export type Theme = {
 }
 
 export interface IUser {
-  bookmarks: any[]
+  bookmarks: IPost[]
   createdAt: string
   displayName: string
   email: string
