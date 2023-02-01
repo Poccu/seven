@@ -108,7 +108,7 @@ const Auth: FC = () => {
           await updateProfile(user, {
             displayName: userData.displayName,
           })
-          console.log('User profile updated', user)
+          // console.log('User profile updated', user)
 
           try {
             await setDoc(doc(db, 'users', user.uid), {

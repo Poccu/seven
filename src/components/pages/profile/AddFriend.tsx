@@ -1,7 +1,6 @@
 import { PersonAddAlt1, PersonRemoveAlt1 } from '@mui/icons-material'
-import { IconButton } from '@mui/material'
 import { doc, runTransaction } from 'firebase/firestore'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { IUser } from '../../../types'
 import { useAuth } from '../../providers/useAuth'
 import { ThemeButton } from '../../ui/ThemeButton'
@@ -9,11 +8,11 @@ import { ThemeButton } from '../../ui/ThemeButton'
 const AddFriend: FC = () => {
   const { db, cur, user } = useAuth()
   const profileId = window.location.pathname.replace('/profile/', '')
-  // console.log(cur)
 
   const handleAddFriend = async () => {
     const docRef = doc(db, 'users', profileId)
     const curRef = doc(db, 'users', cur.uid)
+
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
@@ -50,34 +49,69 @@ const AddFriend: FC = () => {
               emoji: sfDoc.data().emoji,
             },
           ]
-          // console.log(newFriendsArrCur)
           transaction.update(curRef, {
             friends: newFriendsArrCur,
           })
         }
       })
-      // console.log('Add friend!')
     } catch (e) {
       console.log('Add friend failed: ', e)
     }
   }
 
+  const handleRemoveFriend = async () => {
+    const docRef = doc(db, 'users', profileId)
+    const curRef = doc(db, 'users', cur.uid)
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(docRef)
+        const sfCurDoc = await transaction.get(curRef)
+
+        if (!sfDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        const newFriendsArr = sfDoc
+          .data()
+          .friends.filter((x: IUser) => x.uid !== cur.uid)
+        transaction.update(docRef, {
+          friends: newFriendsArr,
+        })
+
+        if (!sfCurDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        const newFriendsArrCur = sfCurDoc
+          .data()
+          .friends.filter((x: IUser) => x.uid !== sfDoc.data().uid)
+        console.log(newFriendsArrCur)
+        transaction.update(curRef, {
+          friends: newFriendsArrCur,
+        })
+      })
+    } catch (e) {
+      console.log('Remove friend failed: ', e)
+    }
+  }
+
   return (
     <>
-      {/* <ThemeButton
-        onClick={handleAddFriend}
-        startIcon={<PersonRemoveAlt1 style={{ fontSize: '30px' }} />}
-      >
-        <b>Add Friend</b>
-      </ThemeButton> */}
       {!user?.friends.some((x) => x.uid === profileId) ? (
-        <IconButton onClick={handleAddFriend} color="primary">
-          <PersonAddAlt1 />
-        </IconButton>
+        <ThemeButton
+          onClick={handleAddFriend}
+          startIcon={<PersonAddAlt1 style={{ fontSize: '18px' }} />}
+          sx={{ width: 190, height: 28, fontSize: 15 }}
+        >
+          <b>Add Friend</b>
+        </ThemeButton>
       ) : (
-        <IconButton color="error">
-          <PersonRemoveAlt1 />
-        </IconButton>
+        <ThemeButton
+          onClick={handleRemoveFriend}
+          startIcon={<PersonRemoveAlt1 style={{ fontSize: '18px' }} />}
+          sx={{ width: 190, height: 28, fontSize: 15 }}
+        >
+          <b>Delete Friend</b>
+        </ThemeButton>
       )}
     </>
   )

@@ -53,7 +53,6 @@ export const AuthProvider: FC<Props> = ({ children }) => {
         const unsub = onSnapshot(doc(db, 'users', cur.uid), (doc) => {
           const userData: DocumentData | undefined = doc.data()
           if (userData) {
-            console.log('userData', userData)
             setUser({
               bookmarks: [...userData.bookmarks],
               createdAt: userData.createdAt,

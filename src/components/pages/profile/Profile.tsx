@@ -48,26 +48,28 @@ const Profile: FC = () => {
           </ThemeAvatar>
           {cur.uid === profileId && <PhotoSettings />}
         </Box>
-        <Box justifyContent="left" alignItems="baseline" display="flex">
-          <Stack alignItems="center" direction="row" spacing={0.7}>
-            <Typography variant="h4">
-              <b>{user?.displayName}</b>
-            </Typography>
-            {user?.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
-              <Tooltip title="Admin" placement="top">
-                <TaskAlt
-                  color="info"
-                  sx={{
-                    width: '30px ',
-                    height: '30px',
-                  }}
-                />
-              </Tooltip>
-            )}
-          </Stack>
-        </Box>
+        <Stack direction="column" spacing={1}>
+          <Box justifyContent="left" alignItems="baseline" display="flex">
+            <Stack alignItems="center" direction="row" spacing={0.7}>
+              <Typography variant="h4">
+                <b>{user?.displayName}</b>
+              </Typography>
+              {user?.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
+                <Tooltip title="Admin" placement="top">
+                  <TaskAlt
+                    color="info"
+                    sx={{
+                      width: '30px ',
+                      height: '30px',
+                    }}
+                  />
+                </Tooltip>
+              )}
+            </Stack>
+          </Box>
+          {cur.uid !== profileId && <AddFriend />}
+        </Stack>
       </Stack>
-      {cur.uid !== profileId && <AddFriend />}
       {/* {user?.email} */}
     </BorderBox>
   )
