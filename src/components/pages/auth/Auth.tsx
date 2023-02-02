@@ -15,14 +15,14 @@ import {
   updateProfile,
   signInWithPopup,
   GoogleAuthProvider,
+  GithubAuthProvider,
+  FacebookAuthProvider,
 } from 'firebase/auth'
 import { useAuth } from '../../providers/useAuth'
-import { useNavigate } from 'react-router-dom'
 import { IUserData } from '../../../types'
 import { doc, runTransaction, setDoc } from 'firebase/firestore'
 import {
   Facebook,
-  FacebookOutlined,
   GitHub,
   Google,
   Visibility,
@@ -67,7 +67,7 @@ const a11yProps = (index: number) => {
 }
 
 const Auth: FC = () => {
-  const { ga, db, gProvider } = useAuth()
+  const { ga, db, gProvider, gitProvider, fProvider } = useAuth()
 
   const [isRegForm, setIsRegForm] = useState(false)
   const [userData, setUserData] = useState<IUserData>({
@@ -132,7 +132,9 @@ const Auth: FC = () => {
               photos: [],
               music: [],
               bookmarks: [],
-              createdAt: Date.now(),
+              createdAt:
+                user.metadata.creationTime &&
+                +new Date(user.metadata.creationTime).getTime(),
               emoji: emojis[random],
             })
           } catch (e) {
@@ -145,8 +147,6 @@ const Auth: FC = () => {
             setAlreadyInUseEmail(true)
           error.code === 'auth/weak-password' && setInvalidPassword(true)
         })
-
-      navigate('/')
     } else {
       await signInWithEmailAndPassword(ga, userData.email, userData.password)
         .then((userCredential) => {
@@ -159,7 +159,6 @@ const Auth: FC = () => {
           error.code === 'auth/wrong-password' && setWrongPassword(true)
         })
     }
-    navigate('/')
     setUserData({
       email: '',
       password: '',
@@ -168,16 +167,14 @@ const Auth: FC = () => {
     })
   }
 
-  const navigate = useNavigate()
-
   const handleGoogleLogin = () => {
     const random = Math.floor(Math.random() * emojis.length)
 
     signInWithPopup(ga, gProvider)
       .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result)
-        const token = credential?.accessToken
+        // const credential = GoogleAuthProvider.credentialFromResult(result)
+        // const token = credential?.accessToken
         // The signed-in user info.
         const user = result.user
         const docRef = doc(db, 'users', user.uid)
@@ -225,6 +222,116 @@ const Auth: FC = () => {
       })
   }
 
+  const handleGithubLogin = () => {
+    const random = Math.floor(Math.random() * emojis.length)
+
+    signInWithPopup(ga, gitProvider)
+      .then(async (result) => {
+        // // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        // const credential = GithubAuthProvider.credentialFromResult(result)
+        // const token = credential?.accessToken
+        // // The signed-in user info.
+        const user = result.user
+        const docRef = doc(db, 'users', user.uid)
+
+        try {
+          await runTransaction(db, async (transaction) => {
+            const sfDoc = await transaction.get(docRef)
+            if (!sfDoc.exists()) {
+              try {
+                await setDoc(docRef, {
+                  uid: user.uid,
+                  displayName: user.displayName,
+                  email: user.email,
+                  password: null,
+                  photoURL: user.photoURL,
+                  friends: [],
+                  groups: [],
+                  photos: [],
+                  music: [],
+                  bookmarks: [],
+                  createdAt:
+                    user.metadata.creationTime &&
+                    +new Date(user.metadata.creationTime).getTime(),
+                  emoji: emojis[random],
+                })
+              } catch (e) {
+                console.error('Error adding document: ', e)
+              }
+            }
+          })
+        } catch (e) {
+          console.log('runTransaction Auth failed: ', e)
+        }
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log('----------------', error.code, error.message)
+        // The email of the user's account used.
+        const email = error.customData.email
+        // The AuthCredential type that was used.
+        const credential = GithubAuthProvider.credentialFromError(error)
+        // ...
+      })
+  }
+
+  const handleFacebookLogin = () => {
+    const random = Math.floor(Math.random() * emojis.length)
+
+    signInWithPopup(ga, fProvider)
+      .then(async (result) => {
+        // // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        // const credential = FacebookAuthProvider.credentialFromResult(result)
+        // const token = credential?.accessToken
+        // // The signed-in user info.
+        const user = result.user
+        const docRef = doc(db, 'users', user.uid)
+
+        try {
+          await runTransaction(db, async (transaction) => {
+            const sfDoc = await transaction.get(docRef)
+            if (!sfDoc.exists()) {
+              try {
+                await setDoc(docRef, {
+                  uid: user.uid,
+                  displayName: user.displayName,
+                  email: user.email,
+                  password: null,
+                  photoURL: user.photoURL,
+                  friends: [],
+                  groups: [],
+                  photos: [],
+                  music: [],
+                  bookmarks: [],
+                  createdAt:
+                    user.metadata.creationTime &&
+                    +new Date(user.metadata.creationTime).getTime(),
+                  emoji: emojis[random],
+                })
+              } catch (e) {
+                console.error('Error adding document: ', e)
+              }
+            }
+          })
+        } catch (e) {
+          console.log('runTransaction Auth failed: ', e)
+        }
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log('----------------', error.code, error.message)
+        // The email of the user's account used.
+        const email = error.customData.email
+        // The AuthCredential type that was used.
+        const credential = FacebookAuthProvider.credentialFromError(error)
+        // ...
+      })
+  }
+
   return (
     <Box sx={{ my: 2 }}>
       <BackgroundPaperBox
@@ -237,12 +344,7 @@ const Auth: FC = () => {
           zIndex: -1,
         }}
       ></BackgroundPaperBox>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        sx={{ my: 0 }}
-      >
+      <Box display="flex" alignItems="center" justifyContent="center">
         <img
           src={`${process.env.PUBLIC_URL}/assets/images/logo7.png`}
           alt="Seven"
@@ -281,9 +383,8 @@ const Auth: FC = () => {
           <Box
             component="form"
             onSubmit={handleLogin}
-            // noValidate
             autoComplete="off"
-            sx={{ mb: 3 }}
+            sx={{ mb: 3, mt: 1 }}
           >
             <Stack
               direction="column"
@@ -357,29 +458,29 @@ const Auth: FC = () => {
               onClick={handleGoogleLogin}
               color="primary"
               size="large"
-              title="Login with Google"
+              title="Google"
               sx={{ width: '60px ', height: '60px' }}
             >
               <Google fontSize="large" />
             </IconButton>
-            {/* <IconButton
-              onClick={() => console.log('GitHub')}
+            <IconButton
+              onClick={handleGithubLogin}
               color="primary"
               size="large"
-              title="Login with GitHub"
+              title="GitHub"
               sx={{ width: '60px ', height: '60px' }}
             >
               <GitHub fontSize="large" />
             </IconButton>
             <IconButton
-              onClick={() => console.log('Facebook')}
+              onClick={handleFacebookLogin}
               color="primary"
               size="large"
-              title="Login with Facebook"
+              title="Facebook"
               sx={{ width: '60px ', height: '60px' }}
             >
               <Facebook fontSize="large" />
-            </IconButton> */}
+            </IconButton>
           </Stack>
           <Stack
             direction="row"
@@ -401,8 +502,8 @@ const Auth: FC = () => {
           <Box
             component="form"
             onSubmit={handleLogin}
-            // noValidate
             autoComplete="off"
+            sx={{ mb: 3, mt: 1 }}
           >
             <Stack
               direction="column"
@@ -490,7 +591,6 @@ const Auth: FC = () => {
             justifyContent="center"
             alignItems="center"
             spacing={1}
-            sx={{ mt: 3 }}
           >
             <Typography>Already have an account?</Typography>
             <Typography

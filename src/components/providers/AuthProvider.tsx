@@ -4,6 +4,8 @@ import {
   onAuthStateChanged,
   Auth,
   GoogleAuthProvider,
+  GithubAuthProvider,
+  FacebookAuthProvider,
 } from 'firebase/auth'
 import {
   getFirestore,
@@ -27,6 +29,8 @@ interface IContext {
   cur: any
   st: FirebaseStorage
   gProvider: GoogleAuthProvider
+  gitProvider: GithubAuthProvider
+  fProvider: FacebookAuthProvider
 }
 
 export const AuthContext = createContext<IContext>({} as IContext)
@@ -39,6 +43,8 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   const cur = ga.currentUser
   const st = getStorage()
   const gProvider = new GoogleAuthProvider()
+  const gitProvider = new GithubAuthProvider()
+  const fProvider = new FacebookAuthProvider()
 
   useEffect(() => {
     const unListen = onAuthStateChanged(ga, (userAuth) => {
@@ -73,8 +79,18 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   }, [])
 
   const values = useMemo(
-    () => ({ user, setUser, ga, db, cur, st, gProvider }),
-    [user, ga, db, cur, st, gProvider]
+    () => ({
+      user,
+      setUser,
+      ga,
+      db,
+      cur,
+      st,
+      gProvider,
+      gitProvider,
+      fProvider,
+    }),
+    [user, ga, db, cur, st, gProvider, gitProvider, fProvider]
   )
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

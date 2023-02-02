@@ -87,6 +87,60 @@ const Home: FC = () => {
     }
   }, [])
 
+  const handleLike = async (post: IPost) => {
+    const docRef = doc(db, 'posts', post.id)
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(docRef)
+        if (!sfDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        if (!sfDoc.data().likes.includes(cur.uid)) {
+          const newLikesArr = [
+            ...sfDoc.data().likes,
+            {
+              displayName: cur.displayName,
+              photoURL: cur.photoURL,
+              uid: cur.uid,
+              emoji: user?.emoji,
+            },
+          ]
+          // console.log(newLikesArr)
+          transaction.update(docRef, {
+            likes: newLikesArr,
+          })
+        }
+      })
+      // console.log('Like!')
+    } catch (e) {
+      console.log('Like failed: ', e)
+    }
+  }
+
+  const handleDislike = async (post: IPost) => {
+    const docRef = doc(db, 'posts', post.id)
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(docRef)
+        if (!sfDoc.exists()) {
+          throw 'Document does not exist!'
+        }
+        const newLikesArr = sfDoc
+          .data()
+          .likes.filter((x: IUser) => x.uid !== cur.uid)
+        // console.log(newLikesArr)
+        transaction.update(docRef, {
+          likes: newLikesArr,
+        })
+      })
+      // console.log('Dislike!')
+    } catch (e) {
+      console.log('Dislike failed: ', e)
+    }
+  }
+
   return (
     <>
       <AddPost />
@@ -228,64 +282,14 @@ const Home: FC = () => {
                     >
                       {cur.uid && !post.likes.some((x) => x.uid === cur.uid) ? (
                         <IconButton
-                          onClick={async () => {
-                            const docRef = doc(db, 'posts', post.id)
-
-                            try {
-                              await runTransaction(db, async (transaction) => {
-                                const sfDoc = await transaction.get(docRef)
-                                if (!sfDoc.exists()) {
-                                  throw 'Document does not exist!'
-                                }
-                                if (!sfDoc.data().likes.includes(cur.uid)) {
-                                  const newLikesArr = [
-                                    ...sfDoc.data().likes,
-                                    {
-                                      displayName: cur.displayName,
-                                      photoURL: cur.photoURL,
-                                      uid: cur.uid,
-                                      emoji: user?.emoji,
-                                    },
-                                  ]
-                                  // console.log(newLikesArr)
-                                  transaction.update(docRef, {
-                                    likes: newLikesArr,
-                                  })
-                                }
-                              })
-                              // console.log('Like!')
-                            } catch (e) {
-                              console.log('Like failed: ', e)
-                            }
-                          }}
+                          onClick={() => handleLike(post)}
                           color="secondary"
                         >
                           <FavoriteBorder />
                         </IconButton>
                       ) : (
                         <IconButton
-                          onClick={async () => {
-                            const docRef = doc(db, 'posts', post.id)
-
-                            try {
-                              await runTransaction(db, async (transaction) => {
-                                const sfDoc = await transaction.get(docRef)
-                                if (!sfDoc.exists()) {
-                                  throw 'Document does not exist!'
-                                }
-                                const newLikesArr = sfDoc
-                                  .data()
-                                  .likes.filter((x: IUser) => x.uid !== cur.uid)
-                                // console.log(newLikesArr)
-                                transaction.update(docRef, {
-                                  likes: newLikesArr,
-                                })
-                              })
-                              // console.log('Dislike!')
-                            } catch (e) {
-                              console.log('Dislike failed: ', e)
-                            }
-                          }}
+                          onClick={() => handleDislike(post)}
                           color="error"
                         >
                           <Favorite />
