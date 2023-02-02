@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useEffect, useState } from 'react'
+import { FC, SyntheticEvent, useState } from 'react'
 import {
   Box,
   Typography,
@@ -7,17 +7,27 @@ import {
   InputAdornment,
   IconButton,
   Stack,
+  Divider,
 } from '@mui/material'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from 'firebase/auth'
 import { useAuth } from '../../providers/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { IUserData } from '../../../types'
-import { doc, setDoc } from 'firebase/firestore'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { doc, runTransaction, setDoc } from 'firebase/firestore'
+import {
+  Facebook,
+  FacebookOutlined,
+  GitHub,
+  Google,
+  Visibility,
+  VisibilityOff,
+} from '@mui/icons-material'
 import { emojis } from './emojis'
 import { ThemeTextFieldAuth } from '../../ui/ThemeTextField'
 import { ThemeButton } from '../../ui/ThemeButton'
@@ -57,7 +67,7 @@ const a11yProps = (index: number) => {
 }
 
 const Auth: FC = () => {
-  const { cur, ga, db } = useAuth()
+  const { ga, db, gProvider } = useAuth()
 
   const [isRegForm, setIsRegForm] = useState(false)
   const [userData, setUserData] = useState<IUserData>({
@@ -160,12 +170,63 @@ const Auth: FC = () => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    cur && navigate('/')
-  }, [cur])
+  const handleGoogleLogin = () => {
+    const random = Math.floor(Math.random() * emojis.length)
+
+    signInWithPopup(ga, gProvider)
+      .then(async (result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result)
+        const token = credential?.accessToken
+        // The signed-in user info.
+        const user = result.user
+        const docRef = doc(db, 'users', user.uid)
+
+        try {
+          await runTransaction(db, async (transaction) => {
+            const sfDoc = await transaction.get(docRef)
+            if (!sfDoc.exists()) {
+              try {
+                await setDoc(docRef, {
+                  uid: user.uid,
+                  displayName: user.displayName,
+                  email: user.email,
+                  password: null,
+                  photoURL: user.photoURL?.slice(0, -6),
+                  friends: [],
+                  groups: [],
+                  photos: [],
+                  music: [],
+                  bookmarks: [],
+                  createdAt:
+                    user.metadata.creationTime &&
+                    +new Date(user.metadata.creationTime).getTime(),
+                  emoji: emojis[random],
+                })
+              } catch (e) {
+                console.error('Error adding document: ', e)
+              }
+            }
+          })
+        } catch (e) {
+          console.log('runTransaction Auth failed: ', e)
+        }
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log('----------------', error.code, error.message)
+        // The email of the user's account used.
+        const email = error.customData.email
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error)
+        // ...
+      })
+  }
 
   return (
-    <Box sx={{ my: 4 }}>
+    <Box sx={{ my: 2 }}>
       <BackgroundPaperBox
         sx={{
           position: 'absolute',
@@ -180,7 +241,7 @@ const Auth: FC = () => {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        sx={{ my: 3 }}
+        sx={{ my: 0 }}
       >
         <img
           src={`${process.env.PUBLIC_URL}/assets/images/logo7.png`}
@@ -222,7 +283,7 @@ const Auth: FC = () => {
             onSubmit={handleLogin}
             // noValidate
             autoComplete="off"
-            sx={{ mt: 2 }}
+            sx={{ mb: 3 }}
           >
             <Stack
               direction="column"
@@ -280,12 +341,51 @@ const Auth: FC = () => {
               </ThemeButton>
             </Stack>
           </Box>
+          <Divider sx={{ width: '100%' }}>
+            <Typography color="textSecondary" variant="body1">
+              or login with
+            </Typography>
+          </Divider>
           <Stack
             direction="row"
             justifyContent="center"
             alignItems="center"
             spacing={1}
-            sx={{ mt: 3 }}
+            sx={{ my: 2 }}
+          >
+            <IconButton
+              onClick={handleGoogleLogin}
+              color="primary"
+              size="large"
+              title="Login with Google"
+              sx={{ width: '60px ', height: '60px' }}
+            >
+              <Google fontSize="large" />
+            </IconButton>
+            {/* <IconButton
+              onClick={() => console.log('GitHub')}
+              color="primary"
+              size="large"
+              title="Login with GitHub"
+              sx={{ width: '60px ', height: '60px' }}
+            >
+              <GitHub fontSize="large" />
+            </IconButton>
+            <IconButton
+              onClick={() => console.log('Facebook')}
+              color="primary"
+              size="large"
+              title="Login with Facebook"
+              sx={{ width: '60px ', height: '60px' }}
+            >
+              <Facebook fontSize="large" />
+            </IconButton> */}
+          </Stack>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={1}
           >
             <Typography>Don't have an account?</Typography>
             <Typography
@@ -303,7 +403,6 @@ const Auth: FC = () => {
             onSubmit={handleLogin}
             // noValidate
             autoComplete="off"
-            sx={{ mt: 2 }}
           >
             <Stack
               direction="column"

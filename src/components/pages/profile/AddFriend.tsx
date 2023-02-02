@@ -84,7 +84,6 @@ const AddFriend: FC = () => {
         const newFriendsArrCur = sfCurDoc
           .data()
           .friends.filter((x: IUser) => x.uid !== sfDoc.data().uid)
-        console.log(newFriendsArrCur)
         transaction.update(curRef, {
           friends: newFriendsArrCur,
         })

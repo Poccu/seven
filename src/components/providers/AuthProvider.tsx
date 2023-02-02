@@ -1,5 +1,10 @@
 import { createContext, FC, useEffect, useMemo, useState } from 'react'
-import { getAuth, onAuthStateChanged, Auth } from 'firebase/auth'
+import {
+  getAuth,
+  onAuthStateChanged,
+  Auth,
+  GoogleAuthProvider,
+} from 'firebase/auth'
 import {
   getFirestore,
   Firestore,
@@ -21,36 +26,24 @@ interface IContext {
   db: Firestore
   cur: any
   st: FirebaseStorage
+  gProvider: GoogleAuthProvider
 }
 
 export const AuthContext = createContext<IContext>({} as IContext)
 
 export const AuthProvider: FC<Props> = ({ children }) => {
-  const [user, setUser] = useState<IUser | null>({
-    bookmarks: [],
-    createdAt: '',
-    displayName: '',
-    email: '',
-    emoji: '',
-    friends: [],
-    groups: [],
-    music: [],
-    password: '',
-    photoURL: '',
-    photos: [],
-    uid: '',
-    // isInNetwork?: boolean
-  })
+  const [user, setUser] = useState<IUser | null>(null)
 
   const ga = getAuth()
   const db = getFirestore()
   const cur = ga.currentUser
   const st = getStorage()
+  const gProvider = new GoogleAuthProvider()
 
   useEffect(() => {
-    const unListen = onAuthStateChanged(ga, (cur) => {
-      if (cur) {
-        const unsub = onSnapshot(doc(db, 'users', cur.uid), (doc) => {
+    const unListen = onAuthStateChanged(ga, (userAuth) => {
+      if (userAuth) {
+        const unsub = onSnapshot(doc(db, 'users', userAuth.uid), (doc) => {
           const userData: DocumentData | undefined = doc.data()
           if (userData) {
             setUser({
@@ -80,8 +73,8 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   }, [])
 
   const values = useMemo(
-    () => ({ user, setUser, ga, db, cur, st }),
-    [user, ga, db, cur, st]
+    () => ({ user, setUser, ga, db, cur, st, gProvider }),
+    [user, ga, db, cur, st, gProvider]
   )
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
