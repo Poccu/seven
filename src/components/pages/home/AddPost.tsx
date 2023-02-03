@@ -40,6 +40,7 @@ const AddPost: FC = () => {
           comments: [],
           likes: [],
           bookmarks: [],
+          photos: [],
           views: 0,
           id: idDb,
         })

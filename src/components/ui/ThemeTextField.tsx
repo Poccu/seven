@@ -39,3 +39,23 @@ export const ThemeTextFieldAddPost = styled(TextField)(({ theme }) => ({
     borderColor: theme.palette.primary.main,
   },
 }))
+
+export const ThemeTextFieldAddComment = styled(TextField)(({ theme }) => ({
+  borderColor: theme.palette.primary.main,
+  '& label.Mui-focused': {
+    color: theme.palette.primary.main,
+    borderColor: theme.palette.primary.main,
+  },
+  '& .MuiOutlinedInput-notchedOutline': {
+    borderWidth: 2,
+    borderColor: theme.palette.action.selected,
+  },
+  '&:hover .MuiOutlinedInput-notchedOutline': {
+    borderWidth: 2,
+    borderColor: theme.palette.primary.main,
+  },
+  '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    borderWidth: 3,
+    borderColor: theme.palette.primary.main,
+  },
+}))

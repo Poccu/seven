@@ -169,13 +169,6 @@ const Bookmarks: FC = () => {
                       src={post.author.photoURL}
                       draggable={false}
                     >
-                      {/* <b>
-                        {post?.author?.displayName
-                          ?.replace(/[\p{Emoji}\u200d]+/gu, '')
-                          ?.replace(/\B\w+/g, '')
-                          .split(' ')
-                          .join('')}
-                      </b> */}
                       {post.author.emoji}
                     </ThemeAvatar>
                   </Link>

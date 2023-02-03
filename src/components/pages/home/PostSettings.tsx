@@ -170,7 +170,7 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
         placement="bottom-end"
         transition
         disablePortal
-        sx={{ zIndex: 1 }}
+        sx={{ zIndex: 10 }}
       >
         {({ TransitionProps, placement }) => (
           <Grow

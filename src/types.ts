@@ -36,12 +36,21 @@ export interface IPost {
   author: IUser
   createdAt: string
   content: string
-  comments: string[]
-  images?: string[]
+  comments: IComment[]
   likes: IUser[]
   bookmarks: string[]
+  photos: string[]
   views: number
   id: string
+}
+
+export interface IComment {
+  author: IUser
+  content: string
+  createdAt: string
+  id: string
+  likes: IUser[]
+  photos: string[]
 }
 
 export interface IMenuItem {
@@ -55,7 +64,7 @@ export interface IMessage {
   createdAt: string
   content: string
   comments: string[]
-  images?: string[]
+  photos: string[]
   likes: IUser[]
   id: string
 }
