@@ -216,7 +216,14 @@ const Home: FC = () => {
                         )}
                       </Stack>
                       <Typography variant="body2" color="textSecondary">
-                        {moment(post.createdAt).fromNow()}
+                        {moment(post.createdAt).calendar(null, {
+                          lastDay: '[yesterday at] HH:mm',
+                          sameDay: '[today at] HH:mm',
+                          nextDay: '[tomorrow at] HH:mm',
+                          lastWeek: 'D MMM [at] HH:mm',
+                          nextWeek: 'D MMM [at] HH:mm',
+                          sameElse: 'D MMM YYYY',
+                        })}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -356,7 +363,9 @@ const Home: FC = () => {
                   >
                     <Visibility color="secondary" />
                     <Typography variant="body2" color="textSecondary">
-                      {post.views}
+                      {post.views < 1000
+                        ? post.views
+                        : Math.floor(post.views / 100) / 10 + 'K'}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -407,7 +416,14 @@ const Home: FC = () => {
                                 {comment.content}
                               </Typography>
                               <Typography variant="body2" color="textSecondary">
-                                {moment(comment.createdAt).fromNow()}
+                                {moment(comment.createdAt).calendar(null, {
+                                  lastDay: '[yesterday at] HH:mm',
+                                  sameDay: '[today at] HH:mm',
+                                  nextDay: '[tomorrow at] HH:mm',
+                                  lastWeek: 'D MMM [at] HH:mm',
+                                  nextWeek: 'D MMM [at] HH:mm',
+                                  sameElse: 'D MMM YYYY',
+                                })}
                               </Typography>
                             </Stack>
                           </Stack>

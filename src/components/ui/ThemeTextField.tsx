@@ -55,7 +55,7 @@ export const ThemeTextFieldAddComment = styled(TextField)(({ theme }) => ({
     borderColor: theme.palette.primary.main,
   },
   '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: theme.palette.primary.main,
   },
 }))

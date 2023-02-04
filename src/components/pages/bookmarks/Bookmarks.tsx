@@ -153,146 +153,222 @@ const Bookmarks: FC = () => {
         </Typography>
       </BorderBox>
       <TransitionGroup>
-        {posts.map((post) => (
-          <Collapse key={post.id}>
-            <BorderBox sx={{ p: 3, mb: 2 }}>
-              <Stack direction="row" justifyContent="space-between">
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={2}
-                  sx={{ mb: 2 }}
-                >
-                  <Link to={`/profile/${post.author.uid}`}>
-                    <ThemeAvatar
-                      alt={post.author.displayName}
-                      src={post.author.photoURL}
-                      draggable={false}
-                    >
-                      {post.author.emoji}
-                    </ThemeAvatar>
-                  </Link>
-                  <Stack>
-                    <Stack alignItems="center" direction="row" spacing={0.5}>
-                      <Link to={`/profile/${post.author.uid}`}>
-                        <Typography variant="h6">
-                          <b>{post.author.displayName}</b>
-                        </Typography>
-                      </Link>
-                      {post.author.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
-                        <Tooltip title="Admin" placement="top">
-                          <TaskAlt
-                            color="info"
-                            sx={{
-                              width: '20px ',
-                              height: '20px',
-                            }}
-                          />
-                        </Tooltip>
-                      )}
+        {posts
+          .sort((a, b) => +b.createdAt - +a.createdAt)
+          .map((post) => (
+            <Collapse key={post.id}>
+              <BorderBox sx={{ p: 3, mb: 2 }}>
+                <Stack direction="row" justifyContent="space-between">
+                  <Stack
+                    alignItems="center"
+                    direction="row"
+                    spacing={2}
+                    sx={{ mb: 2 }}
+                  >
+                    <Link to={`/profile/${post.author.uid}`}>
+                      <ThemeAvatar
+                        alt={post.author.displayName}
+                        src={post.author.photoURL}
+                        draggable={false}
+                      >
+                        {post.author.emoji}
+                      </ThemeAvatar>
+                    </Link>
+                    <Stack>
+                      <Stack alignItems="center" direction="row" spacing={0.5}>
+                        <Link to={`/profile/${post.author.uid}`}>
+                          <Typography variant="h6">
+                            <b>{post.author.displayName}</b>
+                          </Typography>
+                        </Link>
+                        {post.author.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
+                          <Tooltip title="Admin" placement="top">
+                            <TaskAlt
+                              color="info"
+                              sx={{
+                                width: '20px ',
+                                height: '20px',
+                              }}
+                            />
+                          </Tooltip>
+                        )}
+                      </Stack>
+                      <Typography variant="body2" color="textSecondary">
+                        {moment(post.createdAt).calendar(null, {
+                          lastDay: '[yesterday at] HH:mm',
+                          sameDay: '[today at] HH:mm',
+                          nextDay: '[tomorrow at] HH:mm',
+                          lastWeek: 'D MMM [at] HH:mm',
+                          nextWeek: 'D MMM [at] HH:mm',
+                          sameElse: 'D MMM YYYY',
+                        })}
+                      </Typography>
                     </Stack>
-                    <Typography variant="body2" color="textSecondary">
-                      {moment(post.createdAt).fromNow()}
-                    </Typography>
                   </Stack>
-                </Stack>
-                {/* <PostSettings
+                  {/* <PostSettings
               post={post}
               setEditingId={setEditingId}
               setDeletedPosts={setDeletedPosts}
             /> */}
-              </Stack>
-              <Typography variant="body1" sx={{ ml: 1 }}>
-                {post.content}
-              </Typography>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                sx={{ ml: -1, mb: -1 }}
-              >
+                </Stack>
+                <Typography variant="body1" sx={{ ml: 1 }}>
+                  {post.content}
+                </Typography>
                 <Stack
-                  alignItems="center"
                   direction="row"
-                  // spacing={0.2}
-                  sx={{ mt: 2 }}
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{ ml: -1, mb: -1 }}
                 >
-                  <ThemeTooltip
-                    title={
-                      post.likes.length > 0 && (
-                        <>
-                          <Typography
-                            textAlign="center"
-                            variant="body2"
-                            sx={{ cursor: 'pointer' }}
-                            onClick={() => handleOpenModal(post)}
-                          >
-                            Likes
-                          </Typography>
-                          <AvatarGroup
-                            max={4}
-                            spacing={12}
-                            sx={{ cursor: 'pointer' }}
-                            onClick={() => handleOpenModal(post)}
-                          >
-                            {post.likes.map((user) => (
-                              <Link to={`/profile/${user.uid}`} key={user.uid}>
-                                <ThemeAvatar
-                                  alt={user.displayName}
-                                  src={user.photoURL}
-                                  title={user.displayName}
-                                  sx={{
-                                    width: '40px',
-                                    height: '40px',
-                                  }}
+                  <Stack
+                    alignItems="center"
+                    direction="row"
+                    // spacing={0.2}
+                    sx={{ mt: 2 }}
+                  >
+                    <ThemeTooltip
+                      title={
+                        post.likes.length > 0 && (
+                          <>
+                            <Typography
+                              textAlign="center"
+                              variant="body2"
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() => handleOpenModal(post)}
+                            >
+                              Likes
+                            </Typography>
+                            <AvatarGroup
+                              max={4}
+                              spacing={12}
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() => handleOpenModal(post)}
+                            >
+                              {post.likes.map((user) => (
+                                <Link
+                                  to={`/profile/${user.uid}`}
+                                  key={user.uid}
                                 >
-                                  {user.emoji}
+                                  <ThemeAvatar
+                                    alt={user.displayName}
+                                    src={user.photoURL}
+                                    title={user.displayName}
+                                    sx={{
+                                      width: '40px',
+                                      height: '40px',
+                                    }}
+                                  >
+                                    {user.emoji}
+                                  </ThemeAvatar>
+                                </Link>
+                              ))}
+                            </AvatarGroup>
+                          </>
+                        )
+                      }
+                      placement="top"
+                    >
+                      {cur.uid && !post.likes.some((x) => x.uid === cur.uid) ? (
+                        <IconButton
+                          onClick={() => handleLike(post)}
+                          color="secondary"
+                        >
+                          <FavoriteBorder />
+                        </IconButton>
+                      ) : (
+                        <IconButton
+                          onClick={() => handleDislike(post)}
+                          color="error"
+                        >
+                          <Favorite />
+                        </IconButton>
+                      )}
+                    </ThemeTooltip>
+                    <Typography variant="body1" color="textSecondary">
+                      <b>{post.likes.length > 0 && post.likes.length}</b>
+                    </Typography>
+                  </Stack>
+                  <Stack
+                    alignItems="center"
+                    direction="row"
+                    spacing={1}
+                    sx={{ mt: 2 }}
+                  >
+                    <Visibility color="secondary" />
+                    <Typography variant="body2" color="textSecondary">
+                      {post.views}
+                    </Typography>
+                  </Stack>
+                </Stack>
+                {post.comments.length > 0 && (
+                  <Stack sx={{ position: 'relative', zIndex: 1, mt: 1 }}>
+                    <TransitionGroup>
+                      {post.comments.map((comment: any) => (
+                        <Collapse key={comment.id}>
+                          <Divider sx={{ my: 2 }} />
+                          <Stack direction="row" justifyContent="space-between">
+                            <Stack direction="row" spacing={2}>
+                              <Link to={`/profile/${comment.author.uid}`}>
+                                <ThemeAvatar
+                                  alt={comment.author.displayName}
+                                  src={comment.author.photoURL}
+                                  draggable={false}
+                                  sx={{ mt: 0.6 }}
+                                >
+                                  {comment.author.emoji}
                                 </ThemeAvatar>
                               </Link>
-                            ))}
-                          </AvatarGroup>
-                        </>
-                      )
-                    }
-                    placement="top"
-                  >
-                    {cur.uid && !post.likes.some((x) => x.uid === cur.uid) ? (
-                      <IconButton
-                        onClick={() => handleLike(post)}
-                        color="secondary"
-                      >
-                        <FavoriteBorder />
-                      </IconButton>
-                    ) : (
-                      <IconButton
-                        onClick={() => handleDislike(post)}
-                        color="error"
-                      >
-                        <Favorite />
-                      </IconButton>
-                    )}
-                  </ThemeTooltip>
-                  <Typography variant="body1" color="textSecondary">
-                    <b>{post.likes.length > 0 && post.likes.length}</b>
-                  </Typography>
-                </Stack>
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={1}
-                  sx={{ mt: 2 }}
-                >
-                  <Visibility color="secondary" />
-                  <Typography variant="body2" color="textSecondary">
-                    {post.views}
-                  </Typography>
-                </Stack>
-              </Stack>
-              {/* <Divider /> */}
-              {/* <AddComment /> */}
-            </BorderBox>
-          </Collapse>
-        ))}
+                              <Stack>
+                                <Stack
+                                  alignItems="center"
+                                  direction="row"
+                                  spacing={0.5}
+                                >
+                                  <Link to={`/profile/${comment.author.uid}`}>
+                                    <Typography variant="h6">
+                                      <b>{comment.author.displayName}</b>
+                                    </Typography>
+                                  </Link>
+                                  {comment.author.uid ===
+                                    'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
+                                    <Tooltip title="Admin" placement="top">
+                                      <TaskAlt
+                                        color="info"
+                                        sx={{
+                                          width: '20px ',
+                                          height: '20px',
+                                        }}
+                                      />
+                                    </Tooltip>
+                                  )}
+                                </Stack>
+                                <Typography variant="body1" sx={{ mb: 1 }}>
+                                  {comment.content}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                >
+                                  {moment(comment.createdAt).calendar(null, {
+                                    lastDay: '[yesterday at] HH:mm',
+                                    sameDay: '[today at] HH:mm',
+                                    nextDay: '[tomorrow at] HH:mm',
+                                    lastWeek: 'D MMM [at] HH:mm',
+                                    nextWeek: 'D MMM [at] HH:mm',
+                                    sameElse: 'D MMM YYYY',
+                                  })}
+                                </Typography>
+                              </Stack>
+                            </Stack>
+                          </Stack>
+                        </Collapse>
+                      ))}
+                    </TransitionGroup>
+                  </Stack>
+                )}
+              </BorderBox>
+            </Collapse>
+          ))}
       </TransitionGroup>
       <Modal
         open={openModal}
