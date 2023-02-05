@@ -20,9 +20,10 @@ import { updateProfile } from 'firebase/auth'
 import { ThemeIconButton } from '../../ui/ThemeIconButton'
 import { SettingsBox } from '../../ui/ThemeBox'
 import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
+import { IUser } from '../../../types'
 
 const PhotoSettings: FC = () => {
-  const { db, cur, st } = useAuth()
+  const { db, cur, st, user } = useAuth()
 
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
@@ -56,28 +57,73 @@ const PhotoSettings: FC = () => {
 
   const [progress, setProgress] = useState<number>(0)
 
+  const curUser = {
+    displayName: cur.displayName,
+    emoji: user?.emoji,
+    photoURL: cur.photoURL,
+    uid: cur.uid,
+  }
+
   const handleDelete = async () => {
     setOpen(false)
-    const delPhoto = ''
 
-    updateProfile(cur, {
-      photoURL: delPhoto,
-    })
-    // console.log('User profile updated', cur)
+    await updateProfile(cur, { photoURL: '' })
 
     const docRef = doc(db, 'users', cur.uid)
-    setDoc(docRef, { photoURL: delPhoto }, { merge: true })
+    await setDoc(docRef, { photoURL: null }, { merge: true })
 
-    setProgress(0)
-
+    // Update friends avatar
     const q = query(collection(db, 'posts'), where('author.uid', '==', cur.uid))
 
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach(async (d) => {
       // doc.data() is never undefined for query doc snapshots
       const docRef = doc(db, 'posts', d.id)
-      await setDoc(docRef, { author: { photoURL: delPhoto } }, { merge: true })
-      // console.log(d.id, ' => ', d.data())
+      await setDoc(docRef, { author: { photoURL: null } }, { merge: true })
+    })
+
+    // Update friends avatar
+    const qFriend = query(
+      collection(db, 'users'),
+      where('friends', 'array-contains', curUser)
+    )
+
+    const querySnapshotFriend = await getDocs(qFriend)
+    querySnapshotFriend.forEach(async (d) => {
+      const docRef = doc(db, 'users', d.id)
+      // console.log('FRIEND HERE', d.data())
+      const newFriendsArr = [
+        ...d.data().friends.filter((x: IUser) => x.uid !== cur.uid),
+        {
+          displayName: cur.displayName,
+          photoURL: cur.photoURL,
+          uid: cur.uid,
+          emoji: user?.emoji,
+        },
+      ]
+      await setDoc(docRef, { friends: newFriendsArr }, { merge: true })
+    })
+
+    // Update likes avatar
+    const qLikes = query(
+      collection(db, 'posts'),
+      where('likes', 'array-contains', curUser)
+    )
+
+    const querySnapshotLikes = await getDocs(qLikes)
+    querySnapshotLikes.forEach(async (d) => {
+      const docRef = doc(db, 'posts', d.id)
+      // console.log('LIKES HERE', d.data())
+      const newLikesArr = [
+        ...d.data().likes.filter((x: IUser) => x.uid !== cur.uid),
+        {
+          displayName: cur.displayName,
+          photoURL: cur.photoURL,
+          uid: cur.uid,
+          emoji: user?.emoji,
+        },
+      ]
+      await setDoc(docRef, { likes: newLikesArr }, { merge: true })
     })
   }
 
@@ -88,7 +134,7 @@ const PhotoSettings: FC = () => {
     if (e.target.files) {
       const file = e.target.files[0]
 
-      const storageRef = ref(st, `images/${file?.name}`)
+      const storageRef = ref(st, `images/${cur.uid}/avatars/${file?.name}`)
       const uploadTask = uploadBytesResumable(storageRef, file)
 
       // Listen for state changes, errors, and completion of the upload.
@@ -98,14 +144,14 @@ const PhotoSettings: FC = () => {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log('Upload is ' + progress + '% done')
+          // console.log('Upload is ' + progress + '% done')
           setProgress(progress)
           switch (snapshot.state) {
             case 'paused':
-              console.log('Upload is paused')
+              // console.log('Upload is paused')
               break
             case 'running':
-              console.log('Upload is running')
+              // console.log('Upload is running')
               break
           }
         },
@@ -131,16 +177,14 @@ const PhotoSettings: FC = () => {
           // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             // console.log('File available at', downloadURL)
-            updateProfile(cur, {
-              photoURL: downloadURL,
-            })
-            // console.log('User profile updated', cur)
+            await updateProfile(cur, { photoURL: downloadURL })
 
             const docRef = doc(db, 'users', cur.uid)
-            setDoc(docRef, { photoURL: downloadURL }, { merge: true })
+            await setDoc(docRef, { photoURL: downloadURL }, { merge: true })
 
             setProgress(0)
 
+            // Update posts avatar
             const q = query(
               collection(db, 'posts'),
               where('author.uid', '==', cur.uid)
@@ -155,7 +199,50 @@ const PhotoSettings: FC = () => {
                 { author: { photoURL: downloadURL } },
                 { merge: true }
               )
-              // console.log(d.id, ' => ', d.data())
+            })
+
+            // Update friends avatar
+            const qFriend = query(
+              collection(db, 'users'),
+              where('friends', 'array-contains', curUser)
+            )
+
+            const querySnapshotFriend = await getDocs(qFriend)
+            querySnapshotFriend.forEach(async (d) => {
+              const docRef = doc(db, 'users', d.id)
+              // console.log('FRIEND HERE', d.data())
+              const newFriendsArr = [
+                ...d.data().friends.filter((x: IUser) => x.uid !== cur.uid),
+                {
+                  displayName: cur.displayName,
+                  photoURL: cur.photoURL,
+                  uid: cur.uid,
+                  emoji: user?.emoji,
+                },
+              ]
+              await setDoc(docRef, { friends: newFriendsArr }, { merge: true })
+            })
+
+            // Update likes avatar
+            const qLikes = query(
+              collection(db, 'posts'),
+              where('likes', 'array-contains', curUser)
+            )
+
+            const querySnapshotLikes = await getDocs(qLikes)
+            querySnapshotLikes.forEach(async (d) => {
+              const docRef = doc(db, 'posts', d.id)
+              // console.log('LIKES HERE', d.data())
+              const newLikesArr = [
+                ...d.data().likes.filter((x: IUser) => x.uid !== cur.uid),
+                {
+                  displayName: cur.displayName,
+                  photoURL: cur.photoURL,
+                  uid: cur.uid,
+                  emoji: user?.emoji,
+                },
+              ]
+              await setDoc(docRef, { likes: newLikesArr }, { merge: true })
             })
           })
         }

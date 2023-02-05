@@ -217,11 +217,11 @@ const Home: FC = () => {
                       </Stack>
                       <Typography variant="body2" color="textSecondary">
                         {moment(post.createdAt).calendar(null, {
-                          lastDay: '[yesterday at] HH:mm',
-                          sameDay: '[today at] HH:mm',
-                          nextDay: '[tomorrow at] HH:mm',
-                          lastWeek: 'D MMM [at] HH:mm',
-                          nextWeek: 'D MMM [at] HH:mm',
+                          lastDay: '[yesterday at] H:mm',
+                          sameDay: '[today at] H:mm',
+                          nextDay: '[tomorrow at] H:mm',
+                          lastWeek: 'D MMM [at] H:mm',
+                          nextWeek: 'D MMM [at] H:mm',
                           sameElse: 'D MMM YYYY',
                         })}
                       </Typography>
@@ -417,11 +417,11 @@ const Home: FC = () => {
                               </Typography>
                               <Typography variant="body2" color="textSecondary">
                                 {moment(comment.createdAt).calendar(null, {
-                                  lastDay: '[yesterday at] HH:mm',
-                                  sameDay: '[today at] HH:mm',
-                                  nextDay: '[tomorrow at] HH:mm',
-                                  lastWeek: 'D MMM [at] HH:mm',
-                                  nextWeek: 'D MMM [at] HH:mm',
+                                  lastDay: '[yesterday at] H:mm',
+                                  sameDay: '[today at] H:mm',
+                                  nextDay: '[tomorrow at] H:mm',
+                                  lastWeek: 'D MMM [at] H:mm',
+                                  nextWeek: 'D MMM [at] H:mm',
                                   sameElse: 'D MMM YYYY',
                                 })}
                               </Typography>
