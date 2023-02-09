@@ -17,10 +17,10 @@ export interface IUser {
   emoji: string
   friends: IUser[]
   groups: any[]
+  images: string[]
   music: any[]
   password: string
   photoURL: string
-  photos: string[]
   uid: string
   isInNetwork?: boolean
 }
@@ -39,7 +39,7 @@ export interface IPost {
   comments: IComment[]
   likes: IUser[]
   bookmarks: string[]
-  photos: string[]
+  images: string[]
   views: number
   id: string
 }
@@ -50,7 +50,7 @@ export interface IComment {
   createdAt: string
   id: string
   likes: IUser[]
-  photos: string[]
+  images: string[]
 }
 
 export interface IMenuItem {
@@ -64,7 +64,7 @@ export interface IMessage {
   createdAt: string
   content: string
   comments: string[]
-  photos: string[]
+  images: string[]
   likes: IUser[]
   id: string
 }

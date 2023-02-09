@@ -25,7 +25,7 @@ const Menu: FC = () => {
   const { cur, ga, user } = useAuth()
   const navigate = useNavigate()
 
-  const logoutHandler = () => {
+  const handleLogout = () => {
     signOut(ga)
     navigate('/')
   }
@@ -86,7 +86,7 @@ const Menu: FC = () => {
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton onClick={logoutHandler}>
+                <ListItemButton onClick={handleLogout}>
                   <ListItemIcon sx={{ mr: -2 }}>
                     <Logout color="primary" />
                   </ListItemIcon>

@@ -129,7 +129,7 @@ const Auth: FC = () => {
               photoURL: user.photoURL,
               friends: [],
               groups: [],
-              photos: [],
+              images: [],
               music: [],
               bookmarks: [],
               createdAt:
@@ -192,7 +192,7 @@ const Auth: FC = () => {
                   photoURL: user.photoURL?.slice(0, -6),
                   friends: [],
                   groups: [],
-                  photos: [],
+                  images: [],
                   music: [],
                   bookmarks: [],
                   createdAt:
@@ -247,7 +247,7 @@ const Auth: FC = () => {
                   photoURL: user.photoURL,
                   friends: [],
                   groups: [],
-                  photos: [],
+                  images: [],
                   music: [],
                   bookmarks: [],
                   createdAt:
@@ -302,7 +302,7 @@ const Auth: FC = () => {
                   photoURL: user.photoURL,
                   friends: [],
                   groups: [],
-                  photos: [],
+                  images: [],
                   music: [],
                   bookmarks: [],
                   createdAt:

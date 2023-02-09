@@ -20,7 +20,7 @@ const EditPost: FC<Props> = ({ post, setEditingId }) => {
   const [content, setContent] = useState(post.content)
   const { db } = useAuth()
 
-  const editPostHandler = async () => {
+  const handleEditPost = async () => {
     if (content.trim()) {
       const docRef = doc(db, 'posts', post.id)
       setDoc(docRef, { content: content }, { merge: true })
@@ -48,7 +48,7 @@ const EditPost: FC<Props> = ({ post, setEditingId }) => {
       >
         Cancel
       </Button>
-      <Button onClick={editPostHandler}>Save</Button>
+      <Button onClick={handleEditPost}>Save</Button>
     </Box>
   )
 }

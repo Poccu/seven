@@ -5,7 +5,7 @@ import Menu from './menu/Menu'
 
 const Sidebar: FC = () => {
   return (
-    <Box sx={{ position: 'fixed', width: '280px' }}>
+    <Box sx={{ position: 'sticky', top: '80px', mr: -2 }}>
       <Menu />
       <FriendList />
     </Box>

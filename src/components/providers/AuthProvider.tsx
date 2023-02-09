@@ -63,7 +63,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
               music: [...userData.music],
               password: userData.password,
               photoURL: userData.photoURL,
-              photos: [...userData.photos],
+              images: [...userData.images],
               uid: userData.uid,
             })
           }

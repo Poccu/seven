@@ -17,7 +17,7 @@ const AddMessage: FC = () => {
   // const [views, setViews] = useState([])
   const { cur, db, ga } = useAuth()
 
-  const addMessageHandler = async (e: any) => {
+  const handleAddMessage = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
       let charList =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
@@ -118,7 +118,7 @@ const AddMessage: FC = () => {
               autoComplete="off"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              onKeyPress={addMessageHandler}
+              onKeyPress={handleAddMessage}
             />
             <IconButton
               onClick={() => console.log('test')}

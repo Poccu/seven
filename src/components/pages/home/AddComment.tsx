@@ -61,7 +61,7 @@ const AddComment: FC<Props> = ({ expanded, post }) => {
   const [content, setContent] = useState('')
   const { cur, db, user } = useAuth()
 
-  const addPostHandler = async (e: any) => {
+  const handleAddComment = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
       let charList =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
@@ -96,7 +96,7 @@ const AddComment: FC<Props> = ({ expanded, post }) => {
               },
               content,
               createdAt: Date.now(),
-              photos: [],
+              images: [],
               likes: [],
               id: idDb,
             },
@@ -143,7 +143,7 @@ const AddComment: FC<Props> = ({ expanded, post }) => {
           autoComplete="off"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          onKeyPress={addPostHandler}
+          onKeyPress={handleAddComment}
         />
       </Stack>
       {/* </AccordionDetails> */}
