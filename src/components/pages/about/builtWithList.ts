@@ -7,4 +7,5 @@ export const builtWithList = [
   { title: 'React Router 6', url: 'https://reactrouter.com/' },
   { title: 'Firebase 9', url: 'https://firebase.google.com/' },
   { title: 'Moment.js', url: 'https://momentjs.com/' },
+  { title: 'Notistack', url: 'https://notistack.com/' },
 ]

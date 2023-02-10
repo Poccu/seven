@@ -305,7 +305,7 @@ const Bookmarks: FC = () => {
                 {post.comments.length > 0 && (
                   <Stack sx={{ position: 'relative', zIndex: 1, mt: 1 }}>
                     <TransitionGroup>
-                      {post.comments.map((comment: any) => (
+                      {post.comments.map((comment) => (
                         <Collapse key={comment.id}>
                           <Divider sx={{ my: 2 }} />
                           <Stack direction="row" justifyContent="space-between">

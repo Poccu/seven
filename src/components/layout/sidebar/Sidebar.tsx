@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import { Box } from '@mui/material'
-import FriendList from './FriendList'
 import Menu from './menu/Menu'
 
 const Sidebar: FC = () => {

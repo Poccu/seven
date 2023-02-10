@@ -16,7 +16,7 @@ import { IPost, IUser } from '../../../types'
 import PhotoSettings from './PhotoSettings'
 import { TaskAlt } from '@mui/icons-material'
 import AddFriend from './AddFriend'
-import FriendList from '../../layout/sidebar/FriendList'
+import FriendList from './FriendList'
 
 const Profile: FC = () => {
   const { db, cur } = useAuth()

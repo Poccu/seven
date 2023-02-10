@@ -34,6 +34,7 @@
 - [React Router 6](https://reactrouter.com/)
 - [Firebase 9](https://firebase.google.com/)
 - [Moment.js](https://momentjs.com/)
+- [Notistack](https://notistack.com/)
 
 <!-- CONTACT -->
 

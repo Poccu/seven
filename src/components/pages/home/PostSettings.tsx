@@ -16,6 +16,7 @@ import {
   Edit,
 } from '@mui/icons-material'
 import { SettingsBox } from '../../ui/ThemeBox'
+import { useSnackbar } from 'notistack'
 
 type Props = {
   post: IPost
@@ -26,6 +27,8 @@ type Props = {
 const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
+
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
@@ -108,6 +111,8 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
     } catch (e) {
       console.log('Bookmark failed: ', e)
     }
+
+    enqueueSnackbar('Post added to Bookmarks!', { variant: 'success' })
   }
 
   const handleRemoveBookmark = async (post: IPost) => {
@@ -148,6 +153,8 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
     } catch (e) {
       console.log('Delete Bookmark failed: ', e)
     }
+
+    enqueueSnackbar('Post removed from Bookmarks!', { variant: 'error' })
   }
 
   return (
