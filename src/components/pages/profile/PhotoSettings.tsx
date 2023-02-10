@@ -72,7 +72,7 @@ const PhotoSettings: FC = () => {
     const docRef = doc(db, 'users', cur.uid)
     await setDoc(docRef, { photoURL: null }, { merge: true })
 
-    // Update friends avatar
+    // Update posts avatar
     const q = query(collection(db, 'posts'), where('author.uid', '==', cur.uid))
 
     const querySnapshot = await getDocs(q)

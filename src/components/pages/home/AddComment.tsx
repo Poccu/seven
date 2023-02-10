@@ -136,7 +136,7 @@ const AddComment: FC<Props> = ({ expanded, post }) => {
           </ThemeAvatar>
         </Link>
         <ThemeTextFieldAddComment
-          label="Leave a comment..."
+          label="Leave a comment…"
           // multiline
           fullWidth
           // focused

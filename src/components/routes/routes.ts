@@ -1,6 +1,7 @@
 import About from '../pages/about/About'
 import Auth from '../pages/auth/Auth'
 import Bookmarks from '../pages/bookmarks/Bookmarks'
+import Friends from '../pages/friends/Friends'
 import Home from '../pages/home/Home'
 import Messenger from '../pages/messenger/Messenger'
 import Profile from '../pages/profile/Profile'
@@ -31,9 +32,9 @@ export const routes = [
   //   auth: true,
   // },
   {
-    path: '/friends/:id',
-    exact: false,
-    component: Home,
+    path: '/friends',
+    exact: true,
+    component: Friends,
     auth: true,
   },
   {
@@ -52,6 +53,6 @@ export const routes = [
     path: '/about',
     exact: true,
     component: About,
-    auth: false,
+    auth: true,
   },
 ]

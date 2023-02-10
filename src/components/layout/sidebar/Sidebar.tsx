@@ -7,7 +7,6 @@ const Sidebar: FC = () => {
   return (
     <Box sx={{ position: 'sticky', top: '80px', mr: -2 }}>
       <Menu />
-      <FriendList />
     </Box>
   )
 }
