@@ -5,18 +5,21 @@ import { Link } from 'react-router-dom'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { IUser } from '../../../types'
 import { DocumentData } from '@firebase/firestore'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   user: DocumentData | undefined
 }
 
 const FriendList: FC<Props> = ({ user }) => {
+  const { t } = useTranslation(['profile'])
+
   return (
     <BorderBox sx={{ mt: 2, p: 2 }}>
       {user && user?.friends?.length > 0 ? (
         <>
           <Typography variant="body2" color="textSecondary">
-            Friends {user?.friends?.length}
+            {t('line3')} {user?.friends?.length}
           </Typography>
           <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mt: 1 }}>
             {user.friends.map((user: IUser) => (
@@ -54,7 +57,7 @@ const FriendList: FC<Props> = ({ user }) => {
           color="textSecondary"
           sx={{ my: 4 }}
         >
-          <b>No friends yet 😞</b>
+          <b>{t('line1', { ns: ['friends'] })}</b>
         </Typography>
       )}
     </BorderBox>

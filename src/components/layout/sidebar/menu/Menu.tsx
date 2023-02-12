@@ -20,8 +20,10 @@ import {
 } from '@mui/icons-material'
 import { useAuth } from '../../../providers/useAuth'
 import { signOut } from 'firebase/auth'
+import { useTranslation } from 'react-i18next'
 
 const Menu: FC = () => {
+  const { t } = useTranslation(['menu'])
   const { cur, ga, user } = useAuth()
   const navigate = useNavigate()
 
@@ -41,7 +43,7 @@ const Menu: FC = () => {
                   <ListItemIcon sx={{ mr: -2 }}>
                     <Person color="primary" />
                   </ListItemIcon>
-                  <ListItemText primary="My profile" />
+                  <ListItemText primary={t('title10')} />
                 </ListItemButton>
               </ListItem>
               {menu.map((item, index) => (
@@ -50,7 +52,7 @@ const Menu: FC = () => {
                     <ListItemIcon sx={{ mr: -2 }}>
                       <item.icon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary={item.title} />
+                    <ListItemText primary={t(`title${index}`)} />
                   </ListItemButton>
                 </ListItem>
               ))}
@@ -63,7 +65,7 @@ const Menu: FC = () => {
                     <ListItemIcon sx={{ mr: -2 }}>
                       <BookmarkBorder color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Bookmarks" />
+                    <ListItemText primary={t('title6')} />
                   </ListItemButton>
                 </ListItem>
                 <Badge
@@ -82,7 +84,7 @@ const Menu: FC = () => {
                   <ListItemIcon sx={{ mr: -2 }}>
                     <InfoOutlined color="primary" />
                   </ListItemIcon>
-                  <ListItemText primary="About" />
+                  <ListItemText primary={t('title7')} />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
@@ -90,7 +92,7 @@ const Menu: FC = () => {
                   <ListItemIcon sx={{ mr: -2 }}>
                     <Logout color="primary" />
                   </ListItemIcon>
-                  <ListItemText primary="Logout" />
+                  <ListItemText primary={t('title8')} />
                 </ListItemButton>
               </ListItem>
             </>
@@ -101,7 +103,7 @@ const Menu: FC = () => {
                   <ListItemIcon sx={{ mr: -2 }}>
                     <Login color="primary" />
                   </ListItemIcon>
-                  <ListItemText primary="Sign in" />
+                  <ListItemText primary={t('title9')} />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
@@ -109,7 +111,7 @@ const Menu: FC = () => {
                   <ListItemIcon sx={{ mr: -2 }}>
                     <InfoOutlined color="primary" />
                   </ListItemIcon>
-                  <ListItemText primary="About" />
+                  <ListItemText primary={t('title7')} />
                 </ListItemButton>
               </ListItem>
             </>

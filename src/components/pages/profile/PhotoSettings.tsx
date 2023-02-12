@@ -21,8 +21,10 @@ import { ThemeIconButton } from '../../ui/ThemeIconButton'
 import { SettingsBox } from '../../ui/ThemeBox'
 import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
 import { IUser } from '../../../types'
+import { useTranslation } from 'react-i18next'
 
 const PhotoSettings: FC = () => {
+  const { t } = useTranslation(['profile'])
   const { db, cur, st, user } = useAuth()
 
   const [open, setOpen] = useState(false)
@@ -307,7 +309,7 @@ const PhotoSettings: FC = () => {
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <Upload color="primary" />
                       </ListItemIcon>
-                      <Typography variant="body1">Upload photo</Typography>
+                      <Typography variant="body1">{t('line4')}</Typography>
                       <input
                         type="file"
                         accept="image/png, image/jpeg"
@@ -320,7 +322,7 @@ const PhotoSettings: FC = () => {
                         <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                           <Clear color="error" />
                         </ListItemIcon>
-                        <Typography variant="body1">Delete photo</Typography>
+                        <Typography variant="body1">{t('line5')}</Typography>
                       </MenuItem>
                     )}
                   </MenuList>

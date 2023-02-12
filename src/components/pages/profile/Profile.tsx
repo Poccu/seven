@@ -17,8 +17,10 @@ import PhotoSettings from './PhotoSettings'
 import { TaskAlt } from '@mui/icons-material'
 import AddFriend from './AddFriend'
 import FriendList from './FriendList'
+import { useTranslation } from 'react-i18next'
 
 const Profile: FC = () => {
+  const { t } = useTranslation(['profile'])
   const { db, cur } = useAuth()
   const { id } = useParams()
   const profileId = window.location.pathname.replace('/profile/', '')
@@ -29,6 +31,8 @@ const Profile: FC = () => {
 
   const [userPosts, setUserPosts] = useState<IPost[]>([])
   // console.log('userPosts', userPosts)
+
+  document.title = user?.displayName
 
   useEffect(() => {
     const unsub = onSnapshot(doc(db, 'users', id || cur.uid), (doc) => {
@@ -84,7 +88,10 @@ const Profile: FC = () => {
                   <b>{user?.displayName}</b>
                 </Typography>
                 {user?.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
-                  <Tooltip title="Admin" placement="top">
+                  <Tooltip
+                    title={t('title3', { ns: ['other'] })}
+                    placement="top"
+                  >
                     <TaskAlt
                       color="info"
                       sx={{
@@ -96,18 +103,26 @@ const Profile: FC = () => {
                 )}
               </Stack>
             </Box>
-            <Stack direction="row" spacing={3} sx={{ pl: 1 }}>
-              <Stack justifyContent="center" alignItems="center">
+            <Stack direction="row" spacing={2} sx={{ pl: 1 }}>
+              <Stack
+                justifyContent="center"
+                alignItems="center"
+                sx={{ width: '55px' }}
+              >
                 <Typography variant="h4" color="textSecondary">
                   <b>{user?.friends?.length}</b>
                 </Typography>
-                <Typography color="textSecondary">friends</Typography>
+                <Typography color="textSecondary">{t('line1')}</Typography>
               </Stack>
-              <Stack justifyContent="center" alignItems="center">
+              <Stack
+                justifyContent="center"
+                alignItems="center"
+                sx={{ width: '55px' }}
+              >
                 <Typography variant="h4" color="textSecondary">
                   <b>{userPosts.length}</b>
                 </Typography>
-                <Typography color="textSecondary">posts</Typography>
+                <Typography color="textSecondary">{t('line2')}</Typography>
               </Stack>
               {cur.uid !== profileId && <AddFriend />}
             </Stack>

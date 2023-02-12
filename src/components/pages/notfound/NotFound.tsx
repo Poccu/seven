@@ -3,8 +3,12 @@ import { Box, Grid, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { ThemeButton } from '../../ui/ThemeButton'
 import { BackgroundPaperBox } from '../../ui/ThemeBox'
+import { useTranslation } from 'react-i18next'
 
 const NotFound: FC = () => {
+  const { t } = useTranslation(['notFound'])
+  document.title = t('title1')
+
   return (
     <Box
       sx={{
@@ -33,12 +37,12 @@ const NotFound: FC = () => {
         justifyContent="center"
       >
         <Typography variant="h3" align="center">
-          <b>Oops! Page not found 😞</b>
+          <b>{t('title1')}</b>
         </Typography>
         <br />
         <Box component={Link} to="/">
           <ThemeButton>
-            <b>Home</b>
+            <b>{t('button1')}</b>
           </ThemeButton>
         </Box>
         <>

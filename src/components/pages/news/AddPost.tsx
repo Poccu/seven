@@ -1,17 +1,20 @@
 import { FC, useState } from 'react'
-import { Box, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import { BorderBox } from '../../ui/ThemeBox'
 import { doc, setDoc } from 'firebase/firestore'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { ThemeTextFieldAddPost } from '../../ui/ThemeTextField'
 import { Link } from 'react-router-dom'
+// import AddPhotos from './AddPhotos'
+import { useTranslation } from 'react-i18next'
 
 const AddPost: FC = () => {
+  const { t } = useTranslation(['news'])
   const [content, setContent] = useState('')
   const { db, cur, user } = useAuth()
 
-  const addPostHandler = async (e: any) => {
+  const handleAddPost = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
       let charList =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
@@ -40,7 +43,7 @@ const AddPost: FC = () => {
           comments: [],
           likes: [],
           bookmarks: [],
-          photos: [],
+          images: [],
           views: 0,
           id: idDb,
         })
@@ -62,15 +65,16 @@ const AddPost: FC = () => {
           </ThemeAvatar>
         </Link>
         <ThemeTextFieldAddPost
-          label={<b>Whats's new?</b>}
+          label={<b>{t('line1')}</b>}
           // multiline
           fullWidth
           // focused
           autoComplete="off"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          onKeyPress={addPostHandler}
+          onKeyPress={handleAddPost}
         />
+        {/* <AddPhotos /> */}
       </Stack>
     </BorderBox>
   )

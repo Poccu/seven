@@ -4,6 +4,7 @@ import { useAuth } from '../../providers/useAuth'
 import { IPost } from '../../../types'
 import { doc, setDoc } from 'firebase/firestore'
 import { ThemeTextFieldAddPost } from '../../ui/ThemeTextField'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   post: IPost
@@ -17,6 +18,7 @@ const moveFocusAtEnd = (e: any) => {
 }
 
 const EditPost: FC<Props> = ({ post, setEditingId }) => {
+  const { t } = useTranslation(['news'])
   const [content, setContent] = useState(post.content)
   const { db } = useAuth()
 
@@ -30,7 +32,7 @@ const EditPost: FC<Props> = ({ post, setEditingId }) => {
   return (
     <Box>
       <ThemeTextFieldAddPost
-        label={<b>Edit post</b>}
+        label={<b>{t('line9')}</b>}
         multiline
         fullWidth
         color="secondary"
@@ -46,9 +48,9 @@ const EditPost: FC<Props> = ({ post, setEditingId }) => {
           setEditingId('')
         }}
       >
-        Cancel
+        {t('button2')}
       </Button>
-      <Button onClick={handleEditPost}>Save</Button>
+      <Button onClick={handleEditPost}>{t('button3')}</Button>
     </Box>
   )
 }

@@ -17,6 +17,7 @@ import {
 } from '@mui/icons-material'
 import { SettingsBox } from '../../ui/ThemeBox'
 import { useSnackbar } from 'notistack'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   post: IPost
@@ -25,6 +26,7 @@ type Props = {
 }
 
 const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
+  const { t } = useTranslation(['news'])
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
 
@@ -112,7 +114,7 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
       console.log('Bookmark failed: ', e)
     }
 
-    enqueueSnackbar('Post added to Bookmarks!', { variant: 'success' })
+    enqueueSnackbar(t('line3'), { variant: 'success' })
   }
 
   const handleRemoveBookmark = async (post: IPost) => {
@@ -154,7 +156,7 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
       console.log('Delete Bookmark failed: ', e)
     }
 
-    enqueueSnackbar('Post removed from Bookmarks!', { variant: 'error' })
+    enqueueSnackbar(t('line4'), { variant: 'error' })
   }
 
   return (
@@ -199,16 +201,14 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <BookmarkAddOutlined color="primary" />
                       </ListItemIcon>
-                      <Typography variant="body1">Add to Bookmarks</Typography>
+                      <Typography variant="body1">{t('line5')}</Typography>
                     </MenuItem>
                   ) : (
                     <MenuItem onClick={() => handleRemoveBookmark(post)}>
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <BookmarkRemoveOutlined color="primary" />
                       </ListItemIcon>
-                      <Typography variant="body1">
-                        Remove from Bookmarks
-                      </Typography>
+                      <Typography variant="body1">{t('line6')}</Typography>
                     </MenuItem>
                   )}
                   {post.author.uid === cur.uid &&
@@ -223,7 +223,7 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
                         <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                           <Edit color="primary" />
                         </ListItemIcon>
-                        <Typography variant="body1">Edit</Typography>
+                        <Typography variant="body1">{t('line7')}</Typography>
                       </MenuItem>
                     )}
                   {post.author.uid === cur.uid && (
@@ -231,7 +231,7 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <Clear color="error" />
                       </ListItemIcon>
-                      <Typography variant="body1">Delete post</Typography>
+                      <Typography variant="body1">{t('line8')}</Typography>
                     </MenuItem>
                   )}
                 </MenuList>

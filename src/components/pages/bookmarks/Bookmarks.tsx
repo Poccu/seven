@@ -33,18 +33,22 @@ import {
   Visibility,
 } from '@mui/icons-material'
 import moment from 'moment'
-import PostSettings from '../home/PostSettings'
+import PostSettings from '../news/PostSettings'
 import { ThemeTooltip } from '../../ui/ThemeTooltip'
 import { ThemeLikeIconButton } from '../../ui/ThemeIconButton'
 import { TransitionGroup } from 'react-transition-group'
+import { useTranslation } from 'react-i18next'
 
 const Bookmarks: FC = () => {
+  const { t } = useTranslation(['bookmarks'])
   const [posts, setPosts] = useState<IPost[]>([])
 
   const [openModal, setOpenModal] = useState(false)
   const [modalData, setModalData] = useState<IUser[]>([])
 
   const { db, cur, user } = useAuth()
+
+  document.title = t('title1')
 
   useEffect(() => {
     const q = query(
@@ -149,7 +153,7 @@ const Bookmarks: FC = () => {
     <>
       <BorderBox sx={{ p: 3, mb: 2 }}>
         <Typography variant="h5" textAlign="center">
-          <b>Bookmarks</b>
+          <b>{t('title1')}</b>
         </Typography>
       </BorderBox>
       <TransitionGroup>
@@ -182,7 +186,10 @@ const Bookmarks: FC = () => {
                           </Typography>
                         </Link>
                         {post.author.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
-                          <Tooltip title="Admin" placement="top">
+                          <Tooltip
+                            title={t('title3', { ns: ['other'] })}
+                            placement="top"
+                          >
                             <TaskAlt
                               color="info"
                               sx={{
@@ -194,14 +201,7 @@ const Bookmarks: FC = () => {
                         )}
                       </Stack>
                       <Typography variant="body2" color="textSecondary">
-                        {moment(post.createdAt).calendar(null, {
-                          lastDay: '[yesterday at] H:mm',
-                          sameDay: '[today at] H:mm',
-                          nextDay: '[tomorrow at] H:mm',
-                          lastWeek: 'D MMM [at] H:mm',
-                          nextWeek: 'D MMM [at] H:mm',
-                          sameElse: 'D MMM YYYY',
-                        })}
+                        {moment(post.createdAt).calendar()}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -333,7 +333,10 @@ const Bookmarks: FC = () => {
                                   </Link>
                                   {comment.author.uid ===
                                     'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
-                                    <Tooltip title="Admin" placement="top">
+                                    <Tooltip
+                                      title={t('title3', { ns: ['other'] })}
+                                      placement="top"
+                                    >
                                       <TaskAlt
                                         color="info"
                                         sx={{
@@ -351,14 +354,7 @@ const Bookmarks: FC = () => {
                                   variant="body2"
                                   color="textSecondary"
                                 >
-                                  {moment(comment.createdAt).calendar(null, {
-                                    lastDay: '[yesterday at] H:mm',
-                                    sameDay: '[today at] H:mm',
-                                    nextDay: '[tomorrow at] H:mm',
-                                    lastWeek: 'D MMM [at] H:mm',
-                                    nextWeek: 'D MMM [at] H:mm',
-                                    sameElse: 'D MMM YYYY',
-                                  })}
+                                  {moment(comment.createdAt).calendar()}
                                 </Typography>
                               </Stack>
                             </Stack>

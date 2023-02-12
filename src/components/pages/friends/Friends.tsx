@@ -4,28 +4,26 @@ import { useAuth } from '../../providers/useAuth'
 import { BorderBox } from '../../ui/ThemeBox'
 import { Link } from 'react-router-dom'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
+import { useTranslation } from 'react-i18next'
 
 const Friends: FC = () => {
+  const { t } = useTranslation(['friends'])
   const { user } = useAuth()
+  document.title = t('title1')
 
   return (
     <>
       <BorderBox sx={{ p: 3, mb: 2 }}>
         <Typography variant="h5" textAlign="center">
-          <b>Friends</b>
+          <b>{t('title1')}</b>
         </Typography>
       </BorderBox>
       <BorderBox sx={{ p: 3, mb: 2 }}>
         <Stack spacing={3}>
           {user && user?.friends?.length > 0 ? (
             user?.friends.map((x) => (
-              <Link to={`/profile/${x.uid}`}>
-                <Stack
-                  direction="row"
-                  spacing={4}
-                  alignItems="center"
-                  key={x.uid}
-                >
+              <Link to={`/profile/${x.uid}`} key={x.uid}>
+                <Stack direction="row" spacing={4} alignItems="center">
                   <ThemeAvatar
                     alt={x.displayName}
                     src={x.photoURL}
@@ -50,7 +48,7 @@ const Friends: FC = () => {
               color="textSecondary"
               sx={{ my: 4 }}
             >
-              <b>No friends yet 😞</b>
+              <b>{t('line1')}</b>
             </Typography>
           )}
         </Stack>

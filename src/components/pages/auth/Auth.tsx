@@ -32,6 +32,7 @@ import { emojis } from './emojis'
 import { ThemeTextFieldAuth } from '../../ui/ThemeTextField'
 import { ThemeButton } from '../../ui/ThemeButton'
 import { BackgroundPaperBox } from '../../ui/ThemeBox'
+import { useTranslation } from 'react-i18next'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -67,7 +68,9 @@ const a11yProps = (index: number) => {
 }
 
 const Auth: FC = () => {
+  const { t } = useTranslation(['auth'])
   const { ga, db, gProvider, gitProvider, fProvider } = useAuth()
+  document.title = 'Seven'
 
   const [isRegForm, setIsRegForm] = useState(false)
   const [userData, setUserData] = useState<IUserData>({
@@ -364,7 +367,7 @@ const Auth: FC = () => {
             <Tab
               label={
                 <Typography variant="h6">
-                  <b>Sign in</b>
+                  <b>{t('title1')}</b>
                 </Typography>
               }
               {...a11yProps(0)}
@@ -372,7 +375,7 @@ const Auth: FC = () => {
             <Tab
               label={
                 <Typography variant="h6">
-                  <b>Register</b>
+                  <b>{t('title2')}</b>
                 </Typography>
               }
               {...a11yProps(1)}
@@ -394,7 +397,7 @@ const Auth: FC = () => {
             >
               <ThemeTextFieldAuth
                 type="email"
-                label="Email"
+                label={t('line1')}
                 variant="outlined"
                 required
                 autoComplete="off"
@@ -406,11 +409,11 @@ const Auth: FC = () => {
                 }
                 onFocus={() => setUserNotFound(false)}
                 error={userNotFound}
-                helperText={(userNotFound && 'Wrong email') || ' '}
+                helperText={(userNotFound && t('error1')) || ' '}
               />
               <ThemeTextFieldAuth
                 type={showPassword ? 'text' : 'password'}
-                label="Password"
+                label={t('line2')}
                 variant="outlined"
                 required
                 autoComplete="off"
@@ -435,16 +438,16 @@ const Auth: FC = () => {
                 }
                 onFocus={() => setWrongPassword(false)}
                 error={wrongPassword}
-                helperText={(wrongPassword && 'Wrong password') || ' '}
+                helperText={(wrongPassword && t('error2')) || ' '}
               />
               <ThemeButton type="submit" onClick={() => setIsRegForm(false)}>
-                <b>Sign in</b>
+                <b>{t('button1')}</b>
               </ThemeButton>
             </Stack>
           </Box>
           <Divider sx={{ width: '100%' }}>
             <Typography color="textSecondary" variant="body1">
-              or login with
+              {t('line3')}
             </Typography>
           </Divider>
           <Stack
@@ -488,13 +491,13 @@ const Auth: FC = () => {
             alignItems="center"
             spacing={1}
           >
-            <Typography>Don't have an account?</Typography>
+            <Typography>{t('line4')}</Typography>
             <Typography
               color="primary"
               onClick={() => setValue(1)}
               sx={{ cursor: 'pointer' }}
             >
-              <b>Register</b>
+              <b>{t('line5')}</b>
             </Typography>
           </Stack>
         </TabPanel>
@@ -512,7 +515,7 @@ const Auth: FC = () => {
               spacing={1}
             >
               <ThemeTextFieldAuth
-                label="Name"
+                label={t('line0')}
                 variant="outlined"
                 required
                 autoComplete="off"
@@ -529,7 +532,7 @@ const Auth: FC = () => {
               />
               <ThemeTextFieldAuth
                 type="email"
-                label="Email"
+                label={t('line1')}
                 variant="outlined"
                 required
                 autoComplete="off"
@@ -546,15 +549,15 @@ const Auth: FC = () => {
                 error={invalidEmail || alreadyInUseEmail}
                 helperText={
                   invalidEmail
-                    ? 'Invalid email'
+                    ? t('error3')
                     : alreadyInUseEmail
-                    ? 'Email is already in use'
+                    ? t('error4')
                     : ' '
                 }
               />
               <ThemeTextFieldAuth
                 type={showPassword ? 'text' : 'password'}
-                label="Password"
+                label={t('line2')}
                 variant="outlined"
                 required
                 autoComplete="off"
@@ -579,10 +582,10 @@ const Auth: FC = () => {
                 }
                 onFocus={() => setInvalidPassword(false)}
                 error={invalidPassword}
-                helperText={invalidPassword ? 'At least 6 characters' : ' '}
+                helperText={invalidPassword ? t('error5') : ' '}
               />
               <ThemeButton type="submit" onClick={() => setIsRegForm(true)}>
-                <b>Register</b>
+                <b>{t('button2')}</b>
               </ThemeButton>
             </Stack>
           </Box>
@@ -592,13 +595,13 @@ const Auth: FC = () => {
             alignItems="center"
             spacing={1}
           >
-            <Typography>Already have an account?</Typography>
+            <Typography>{t('line6')}</Typography>
             <Typography
               color="primary"
               onClick={() => setValue(0)}
               sx={{ cursor: 'pointer' }}
             >
-              <b>Sign in</b>
+              <b>{t('line7')}</b>
             </Typography>
           </Stack>
         </TabPanel>

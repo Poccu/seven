@@ -5,6 +5,7 @@ import { SnackbarProvider } from 'notistack'
 import { initializeApp } from 'firebase/app'
 import { AuthProvider } from './components/providers/AuthProvider'
 import { Grow } from '@mui/material'
+import './i18n'
 
 const apiKey = process.env.REACT_APP_FIREBASE_API_KEY
 const authDomain = process.env.REACT_APP_FIREBASE_AUTH_DOMAIN

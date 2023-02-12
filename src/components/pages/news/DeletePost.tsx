@@ -6,6 +6,7 @@ import { deleteDoc, doc } from 'firebase/firestore'
 import { ThemeButton } from '../../ui/ThemeButton'
 import { Clear } from '@mui/icons-material'
 import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   post: IPost
@@ -14,6 +15,7 @@ type Props = {
 }
 
 const DeletePost: FC<Props> = ({ post, deletedPosts, setDeletedPosts }) => {
+  const { t } = useTranslation(['news'])
   const [progress, setProgress] = useState(0)
   // +deletedPosts?.find((x) => x?.id == post.id)?.progress
   const { db } = useAuth()
@@ -69,7 +71,7 @@ const DeletePost: FC<Props> = ({ post, deletedPosts, setDeletedPosts }) => {
         onClick={handleUndo}
         startIcon={<Clear style={{ fontSize: '30px' }} />}
       >
-        <b>Undo</b>
+        <b>{t('button1')}</b>
       </ThemeButton>
       <ThemeLinearProgress
         variant="determinate"

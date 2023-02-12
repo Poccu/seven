@@ -45,8 +45,10 @@ import EditPost from './EditPost'
 import DeletePost from './DeletePost'
 import { ThemeTooltip } from '../../ui/ThemeTooltip'
 import { ThemeLikeIconButton } from '../../ui/ThemeIconButton'
+import { useTranslation } from 'react-i18next'
 
-const Home: FC = () => {
+const News: FC = () => {
+  const { t } = useTranslation(['news'])
   const [posts, setPosts] = useState<IPost[]>([])
   const [editingId, setEditingId] = useState('')
   const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
@@ -56,6 +58,8 @@ const Home: FC = () => {
   const [modalData, setModalData] = useState<IUser[]>([])
 
   const [expanded, setExpanded] = useState<string | false>('')
+
+  document.title = t('title1')
 
   const handleOpen = (post: IPost) => {
     if (expanded === post.id) {
@@ -204,7 +208,10 @@ const Home: FC = () => {
                           </Typography>
                         </Link>
                         {post.author.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
-                          <Tooltip title="Admin" placement="top">
+                          <Tooltip
+                            title={t('title3', { ns: ['other'] })}
+                            placement="top"
+                          >
                             <TaskAlt
                               color="info"
                               sx={{
@@ -216,14 +223,7 @@ const Home: FC = () => {
                         )}
                       </Stack>
                       <Typography variant="body2" color="textSecondary">
-                        {moment(post.createdAt).calendar(null, {
-                          lastDay: '[yesterday at] H:mm',
-                          sameDay: '[today at] H:mm',
-                          nextDay: '[tomorrow at] H:mm',
-                          lastWeek: 'D MMM [at] H:mm',
-                          nextWeek: 'D MMM [at] H:mm',
-                          sameElse: 'D MMM YYYY',
-                        })}
+                        {moment(post.createdAt).calendar()}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -271,7 +271,7 @@ const Home: FC = () => {
                       <ThemeTooltip
                         title={
                           post.likes.length > 0 && (
-                            <>
+                            <Stack alignItems="center">
                               <Typography
                                 textAlign="center"
                                 variant="body2"
@@ -281,7 +281,7 @@ const Home: FC = () => {
                                   setModalData(post.likes)
                                 }}
                               >
-                                Likes
+                                {t('line10')}
                               </Typography>
                               <AvatarGroup
                                 max={4}
@@ -311,7 +311,7 @@ const Home: FC = () => {
                                   </Link>
                                 ))}
                               </AvatarGroup>
-                            </>
+                            </Stack>
                           )
                         }
                         placement="top"
@@ -401,7 +401,10 @@ const Home: FC = () => {
                                 </Link>
                                 {comment.author.uid ===
                                   'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
-                                  <Tooltip title="Admin" placement="top">
+                                  <Tooltip
+                                    title={t('title3', { ns: ['other'] })}
+                                    placement="top"
+                                  >
                                     <TaskAlt
                                       color="info"
                                       sx={{
@@ -416,14 +419,7 @@ const Home: FC = () => {
                                 {comment.content}
                               </Typography>
                               <Typography variant="body2" color="textSecondary">
-                                {moment(comment.createdAt).calendar(null, {
-                                  lastDay: '[yesterday at] H:mm',
-                                  sameDay: '[today at] H:mm',
-                                  nextDay: '[tomorrow at] H:mm',
-                                  lastWeek: 'D MMM [at] H:mm',
-                                  nextWeek: 'D MMM [at] H:mm',
-                                  sameElse: 'D MMM YYYY',
-                                })}
+                                {moment(comment.createdAt).calendar()}
                               </Typography>
                             </Stack>
                           </Stack>
@@ -491,7 +487,7 @@ const Home: FC = () => {
         >
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body1">
-              Likes: {modalData.length > 0 && modalData.length}
+              {t('line10')}: {modalData.length > 0 && modalData.length}
             </Typography>
             <IconButton
               onClick={() => {
@@ -547,4 +543,4 @@ const Home: FC = () => {
   )
 }
 
-export default Home
+export default News

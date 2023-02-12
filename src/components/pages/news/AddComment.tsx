@@ -12,6 +12,7 @@ import { ArrowForwardIosSharp } from '@mui/icons-material'
 import { IPost } from '../../../types'
 import { ThemeTextFieldAddComment } from '../../ui/ThemeTextField'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -58,6 +59,7 @@ type Props = {
 }
 
 const AddComment: FC<Props> = ({ expanded, post }) => {
+  const { t } = useTranslation(['news'])
   const [content, setContent] = useState('')
   const { cur, db, user } = useAuth()
 
@@ -136,7 +138,7 @@ const AddComment: FC<Props> = ({ expanded, post }) => {
           </ThemeAvatar>
         </Link>
         <ThemeTextFieldAddComment
-          label="Leave a comment…"
+          label={t('line2')}
           // multiline
           fullWidth
           // focused

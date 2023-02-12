@@ -8,4 +8,5 @@ export const builtWithList = [
   { title: 'Firebase 9', url: 'https://firebase.google.com/' },
   { title: 'Moment.js', url: 'https://momentjs.com/' },
   { title: 'Notistack', url: 'https://notistack.com/' },
+  { title: 'i18next', url: 'https://www.i18next.com/' },
 ]

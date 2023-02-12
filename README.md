@@ -35,6 +35,7 @@
 - [Firebase 9](https://firebase.google.com/)
 - [Moment.js](https://momentjs.com/)
 - [Notistack](https://notistack.com/)
+- [i18next](https://www.i18next.com/)
 
 <!-- CONTACT -->
 

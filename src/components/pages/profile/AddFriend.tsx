@@ -4,8 +4,10 @@ import { FC } from 'react'
 import { IUser } from '../../../types'
 import { useAuth } from '../../providers/useAuth'
 import { ThemeButton } from '../../ui/ThemeButton'
+import { useTranslation } from 'react-i18next'
 
 const AddFriend: FC = () => {
+  const { t } = useTranslation(['profile'])
   const { db, cur, user } = useAuth()
   const profileId = window.location.pathname.replace('/profile/', '')
 
@@ -99,17 +101,17 @@ const AddFriend: FC = () => {
         <ThemeButton
           onClick={handleAddFriend}
           startIcon={<PersonAddAlt1 style={{ fontSize: '18px' }} />}
-          sx={{ width: 190, height: 28, fontSize: 15 }}
+          sx={{ height: 28, fontSize: 15 }}
         >
-          <b>Add Friend</b>
+          <b>{t('button1')}</b>
         </ThemeButton>
       ) : (
         <ThemeButton
           onClick={handleRemoveFriend}
           startIcon={<PersonRemoveAlt1 style={{ fontSize: '18px' }} />}
-          sx={{ width: 190, height: 28, fontSize: 15 }}
+          sx={{ height: 28, fontSize: 15 }}
         >
-          <b>Delete Friend</b>
+          <b>{t('button2')}</b>
         </ThemeButton>
       )}
     </>

@@ -2,8 +2,12 @@ import { FC } from 'react'
 import { Box, Link, Typography } from '@mui/material'
 import { BorderBox } from '../../ui/ThemeBox'
 import { builtWithList } from './builtWithList'
+import { useTranslation } from 'react-i18next'
 
 const About: FC = () => {
+  const { t } = useTranslation(['about'])
+  document.title = t('title1')
+
   return (
     <BorderBox sx={{ p: 3, mb: 2 }}>
       <Box display="flex" alignItems="center" justifyContent="center">
@@ -23,11 +27,8 @@ const About: FC = () => {
       >
         SEVEN
       </Typography>
-      <Typography>
-        Seven is a social network where you can register and exchange messages
-        and information, as well as like, bookmark posts and delete them.
-      </Typography>
-      <Typography sx={{ mt: 3 }}>Built with:</Typography>
+      <Typography>{t('line1')}</Typography>
+      <Typography sx={{ mt: 3 }}>{t('line2')}</Typography>
       <ul>
         {builtWithList.map((x, index) => (
           <Link
