@@ -12,7 +12,6 @@ import {
 } from '@mui/material'
 import {
   collection,
-  orderBy,
   query,
   doc,
   onSnapshot,
@@ -26,6 +25,7 @@ import { BorderBox } from '../../ui/ThemeBox'
 import { Link } from 'react-router-dom'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import {
+  ChatBubbleOutline,
   Clear,
   Favorite,
   FavoriteBorder,
@@ -33,7 +33,7 @@ import {
   Visibility,
 } from '@mui/icons-material'
 import moment from 'moment'
-import PostSettings from '../news/PostSettings'
+// import PostSettings from '../news/PostSettings'
 import { ThemeTooltip } from '../../ui/ThemeTooltip'
 import { ThemeLikeIconButton } from '../../ui/ThemeIconButton'
 import { TransitionGroup } from 'react-transition-group'
@@ -54,8 +54,6 @@ const Bookmarks: FC = () => {
     const q = query(
       collection(db, 'posts'),
       where('bookmarks', 'array-contains', cur.uid)
-      // orderBy('createdAt', 'desc')
-      // limit(4)
     )
 
     const setPostsFunc = onSnapshot(q, (querySnapshot) => {
@@ -224,68 +222,92 @@ const Bookmarks: FC = () => {
                     alignItems="center"
                     direction="row"
                     // spacing={0.2}
-                    sx={{ mt: 2 }}
+                    sx={{ mt: 2, zIndex: 1 }}
                   >
-                    <ThemeTooltip
-                      title={
-                        post.likes.length > 0 && (
-                          <>
-                            <Typography
-                              textAlign="center"
-                              variant="body2"
-                              sx={{ cursor: 'pointer' }}
-                              onClick={() => handleOpenModal(post)}
-                            >
-                              Likes
-                            </Typography>
-                            <AvatarGroup
-                              max={4}
-                              spacing={12}
-                              sx={{ cursor: 'pointer' }}
-                              onClick={() => handleOpenModal(post)}
-                            >
-                              {post.likes.map((user) => (
-                                <Link
-                                  to={`/profile/${user.uid}`}
-                                  key={user.uid}
-                                >
-                                  <ThemeAvatar
-                                    alt={user.displayName}
-                                    src={user.photoURL}
-                                    title={user.displayName}
-                                    sx={{
-                                      width: '40px',
-                                      height: '40px',
-                                    }}
-                                  >
-                                    {user.emoji}
-                                  </ThemeAvatar>
-                                </Link>
-                              ))}
-                            </AvatarGroup>
-                          </>
-                        )
-                      }
-                      placement="top"
+                    <Stack
+                      alignItems="center"
+                      direction="row"
+                      sx={{ width: '55px' }}
                     >
-                      {cur.uid && !post.likes.some((x) => x.uid === cur.uid) ? (
-                        <IconButton
-                          onClick={() => handleLike(post)}
-                          color="secondary"
-                        >
-                          <FavoriteBorder />
-                        </IconButton>
-                      ) : (
-                        <IconButton
-                          onClick={() => handleDislike(post)}
-                          color="error"
-                        >
-                          <Favorite />
-                        </IconButton>
-                      )}
-                    </ThemeTooltip>
-                    <Typography variant="body1" color="textSecondary">
-                      <b>{post.likes.length > 0 && post.likes.length}</b>
+                      <ThemeTooltip
+                        title={
+                          post.likes.length > 0 && (
+                            <Stack alignItems="center">
+                              <Typography
+                                textAlign="center"
+                                variant="body2"
+                                sx={{ cursor: 'pointer' }}
+                                onClick={() => handleOpenModal(post)}
+                              >
+                                {t('line10', { ns: ['news'] })}
+                              </Typography>
+                              <AvatarGroup
+                                max={4}
+                                spacing={12}
+                                sx={{ cursor: 'pointer' }}
+                                onClick={() => handleOpenModal(post)}
+                              >
+                                {post.likes.map((user) => (
+                                  <Link
+                                    to={`/profile/${user.uid}`}
+                                    key={user.uid}
+                                  >
+                                    <ThemeAvatar
+                                      alt={user.displayName}
+                                      src={user.photoURL}
+                                      title={user.displayName}
+                                      sx={{
+                                        width: '40px',
+                                        height: '40px',
+                                      }}
+                                    >
+                                      {user.emoji}
+                                    </ThemeAvatar>
+                                  </Link>
+                                ))}
+                              </AvatarGroup>
+                            </Stack>
+                          )
+                        }
+                        placement="top"
+                      >
+                        {cur.uid &&
+                        !post.likes.some((x) => x.uid === cur.uid) ? (
+                          <IconButton
+                            onClick={() => handleLike(post)}
+                            color="secondary"
+                          >
+                            <FavoriteBorder />
+                          </IconButton>
+                        ) : (
+                          <IconButton
+                            onClick={() => handleDislike(post)}
+                            color="error"
+                          >
+                            <Favorite />
+                          </IconButton>
+                        )}
+                      </ThemeTooltip>
+                      <Typography
+                        variant="body1"
+                        color="textSecondary"
+                        sx={{ ml: -0.5 }}
+                      >
+                        <b>{post.likes.length > 0 && post.likes.length}</b>
+                      </Typography>
+                    </Stack>
+                    <IconButton
+                      // onClick={() => handleOpen(post)}
+                      color="secondary"
+                    >
+                      <ChatBubbleOutline />
+                    </IconButton>
+                    <Typography
+                      variant="body1"
+                      color="textSecondary"
+                      sx={{ ml: -0.5 }}
+                    >
+                      <b>{post.comments.length > 0 && post.comments.length}</b>
                     </Typography>
                   </Stack>
                   <Stack
@@ -370,10 +392,7 @@ const Bookmarks: FC = () => {
       </TransitionGroup>
       <Modal
         open={openModal}
-        onClose={() => {
-          setOpenModal(false)
-          setModalData([])
-        }}
+        onClose={handleCloseModal}
         // BackdropProps={{
         //   style: { backgroundColor: 'rgba(0, 0, 0, 0.55)' },
         // }}
@@ -393,7 +412,8 @@ const Bookmarks: FC = () => {
         >
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body1">
-              Likes: {modalData.length > 0 && modalData.length}
+              {t('line10', { ns: ['news'] })}:{' '}
+              {modalData.length > 0 && modalData.length}
             </Typography>
             <IconButton
               onClick={handleCloseModal}

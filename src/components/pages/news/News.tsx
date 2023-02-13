@@ -29,7 +29,6 @@ import {
   query,
   doc,
   runTransaction,
-  limit,
   setDoc,
   increment,
   getDocs,
@@ -72,11 +71,7 @@ const News: FC = () => {
   const { db, cur, user } = useAuth()
 
   useEffect(() => {
-    const q = query(
-      collection(db, 'posts'),
-      orderBy('createdAt', 'desc')
-      // limit(4)
-    )
+    const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
 
     const incViews = async () => {
       const querySnapshot = await getDocs(q)
@@ -100,6 +95,16 @@ const News: FC = () => {
       setPostsFunc()
     }
   }, [])
+
+  const handleOpenModal = (post: IPost) => {
+    setOpenModal(true)
+    setModalData(post.likes)
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
+    setModalData([])
+  }
 
   const handleLike = async (post: IPost) => {
     const docRef = doc(db, 'posts', post.id)
@@ -276,10 +281,7 @@ const News: FC = () => {
                                 textAlign="center"
                                 variant="body2"
                                 sx={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                  setOpenModal(true)
-                                  setModalData(post.likes)
-                                }}
+                                onClick={() => handleOpenModal(post)}
                               >
                                 {t('line10')}
                               </Typography>
@@ -287,10 +289,7 @@ const News: FC = () => {
                                 max={4}
                                 spacing={12}
                                 sx={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                  setOpenModal(true)
-                                  setModalData(post.likes)
-                                }}
+                                onClick={() => handleOpenModal(post)}
                               >
                                 {post.likes.map((user) => (
                                   <Link
@@ -467,14 +466,7 @@ const News: FC = () => {
           </Collapse>
         ))}
       </TransitionGroup>
-      <Modal
-        open={openModal}
-        onClose={() => {
-          setOpenModal(false)
-          setModalData([])
-        }}
-        sx={{ zIndex: 1600 }}
-      >
+      <Modal open={openModal} onClose={handleCloseModal} sx={{ zIndex: 1600 }}>
         <BorderBox
           sx={{
             position: 'absolute',
@@ -490,10 +482,7 @@ const News: FC = () => {
               {t('line10')}: {modalData.length > 0 && modalData.length}
             </Typography>
             <IconButton
-              onClick={() => {
-                setOpenModal(false)
-                setModalData([])
-              }}
+              onClick={handleCloseModal}
               color="secondary"
               sx={{ width: '50px ', height: '50px', m: -2 }}
             >
