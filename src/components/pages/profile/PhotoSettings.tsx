@@ -136,7 +136,10 @@ const PhotoSettings: FC = () => {
     if (e.target.files) {
       const file = e.target.files[0]
 
-      const storageRef = ref(st, `images/${cur.uid}/avatars/${file?.name}`)
+      const storageRef = ref(
+        st,
+        `images/users/${cur.uid}/avatars/${file?.name}`
+      )
       const uploadTask = uploadBytesResumable(storageRef, file)
 
       // Listen for state changes, errors, and completion of the upload.

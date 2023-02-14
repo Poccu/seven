@@ -6,3 +6,17 @@ a {
   color: inherit;
   text-decoration: none; /* no underline */
 }
+
+.image {
+  border-radius: 5px;
+}
+
+.cover {
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.contain {
+  border-radius: 5px;
+  object-fit: contain;
+}

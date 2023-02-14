@@ -41,12 +41,15 @@ import { useTranslation } from 'react-i18next'
 
 const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
+  const { db, cur, user } = useAuth()
+
   const [posts, setPosts] = useState<IPost[]>([])
 
   const [openModal, setOpenModal] = useState(false)
   const [modalData, setModalData] = useState<IUser[]>([])
 
-  const { db, cur, user } = useAuth()
+  const [openImage, setOpenImage] = useState(false)
+  const [modalImage, setModalImage] = useState<string>('')
 
   document.title = t('title1')
 
@@ -77,6 +80,16 @@ const Bookmarks: FC = () => {
   const handleCloseModal = () => {
     setOpenModal(false)
     setModalData([])
+  }
+
+  const handleOpenImage = (image: string) => {
+    setOpenImage(true)
+    setModalImage(image)
+  }
+
+  const handleCloseImage = () => {
+    setOpenImage(false)
+    setModalImage('')
   }
 
   const handleLike = async (post: IPost) => {
@@ -212,6 +225,90 @@ const Bookmarks: FC = () => {
                 <Typography variant="body1" sx={{ ml: 1 }}>
                   {post.content}
                 </Typography>
+                {post?.images?.length === 3 || post?.images?.length > 4 ? (
+                  <Stack
+                    direction="row"
+                    sx={{
+                      mt: 2,
+                      flexWrap: 'wrap',
+                      gap: 1,
+                    }}
+                    justifyContent="center"
+                  >
+                    {post.images.map((image) => (
+                      <Box
+                        sx={{
+                          width: '258px',
+                          height: '258px',
+                          cursor: 'pointer',
+                        }}
+                        key={image}
+                      >
+                        <img
+                          src={image}
+                          alt={image}
+                          width="258px"
+                          height="258px"
+                          className="cover"
+                          loading="lazy"
+                          draggable={false}
+                          onClick={() => handleOpenImage(image)}
+                        />
+                      </Box>
+                    ))}
+                  </Stack>
+                ) : post?.images?.length === 2 || post?.images?.length === 4 ? (
+                  <Stack
+                    direction="row"
+                    sx={{
+                      mt: 2,
+                      flexWrap: 'wrap',
+                      gap: 1,
+                    }}
+                    justifyContent="center"
+                  >
+                    {post.images.map((image) => (
+                      <Box
+                        sx={{
+                          width: '390px',
+                          height: '390px',
+                          cursor: 'pointer',
+                        }}
+                        key={image}
+                      >
+                        <img
+                          src={image}
+                          alt={image}
+                          width="390px"
+                          height="390px"
+                          className="cover"
+                          loading="lazy"
+                          draggable={false}
+                          onClick={() => handleOpenImage(image)}
+                        />
+                      </Box>
+                    ))}
+                  </Stack>
+                ) : post?.images?.length === 1 ? (
+                  <Box
+                    sx={{
+                      mt: 2,
+                      cursor: 'pointer',
+                    }}
+                    display="flex"
+                  >
+                    <img
+                      src={post?.images[0]}
+                      alt={post?.images[0]}
+                      width="100%"
+                      // height="500px"
+                      className="image"
+                      loading="lazy"
+                      draggable={false}
+                      onClick={() => handleOpenImage(post?.images[0])}
+                    />
+                  </Box>
+                ) : null}
                 <Stack
                   direction="row"
                   justifyContent="space-between"
@@ -461,6 +558,48 @@ const Bookmarks: FC = () => {
             ))}
           </Stack>
         </BorderBox>
+      </Modal>
+      <Modal
+        open={openImage}
+        onClose={handleCloseImage}
+        sx={{ zIndex: 1600 }}
+        BackdropProps={{
+          style: { backgroundColor: 'rgba(0, 0, 0, 0.95)' },
+        }}
+      >
+        <>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+            display="flex"
+          >
+            <img
+              src={modalImage}
+              height="100%"
+              width="100%"
+              className="contain"
+              loading="lazy"
+              draggable={false}
+            />
+          </Box>
+          <IconButton
+            onClick={handleCloseImage}
+            color="secondary"
+            sx={{
+              position: 'absolute',
+              height: '100px',
+              width: '100px',
+              top: 20,
+              right: 20,
+            }}
+          >
+            <Clear sx={{ height: '60px', width: '60px' }} />
+          </IconButton>
+        </>
       </Modal>
     </>
   )
