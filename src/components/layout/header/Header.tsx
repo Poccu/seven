@@ -13,7 +13,7 @@ import { Theme } from '../../../types'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
 
-const Header: FC<Theme> = ({ light, setLight }) => {
+export const Header: FC<Theme> = ({ light, setLight }) => {
   const { t, i18n } = useTranslation(['other'])
   const [lang, setLang] = useState('ru') // set lang
 
@@ -66,12 +66,13 @@ const Header: FC<Theme> = ({ light, setLight }) => {
   }
 
   return (
-    <Box sx={{ mb: 8 }}>
+    <Box component="header">
       <AppBar
         position="fixed"
         color="inherit"
         elevation={0}
         sx={{ boxShadow: 3 }}
+        component="div"
       >
         <Container>
           <Stack
@@ -157,5 +158,3 @@ const Header: FC<Theme> = ({ light, setLight }) => {
     </Box>
   )
 }
-
-export default Header

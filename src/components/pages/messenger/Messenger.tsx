@@ -23,11 +23,11 @@ import {
   deleteDoc,
 } from 'firebase/firestore'
 import moment from 'moment'
-import AddMessage from './AddMessage'
+import { AddMessage } from './AddMessage'
 import { IMessage, IUser } from '../../../types'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 
-const Messenger: FC = () => {
+export const Messenger: FC = () => {
   const [messages, setMessages] = useState<IMessage[]>([])
 
   const { cur, db } = useAuth()
@@ -207,5 +207,3 @@ const Messenger: FC = () => {
     </>
   )
 }
-
-export default Messenger

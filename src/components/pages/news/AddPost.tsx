@@ -6,11 +6,11 @@ import { doc, setDoc } from 'firebase/firestore'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { ThemeTextFieldAddPost } from '../../ui/ThemeTextField'
 import { Link } from 'react-router-dom'
-import AddPhotos from './AddPhotos'
+import { AddPhotos } from './AddPhotos'
 import { useTranslation } from 'react-i18next'
 import { Clear } from '@mui/icons-material'
 
-const AddPost: FC = () => {
+export const AddPost: FC = () => {
   const { t } = useTranslation(['news'])
   const [content, setContent] = useState('')
   const [images, setImages] = useState<string[]>([])
@@ -115,5 +115,3 @@ const AddPost: FC = () => {
     </BorderBox>
   )
 }
-
-export default AddPost

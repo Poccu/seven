@@ -6,7 +6,7 @@ import { useAuth } from '../../providers/useAuth'
 import { ThemeButton } from '../../ui/ThemeButton'
 import { useTranslation } from 'react-i18next'
 
-const AddFriend: FC = () => {
+export const AddFriend: FC = () => {
   const { t } = useTranslation(['profile'])
   const { db, cur, user } = useAuth()
   const profileId = window.location.pathname.replace('/profile/', '')
@@ -117,5 +117,3 @@ const AddFriend: FC = () => {
     </>
   )
 }
-
-export default AddFriend

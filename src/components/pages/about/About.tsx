@@ -4,7 +4,7 @@ import { BorderBox } from '../../ui/ThemeBox'
 import { builtWithList } from './builtWithList'
 import { useTranslation } from 'react-i18next'
 
-const About: FC = () => {
+export const About: FC = () => {
   const { t } = useTranslation(['about'])
   document.title = t('title1')
 
@@ -45,5 +45,3 @@ const About: FC = () => {
     </BorderBox>
   )
 }
-
-export default About

@@ -11,13 +11,7 @@ type Props = {
   setEditingId: React.Dispatch<React.SetStateAction<string>>
 }
 
-const moveFocusAtEnd = (e: any) => {
-  let temp_value = e.target.value
-  e.target.value = ''
-  e.target.value = temp_value
-}
-
-const EditPost: FC<Props> = ({ post, setEditingId }) => {
+export const EditPost: FC<Props> = ({ post, setEditingId }) => {
   const { t } = useTranslation(['news'])
   const [content, setContent] = useState(post.content)
   const { db } = useAuth()
@@ -29,6 +23,13 @@ const EditPost: FC<Props> = ({ post, setEditingId }) => {
       setEditingId('')
     }
   }
+
+  const moveFocusAtEnd = (e: any) => {
+    let temp_value = e.target.value
+    e.target.value = ''
+    e.target.value = temp_value
+  }
+
   return (
     <Box>
       <ThemeTextFieldAddPost
@@ -54,5 +55,3 @@ const EditPost: FC<Props> = ({ post, setEditingId }) => {
     </Box>
   )
 }
-
-export default EditPost

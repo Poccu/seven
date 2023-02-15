@@ -10,7 +10,7 @@ type Props = {
   setImagesIdDb: React.Dispatch<React.SetStateAction<string>>
 }
 
-const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
+export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
   const { st } = useAuth()
 
   const [progress, setProgress] = useState<number>(0)
@@ -127,5 +127,3 @@ const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
     </>
   )
 }
-
-export default AddPhotos

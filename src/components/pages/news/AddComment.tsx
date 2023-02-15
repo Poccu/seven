@@ -58,7 +58,7 @@ type Props = {
   post: IPost
 }
 
-const AddComment: FC<Props> = ({ expanded, post }) => {
+export const AddComment: FC<Props> = ({ expanded, post }) => {
   const { t } = useTranslation(['news'])
   const [content, setContent] = useState('')
   const { cur, db, user } = useAuth()
@@ -153,5 +153,3 @@ const AddComment: FC<Props> = ({ expanded, post }) => {
     </Box>
   )
 }
-
-export default AddComment

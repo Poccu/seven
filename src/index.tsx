@@ -1,10 +1,10 @@
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App'
+import { App } from './App'
 import { SnackbarProvider } from 'notistack'
 import { initializeApp } from 'firebase/app'
 import { AuthProvider } from './components/providers/AuthProvider'
 import { Grow } from '@mui/material'
+import './index.css'
 import './i18n'
 
 const apiKey = process.env.REACT_APP_FIREBASE_API_KEY

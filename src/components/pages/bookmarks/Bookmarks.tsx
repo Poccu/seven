@@ -39,7 +39,7 @@ import { ThemeLikeIconButton } from '../../ui/ThemeIconButton'
 import { TransitionGroup } from 'react-transition-group'
 import { useTranslation } from 'react-i18next'
 
-const Bookmarks: FC = () => {
+export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
   const { db, cur, user } = useAuth()
 
@@ -604,5 +604,3 @@ const Bookmarks: FC = () => {
     </>
   )
 }
-
-export default Bookmarks

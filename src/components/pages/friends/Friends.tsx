@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { useTranslation } from 'react-i18next'
 
-const Friends: FC = () => {
+export const Friends: FC = () => {
   const { t } = useTranslation(['friends'])
   const { user } = useAuth()
   document.title = t('title1')
@@ -56,5 +56,3 @@ const Friends: FC = () => {
     </>
   )
 }
-
-export default Friends

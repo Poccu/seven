@@ -11,7 +11,7 @@ type Props = {
   user: DocumentData | undefined
 }
 
-const FriendList: FC<Props> = ({ user }) => {
+export const FriendList: FC<Props> = ({ user }) => {
   const { t } = useTranslation(['profile'])
 
   return (
@@ -63,5 +63,3 @@ const FriendList: FC<Props> = ({ user }) => {
     </BorderBox>
   )
 }
-
-export default FriendList

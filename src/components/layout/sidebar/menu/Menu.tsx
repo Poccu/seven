@@ -22,7 +22,7 @@ import { useAuth } from '../../../providers/useAuth'
 import { signOut } from 'firebase/auth'
 import { useTranslation } from 'react-i18next'
 
-const Menu: FC = () => {
+export const Menu: FC = () => {
   const { t } = useTranslation(['menu'])
   const { cur, ga, user } = useAuth()
   const navigate = useNavigate()
@@ -121,5 +121,3 @@ const Menu: FC = () => {
     </BorderBox>
   )
 }
-
-export default Menu

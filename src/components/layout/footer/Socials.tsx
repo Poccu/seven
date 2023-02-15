@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { IconButton, Stack } from '@mui/material'
 import { Telegram, LinkedIn, GitHub } from '@mui/icons-material'
 
-const Socials: FC = () => {
+export const Socials: FC = () => {
   return (
     <Stack justifyContent="center" direction="row" spacing={1}>
       <IconButton
@@ -35,5 +35,3 @@ const Socials: FC = () => {
     </Stack>
   )
 }
-
-export default Socials

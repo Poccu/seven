@@ -1,10 +1,10 @@
-import { CssBaseline, ThemeProvider } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
-import './App.css'
-import RoutesList from './components/routes/RoutesList'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { RoutesList } from './components/routes/RoutesList'
 import { themeDark, themeLight } from './components/theme/themes'
+import './App.css'
 
-const App: FC = () => {
+export const App: FC = () => {
   const [light, setLight] = useState(true) // set light/dark theme
 
   // localStorage
@@ -28,5 +28,3 @@ const App: FC = () => {
     </ThemeProvider>
   )
 }
-
-export default App

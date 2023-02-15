@@ -25,7 +25,11 @@ type Props = {
   setDeletedPosts: React.Dispatch<React.SetStateAction<IPost[]>>
 }
 
-const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
+export const PostSettings: FC<Props> = ({
+  post,
+  setEditingId,
+  setDeletedPosts,
+}) => {
   const { t } = useTranslation(['news'])
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
@@ -243,5 +247,3 @@ const PostSettings: FC<Props> = ({ post, setEditingId, setDeletedPosts }) => {
     </Box>
   )
 }
-
-export default PostSettings

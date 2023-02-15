@@ -14,7 +14,11 @@ type Props = {
   setDeletedPosts: React.Dispatch<React.SetStateAction<IPost[]>>
 }
 
-const DeletePost: FC<Props> = ({ post, deletedPosts, setDeletedPosts }) => {
+export const DeletePost: FC<Props> = ({
+  post,
+  deletedPosts,
+  setDeletedPosts,
+}) => {
   const { t } = useTranslation(['news'])
   const [progress, setProgress] = useState(0)
   // +deletedPosts?.find((x) => x?.id == post.id)?.progress
@@ -81,5 +85,3 @@ const DeletePost: FC<Props> = ({ post, deletedPosts, setDeletedPosts }) => {
     </Box>
   )
 }
-
-export default DeletePost

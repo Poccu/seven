@@ -13,13 +13,13 @@ import {
   where,
 } from 'firebase/firestore'
 import { IPost, IUser } from '../../../types'
-import PhotoSettings from './PhotoSettings'
+import { PhotoSettings } from './PhotoSettings'
+import { AddFriend } from './AddFriend'
+import { FriendList } from './FriendList'
 import { TaskAlt } from '@mui/icons-material'
-import AddFriend from './AddFriend'
-import FriendList from './FriendList'
 import { useTranslation } from 'react-i18next'
 
-const Profile: FC = () => {
+export const Profile: FC = () => {
   const { t } = useTranslation(['profile'])
   const { db, cur } = useAuth()
   const { id } = useParams()
@@ -133,5 +133,3 @@ const Profile: FC = () => {
     </>
   )
 }
-
-export default Profile

@@ -67,7 +67,7 @@ const a11yProps = (index: number) => {
   }
 }
 
-const Auth: FC = () => {
+export const Auth: FC = () => {
   const { t } = useTranslation(['auth'])
   const { ga, db, gProvider, gitProvider, fProvider } = useAuth()
   document.title = 'Seven'
@@ -609,5 +609,3 @@ const Auth: FC = () => {
     </Box>
   )
 }
-
-export default Auth

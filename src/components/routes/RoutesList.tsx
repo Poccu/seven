@@ -1,14 +1,14 @@
 import { Box } from '@mui/material'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Theme } from '../../types'
-import Layout from '../layout/Layout'
-import Auth from '../pages/auth/Auth'
-import NotFound from '../pages/notfound/NotFound'
-import Profile from '../pages/profile/Profile'
+import { Layout } from '../layout/Layout'
+import { Auth } from '../pages/auth/Auth'
+import { NotFound } from '../pages/notfound/NotFound'
+import { Profile } from '../pages/profile/Profile'
 import { useAuth } from '../providers/useAuth'
 import { routes } from './routes'
 
-const RoutesList = ({ light, setLight }: Theme) => {
+export const RoutesList = ({ light, setLight }: Theme) => {
   const { cur } = useAuth()
 
   return (
@@ -49,5 +49,3 @@ const RoutesList = ({ light, setLight }: Theme) => {
     </Box>
   )
 }
-
-export default RoutesList

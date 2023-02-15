@@ -1,10 +1,10 @@
-import About from '../pages/about/About'
-import Auth from '../pages/auth/Auth'
-import Bookmarks from '../pages/bookmarks/Bookmarks'
-import Friends from '../pages/friends/Friends'
-import News from '../pages/news/News'
-import Messenger from '../pages/messenger/Messenger'
-import Profile from '../pages/profile/Profile'
+import { About } from '../pages/about/About'
+import { Auth } from '../pages/auth/Auth'
+import { Bookmarks } from '../pages/bookmarks/Bookmarks'
+import { Friends } from '../pages/friends/Friends'
+import { News } from '../pages/news/News'
+import { Messenger } from '../pages/messenger/Messenger'
+import { Profile } from '../pages/profile/Profile'
 
 export const routes = [
   {

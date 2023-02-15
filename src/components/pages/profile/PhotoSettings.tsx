@@ -23,7 +23,7 @@ import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
 import { IUser } from '../../../types'
 import { useTranslation } from 'react-i18next'
 
-const PhotoSettings: FC = () => {
+export const PhotoSettings: FC = () => {
   const { t } = useTranslation(['profile'])
   const { db, cur, st, user } = useAuth()
 
@@ -366,5 +366,3 @@ const PhotoSettings: FC = () => {
     </>
   )
 }
-
-export default PhotoSettings

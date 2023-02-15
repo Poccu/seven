@@ -18,7 +18,7 @@ import {
   Clear,
   ChatBubbleOutline,
 } from '@mui/icons-material'
-import AddPost from './AddPost'
+import { AddPost } from './AddPost'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../providers/useAuth'
 import { IPost, IUser } from '../../../types'
@@ -35,18 +35,18 @@ import {
   DocumentData,
 } from 'firebase/firestore'
 import moment from 'moment'
-import AddComment from './AddComment'
-import PostSettings from './PostSettings'
+import { AddComment } from './AddComment'
+import { PostSettings } from './PostSettings'
 import { TransitionGroup } from 'react-transition-group'
 import Collapse from '@mui/material/Collapse'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
-import EditPost from './EditPost'
-import DeletePost from './DeletePost'
+import { EditPost } from './EditPost'
+import { DeletePost } from './DeletePost'
 import { ThemeTooltip } from '../../ui/ThemeTooltip'
 import { ThemeLikeIconButton } from '../../ui/ThemeIconButton'
 import { useTranslation } from 'react-i18next'
 
-const News: FC = () => {
+export const News: FC = () => {
   const { t } = useTranslation(['news'])
   const [posts, setPosts] = useState<IPost[]>([])
   const [editingId, setEditingId] = useState('')
@@ -673,5 +673,3 @@ const News: FC = () => {
     </>
   )
 }
-
-export default News

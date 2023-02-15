@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { Container } from '@mui/material'
-import Socials from './Socials'
+import { Socials } from './Socials'
 
-const Footer: FC = () => {
+export const Footer: FC = () => {
   return (
     <footer>
       <Container maxWidth="sm" sx={{ pb: 4 }}>
@@ -11,5 +11,3 @@ const Footer: FC = () => {
     </footer>
   )
 }
-
-export default Footer

@@ -12,7 +12,7 @@ import {
 } from 'firebase/firestore'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 
-const AddMessage: FC = () => {
+export const AddMessage: FC = () => {
   const [content, setContent] = useState('')
   // const [views, setViews] = useState([])
   const { cur, db, ga } = useAuth()
@@ -137,5 +137,3 @@ const AddMessage: FC = () => {
     </Box>
   )
 }
-
-export default AddMessage

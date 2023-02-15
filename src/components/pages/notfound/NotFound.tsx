@@ -5,7 +5,7 @@ import { ThemeButton } from '../../ui/ThemeButton'
 import { BackgroundPaperBox } from '../../ui/ThemeBox'
 import { useTranslation } from 'react-i18next'
 
-const NotFound: FC = () => {
+export const NotFound: FC = () => {
   const { t } = useTranslation(['notFound'])
   document.title = t('title1')
 
@@ -81,5 +81,3 @@ const NotFound: FC = () => {
     </Box>
   )
 }
-
-export default NotFound
