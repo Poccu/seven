@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 
 export const Friends: FC = () => {
   const { t } = useTranslation(['friends'])
-  const { user } = useAuth()
+  const { user, users } = useAuth()
   document.title = t('title1')
 
   return (
@@ -26,7 +26,7 @@ export const Friends: FC = () => {
                 <Stack direction="row" spacing={4} alignItems="center">
                   <ThemeAvatar
                     alt={x.displayName}
-                    src={x.photoURL}
+                    src={users.find((u) => u.uid === x.uid)?.photoURL}
                     sx={{
                       height: '80px',
                       width: '80px',

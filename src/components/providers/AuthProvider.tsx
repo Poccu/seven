@@ -13,6 +13,8 @@ import {
   onSnapshot,
   DocumentData,
   doc,
+  collection,
+  query,
 } from 'firebase/firestore'
 import { IUser, TypeSetState } from '../../types'
 import { FirebaseStorage, getStorage } from 'firebase/storage'
@@ -31,12 +33,14 @@ interface IContext {
   gProvider: GoogleAuthProvider
   gitProvider: GithubAuthProvider
   fProvider: FacebookAuthProvider
+  users: IUser[]
 }
 
 export const AuthContext = createContext<IContext>({} as IContext)
 
 export const AuthProvider: FC<Props> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null)
+  const [users, setUsers] = useState<IUser[]>([])
 
   const ga = getAuth()
   const db = getFirestore()
@@ -68,6 +72,16 @@ export const AuthProvider: FC<Props> = ({ children }) => {
             })
           }
         })
+
+        const q = query(collection(db, 'users'))
+
+        const setUsersFunc = onSnapshot(q, (querySnapshot) => {
+          const usersArr: IUser[] = []
+          querySnapshot.forEach(async (d: DocumentData) => {
+            usersArr.push(d.data())
+          })
+          setUsers(usersArr)
+        })
       } else {
         setUser(null)
       }
@@ -89,8 +103,9 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       gProvider,
       gitProvider,
       fProvider,
+      users,
     }),
-    [user, ga, db, cur, st, gProvider, gitProvider, fProvider]
+    [user, ga, db, cur, st, gProvider, gitProvider, fProvider, users]
   )
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

@@ -30,7 +30,7 @@ import { ThemeAvatar } from '../../ui/ThemeAvatar'
 export const Messenger: FC = () => {
   const [messages, setMessages] = useState<IMessage[]>([])
 
-  const { cur, db } = useAuth()
+  const { cur, db, users } = useAuth()
 
   useEffect(() => {
     const q = query(
@@ -82,7 +82,10 @@ export const Messenger: FC = () => {
                     {/* <Link to={`/profile/${message.author.uid}`}> */}
                     <ThemeAvatar
                       alt={message.author.displayName}
-                      src={message.author.photoURL}
+                      src={
+                        users.find((u) => u.uid === message.author.uid)
+                          ?.photoURL
+                      }
                       sx={{ width: 46, height: 46 }}
                       draggable={false}
                     >

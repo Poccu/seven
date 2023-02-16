@@ -4,7 +4,7 @@ import Grow from '@mui/material/Grow'
 import Popper from '@mui/material/Popper'
 import MenuItem from '@mui/material/MenuItem'
 import MenuList from '@mui/material/MenuList'
-import { Box, CircularProgress, ListItemIcon, Typography } from '@mui/material'
+import { Box, ListItemIcon, Typography } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import {
   collection,
@@ -20,7 +20,6 @@ import { updateProfile } from 'firebase/auth'
 import { ThemeIconButton } from '../../ui/ThemeIconButton'
 import { SettingsBox } from '../../ui/ThemeBox'
 import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
-import { IUser } from '../../../types'
 import { useTranslation } from 'react-i18next'
 
 export const PhotoSettings: FC = () => {
@@ -82,50 +81,6 @@ export const PhotoSettings: FC = () => {
       // doc.data() is never undefined for query doc snapshots
       const docRef = doc(db, 'posts', d.id)
       await setDoc(docRef, { author: { photoURL: null } }, { merge: true })
-    })
-
-    // Update friends avatar
-    const qFriend = query(
-      collection(db, 'users'),
-      where('friends', 'array-contains', curUser)
-    )
-
-    const querySnapshotFriend = await getDocs(qFriend)
-    querySnapshotFriend.forEach(async (d) => {
-      const docRef = doc(db, 'users', d.id)
-      // console.log('FRIEND HERE', d.data())
-      const newFriendsArr = [
-        ...d.data().friends.filter((x: IUser) => x.uid !== cur.uid),
-        {
-          displayName: cur.displayName,
-          photoURL: cur.photoURL,
-          uid: cur.uid,
-          emoji: user?.emoji,
-        },
-      ]
-      await setDoc(docRef, { friends: newFriendsArr }, { merge: true })
-    })
-
-    // Update likes avatar
-    const qLikes = query(
-      collection(db, 'posts'),
-      where('likes', 'array-contains', curUser)
-    )
-
-    const querySnapshotLikes = await getDocs(qLikes)
-    querySnapshotLikes.forEach(async (d) => {
-      const docRef = doc(db, 'posts', d.id)
-      // console.log('LIKES HERE', d.data())
-      const newLikesArr = [
-        ...d.data().likes.filter((x: IUser) => x.uid !== cur.uid),
-        {
-          displayName: cur.displayName,
-          photoURL: cur.photoURL,
-          uid: cur.uid,
-          emoji: user?.emoji,
-        },
-      ]
-      await setDoc(docRef, { likes: newLikesArr }, { merge: true })
     })
   }
 
@@ -204,50 +159,6 @@ export const PhotoSettings: FC = () => {
                 { author: { photoURL: downloadURL } },
                 { merge: true }
               )
-            })
-
-            // Update friends avatar
-            const qFriend = query(
-              collection(db, 'users'),
-              where('friends', 'array-contains', curUser)
-            )
-
-            const querySnapshotFriend = await getDocs(qFriend)
-            querySnapshotFriend.forEach(async (d) => {
-              const docRef = doc(db, 'users', d.id)
-              // console.log('FRIEND HERE', d.data())
-              const newFriendsArr = [
-                ...d.data().friends.filter((x: IUser) => x.uid !== cur.uid),
-                {
-                  displayName: cur.displayName,
-                  photoURL: cur.photoURL,
-                  uid: cur.uid,
-                  emoji: user?.emoji,
-                },
-              ]
-              await setDoc(docRef, { friends: newFriendsArr }, { merge: true })
-            })
-
-            // Update likes avatar
-            const qLikes = query(
-              collection(db, 'posts'),
-              where('likes', 'array-contains', curUser)
-            )
-
-            const querySnapshotLikes = await getDocs(qLikes)
-            querySnapshotLikes.forEach(async (d) => {
-              const docRef = doc(db, 'posts', d.id)
-              // console.log('LIKES HERE', d.data())
-              const newLikesArr = [
-                ...d.data().likes.filter((x: IUser) => x.uid !== cur.uid),
-                {
-                  displayName: cur.displayName,
-                  photoURL: cur.photoURL,
-                  uid: cur.uid,
-                  emoji: user?.emoji,
-                },
-              ]
-              await setDoc(docRef, { likes: newLikesArr }, { merge: true })
             })
           })
         }
@@ -349,18 +260,6 @@ export const PhotoSettings: FC = () => {
               zIndex: 9999,
             }}
           />
-          {/* <CircularProgress
-            variant="determinate"
-            value={progress}
-            size="150px"
-            thickness={1.2}
-            sx={{
-              position: 'relative',
-              top: '-150px',
-              left: '0px',
-              mb: '-130px',
-            }}
-          /> */}
         </>
       )}
     </>

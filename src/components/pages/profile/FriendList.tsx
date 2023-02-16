@@ -6,6 +6,7 @@ import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { IUser } from '../../../types'
 import { DocumentData } from '@firebase/firestore'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '../../providers/useAuth'
 
 type Props = {
   user: DocumentData | undefined
@@ -13,6 +14,7 @@ type Props = {
 
 export const FriendList: FC<Props> = ({ user }) => {
   const { t } = useTranslation(['profile'])
+  const { users } = useAuth()
 
   return (
     <BorderBox sx={{ mt: 2, p: 2 }}>
@@ -27,7 +29,7 @@ export const FriendList: FC<Props> = ({ user }) => {
                 <Link to={`/profile/${user.uid}`}>
                   <ThemeAvatar
                     alt={user.displayName}
-                    src={user.photoURL}
+                    src={users.find((u) => u.uid === user.uid)?.photoURL}
                     sx={{
                       width: '55px',
                       height: '55px',

@@ -41,7 +41,7 @@ import { useTranslation } from 'react-i18next'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
-  const { db, cur, user } = useAuth()
+  const { db, cur, user, users } = useAuth()
 
   const [posts, setPosts] = useState<IPost[]>([])
 
@@ -183,7 +183,9 @@ export const Bookmarks: FC = () => {
                     <Link to={`/profile/${post.author.uid}`}>
                       <ThemeAvatar
                         alt={post.author.displayName}
-                        src={post.author.photoURL}
+                        src={
+                          users.find((u) => u.uid === post.author.uid)?.photoURL
+                        }
                         draggable={false}
                       >
                         {post.author.emoji}
@@ -351,7 +353,10 @@ export const Bookmarks: FC = () => {
                                   >
                                     <ThemeAvatar
                                       alt={user.displayName}
-                                      src={user.photoURL}
+                                      src={
+                                        users.find((u) => u.uid === user.uid)
+                                          ?.photoURL
+                                      }
                                       title={user.displayName}
                                       sx={{
                                         width: '40px',
@@ -432,7 +437,11 @@ export const Bookmarks: FC = () => {
                               <Link to={`/profile/${comment.author.uid}`}>
                                 <ThemeAvatar
                                   alt={comment.author.displayName}
-                                  src={comment.author.photoURL}
+                                  src={
+                                    users.find(
+                                      (u) => u.uid === comment.author.uid
+                                    )?.photoURL
+                                  }
                                   draggable={false}
                                   sx={{ mt: 0.6 }}
                                 >
@@ -526,7 +535,7 @@ export const Bookmarks: FC = () => {
                 <Link to={`/profile/${user.uid}`}>
                   <ThemeAvatar
                     alt={user.displayName}
-                    src={user.photoURL}
+                    src={users.find((u) => u.uid === user.uid)?.photoURL}
                     sx={{
                       width: '100px',
                       height: '100px',
