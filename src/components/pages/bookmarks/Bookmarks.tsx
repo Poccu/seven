@@ -38,10 +38,11 @@ import { ThemeTooltip } from '../../ui/ThemeTooltip'
 import { ThemeLikeIconButton } from '../../ui/ThemeIconButton'
 import { TransitionGroup } from 'react-transition-group'
 import { useTranslation } from 'react-i18next'
+import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
-  const { db, cur, user, users } = useAuth()
+  const { db, cur, user, users, usersRdb } = useAuth()
   console.log('cur', cur)
 
   const [posts, setPosts] = useState<IPost[]>([])
@@ -292,15 +293,23 @@ export const Bookmarks: FC = () => {
                     sx={{ mb: 2 }}
                   >
                     <Link to={`/profile/${post.author.uid}`}>
-                      <ThemeAvatar
-                        alt={post.author.displayName}
-                        src={
-                          users.find((u) => u.uid === post.author.uid)?.photoURL
+                      <ThemeOnlineBadge
+                        overlap="circular"
+                        variant={
+                          usersRdb[post.author.uid]?.online ? 'dot' : undefined
                         }
-                        draggable={false}
                       >
-                        {post.author.emoji}
-                      </ThemeAvatar>
+                        <ThemeAvatar
+                          alt={post.author.displayName}
+                          src={
+                            users.find((u) => u.uid === post.author.uid)
+                              ?.photoURL
+                          }
+                          draggable={false}
+                        >
+                          {post.author.emoji}
+                        </ThemeAvatar>
+                      </ThemeOnlineBadge>
                     </Link>
                     <Stack>
                       <Stack alignItems="center" direction="row" spacing={0.5}>

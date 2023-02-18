@@ -21,13 +21,33 @@ import {
 import { useAuth } from '../../../providers/useAuth'
 import { signOut } from 'firebase/auth'
 import { useTranslation } from 'react-i18next'
+import {
+  ref,
+  onValue,
+  onDisconnect,
+  set,
+  serverTimestamp,
+} from 'firebase/database'
 
 export const Menu: FC = () => {
   const { t } = useTranslation(['menu'])
-  const { cur, ga, user } = useAuth()
+  const { cur, ga, user, rdb } = useAuth()
   const navigate = useNavigate()
 
   const handleLogout = () => {
+    if (user) {
+      const isOnlineRef = ref(rdb, `users/${user.uid}/online`)
+      const lastOnlineRef = ref(rdb, `users/${user.uid}/lastOnline`)
+      const connectedRef = ref(rdb, '.info/connected')
+      onValue(connectedRef, (snap) => {
+        if (snap.val() === true) {
+          set(isOnlineRef, false)
+          set(lastOnlineRef, serverTimestamp())
+
+          onDisconnect(lastOnlineRef).set(serverTimestamp())
+        }
+      })
+    }
     signOut(ga)
     navigate('/')
   }

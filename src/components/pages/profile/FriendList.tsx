@@ -7,6 +7,7 @@ import { IUser } from '../../../types'
 import { DocumentData } from '@firebase/firestore'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../providers/useAuth'
+import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
 
 type Props = {
   user: DocumentData | undefined
@@ -14,7 +15,7 @@ type Props = {
 
 export const FriendList: FC<Props> = ({ user }) => {
   const { t } = useTranslation(['profile'])
-  const { users } = useAuth()
+  const { users, usersRdb } = useAuth()
 
   return (
     <BorderBox sx={{ mt: 2, p: 2 }}>
@@ -27,17 +28,26 @@ export const FriendList: FC<Props> = ({ user }) => {
             {user.friends.map((user: IUser) => (
               <Box key={user.uid} sx={{ width: '55px', mb: 0 }}>
                 <Link to={`/profile/${user.uid}`}>
-                  <ThemeAvatar
-                    alt={user.displayName}
-                    src={users.find((u) => u.uid === user.uid)?.photoURL}
-                    sx={{
-                      width: '55px',
-                      height: '55px',
-                      mb: 0.5,
+                  <ThemeOnlineBadge
+                    overlap="circular"
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
                     }}
+                    variant={usersRdb[user.uid]?.online ? 'dot' : undefined}
                   >
-                    <Typography variant="h5">{user.emoji}</Typography>
-                  </ThemeAvatar>
+                    <ThemeAvatar
+                      alt={user.displayName}
+                      src={users.find((u) => u.uid === user.uid)?.photoURL}
+                      sx={{
+                        width: '55px',
+                        height: '55px',
+                        mb: 0.5,
+                      }}
+                    >
+                      <Typography variant="h5">{user.emoji}</Typography>
+                    </ThemeAvatar>
+                  </ThemeOnlineBadge>
                   <Typography
                     variant="body2"
                     textAlign="center"

@@ -22,7 +22,7 @@ export interface IUser {
   password: string
   photoURL: string
   uid: string
-  isInNetwork?: boolean
+  online?: boolean
 }
 
 export interface IUserData {

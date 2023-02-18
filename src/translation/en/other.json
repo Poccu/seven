@@ -1,5 +1,7 @@
 {
   "title1": "Change to Light Mode",
   "title2": "Change to Dark Mode",
-  "title3": "Admin"
+  "title3": "Admin",
+  "line1": "online",
+  "line2": "last seen"
 }

@@ -5,10 +5,11 @@ import { BorderBox } from '../../ui/ThemeBox'
 import { Link } from 'react-router-dom'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { useTranslation } from 'react-i18next'
+import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
 
 export const Friends: FC = () => {
   const { t } = useTranslation(['friends'])
-  const { user, users } = useAuth()
+  const { user, users, usersRdb } = useAuth()
   document.title = t('title1')
 
   return (
@@ -23,19 +24,28 @@ export const Friends: FC = () => {
           {user && user?.friends?.length > 0 ? (
             user?.friends.map((x) => (
               <Link to={`/profile/${x.uid}`} key={x.uid}>
-                <Stack direction="row" spacing={4} alignItems="center">
-                  <ThemeAvatar
-                    alt={x.displayName}
-                    src={users.find((u) => u.uid === x.uid)?.photoURL}
-                    sx={{
-                      height: '80px',
-                      width: '80px',
+                <Stack direction="row" spacing={3} alignItems="center">
+                  <ThemeOnlineBadge
+                    overlap="circular"
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
                     }}
-                    draggable="false"
+                    variant={usersRdb[x.uid]?.online ? 'dot' : undefined}
                   >
-                    <Typography variant="h4">{x.emoji}</Typography>
-                  </ThemeAvatar>
-                  <Typography variant="h5">
+                    <ThemeAvatar
+                      alt={x.displayName}
+                      src={users.find((u) => u.uid === x.uid)?.photoURL}
+                      sx={{
+                        height: '55px',
+                        width: '55px',
+                      }}
+                      draggable="false"
+                    >
+                      <Typography variant="h5">{x.emoji}</Typography>
+                    </ThemeAvatar>
+                  </ThemeOnlineBadge>
+                  <Typography variant="h6">
                     <b>{x.displayName}</b>
                   </Typography>
                 </Stack>

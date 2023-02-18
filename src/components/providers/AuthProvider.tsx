@@ -18,6 +18,15 @@ import {
 } from 'firebase/firestore'
 import { IUser, TypeSetState } from '../../types'
 import { FirebaseStorage, getStorage } from 'firebase/storage'
+import {
+  getDatabase,
+  ref,
+  onValue,
+  onDisconnect,
+  set,
+  serverTimestamp,
+  Database,
+} from 'firebase/database'
 
 type Props = {
   children: any
@@ -34,6 +43,8 @@ interface IContext {
   gitProvider: GithubAuthProvider
   fProvider: FacebookAuthProvider
   users: IUser[]
+  rdb: Database
+  usersRdb: any
 }
 
 export const AuthContext = createContext<IContext>({} as IContext)
@@ -41,6 +52,7 @@ export const AuthContext = createContext<IContext>({} as IContext)
 export const AuthProvider: FC<Props> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null)
   const [users, setUsers] = useState<IUser[]>([])
+  const [usersRdb, setUsersRdb] = useState<any>({})
 
   const ga = getAuth()
   const db = getFirestore()
@@ -49,6 +61,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   const gProvider = new GoogleAuthProvider()
   const gitProvider = new GithubAuthProvider()
   const fProvider = new FacebookAuthProvider()
+  const rdb = getDatabase()
 
   useEffect(() => {
     const unListen = onAuthStateChanged(ga, (userAuth) => {
@@ -69,6 +82,43 @@ export const AuthProvider: FC<Props> = ({ children }) => {
               photoURL: userData.photoURL,
               images: [...userData.images],
               uid: userData.uid,
+            })
+
+            // Realtime Database
+            const isOnlineRef = ref(rdb, `users/${userData.uid}/online`)
+            const userRef = ref(rdb, `users/${userData.uid}`)
+            const lastOnlineRef = ref(rdb, `users/${userData.uid}/lastOnline`)
+
+            const connectedRef = ref(rdb, '.info/connected')
+
+            onValue(connectedRef, (snap) => {
+              if (snap.val() === true) {
+                set(userRef, {
+                  bookmarks: [...userData.bookmarks],
+                  createdAt: userData.createdAt,
+                  displayName: userData.displayName,
+                  email: userData.email,
+                  emoji: userData.emoji,
+                  friends: [...userData.friends],
+                  groups: [...userData.groups],
+                  lastOnline: serverTimestamp(),
+                  music: [...userData.music],
+                  password: userData.password,
+                  photoURL: userData.photoURL,
+                  images: [...userData.images],
+                  uid: userData.uid,
+                  online: true,
+                })
+
+                onDisconnect(isOnlineRef).set(false)
+                onDisconnect(lastOnlineRef).set(serverTimestamp())
+              }
+            })
+
+            const usersRef = ref(rdb, `users`)
+            onValue(usersRef, (snapshot) => {
+              const data = snapshot.val()
+              setUsersRdb(data)
             })
           }
         })
@@ -104,8 +154,22 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       gitProvider,
       fProvider,
       users,
+      rdb,
+      usersRdb,
     }),
-    [user, ga, db, cur, st, gProvider, gitProvider, fProvider, users]
+    [
+      user,
+      ga,
+      db,
+      cur,
+      st,
+      gProvider,
+      gitProvider,
+      fProvider,
+      users,
+      rdb,
+      usersRdb,
+    ]
   )
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

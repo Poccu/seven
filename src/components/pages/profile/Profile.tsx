@@ -18,10 +18,11 @@ import { AddFriend } from './AddFriend'
 import { FriendList } from './FriendList'
 import { TaskAlt } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
+import moment from 'moment'
 
 export const Profile: FC = () => {
   const { t } = useTranslation(['profile'])
-  const { db, cur } = useAuth()
+  const { db, cur, usersRdb } = useAuth()
   const { id } = useParams()
   const profileId = window.location.pathname.replace('/profile/', '')
   // console.log('cur', cur)
@@ -81,8 +82,13 @@ export const Profile: FC = () => {
             </ThemeAvatar>
             {cur.uid === profileId && <PhotoSettings />}
           </Box>
-          <Stack direction="column" spacing={3.5}>
-            <Box justifyContent="left" alignItems="baseline" display="flex">
+          <Stack direction="column" spacing={3.5} sx={{ width: '100%' }}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="flex-start"
+              spacing={2}
+            >
               <Stack alignItems="center" direction="row" spacing={0.7}>
                 <Typography variant="h4">
                   <b>{user?.displayName}</b>
@@ -102,7 +108,18 @@ export const Profile: FC = () => {
                   </Tooltip>
                 )}
               </Stack>
-            </Box>
+              <Box>
+                <Typography variant="body1" color="textSecondary">
+                  {usersRdb[profileId]?.online
+                    ? t('line1', { ns: ['other'] })
+                    : usersRdb[profileId]?.lastOnline
+                    ? `${t('line2', { ns: ['other'] })} ${moment(
+                        usersRdb[profileId]?.lastOnline
+                      ).calendar()}`
+                    : null}
+                </Typography>
+              </Box>
+            </Stack>
             <Stack direction="row" spacing={2} sx={{ pl: 1 }}>
               <Stack
                 justifyContent="center"
