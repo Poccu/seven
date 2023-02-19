@@ -844,7 +844,9 @@ export const News: FC = () => {
                     </ThemeLikeIconButton>
                   </Box>
                   <Typography variant="body2" textAlign="center">
-                    {user.displayName.replace(/ .*/, '')}
+                    {user.displayName.replace(/ .*/, '').length < 14
+                      ? user.displayName.replace(/ .*/, '')
+                      : user.displayName.replace(/ .*/, '').slice(0, 13) + '…'}
                   </Typography>
                 </Link>
               </Box>

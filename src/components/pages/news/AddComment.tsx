@@ -13,6 +13,7 @@ import { IPost } from '../../../types'
 import { ThemeTextFieldAddComment } from '../../ui/ThemeTextField'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { AddEmoji } from './AddEmoji'
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -147,6 +148,7 @@ export const AddComment: FC<Props> = ({ expanded, post }) => {
           onChange={(e) => setContent(e.target.value)}
           onKeyPress={handleAddComment}
         />
+        <AddEmoji setContent={setContent} />
       </Stack>
       {/* </AccordionDetails> */}
       {/* </Accordion> */}
