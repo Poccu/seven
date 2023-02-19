@@ -35,6 +35,7 @@
 - [Firebase 9](https://firebase.google.com/)
 - [Moment.js](https://momentjs.com/)
 - [Notistack](https://notistack.com/)
+- [Emoji Picker React](https://github.com/ealush/emoji-picker-react)
 - [i18next](https://www.i18next.com/)
 
 <!-- CONTACT -->

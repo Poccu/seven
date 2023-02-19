@@ -8,5 +8,9 @@ export const builtWithList = [
   { title: 'Firebase 9', url: 'https://firebase.google.com/' },
   { title: 'Moment.js', url: 'https://momentjs.com/' },
   { title: 'Notistack', url: 'https://notistack.com/' },
+  {
+    title: 'Emoji Picker React',
+    url: 'https://github.com/ealush/emoji-picker-react',
+  },
   { title: 'i18next', url: 'https://www.i18next.com/' },
 ]

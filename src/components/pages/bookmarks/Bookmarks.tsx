@@ -43,7 +43,6 @@ import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
   const { db, cur, user, users, usersRdb } = useAuth()
-  console.log('cur', cur)
 
   const [posts, setPosts] = useState<IPost[]>([])
 

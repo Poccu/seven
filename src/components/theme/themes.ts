@@ -3,6 +3,7 @@ import { grey } from '@mui/material/colors'
 
 export let themeLight = createTheme({
   palette: {
+    mode: 'light',
     primary: {
       main: '#b59261',
     },
@@ -69,6 +70,7 @@ themeLight = responsiveFontSizes(themeLight)
 
 export let themeDark = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
       main: '#b59261',
     },

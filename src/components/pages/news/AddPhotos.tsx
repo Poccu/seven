@@ -107,7 +107,11 @@ export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
           id="upload-photo"
           name="upload-photo"
         />
-        <IconButton color="primary" component="span">
+        <IconButton
+          color="primary"
+          component="span"
+          sx={{ width: '50px ', height: '50px', mr: -1 }}
+        >
           <AddAPhoto />
         </IconButton>
       </label>

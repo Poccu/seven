@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { AddPhotos } from './AddPhotos'
 import { useTranslation } from 'react-i18next'
 import { Clear } from '@mui/icons-material'
+import { AddEmoji } from './AddEmoji'
 
 export const AddPost: FC = () => {
   const { t } = useTranslation(['news'])
@@ -85,6 +86,7 @@ export const AddPost: FC = () => {
           onKeyPress={handleAddPost}
           sx={{ mx: 2 }}
         />
+        <AddEmoji setContent={setContent} />
         <AddPhotos setImages={setImages} setImagesIdDb={setImagesIdDb} />
       </Stack>
       {images.length > 0 && (
