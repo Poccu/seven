@@ -107,24 +107,30 @@ export const Bookmarks: FC = () => {
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
+
         if (!sfDoc.exists()) {
           throw 'Document does not exist!'
         }
-        if (!sfDoc.data().likes.includes(cur.uid)) {
-          const newLikesArr = [
-            ...sfDoc.data().likes,
-            {
-              displayName: cur.displayName,
-              photoURL: cur.photoURL,
-              uid: cur.uid,
-              emoji: user?.emoji,
-            },
-          ]
-          transaction.update(docRef, {
-            likes: newLikesArr,
-          })
-        }
+
+        const newLikesArr = [
+          ...new Map(
+            [
+              ...sfDoc.data().likes,
+              {
+                displayName: cur.displayName,
+                photoURL: cur.photoURL,
+                uid: cur.uid,
+                emoji: user?.emoji,
+              },
+            ].map((item) => [item['uid'], item])
+          ).values(),
+        ]
+
+        transaction.update(docRef, {
+          likes: newLikesArr,
+        })
       })
+      // console.log('Like!')
     } catch (e) {
       console.log('Like failed: ', e)
     }
@@ -157,37 +163,37 @@ export const Bookmarks: FC = () => {
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
+
         if (!sfDoc.exists()) {
           throw 'Document does not exist!'
         }
-        if (
-          !sfDoc
-            .data()
-            .comments.find((x: IComment) => x.id === id)
-            .likes.includes(cur.uid)
-        ) {
-          const comment = sfDoc
-            .data()
-            .comments.find((x: IComment) => x.id === id)
-          const newLikesArr = [
-            ...sfDoc.data().comments.find((x: IComment) => x.id === id).likes,
-            {
-              displayName: cur.displayName,
-              photoURL: cur.photoURL,
-              uid: cur.uid,
-              emoji: user?.emoji,
-            },
-          ]
-          comment.likes = newLikesArr
 
-          const newCommentsArr = [
-            ...sfDoc.data().comments.filter((x: IComment) => x.id !== id),
-            comment,
-          ]
-          transaction.update(docRef, {
-            comments: newCommentsArr,
-          })
-        }
+        const comment = sfDoc.data().comments.find((x: IComment) => x.id === id)
+
+        const newLikesArr = [
+          ...new Map(
+            [
+              ...sfDoc.data().comments.find((x: IComment) => x.id === id).likes,
+              {
+                displayName: cur.displayName,
+                photoURL: cur.photoURL,
+                uid: cur.uid,
+                emoji: user?.emoji,
+              },
+            ].map((item) => [item['uid'], item])
+          ).values(),
+        ]
+
+        comment.likes = newLikesArr
+
+        const newCommentsArr = [
+          ...sfDoc.data().comments.filter((x: IComment) => x.id !== id),
+          comment,
+        ]
+
+        transaction.update(docRef, {
+          comments: newCommentsArr,
+        })
       })
       // console.log('Like comment!')
     } catch (e) {
