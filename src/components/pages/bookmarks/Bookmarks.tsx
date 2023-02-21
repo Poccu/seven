@@ -39,10 +39,15 @@ import { ThemeLikeIconButton } from '../../ui/ThemeIconButton'
 import { TransitionGroup } from 'react-transition-group'
 import { useTranslation } from 'react-i18next'
 import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
+import { useAppSelector } from '../../../hooks/redux'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
-  const { db, cur, user, users, usersRdb } = useAuth()
+  const { db, users, usersRdb } = useAuth()
+
+  const { emoji, uid, displayName, photoURL } = useAppSelector(
+    (state) => state.userReducer
+  )
 
   const [posts, setPosts] = useState<IPost[]>([])
 
@@ -59,7 +64,7 @@ export const Bookmarks: FC = () => {
   useEffect(() => {
     const q = query(
       collection(db, 'posts'),
-      where('bookmarks', 'array-contains', cur.uid)
+      where('bookmarks', 'array-contains', uid)
     )
 
     const setPostsFunc = onSnapshot(q, (querySnapshot) => {
@@ -114,15 +119,9 @@ export const Bookmarks: FC = () => {
 
         const newLikesArr = [
           ...new Map(
-            [
-              ...sfDoc.data().likes,
-              {
-                displayName: cur.displayName,
-                photoURL: cur.photoURL,
-                uid: cur.uid,
-                emoji: user?.emoji,
-              },
-            ].map((item) => [item['uid'], item])
+            [...sfDoc.data().likes, { displayName, photoURL, uid, emoji }].map(
+              (item) => [item['uid'], item]
+            )
           ).values(),
         ]
 
@@ -130,7 +129,6 @@ export const Bookmarks: FC = () => {
           likes: newLikesArr,
         })
       })
-      // console.log('Like!')
     } catch (e) {
       console.log('Like failed: ', e)
     }
@@ -147,7 +145,7 @@ export const Bookmarks: FC = () => {
         }
         const newLikesArr = sfDoc
           .data()
-          .likes.filter((x: IUser) => x.uid !== cur.uid)
+          .likes.filter((x: IUser) => x.uid !== uid)
         transaction.update(docRef, {
           likes: newLikesArr,
         })
@@ -174,12 +172,7 @@ export const Bookmarks: FC = () => {
           ...new Map(
             [
               ...sfDoc.data().comments.find((x: IComment) => x.id === id).likes,
-              {
-                displayName: cur.displayName,
-                photoURL: cur.photoURL,
-                uid: cur.uid,
-                emoji: user?.emoji,
-              },
+              { displayName, photoURL, uid, emoji },
             ].map((item) => [item['uid'], item])
           ).values(),
         ]
@@ -195,7 +188,6 @@ export const Bookmarks: FC = () => {
           comments: newCommentsArr,
         })
       })
-      // console.log('Like comment!')
     } catch (e) {
       console.log('Like comment failed: ', e)
     }
@@ -215,7 +207,7 @@ export const Bookmarks: FC = () => {
         const newLikesArr = sfDoc
           .data()
           .comments.find((x: IComment) => x.id === id)
-          .likes.filter((x: IUser) => x.uid !== cur.uid)
+          .likes.filter((x: IUser) => x.uid !== uid)
         comment.likes = newLikesArr
 
         const newCommentsArr = [
@@ -226,7 +218,6 @@ export const Bookmarks: FC = () => {
           comments: newCommentsArr,
         })
       })
-      // console.log('Dislike comment!')
     } catch (e) {
       console.log('Dislike comment failed: ', e)
     }
@@ -260,20 +251,22 @@ export const Bookmarks: FC = () => {
   }
 
   useEffect(() => {
-    const curUserRef = doc(db, 'users', cur.uid)
+    if (uid) {
+      const curUserRef = doc(db, 'users', uid)
 
-    try {
-      runTransaction(db, async (transaction) => {
-        const sfDoc = await transaction.get(curUserRef)
-        if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
-        }
-        transaction.update(curUserRef, {
-          bookmarks: [],
+      try {
+        runTransaction(db, async (transaction) => {
+          const sfDoc = await transaction.get(curUserRef)
+          if (!sfDoc.exists()) {
+            throw 'Document does not exist!'
+          }
+          transaction.update(curUserRef, {
+            bookmarks: [],
+          })
         })
-      })
-    } catch (e) {
-      console.log('Delete Bookmark failed: ', e)
+      } catch (e) {
+        console.log('Delete Bookmark failed: ', e)
+      }
     }
   }, [])
 
@@ -498,8 +491,7 @@ export const Bookmarks: FC = () => {
                         }
                         placement="top"
                       >
-                        {cur.uid &&
-                        !post.likes.some((x) => x.uid === cur.uid) ? (
+                        {!post.likes.some((x) => x.uid === uid) ? (
                           <IconButton
                             onClick={() => handleLike(post)}
                             color="secondary"
@@ -621,7 +613,7 @@ export const Bookmarks: FC = () => {
                                 </Stack>
                               </Stack>
                               <Stack justifyContent="space-between">
-                                {comment.author.uid === cur.uid &&
+                                {comment.author.uid === uid &&
                                 isVisible === comment.id ? (
                                   <IconButton
                                     onClick={() =>
@@ -712,9 +704,8 @@ export const Bookmarks: FC = () => {
                                       }
                                       placement="top"
                                     >
-                                      {cur.uid &&
-                                      !comment.likes.some(
-                                        (x) => x.uid === cur.uid
+                                      {!comment.likes.some(
+                                        (x) => x.uid === uid
                                       ) ? (
                                         <IconButton
                                           onClick={() =>

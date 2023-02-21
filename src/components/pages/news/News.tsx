@@ -46,6 +46,7 @@ import { ThemeTooltip } from '../../ui/ThemeTooltip'
 import { ThemeLikeIconButton } from '../../ui/ThemeIconButton'
 import { useTranslation } from 'react-i18next'
 import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
+import { useAppSelector } from '../../../hooks/redux'
 
 export const News: FC = () => {
   const { t } = useTranslation(['news'])
@@ -53,6 +54,9 @@ export const News: FC = () => {
   const [editingId, setEditingId] = useState('')
   const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
   // console.log('posts', posts)
+  const { emoji, uid, displayName, photoURL } = useAppSelector(
+    (state) => state.userReducer
+  )
 
   const [openModal, setOpenModal] = useState(false)
   const [modalData, setModalData] = useState<IUser[]>([])
@@ -74,7 +78,7 @@ export const News: FC = () => {
     }
   }
 
-  const { db, cur, user, users, usersRdb } = useAuth()
+  const { db, users, usersRdb } = useAuth()
 
   useEffect(() => {
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
@@ -141,15 +145,9 @@ export const News: FC = () => {
 
         const newLikesArr = [
           ...new Map(
-            [
-              ...sfDoc.data().likes,
-              {
-                displayName: cur.displayName,
-                photoURL: cur.photoURL,
-                uid: cur.uid,
-                emoji: user?.emoji,
-              },
-            ].map((item) => [item['uid'], item])
+            [...sfDoc.data().likes, { displayName, photoURL, uid, emoji }].map(
+              (item) => [item['uid'], item]
+            )
           ).values(),
         ]
 
@@ -174,7 +172,7 @@ export const News: FC = () => {
         }
         const newLikesArr = sfDoc
           .data()
-          .likes.filter((x: IUser) => x.uid !== cur.uid)
+          .likes.filter((x: IUser) => x.uid !== uid)
         // console.log(newLikesArr)
         transaction.update(docRef, {
           likes: newLikesArr,
@@ -203,12 +201,7 @@ export const News: FC = () => {
           ...new Map(
             [
               ...sfDoc.data().comments.find((x: IComment) => x.id === id).likes,
-              {
-                displayName: cur.displayName,
-                photoURL: cur.photoURL,
-                uid: cur.uid,
-                emoji: user?.emoji,
-              },
+              { displayName, photoURL, uid, emoji },
             ].map((item) => [item['uid'], item])
           ).values(),
         ]
@@ -244,7 +237,7 @@ export const News: FC = () => {
         const newLikesArr = sfDoc
           .data()
           .comments.find((x: IComment) => x.id === id)
-          .likes.filter((x: IUser) => x.uid !== cur.uid)
+          .likes.filter((x: IUser) => x.uid !== uid)
         comment.likes = newLikesArr
 
         const newCommentsArr = [
@@ -522,8 +515,7 @@ export const News: FC = () => {
                         }
                         placement="top"
                       >
-                        {cur.uid &&
-                        !post.likes.some((x) => x.uid === cur.uid) ? (
+                        {!post.likes.some((x) => x.uid === uid) ? (
                           <IconButton
                             onClick={() => handleLike(post)}
                             color="secondary"
@@ -643,7 +635,7 @@ export const News: FC = () => {
                               </Stack>
                             </Stack>
                             <Stack justifyContent="space-between">
-                              {comment.author.uid === cur.uid &&
+                              {comment.author.uid === uid &&
                               isVisible === comment.id ? (
                                 <IconButton
                                   onClick={() =>
@@ -733,9 +725,8 @@ export const News: FC = () => {
                                     }
                                     placement="top"
                                   >
-                                    {cur.uid &&
-                                    !comment.likes.some(
-                                      (x) => x.uid === cur.uid
+                                    {!comment.likes.some(
+                                      (x) => x.uid === uid
                                     ) ? (
                                       <IconButton
                                         onClick={() =>

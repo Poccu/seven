@@ -10,13 +10,18 @@ import { AddPhotos } from './AddPhotos'
 import { useTranslation } from 'react-i18next'
 import { Clear } from '@mui/icons-material'
 import { AddEmoji } from './AddEmoji'
+import { useAppSelector } from '../../../hooks/redux'
 
 export const AddPost: FC = () => {
   const { t } = useTranslation(['news'])
   const [content, setContent] = useState('')
   const [images, setImages] = useState<string[]>([])
   const [imagesIdDb, setImagesIdDb] = useState<string>('')
-  const { db, cur, user } = useAuth()
+  const { db } = useAuth()
+
+  const { emoji, uid, displayName, photoURL } = useAppSelector(
+    (state) => state.userReducer
+  )
 
   const handleAddPost = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
@@ -36,12 +41,7 @@ export const AddPost: FC = () => {
 
       try {
         await setDoc(doc(db, 'posts', imagesIdDb || idDb), {
-          author: {
-            uid: cur.uid,
-            displayName: cur.displayName,
-            photoURL: cur.photoURL,
-            emoji: user?.emoji,
-          },
+          author: { uid, displayName, photoURL, emoji },
           content,
           createdAt: Date.now(),
           comments: [],
@@ -70,9 +70,9 @@ export const AddPost: FC = () => {
   return (
     <BorderBox sx={{ p: 3, mb: 2 }}>
       <Stack alignItems="center" direction="row">
-        <Link to={`/profile/${cur.uid}`}>
-          <ThemeAvatar alt={cur.displayName} src={cur.photoURL}>
-            {user?.emoji}
+        <Link to={`/profile/${uid}`}>
+          <ThemeAvatar alt={displayName || ''} src={photoURL || ''}>
+            {emoji}
           </ThemeAvatar>
         </Link>
         <ThemeTextFieldAddPost

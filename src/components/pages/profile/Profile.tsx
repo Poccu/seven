@@ -19,13 +19,14 @@ import { FriendList } from './FriendList'
 import { TaskAlt } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
+import { useAppSelector } from '../../../hooks/redux'
 
 export const Profile: FC = () => {
   const { t } = useTranslation(['profile'])
-  const { db, cur, usersRdb } = useAuth()
+  const { db, usersRdb } = useAuth()
   const { id } = useParams()
   const profileId = window.location.pathname.replace('/profile/', '')
-  // console.log('cur', cur)
+  const { uid } = useAppSelector((state) => state.userReducer)
 
   const [user, setUser] = useState<DocumentData | undefined>({} as IUser)
   // console.log('user', user)
@@ -36,7 +37,8 @@ export const Profile: FC = () => {
   document.title = user?.displayName
 
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'users', id || cur.uid), (doc) => {
+    if (!uid) return
+    const unsub = onSnapshot(doc(db, 'users', id || uid), (doc) => {
       const userData: DocumentData | undefined = doc.data()
       setUser(userData)
     })
@@ -44,7 +46,7 @@ export const Profile: FC = () => {
     // Find user posts
     const q = query(
       collection(db, 'posts'),
-      where('author.uid', '==', id || cur.uid)
+      where('author.uid', '==', id || uid)
     )
 
     const setPostsFunc = onSnapshot(q, (querySnapshot) => {
@@ -80,7 +82,7 @@ export const Profile: FC = () => {
             >
               <Typography variant="h2">{user?.emoji}</Typography>
             </ThemeAvatar>
-            {cur.uid === profileId && <PhotoSettings />}
+            {uid === profileId && <PhotoSettings />}
           </Box>
           <Stack direction="column" spacing={3.5} sx={{ width: '100%' }}>
             <Stack
@@ -141,7 +143,7 @@ export const Profile: FC = () => {
                 </Typography>
                 <Typography color="textSecondary">{t('line2')}</Typography>
               </Stack>
-              {cur.uid !== profileId && <AddFriend />}
+              {uid !== profileId && <AddFriend />}
             </Stack>
           </Stack>
         </Stack>

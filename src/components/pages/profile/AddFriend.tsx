@@ -5,15 +5,21 @@ import { IUser } from '../../../types'
 import { useAuth } from '../../providers/useAuth'
 import { ThemeButton } from '../../ui/ThemeButton'
 import { useTranslation } from 'react-i18next'
+import { useAppSelector } from '../../../hooks/redux'
 
 export const AddFriend: FC = () => {
   const { t } = useTranslation(['profile'])
-  const { db, cur, user } = useAuth()
+  const { db } = useAuth()
   const profileId = window.location.pathname.replace('/profile/', '')
 
+  const { emoji, uid, displayName, photoURL, friends } = useAppSelector(
+    (state) => state.userReducer
+  )
+
   const handleAddFriend = async () => {
+    if (!uid) return
     const docRef = doc(db, 'users', profileId)
-    const curRef = doc(db, 'users', cur.uid)
+    const curRef = doc(db, 'users', uid)
 
     try {
       await runTransaction(db, async (transaction) => {
@@ -23,15 +29,10 @@ export const AddFriend: FC = () => {
         if (!sfDoc.exists()) {
           throw 'Document does not exist!'
         }
-        if (!sfDoc.data().friends.includes(cur.uid) && user) {
+        if (!sfDoc.data().friends.includes(uid)) {
           const newFriendsArr = [
             ...sfDoc.data().friends,
-            {
-              displayName: cur.displayName,
-              photoURL: cur.photoURL,
-              uid: cur.uid,
-              emoji: user.emoji,
-            },
+            { displayName, photoURL, uid, emoji },
           ]
           transaction.update(docRef, {
             friends: newFriendsArr,
@@ -62,8 +63,9 @@ export const AddFriend: FC = () => {
   }
 
   const handleRemoveFriend = async () => {
+    if (!uid) return
     const docRef = doc(db, 'users', profileId)
-    const curRef = doc(db, 'users', cur.uid)
+    const curRef = doc(db, 'users', uid)
 
     try {
       await runTransaction(db, async (transaction) => {
@@ -75,7 +77,7 @@ export const AddFriend: FC = () => {
         }
         const newFriendsArr = sfDoc
           .data()
-          .friends.filter((x: IUser) => x.uid !== cur.uid)
+          .friends.filter((x: IUser) => x.uid !== uid)
         transaction.update(docRef, {
           friends: newFriendsArr,
         })
@@ -97,7 +99,7 @@ export const AddFriend: FC = () => {
 
   return (
     <>
-      {!user?.friends.some((x) => x.uid === profileId) ? (
+      {!friends?.some((x) => x.uid === profileId) ? (
         <ThemeButton
           onClick={handleAddFriend}
           startIcon={<PersonAddAlt1 style={{ fontSize: '18px' }} />}

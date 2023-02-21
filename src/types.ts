@@ -1,8 +1,5 @@
 import { SvgIconTypeMap } from '@mui/material'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
-import { Dispatch, SetStateAction } from 'react'
-
-export type TypeSetState<T> = Dispatch<SetStateAction<T>>
 
 export type Theme = {
   light: boolean
@@ -23,6 +20,22 @@ export interface IUser {
   photoURL: string
   uid: string
   online?: boolean
+}
+
+export interface IUserState {
+  bookmarks: IPost[] | null
+  createdAt: string | null
+  displayName: string | null
+  email: string | null
+  emoji: string | null
+  friends: IUser[] | null
+  groups: any[] | null
+  images: string[] | null
+  music: any[] | null
+  password: string | null
+  photoURL: string | null
+  uid: string | null
+  online?: boolean | null
 }
 
 export interface IUserData {

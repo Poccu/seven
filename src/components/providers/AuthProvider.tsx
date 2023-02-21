@@ -16,7 +16,7 @@ import {
   collection,
   query,
 } from 'firebase/firestore'
-import { IUser, TypeSetState } from '../../types'
+import { IUser } from '../../types'
 import { FirebaseStorage, getStorage } from 'firebase/storage'
 import {
   getDatabase,
@@ -27,17 +27,16 @@ import {
   serverTimestamp,
   Database,
 } from 'firebase/database'
+import { useAppDispatch } from '../../hooks/redux'
+import { userSlice } from '../../store/reducers/UserSlice'
 
 type Props = {
   children: any
 }
 
 interface IContext {
-  user: IUser | null
-  setUser: TypeSetState<IUser | null>
   ga: Auth
   db: Firestore
-  cur: any
   st: FirebaseStorage
   gProvider: GoogleAuthProvider
   gitProvider: GithubAuthProvider
@@ -50,13 +49,14 @@ interface IContext {
 export const AuthContext = createContext<IContext>({} as IContext)
 
 export const AuthProvider: FC<Props> = ({ children }) => {
-  const [user, setUser] = useState<IUser | null>(null)
   const [users, setUsers] = useState<IUser[]>([])
   const [usersRdb, setUsersRdb] = useState<any>({})
 
+  const { setUser, removeUser } = userSlice.actions
+  const dispatch = useAppDispatch()
+
   const ga = getAuth()
   const db = getFirestore()
-  const cur = ga.currentUser
   const st = getStorage()
   const gProvider = new GoogleAuthProvider()
   const gitProvider = new GithubAuthProvider()
@@ -69,20 +69,22 @@ export const AuthProvider: FC<Props> = ({ children }) => {
         const unsub = onSnapshot(doc(db, 'users', userAuth.uid), (doc) => {
           const userData: DocumentData | undefined = doc.data()
           if (userData) {
-            setUser({
-              bookmarks: [...userData.bookmarks],
-              createdAt: userData.createdAt,
-              displayName: userData.displayName,
-              email: userData.email,
-              emoji: userData.emoji,
-              friends: [...userData.friends],
-              groups: [...userData.groups],
-              music: [...userData.music],
-              password: userData.password,
-              photoURL: userData.photoURL,
-              images: [...userData.images],
-              uid: userData.uid,
-            })
+            dispatch(
+              setUser({
+                bookmarks: [...userData.bookmarks],
+                createdAt: userData.createdAt,
+                displayName: userData.displayName,
+                email: userData.email,
+                emoji: userData.emoji,
+                friends: [...userData.friends],
+                groups: [...userData.groups],
+                music: [...userData.music],
+                password: userData.password,
+                photoURL: userData.photoURL,
+                images: [...userData.images],
+                uid: userData.uid,
+              })
+            )
 
             // Realtime Database
             const isOnlineRef = ref(rdb, `users/${userData.uid}/online`)
@@ -133,7 +135,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
           setUsers(usersArr)
         })
       } else {
-        setUser(null)
+        dispatch(removeUser())
       }
     })
 
@@ -144,11 +146,8 @@ export const AuthProvider: FC<Props> = ({ children }) => {
 
   const values = useMemo(
     () => ({
-      user,
-      setUser,
       ga,
       db,
-      cur,
       st,
       gProvider,
       gitProvider,
@@ -157,19 +156,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       rdb,
       usersRdb,
     }),
-    [
-      user,
-      ga,
-      db,
-      cur,
-      st,
-      gProvider,
-      gitProvider,
-      fProvider,
-      users,
-      rdb,
-      usersRdb,
-    ]
+    [ga, db, st, gProvider, gitProvider, fProvider, users, rdb, usersRdb]
   )
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

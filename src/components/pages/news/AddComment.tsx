@@ -14,45 +14,7 @@ import { ThemeTextFieldAddComment } from '../../ui/ThemeTextField'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { AddEmoji } from './AddEmoji'
-
-const Accordion = styled((props: AccordionProps) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  // marginTop: '0px',
-  // height: '0px',
-  // borderBottom: `2px solid ${theme.palette.divider}`,
-  // sx: {
-  //   pointerEvents: 'none',
-  // },
-}))
-
-const AccordionSummary = styled((props: AccordionSummaryProps) => (
-  <MuiAccordionSummary
-    expandIcon={
-      <ArrowForwardIosSharp
-        sx={{ fontSize: '26px', pointerEvents: 'auto' }}
-        color="secondary"
-      />
-    }
-    {...props}
-  />
-))(({ theme }) => ({
-  minHeight: '0px',
-  heigh: '0px',
-  backgroundColor: theme.palette.background.paper,
-  flexDirection: 'row-reverse',
-  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-    transform: 'rotate(0deg)',
-  },
-  '& .MuiAccordionSummary-content': {
-    // marginLeft: theme.spacing(1),
-  },
-}))
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  padding: '30px 0px 0px 0px',
-}))
+import { useAppSelector } from '../../../hooks/redux'
 
 type Props = {
   expanded: string | false
@@ -62,7 +24,11 @@ type Props = {
 export const AddComment: FC<Props> = ({ expanded, post }) => {
   const { t } = useTranslation(['news'])
   const [content, setContent] = useState('')
-  const { cur, db, user } = useAuth()
+  const { db } = useAuth()
+
+  const { emoji, uid, displayName, photoURL } = useAppSelector(
+    (state) => state.userReducer
+  )
 
   const handleAddComment = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
@@ -91,12 +57,7 @@ export const AddComment: FC<Props> = ({ expanded, post }) => {
           const newCommentsArr = [
             ...sfDoc.data().comments,
             {
-              author: {
-                uid: cur.uid,
-                displayName: cur.displayName,
-                photoURL: cur.photoURL,
-                emoji: user?.emoji,
-              },
+              author: { uid, displayName, photoURL, emoji },
               content,
               createdAt: Date.now(),
               images: [],
@@ -118,24 +79,11 @@ export const AddComment: FC<Props> = ({ expanded, post }) => {
 
   return (
     <Box sx={{ mt: 0 }}>
-      {/* <Accordion
-        // expanded={expanded === post.id}
-        expanded={true}
-      > */}
-      {/* <AccordionSummary
-          sx={{
-            pointerEvents: 'none',
-          }}
-          expandIcon={null}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        ></AccordionSummary> */}
-      {/* <AccordionDetails> */}
       <Divider sx={{ mt: 2, mb: 3 }} />
       <Stack alignItems="center" direction="row" spacing={2}>
-        <Link to={`/profile/${cur.uid}`}>
-          <ThemeAvatar alt={cur.displayName} src={cur.photoURL}>
-            {user?.emoji}
+        <Link to={`/profile/${uid}`}>
+          <ThemeAvatar alt={displayName || ''} src={photoURL || ''}>
+            {emoji}
           </ThemeAvatar>
         </Link>
         <ThemeTextFieldAddComment
@@ -150,8 +98,6 @@ export const AddComment: FC<Props> = ({ expanded, post }) => {
         />
         <AddEmoji setContent={setContent} />
       </Stack>
-      {/* </AccordionDetails> */}
-      {/* </Accordion> */}
     </Box>
   )
 }

@@ -18,6 +18,7 @@ import {
 import { SettingsBox } from '../../ui/ThemeBox'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
+import { useAppSelector } from '../../../hooks/redux'
 
 type Props = {
   post: IPost
@@ -33,6 +34,12 @@ export const PostSettings: FC<Props> = ({
   const { t } = useTranslation(['news'])
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
+
+  const { db } = useAuth()
+
+  const { emoji, uid, displayName, photoURL, friends } = useAppSelector(
+    (state) => state.userReducer
+  )
 
   const { enqueueSnackbar } = useSnackbar()
 
@@ -77,8 +84,6 @@ export const PostSettings: FC<Props> = ({
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open)
 
-  const { db, cur } = useAuth()
-
   const handleAddBookmark = async (post: IPost) => {
     const docRef = doc(db, 'posts', post.id)
 
@@ -88,8 +93,8 @@ export const PostSettings: FC<Props> = ({
         if (!sfDoc.exists()) {
           throw 'Document does not exist!'
         }
-        if (!sfDoc.data().bookmarks.includes(cur.uid)) {
-          const newBookmarksArr = [...sfDoc.data().bookmarks, cur.uid]
+        if (!sfDoc.data().bookmarks.includes(uid)) {
+          const newBookmarksArr = [...sfDoc.data().bookmarks, uid]
           transaction.update(docRef, {
             bookmarks: newBookmarksArr,
           })
@@ -99,7 +104,8 @@ export const PostSettings: FC<Props> = ({
       console.log('Bookmark failed: ', e)
     }
 
-    const curUserRef = doc(db, 'users', cur.uid)
+    if (!uid) return
+    const curUserRef = doc(db, 'users', uid)
 
     try {
       await runTransaction(db, async (transaction) => {
@@ -132,7 +138,7 @@ export const PostSettings: FC<Props> = ({
         }
         const newBookmarksArr = sfDoc
           .data()
-          .bookmarks.filter((id: string) => id !== cur.uid)
+          .bookmarks.filter((id: string) => id !== uid)
         transaction.update(docRef, {
           bookmarks: newBookmarksArr,
         })
@@ -141,7 +147,8 @@ export const PostSettings: FC<Props> = ({
       console.log('Delete Bookmark failed: ', e)
     }
 
-    const curUserRef = doc(db, 'users', cur.uid)
+    if (!uid) return
+    const curUserRef = doc(db, 'users', uid)
 
     try {
       await runTransaction(db, async (transaction) => {
@@ -200,7 +207,7 @@ export const PostSettings: FC<Props> = ({
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
-                  {cur.uid && !post?.bookmarks?.includes(cur.uid) ? (
+                  {uid && !post?.bookmarks?.includes(uid) ? (
                     <MenuItem onClick={() => handleAddBookmark(post)}>
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <BookmarkAddOutlined color="primary" />
@@ -215,7 +222,7 @@ export const PostSettings: FC<Props> = ({
                       <Typography variant="body1">{t('line6')}</Typography>
                     </MenuItem>
                   )}
-                  {post.author.uid === cur.uid &&
+                  {post.author.uid === uid &&
                     Date.now() - +post?.createdAt < 86400000 && (
                       // post.likes.length < 2 &&
                       <MenuItem
@@ -230,7 +237,7 @@ export const PostSettings: FC<Props> = ({
                         <Typography variant="body1">{t('line7')}</Typography>
                       </MenuItem>
                     )}
-                  {post.author.uid === cur.uid && (
+                  {post.author.uid === uid && (
                     <MenuItem onClick={handleCloseDelete}>
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <Clear color="error" />

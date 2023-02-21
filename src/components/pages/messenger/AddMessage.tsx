@@ -11,11 +11,16 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
+import { useAppSelector } from '../../../hooks/redux'
 
 export const AddMessage: FC = () => {
   const [content, setContent] = useState('')
   // const [views, setViews] = useState([])
-  const { cur, db, ga } = useAuth()
+  const { db } = useAuth()
+
+  const { emoji, uid, displayName, photoURL } = useAppSelector(
+    (state) => state.userReducer
+  )
 
   const handleAddMessage = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
@@ -35,11 +40,7 @@ export const AddMessage: FC = () => {
 
       try {
         await setDoc(doc(db, 'messages', idDb), {
-          author: {
-            uid: cur.uid,
-            displayName: cur.displayName,
-            photoURL: cur.photoURL,
-          },
+          author: { uid, displayName, photoURL },
           content,
           createdAt: Date.now(),
           comments: [],
@@ -60,7 +61,7 @@ export const AddMessage: FC = () => {
       //   if (!sfDoc.exists()) {
       //     throw 'Document does not exist!'
       //   }
-      //   // if (!sfDoc.data().likes.includes(cur?.uid)) {
+      //   // if (!sfDoc.data().likes.includes(uid)) {
       //   const newViews = [...sfDoc.data().views, 0]
       //   console.log(sfDoc.data().views)
       //   transaction.update(docRef, { views: newViews })
@@ -102,13 +103,11 @@ export const AddMessage: FC = () => {
         <Box sx={{ p: 3 }}>
           <Stack alignItems="center" direction="row" spacing={2}>
             <ThemeAvatar
-              alt={cur?.displayName}
-              src={cur?.photoURL}
+              alt={displayName || ''}
+              src={photoURL || ''}
               sx={{ width: 46, height: 46 }}
             >
-              <b>
-                {cur?.displayName?.replace(/\B\w+/g, '').split(' ').join('')}
-              </b>
+              <b>{displayName?.replace(/\B\w+/g, '').split(' ').join('')}</b>
             </ThemeAvatar>
             <TextField
               label={<b>Whats's new?</b>}

@@ -4,7 +4,7 @@ import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { Sidebar } from './sidebar/Sidebar'
 import { Header } from './header/Header'
 import { Footer } from './footer/Footer'
-import { useAuth } from '../providers/useAuth'
+import { useAppSelector } from '../../hooks/redux'
 
 type Props = {
   children: ReactElement
@@ -13,7 +13,7 @@ type Props = {
 }
 
 export const Layout: FC<Props> = ({ children, light, setLight }) => {
-  const { cur } = useAuth()
+  const { uid } = useAppSelector((state) => state.userReducer)
 
   return (
     <>
@@ -21,12 +21,12 @@ export const Layout: FC<Props> = ({ children, light, setLight }) => {
       <main>
         <Container maxWidth="lg" sx={{ mt: 10, mb: 2 }}>
           <Grid2 container spacing={4}>
-            {cur && (
+            {uid && (
               <Grid2 md={3}>
                 <Sidebar />
               </Grid2>
             )}
-            <Grid2 md={cur ? 9 : 12}>{children}</Grid2>
+            <Grid2 md={uid ? 9 : 12}>{children}</Grid2>
           </Grid2>
         </Container>
       </main>

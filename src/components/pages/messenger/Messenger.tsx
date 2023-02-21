@@ -26,11 +26,14 @@ import moment from 'moment'
 import { AddMessage } from './AddMessage'
 import { IMessage, IUser } from '../../../types'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
+import { useAppSelector } from '../../../hooks/redux'
 
 export const Messenger: FC = () => {
   const [messages, setMessages] = useState<IMessage[]>([])
 
-  const { cur, db, users } = useAuth()
+  const { db, users } = useAuth()
+
+  const { uid } = useAppSelector((state) => state.userReducer)
 
   useEffect(() => {
     const q = query(
@@ -60,9 +63,7 @@ export const Messenger: FC = () => {
           <BorderBox>
             <Box sx={{ p: 3 }}>
               <Stack
-                direction={
-                  message.author.uid !== cur?.uid ? 'row' : 'row-reverse'
-                }
+                direction={message.author.uid !== uid ? 'row' : 'row-reverse'}
                 justifyContent="space-between"
                 // alignItems="center"
                 // spacing={2}
@@ -74,7 +75,7 @@ export const Messenger: FC = () => {
                   <Stack
                     alignItems="center"
                     direction={
-                      message.author.uid !== cur?.uid ? 'row' : 'row-reverse'
+                      message.author.uid !== uid ? 'row' : 'row-reverse'
                     }
                     spacing={2}
                     sx={{ mb: 2 }}
@@ -109,7 +110,7 @@ export const Messenger: FC = () => {
                     </Stack>
                   </Stack>
                 </NavLink>
-                {message.author.uid === cur?.uid && (
+                {message.author.uid === uid && (
                   <IconButton
                     onClick={async () => {
                       await deleteDoc(doc(db, 'messages', message.id))
@@ -121,7 +122,7 @@ export const Messenger: FC = () => {
                   </IconButton>
                 )}
               </Stack>
-              {message.author.uid === cur?.uid ? (
+              {message.author.uid === uid ? (
                 <Typography variant="body1" sx={{ textAlign: 'end' }}>
                   {message.content}
                 </Typography>
@@ -140,7 +141,7 @@ export const Messenger: FC = () => {
                   spacing={0.2}
                   sx={{ mt: 2 }}
                 >
-                  {cur?.uid && !message.likes.includes(cur?.uid) ? (
+                  {uid && !message.likes.some((x: IUser) => x.uid === uid) ? (
                     <IconButton
                       onClick={async () => {
                         const docRef = doc(db, 'messages', message.id)
@@ -151,11 +152,8 @@ export const Messenger: FC = () => {
                             if (!sfDoc.exists()) {
                               throw 'Document does not exist!'
                             }
-                            if (!sfDoc.data().likes.includes(cur?.uid)) {
-                              const newLikesArr = [
-                                ...sfDoc.data().likes,
-                                cur?.uid,
-                              ]
+                            if (!sfDoc.data().likes.includes(uid)) {
+                              const newLikesArr = [...sfDoc.data().likes, uid]
                               // console.log(newLikesArr)
                               transaction.update(docRef, { likes: newLikesArr })
                             }
@@ -182,7 +180,7 @@ export const Messenger: FC = () => {
                             }
                             const newLikesArr = sfDoc
                               .data()
-                              .likes.filter((id: IUser) => id !== cur?.uid)
+                              .likes.filter((id: any) => id !== uid)
                             // console.log(newLikesArr)
                             transaction.update(docRef, { likes: newLikesArr })
                           })

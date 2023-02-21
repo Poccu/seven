@@ -5,11 +5,11 @@ import { Layout } from '../layout/Layout'
 import { Auth } from '../pages/auth/Auth'
 import { NotFound } from '../pages/notfound/NotFound'
 import { Profile } from '../pages/profile/Profile'
-import { useAuth } from '../providers/useAuth'
 import { routes } from './routes'
+import { useAppSelector } from '../../hooks/redux'
 
 export const RoutesList = ({ light, setLight }: Theme) => {
-  const { cur } = useAuth()
+  const { uid } = useAppSelector((state) => state.userReducer)
 
   return (
     <Box
@@ -28,7 +28,7 @@ export const RoutesList = ({ light, setLight }: Theme) => {
                 path={route.path}
                 element={
                   <Layout light={light} setLight={setLight}>
-                    {route.auth && !cur ? <Auth /> : <route.component />}
+                    {route.auth && !uid ? <Auth /> : <route.component />}
                   </Layout>
                 }
                 key={`route${index}`}
@@ -36,7 +36,7 @@ export const RoutesList = ({ light, setLight }: Theme) => {
             )
           })}
           <Route
-            path={`/profile/${cur?.uid}`}
+            path={`/profile/${uid}`}
             element={
               <Layout light={light} setLight={setLight}>
                 <Profile />

@@ -21,10 +21,13 @@ import { ThemeIconButton } from '../../ui/ThemeIconButton'
 import { SettingsBox } from '../../ui/ThemeBox'
 import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
 import { useTranslation } from 'react-i18next'
+import { useAppSelector } from '../../../hooks/redux'
 
 export const PhotoSettings: FC = () => {
   const { t } = useTranslation(['profile'])
-  const { db, cur, st, user } = useAuth()
+  const { db, st, ga } = useAuth()
+
+  const { uid, photoURL } = useAppSelector((state) => state.userReducer)
 
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
@@ -58,23 +61,17 @@ export const PhotoSettings: FC = () => {
 
   const [progress, setProgress] = useState<number>(0)
 
-  const curUser = {
-    displayName: cur.displayName,
-    emoji: user?.emoji,
-    photoURL: cur.photoURL,
-    uid: cur.uid,
-  }
-
   const handleDelete = async () => {
     setOpen(false)
+    if (!uid || !ga.currentUser) return
 
-    await updateProfile(cur, { photoURL: '' })
+    await updateProfile(ga.currentUser, { photoURL: '' })
 
-    const docRef = doc(db, 'users', cur.uid)
+    const docRef = doc(db, 'users', uid)
     await setDoc(docRef, { photoURL: null }, { merge: true })
 
     // Update posts avatar
-    const q = query(collection(db, 'posts'), where('author.uid', '==', cur.uid))
+    const q = query(collection(db, 'posts'), where('author.uid', '==', uid))
 
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach(async (d) => {
@@ -91,10 +88,7 @@ export const PhotoSettings: FC = () => {
     if (e.target.files) {
       const file = e.target.files[0]
 
-      const storageRef = ref(
-        st,
-        `images/users/${cur.uid}/avatars/${file?.name}`
-      )
+      const storageRef = ref(st, `images/users/${uid}/avatars/${file?.name}`)
       const uploadTask = uploadBytesResumable(storageRef, file)
 
       // Listen for state changes, errors, and completion of the upload.
@@ -137,9 +131,10 @@ export const PhotoSettings: FC = () => {
           // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             // console.log('File available at', downloadURL)
-            await updateProfile(cur, { photoURL: downloadURL })
+            if (!uid || !ga.currentUser) return
+            await updateProfile(ga.currentUser, { photoURL: downloadURL })
 
-            const docRef = doc(db, 'users', cur.uid)
+            const docRef = doc(db, 'users', uid)
             await setDoc(docRef, { photoURL: downloadURL }, { merge: true })
 
             setProgress(0)
@@ -147,7 +142,7 @@ export const PhotoSettings: FC = () => {
             // Update posts avatar
             const q = query(
               collection(db, 'posts'),
-              where('author.uid', '==', cur.uid)
+              where('author.uid', '==', uid)
             )
 
             const querySnapshot = await getDocs(q)
@@ -231,7 +226,7 @@ export const PhotoSettings: FC = () => {
                         hidden
                       />
                     </MenuItem>
-                    {cur.photoURL && (
+                    {photoURL && (
                       <MenuItem onClick={handleDelete}>
                         <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                           <Clear color="error" />

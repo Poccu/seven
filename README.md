@@ -28,6 +28,7 @@
 
 - [Create React App](https://create-react-app.dev/)
 - [React 18](https://reactjs.org/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
 - [JavaScript (ES6+)](https://www.javascript.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Material UI 5](https://mui.com/)

@@ -6,11 +6,14 @@ import { Link } from 'react-router-dom'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { useTranslation } from 'react-i18next'
 import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
+import { useAppSelector } from '../../../hooks/redux'
 
 export const Friends: FC = () => {
   const { t } = useTranslation(['friends'])
-  const { user, users, usersRdb } = useAuth()
+  const { users, usersRdb } = useAuth()
   document.title = t('title1')
+
+  const { friends } = useAppSelector((state) => state.userReducer)
 
   return (
     <>
@@ -21,8 +24,8 @@ export const Friends: FC = () => {
       </BorderBox>
       <BorderBox sx={{ p: 3, mb: 2 }}>
         <Stack spacing={3}>
-          {user && user?.friends?.length > 0 ? (
-            user?.friends.map((x) => (
+          {friends?.length ? (
+            friends.map((x) => (
               <Link to={`/profile/${x.uid}`} key={x.uid}>
                 <Stack direction="row" spacing={3} alignItems="center">
                   <ThemeOnlineBadge
