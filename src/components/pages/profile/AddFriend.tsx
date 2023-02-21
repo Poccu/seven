@@ -29,33 +29,37 @@ export const AddFriend: FC = () => {
         if (!sfDoc.exists()) {
           throw 'Document does not exist!'
         }
-        if (!sfDoc.data().friends.includes(uid)) {
-          const newFriendsArr = [
-            ...sfDoc.data().friends,
-            { displayName, photoURL, uid, emoji },
-          ]
-          transaction.update(docRef, {
-            friends: newFriendsArr,
-          })
-        }
+        const newFriendsArr = [
+          ...new Map(
+            [
+              ...sfDoc.data().friends,
+              { displayName, photoURL, uid, emoji },
+            ].map((item) => [item['uid'], item])
+          ).values(),
+        ]
+        transaction.update(docRef, {
+          friends: newFriendsArr,
+        })
 
         if (!sfCurDoc.exists()) {
           throw 'Document does not exist!'
         }
-        if (!sfCurDoc.data().friends.includes(profileId)) {
-          const newFriendsArrCur = [
-            ...sfCurDoc.data().friends,
-            {
-              displayName: sfDoc.data().displayName,
-              photoURL: sfDoc.data().photoURL,
-              uid: sfDoc.data().uid,
-              emoji: sfDoc.data().emoji,
-            },
-          ]
-          transaction.update(curRef, {
-            friends: newFriendsArrCur,
-          })
-        }
+        const newFriendsArrCur = [
+          ...new Map(
+            [
+              ...sfCurDoc.data().friends,
+              {
+                displayName: sfDoc.data().displayName,
+                photoURL: sfDoc.data().photoURL,
+                uid: sfDoc.data().uid,
+                emoji: sfDoc.data().emoji,
+              },
+            ].map((item) => [item['uid'], item])
+          ).values(),
+        ]
+        transaction.update(curRef, {
+          friends: newFriendsArrCur,
+        })
       })
     } catch (e) {
       console.log('Add friend failed: ', e)
