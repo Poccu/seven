@@ -10,7 +10,9 @@
   "line8": "Delete post",
   "line9": "Edit post",
   "line10": "Likes",
+  "line11": "Edit comment",
   "button1": "Undo",
   "button2": "Cancel",
-  "button3": "Save"
+  "button3": "Save",
+  "button4": "Edit"
 }

@@ -51,7 +51,7 @@ export const AddComment: FC<Props> = ({ post }) => {
             ...sfDoc.data().comments,
             {
               author: { uid, displayName, photoURL, emoji },
-              content,
+              content: content.trim(),
               createdAt: Date.now(),
               images: [],
               likes: [],

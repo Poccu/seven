@@ -1,10 +1,11 @@
 import { FC, useState } from 'react'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Stack } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import { IPost } from '../../../types'
 import { doc, setDoc } from 'firebase/firestore'
 import { ThemeTextFieldAddPost } from '../../ui/ThemeTextField'
 import { useTranslation } from 'react-i18next'
+import { AddEmoji } from './AddEmoji'
 
 type Props = {
   post: IPost
@@ -19,7 +20,7 @@ export const EditPost: FC<Props> = ({ post, setEditingId }) => {
   const handleEditPost = async () => {
     if (content.trim()) {
       const docRef = doc(db, 'posts', post.id)
-      setDoc(docRef, { content: content }, { merge: true })
+      setDoc(docRef, { content: content.trim() }, { merge: true })
       setEditingId('')
     }
   }
@@ -32,18 +33,22 @@ export const EditPost: FC<Props> = ({ post, setEditingId }) => {
 
   return (
     <Box>
-      <ThemeTextFieldAddPost
-        label={<b>{t('line9')}</b>}
-        multiline
-        fullWidth
-        color="secondary"
-        focused
-        autoFocus
-        autoComplete="off"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        onFocus={moveFocusAtEnd}
-      />
+      <Stack alignItems="center" direction="row">
+        <ThemeTextFieldAddPost
+          label={<b>{t('line9')}</b>}
+          multiline
+          fullWidth
+          color="secondary"
+          focused
+          autoFocus
+          autoComplete="off"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          onFocus={moveFocusAtEnd}
+          sx={{ mr: 2 }}
+        />
+        <AddEmoji setContent={setContent} />
+      </Stack>
       <Button
         onClick={() => {
           setEditingId('')

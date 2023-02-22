@@ -42,7 +42,7 @@ export const AddPost: FC = () => {
       try {
         await setDoc(doc(db, 'posts', imagesIdDb || idDb), {
           author: { uid, displayName, photoURL, emoji },
-          content,
+          content: content.trim(),
           createdAt: Date.now(),
           comments: [],
           likes: [],
