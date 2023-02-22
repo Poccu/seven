@@ -53,7 +53,7 @@ export const News: FC = () => {
   const [posts, setPosts] = useState<IPost[]>([])
   const [editingId, setEditingId] = useState('')
   const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
-  // console.log('posts', posts)
+
   const { emoji, uid, displayName, photoURL } = useAppSelector(
     (state) => state.userReducer
   )
@@ -64,21 +64,12 @@ export const News: FC = () => {
   const [openImage, setOpenImage] = useState(false)
   const [modalImage, setModalImage] = useState<string>('')
 
-  const [expanded, setExpanded] = useState<string | false>('')
-
   const [isVisible, setIsVisible] = useState<string>('')
 
   document.title = t('title1')
 
-  const handleOpen = (post: IPost) => {
-    if (expanded === post.id) {
-      setExpanded('')
-    } else {
-      setExpanded(post.id)
-    }
-  }
-
-  const { db, users, usersRdb } = useAuth()
+  const { db, usersRdb } = useAuth()
+  const { users } = useAppSelector((state) => state.usersReducer)
 
   useEffect(() => {
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
@@ -97,14 +88,13 @@ export const News: FC = () => {
         postsArr.push(d.data())
       })
       setPosts(postsArr)
-      // console.log('postsArr', postsArr)
     })
 
     return () => {
       incViews()
       setPostsFunc()
     }
-  }, [])
+  }, [db])
 
   const handleOpenModal = (post: IPost) => {
     setOpenModal(true)
@@ -140,7 +130,7 @@ export const News: FC = () => {
         const sfDoc = await transaction.get(docRef)
 
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
 
         const newLikesArr = [
@@ -168,12 +158,11 @@ export const News: FC = () => {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         const newLikesArr = sfDoc
           .data()
           .likes.filter((x: IUser) => x.uid !== uid)
-        // console.log(newLikesArr)
         transaction.update(docRef, {
           likes: newLikesArr,
         })
@@ -192,7 +181,7 @@ export const News: FC = () => {
         const sfDoc = await transaction.get(docRef)
 
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
 
         const comment = sfDoc.data().comments.find((x: IComment) => x.id === id)
@@ -230,7 +219,7 @@ export const News: FC = () => {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
 
         const comment = sfDoc.data().comments.find((x: IComment) => x.id === id)
@@ -261,7 +250,7 @@ export const News: FC = () => {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         const newCommentsArr = sfDoc
           .data()
@@ -539,10 +528,7 @@ export const News: FC = () => {
                         <b>{post.likes.length > 0 && post.likes.length}</b>
                       </Typography>
                     </Stack>
-                    <IconButton
-                      // onClick={() => handleOpen(post)}
-                      color="secondary"
-                    >
+                    <IconButton color="secondary">
                       <ChatBubbleOutline />
                     </IconButton>
                     <Typography
@@ -780,7 +766,7 @@ export const News: FC = () => {
                   </TransitionGroup>
                 </Stack>
               )}
-              <AddComment expanded={expanded} post={post} />
+              <AddComment post={post} />
             </BorderBox>
           </Collapse>
         ))}
@@ -869,6 +855,7 @@ export const News: FC = () => {
           >
             <img
               src={modalImage}
+              alt={modalImage}
               height="100%"
               width="100%"
               className="contain"

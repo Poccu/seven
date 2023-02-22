@@ -10,13 +10,13 @@ export interface IUser {
   bookmarks: IPost[]
   createdAt: string
   displayName: string
-  email: string
+  email?: string
   emoji: string
   friends: IUser[]
   groups: any[]
   images: string[]
   music: any[]
-  password: string
+  password?: string
   photoURL: string
   uid: string
   online?: boolean
@@ -26,13 +26,13 @@ export interface IUserState {
   bookmarks: IPost[] | null
   createdAt: string | null
   displayName: string | null
-  email: string | null
+  email?: string | null
   emoji: string | null
   friends: IUser[] | null
   groups: any[] | null
   images: string[] | null
   music: any[] | null
-  password: string | null
+  password?: string | null
   photoURL: string | null
   uid: string | null
   online?: boolean | null

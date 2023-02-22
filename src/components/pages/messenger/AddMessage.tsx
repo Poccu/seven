@@ -59,7 +59,7 @@ export const AddMessage: FC = () => {
       // await runTransaction(db, async (transaction) => {
       //   const sfDoc = await transaction.get(docRef)
       //   if (!sfDoc.exists()) {
-      //     throw 'Document does not exist!'
+      //     throw new Error('Document does not exist!')
       //   }
       //   // if (!sfDoc.data().likes.includes(uid)) {
       //   const newViews = [...sfDoc.data().views, 0]
@@ -84,7 +84,7 @@ export const AddMessage: FC = () => {
   //     runTransaction(db, async (transaction) => {
   //       const sfDoc = await transaction.get(docRef)
   //       if (!sfDoc.exists()) {
-  //         throw 'Document does not exist!'
+  //         throw new Error('Document does not exist!')
   //       }
   //       // console.log(sfDoc.data())
 

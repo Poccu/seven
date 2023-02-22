@@ -32,9 +32,6 @@ export const PhotoSettings: FC = () => {
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
 
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = useRef(open)
-
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
   }

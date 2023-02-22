@@ -29,6 +29,7 @@ import {
 } from 'firebase/database'
 import { useAppDispatch } from '../../hooks/redux'
 import { userSlice } from '../../store/reducers/UserSlice'
+import { usersSlice } from '../../store/reducers/UsersSlice'
 
 type Props = {
   children: any
@@ -41,7 +42,6 @@ interface IContext {
   gProvider: GoogleAuthProvider
   gitProvider: GithubAuthProvider
   fProvider: FacebookAuthProvider
-  users: IUser[]
   rdb: Database
   usersRdb: any
 }
@@ -49,10 +49,10 @@ interface IContext {
 export const AuthContext = createContext<IContext>({} as IContext)
 
 export const AuthProvider: FC<Props> = ({ children }) => {
-  const [users, setUsers] = useState<IUser[]>([])
   const [usersRdb, setUsersRdb] = useState<any>({})
 
   const { setUser, removeUser } = userSlice.actions
+  const { setUsers, removeUsers } = usersSlice.actions
   const dispatch = useAppDispatch()
 
   const ga = getAuth()
@@ -66,7 +66,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   useEffect(() => {
     const unListen = onAuthStateChanged(ga, (userAuth) => {
       if (userAuth) {
-        const unsub = onSnapshot(doc(db, 'users', userAuth.uid), (doc) => {
+        onSnapshot(doc(db, 'users', userAuth.uid), (doc) => {
           const userData: DocumentData | undefined = doc.data()
           if (userData) {
             dispatch(
@@ -74,12 +74,10 @@ export const AuthProvider: FC<Props> = ({ children }) => {
                 bookmarks: [...userData.bookmarks],
                 createdAt: userData.createdAt,
                 displayName: userData.displayName,
-                email: userData.email,
                 emoji: userData.emoji,
                 friends: [...userData.friends],
                 groups: [...userData.groups],
                 music: [...userData.music],
-                password: userData.password,
                 photoURL: userData.photoURL,
                 images: [...userData.images],
                 uid: userData.uid,
@@ -127,21 +125,29 @@ export const AuthProvider: FC<Props> = ({ children }) => {
 
         const q = query(collection(db, 'users'))
 
-        const setUsersFunc = onSnapshot(q, (querySnapshot) => {
+        onSnapshot(q, (querySnapshot) => {
           const usersArr: IUser[] = []
           querySnapshot.forEach(async (d: DocumentData) => {
             usersArr.push(d.data())
           })
-          setUsers(usersArr)
+          dispatch(
+            setUsers(
+              usersArr
+                .map(({ email, password, ...rest }) => ({ ...rest }))
+                .sort((a, b) => +a.createdAt - +b.createdAt)
+            )
+          )
         })
       } else {
         dispatch(removeUser())
+        dispatch(removeUsers())
       }
     })
 
     return () => {
       unListen()
     }
+    // eslint-disable-next-line
   }, [])
 
   const values = useMemo(
@@ -152,11 +158,11 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       gProvider,
       gitProvider,
       fProvider,
-      users,
       rdb,
       usersRdb,
     }),
-    [ga, db, st, gProvider, gitProvider, fProvider, users, rdb, usersRdb]
+    // eslint-disable-next-line
+    [ga, db, st, rdb, usersRdb]
   )
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

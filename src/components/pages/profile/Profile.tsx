@@ -62,7 +62,7 @@ export const Profile: FC = () => {
       unsub()
       setPostsFunc()
     }
-  }, [id])
+  }, [db, uid, id])
 
   return (
     <>

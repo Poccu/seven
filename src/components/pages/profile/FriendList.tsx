@@ -8,6 +8,7 @@ import { DocumentData } from '@firebase/firestore'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../providers/useAuth'
 import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
+import { useAppSelector } from '../../../hooks/redux'
 
 type Props = {
   user: DocumentData | undefined
@@ -15,7 +16,9 @@ type Props = {
 
 export const FriendList: FC<Props> = ({ user }) => {
   const { t } = useTranslation(['profile'])
-  const { users, usersRdb } = useAuth()
+  const { usersRdb } = useAuth()
+
+  const { users } = useAppSelector((state) => state.usersReducer)
 
   return (
     <BorderBox sx={{ mt: 2, p: 2 }}>

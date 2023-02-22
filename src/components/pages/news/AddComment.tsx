@@ -1,14 +1,8 @@
 import { FC, useState } from 'react'
-import { Box, Divider, Stack, styled } from '@mui/material'
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion'
-import MuiAccordionSummary, {
-  AccordionSummaryProps,
-} from '@mui/material/AccordionSummary'
-import MuiAccordionDetails from '@mui/material/AccordionDetails'
+import { Box, Divider, Stack } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import { doc, runTransaction } from 'firebase/firestore'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
-import { ArrowForwardIosSharp } from '@mui/icons-material'
 import { IPost } from '../../../types'
 import { ThemeTextFieldAddComment } from '../../ui/ThemeTextField'
 import { Link } from 'react-router-dom'
@@ -17,11 +11,10 @@ import { AddEmoji } from './AddEmoji'
 import { useAppSelector } from '../../../hooks/redux'
 
 type Props = {
-  expanded: string | false
   post: IPost
 }
 
-export const AddComment: FC<Props> = ({ expanded, post }) => {
+export const AddComment: FC<Props> = ({ post }) => {
   const { t } = useTranslation(['news'])
   const [content, setContent] = useState('')
   const { db } = useAuth()
@@ -52,7 +45,7 @@ export const AddComment: FC<Props> = ({ expanded, post }) => {
         await runTransaction(db, async (transaction) => {
           const sfDoc = await transaction.get(docRef)
           if (!sfDoc.exists()) {
-            throw 'Document does not exist!'
+            throw new Error('Document does not exist!')
           }
           const newCommentsArr = [
             ...sfDoc.data().comments,

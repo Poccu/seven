@@ -43,11 +43,12 @@ import { useAppSelector } from '../../../hooks/redux'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
-  const { db, users, usersRdb } = useAuth()
+  const { db, usersRdb } = useAuth()
 
   const { emoji, uid, displayName, photoURL } = useAppSelector(
     (state) => state.userReducer
   )
+  const { users } = useAppSelector((state) => state.usersReducer)
 
   const [posts, setPosts] = useState<IPost[]>([])
 
@@ -78,7 +79,7 @@ export const Bookmarks: FC = () => {
     return () => {
       setPostsFunc()
     }
-  }, [])
+  }, [db, uid])
 
   const handleOpenModal = (post: IPost) => {
     setOpenModal(true)
@@ -114,7 +115,7 @@ export const Bookmarks: FC = () => {
         const sfDoc = await transaction.get(docRef)
 
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
 
         const newLikesArr = [
@@ -141,7 +142,7 @@ export const Bookmarks: FC = () => {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         const newLikesArr = sfDoc
           .data()
@@ -163,7 +164,7 @@ export const Bookmarks: FC = () => {
         const sfDoc = await transaction.get(docRef)
 
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
 
         const comment = sfDoc.data().comments.find((x: IComment) => x.id === id)
@@ -200,7 +201,7 @@ export const Bookmarks: FC = () => {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
 
         const comment = sfDoc.data().comments.find((x: IComment) => x.id === id)
@@ -236,7 +237,7 @@ export const Bookmarks: FC = () => {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         const newCommentsArr = sfDoc
           .data()
@@ -258,7 +259,7 @@ export const Bookmarks: FC = () => {
         runTransaction(db, async (transaction) => {
           const sfDoc = await transaction.get(curUserRef)
           if (!sfDoc.exists()) {
-            throw 'Document does not exist!'
+            throw new Error('Document does not exist!')
           }
           transaction.update(curUserRef, {
             bookmarks: [],
@@ -268,7 +269,7 @@ export const Bookmarks: FC = () => {
         console.log('Delete Bookmark failed: ', e)
       }
     }
-  }, [])
+  }, [db, uid])
 
   return (
     <>
@@ -866,6 +867,7 @@ export const Bookmarks: FC = () => {
           >
             <img
               src={modalImage}
+              alt={modalImage}
               height="100%"
               width="100%"
               className="contain"

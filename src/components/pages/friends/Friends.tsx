@@ -10,10 +10,11 @@ import { useAppSelector } from '../../../hooks/redux'
 
 export const Friends: FC = () => {
   const { t } = useTranslation(['friends'])
-  const { users, usersRdb } = useAuth()
+  const { usersRdb } = useAuth()
   document.title = t('title1')
 
   const { friends } = useAppSelector((state) => state.userReducer)
+  const { users } = useAppSelector((state) => state.usersReducer)
 
   return (
     <>

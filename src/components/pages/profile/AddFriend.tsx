@@ -27,7 +27,7 @@ export const AddFriend: FC = () => {
         const sfCurDoc = await transaction.get(curRef)
 
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         const newFriendsArr = [
           ...new Map(
@@ -42,7 +42,7 @@ export const AddFriend: FC = () => {
         })
 
         if (!sfCurDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         const newFriendsArrCur = [
           ...new Map(
@@ -77,7 +77,7 @@ export const AddFriend: FC = () => {
         const sfCurDoc = await transaction.get(curRef)
 
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         const newFriendsArr = sfDoc
           .data()
@@ -87,7 +87,7 @@ export const AddFriend: FC = () => {
         })
 
         if (!sfCurDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         const newFriendsArrCur = sfCurDoc
           .data()

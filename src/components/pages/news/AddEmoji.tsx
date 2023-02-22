@@ -35,9 +35,6 @@ export const AddEmoji: FC<Props> = ({ setContent }) => {
     setOpen((prevOpen) => !prevOpen)
   }
 
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = useRef(open)
-
   return (
     <Box onMouseOver={handleToggle} onMouseOut={handleToggle}>
       <IconButton

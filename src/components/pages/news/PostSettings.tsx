@@ -37,9 +37,7 @@ export const PostSettings: FC<Props> = ({
 
   const { db } = useAuth()
 
-  const { emoji, uid, displayName, photoURL, friends } = useAppSelector(
-    (state) => state.userReducer
-  )
+  const { uid } = useAppSelector((state) => state.userReducer)
 
   const { enqueueSnackbar } = useSnackbar()
 
@@ -81,9 +79,6 @@ export const PostSettings: FC<Props> = ({
     }
   }
 
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = useRef(open)
-
   const handleAddBookmark = async (post: IPost) => {
     const docRef = doc(db, 'posts', post.id)
 
@@ -91,7 +86,7 @@ export const PostSettings: FC<Props> = ({
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         if (!sfDoc.data().bookmarks.includes(uid)) {
           const newBookmarksArr = [...sfDoc.data().bookmarks, uid]
@@ -111,7 +106,7 @@ export const PostSettings: FC<Props> = ({
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(curUserRef)
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         if (!sfDoc.data().bookmarks.includes(post.id)) {
           const newBookmarksArr = [...sfDoc.data().bookmarks, post.id]
@@ -134,7 +129,7 @@ export const PostSettings: FC<Props> = ({
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         const newBookmarksArr = sfDoc
           .data()
@@ -154,7 +149,7 @@ export const PostSettings: FC<Props> = ({
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(curUserRef)
         if (!sfDoc.exists()) {
-          throw 'Document does not exist!'
+          throw new Error('Document does not exist!')
         }
         const newBookmarksArr = sfDoc
           .data()

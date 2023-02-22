@@ -31,9 +31,10 @@ import { useAppSelector } from '../../../hooks/redux'
 export const Messenger: FC = () => {
   const [messages, setMessages] = useState<IMessage[]>([])
 
-  const { db, users } = useAuth()
+  const { db } = useAuth()
 
   const { uid } = useAppSelector((state) => state.userReducer)
+  const { users } = useAppSelector((state) => state.usersReducer)
 
   useEffect(() => {
     const q = query(
@@ -150,7 +151,7 @@ export const Messenger: FC = () => {
                           await runTransaction(db, async (transaction) => {
                             const sfDoc = await transaction.get(docRef)
                             if (!sfDoc.exists()) {
-                              throw 'Document does not exist!'
+                              throw new Error('Document does not exist!')
                             }
                             if (!sfDoc.data().likes.includes(uid)) {
                               const newLikesArr = [...sfDoc.data().likes, uid]
@@ -176,7 +177,7 @@ export const Messenger: FC = () => {
                           await runTransaction(db, async (transaction) => {
                             const sfDoc = await transaction.get(docRef)
                             if (!sfDoc.exists()) {
-                              throw 'Document does not exist!'
+                              throw new Error('Document does not exist!')
                             }
                             const newLikesArr = sfDoc
                               .data()
