@@ -22,11 +22,13 @@ export const Layout: FC<Props> = ({ children, light, setLight }) => {
         <Container maxWidth="lg" sx={{ mt: 10, mb: 2 }}>
           <Grid2 container spacing={4}>
             {uid && (
-              <Grid2 md={3}>
+              <Grid2 md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
                 <Sidebar />
               </Grid2>
             )}
-            <Grid2 md={uid ? 9 : 12}>{children}</Grid2>
+            <Grid2 xs={12} md={uid ? 9 : 12}>
+              {children}
+            </Grid2>
           </Grid2>
         </Container>
       </main>
