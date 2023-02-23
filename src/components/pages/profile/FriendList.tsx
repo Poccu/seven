@@ -37,7 +37,7 @@ export const FriendList: FC<Props> = ({ user }) => {
                       vertical: 'bottom',
                       horizontal: 'right',
                     }}
-                    variant={usersRdb[user.uid]?.online ? 'dot' : undefined}
+                    variant={usersRdb[user.uid]?.isOnline ? 'dot' : undefined}
                   >
                     <ThemeAvatar
                       alt={user.displayName}

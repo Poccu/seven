@@ -44,7 +44,7 @@ export const Header: FC<Theme> = ({ light, setLight }) => {
 
   const navigate = useNavigate()
   const { ga, rdb } = useAuth()
-  const { uid } = useAppSelector((state) => state.userReducer)
+  const { isAuth, uid } = useAppSelector((state) => state.userReducer)
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget)
@@ -104,7 +104,7 @@ export const Header: FC<Theme> = ({ light, setLight }) => {
   }
 
   const handleLogout = () => {
-    const isOnlineRef = ref(rdb, `users/${uid}/online`)
+    const isOnlineRef = ref(rdb, `users/${uid}/isOnline`)
     const lastOnlineRef = ref(rdb, `users/${uid}/lastOnline`)
     const connectedRef = ref(rdb, '.info/connected')
     onValue(connectedRef, (snap) => {
@@ -139,7 +139,7 @@ export const Header: FC<Theme> = ({ light, setLight }) => {
               direction="row"
               sx={{ ml: 1, display: { xs: 'flex', md: 'none' } }}
             >
-              {uid ? (
+              {isAuth ? (
                 <Box>
                   <IconButton
                     color="primary"

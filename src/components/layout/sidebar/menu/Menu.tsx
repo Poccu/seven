@@ -37,7 +37,7 @@ export const Menu: FC = () => {
   const { uid, bookmarks } = useAppSelector((state) => state.userReducer)
 
   const handleLogout = () => {
-    const isOnlineRef = ref(rdb, `users/${uid}/online`)
+    const isOnlineRef = ref(rdb, `users/${uid}/isOnline`)
     const lastOnlineRef = ref(rdb, `users/${uid}/lastOnline`)
     const connectedRef = ref(rdb, '.info/connected')
     onValue(connectedRef, (snap) => {

@@ -252,22 +252,21 @@ export const Bookmarks: FC = () => {
   }
 
   useEffect(() => {
-    if (uid) {
-      const curUserRef = doc(db, 'users', uid)
+    if (!uid) return
+    const curUserRef = doc(db, 'users', uid)
 
-      try {
-        runTransaction(db, async (transaction) => {
-          const sfDoc = await transaction.get(curUserRef)
-          if (!sfDoc.exists()) {
-            throw new Error('Document does not exist!')
-          }
-          transaction.update(curUserRef, {
-            bookmarks: [],
-          })
+    try {
+      runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(curUserRef)
+        if (!sfDoc.exists()) {
+          throw new Error('Document does not exist!')
+        }
+        transaction.update(curUserRef, {
+          bookmarks: [],
         })
-      } catch (e) {
-        console.log('Delete Bookmark failed: ', e)
-      }
+      })
+    } catch (e) {
+      console.log('Delete Bookmark failed: ', e)
     }
   }, [db, uid])
 
@@ -295,7 +294,9 @@ export const Bookmarks: FC = () => {
                       <ThemeOnlineBadge
                         overlap="circular"
                         variant={
-                          usersRdb[post.author.uid]?.online ? 'dot' : undefined
+                          usersRdb[post.author.uid]?.isOnline
+                            ? 'dot'
+                            : undefined
                         }
                       >
                         <ThemeAvatar

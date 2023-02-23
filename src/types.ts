@@ -19,7 +19,7 @@ export interface IUser {
   password?: string
   photoURL: string
   uid: string
-  online?: boolean
+  isAuth?: boolean
 }
 
 export interface IUserState {
@@ -35,7 +35,7 @@ export interface IUserState {
   password?: string | null
   photoURL: string | null
   uid: string | null
-  online?: boolean | null
+  isAuth?: boolean
 }
 
 export interface IUserData {

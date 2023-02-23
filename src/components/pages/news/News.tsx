@@ -290,7 +290,9 @@ export const News: FC = () => {
                       <ThemeOnlineBadge
                         overlap="circular"
                         variant={
-                          usersRdb[post.author.uid]?.online ? 'dot' : undefined
+                          usersRdb[post.author.uid]?.isOnline
+                            ? 'dot'
+                            : undefined
                         }
                       >
                         <ThemeAvatar

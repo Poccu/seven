@@ -9,7 +9,7 @@ import { routes } from './routes'
 import { useAppSelector } from '../../hooks/redux'
 
 export const RoutesList = ({ light, setLight }: Theme) => {
-  const { uid } = useAppSelector((state) => state.userReducer)
+  const { isAuth, uid } = useAppSelector((state) => state.userReducer)
 
   return (
     <Box
@@ -28,7 +28,7 @@ export const RoutesList = ({ light, setLight }: Theme) => {
                 path={route.path}
                 element={
                   <Layout light={light} setLight={setLight}>
-                    {route.auth && !uid ? <Auth /> : <route.component />}
+                    {route.auth && isAuth ? <route.component /> : <Auth />}
                   </Layout>
                 }
                 key={`route${index}`}

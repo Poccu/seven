@@ -81,11 +81,12 @@ export const AuthProvider: FC<Props> = ({ children }) => {
                 photoURL: userData.photoURL,
                 images: [...userData.images],
                 uid: userData.uid,
+                isAuth: true,
               })
             )
 
             // Realtime Database
-            const isOnlineRef = ref(rdb, `users/${userData.uid}/online`)
+            const isOnlineRef = ref(rdb, `users/${userData.uid}/isOnline`)
             const userRef = ref(rdb, `users/${userData.uid}`)
             const lastOnlineRef = ref(rdb, `users/${userData.uid}/lastOnline`)
 
@@ -107,7 +108,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
                   photoURL: userData.photoURL,
                   images: [...userData.images],
                   uid: userData.uid,
-                  online: true,
+                  isOnline: true,
                 })
 
                 onDisconnect(isOnlineRef).set(false)

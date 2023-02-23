@@ -12,6 +12,7 @@ const initialState = {
   photoURL: null,
   images: null,
   uid: null,
+  isAuth: false,
 } as IUserState
 
 export const userSlice = createSlice({
@@ -29,18 +30,20 @@ export const userSlice = createSlice({
       state.photoURL = action.payload.photoURL
       state.images = action.payload.images
       state.uid = action.payload.uid
+      state.isAuth = action.payload.isAuth
     },
     removeUser(state) {
       state.bookmarks = null
       state.createdAt = null
       state.displayName = null
-      state.email = null
+      state.emoji = null
       state.friends = null
       state.groups = null
       state.music = null
       state.photoURL = null
       state.images = null
       state.uid = null
+      state.isAuth = false
     },
   },
 })

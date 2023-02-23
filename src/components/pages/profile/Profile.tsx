@@ -112,7 +112,7 @@ export const Profile: FC = () => {
               </Stack>
               <Box>
                 <Typography variant="body1" color="textSecondary">
-                  {usersRdb[profileId]?.online
+                  {usersRdb[profileId]?.isOnline
                     ? t('line1', { ns: ['other'] })
                     : usersRdb[profileId]?.lastOnline
                     ? `${t('line2', { ns: ['other'] })} ${moment(
