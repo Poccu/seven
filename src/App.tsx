@@ -1,30 +1,17 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { RoutesList } from './components/routes/RoutesList'
 import { themeDark, themeLight } from './components/theme/themes'
 import './App.css'
+import { useAppSelector } from './hooks/redux'
 
 export const App: FC = () => {
-  const [light, setLight] = useState(true) // set light/dark theme
-
-  // localStorage
-  useEffect(() => {
-    let value = localStorage.getItem('light')
-    if (value !== null) {
-      setLight(JSON.parse(value) === true)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (light !== null) {
-      localStorage.setItem('light', JSON.stringify(light))
-    }
-  }, [light])
+  const { theme } = useAppSelector((state) => state.global)
 
   return (
-    <ThemeProvider theme={light ? themeLight : themeDark}>
+    <ThemeProvider theme={theme === 'light' ? themeLight : themeDark}>
       <CssBaseline />
-      <RoutesList light={light} setLight={setLight} />
+      <RoutesList />
     </ThemeProvider>
   )
 }

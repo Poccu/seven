@@ -15,12 +15,9 @@ import { useAppSelector } from '../../../hooks/redux'
 
 export const AddMessage: FC = () => {
   const [content, setContent] = useState('')
-  // const [views, setViews] = useState([])
   const { db } = useAuth()
 
-  const { emoji, uid, displayName, photoURL } = useAppSelector(
-    (state) => state.userReducer
-  )
+  const { uid, displayName, photoURL } = useAppSelector((state) => state.user)
 
   const handleAddMessage = async (e: any) => {
     if (e.key === 'Enter' && content.trim()) {
@@ -52,50 +49,10 @@ export const AddMessage: FC = () => {
       } catch (e) {
         console.error('Error adding document: ', e)
       }
-
-      // const docRef = doc(db, 'views', 'viewsId')
-
-      // // try {
-      // await runTransaction(db, async (transaction) => {
-      //   const sfDoc = await transaction.get(docRef)
-      //   if (!sfDoc.exists()) {
-      //     throw new Error('Document does not exist!')
-      //   }
-      //   // if (!sfDoc.data().likes.includes(uid)) {
-      //   const newViews = [...sfDoc.data().views, 0]
-      //   console.log(sfDoc.data().views)
-      //   transaction.update(docRef, { views: newViews })
-      //   // }
-      // })
-      // //   console.log('Transaction successfully committed!')
-      // // } catch (e) {
-      // //   console.log('Transaction failed: ', e)
-      // // }
-
       setContent('')
       e.target.blur()
     }
   }
-
-  // useEffect(() => {
-  //   const docRef = doc(db, 'views', 'viewsId')
-
-  //   try {
-  //     runTransaction(db, async (transaction) => {
-  //       const sfDoc = await transaction.get(docRef)
-  //       if (!sfDoc.exists()) {
-  //         throw new Error('Document does not exist!')
-  //       }
-  //       // console.log(sfDoc.data())
-
-  //       const newViews = sfDoc.data().views + 1
-  //       transaction.update(docRef, { views: newViews })
-  //     })
-  //     // console.log('Transaction successfully committed!')
-  //   } catch (e) {
-  //     // console.log('Transaction failed: ', e)
-  //   }
-  // }, [])
 
   return (
     <Box sx={{ mb: 2 }}>

@@ -26,7 +26,7 @@ export const Profile: FC = () => {
   const { db, usersRdb } = useAuth()
   const { id } = useParams()
   const profileId = window.location.pathname.replace('/profile/', '')
-  const { uid } = useAppSelector((state) => state.userReducer)
+  const { uid } = useAppSelector((state) => state.user)
 
   const [user, setUser] = useState<DocumentData | undefined>({} as IUser)
   // console.log('user', user)

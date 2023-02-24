@@ -1,7 +1,7 @@
 import { FC, useRef, useState } from 'react'
 import Grow from '@mui/material/Grow'
 import Popper from '@mui/material/Popper'
-import { Box, IconButton, useTheme } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import { Mood } from '@mui/icons-material'
 import EmojiPicker, {
   EmojiStyle,
@@ -11,6 +11,7 @@ import EmojiPicker, {
   EmojiClickData,
 } from 'emoji-picker-react'
 import { useTranslation } from 'react-i18next'
+import { useAppSelector } from '../../../hooks/redux'
 
 type Props = {
   setContent: React.Dispatch<React.SetStateAction<string>>
@@ -21,7 +22,7 @@ export const AddEmoji: FC<Props> = ({ setContent }) => {
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
 
-  const theme = useTheme()
+  const { theme } = useAppSelector((state) => state.global)
 
   const onEmojiClick = (emojiData: EmojiClickData, event: MouseEvent) => {
     let sym = emojiData.unified.split('-')
@@ -68,9 +69,7 @@ export const AddEmoji: FC<Props> = ({ setContent }) => {
               <EmojiPicker
                 onEmojiClick={onEmojiClick}
                 autoFocusSearch={false}
-                theme={
-                  theme.palette.mode === 'light' ? Theme.LIGHT : Theme.DARK
-                }
+                theme={theme === 'light' ? Theme.LIGHT : Theme.DARK}
                 height={565}
                 emojiVersion="5.0"
                 defaultSkinTone={SkinTones.MEDIUM}

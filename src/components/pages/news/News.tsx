@@ -55,8 +55,10 @@ export const News: FC = () => {
   const [editingId, setEditingId] = useState('')
   const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
 
+  const { db, usersRdb } = useAuth()
+  const { users } = useAppSelector((state) => state.users)
   const { emoji, uid, displayName, photoURL } = useAppSelector(
-    (state) => state.userReducer
+    (state) => state.user
   )
 
   const [openModal, setOpenModal] = useState(false)
@@ -68,9 +70,6 @@ export const News: FC = () => {
   const [isVisible, setIsVisible] = useState<string>('')
 
   document.title = t('title1')
-
-  const { db, usersRdb } = useAuth()
-  const { users } = useAppSelector((state) => state.usersReducer)
 
   useEffect(() => {
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'))

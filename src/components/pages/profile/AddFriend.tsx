@@ -13,7 +13,7 @@ export const AddFriend: FC = () => {
   const profileId = window.location.pathname.replace('/profile/', '')
 
   const { emoji, uid, displayName, photoURL, friends } = useAppSelector(
-    (state) => state.userReducer
+    (state) => state.user
   )
 
   const handleAddFriend = async () => {

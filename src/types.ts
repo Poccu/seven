@@ -1,11 +1,6 @@
 import { SvgIconTypeMap } from '@mui/material'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
 
-export type Theme = {
-  light: boolean
-  setLight: React.Dispatch<React.SetStateAction<boolean>>
-}
-
 export interface IUser {
   bookmarks: IPost[]
   createdAt: string
@@ -36,6 +31,11 @@ export interface IUserState {
   photoURL: string | null
   uid: string | null
   isAuth?: boolean
+}
+
+export interface IGlobalState {
+  language: string
+  theme: string
 }
 
 export interface IUserData {

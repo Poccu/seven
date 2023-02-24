@@ -27,14 +27,19 @@ import {
   set,
   serverTimestamp,
 } from 'firebase/database'
-import { useAppSelector } from '../../../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
+import { userSlice } from '../../../../store/reducers/UserSlice'
+import { usersSlice } from '../../../../store/reducers/UsersSlice'
 
 export const Menu: FC = () => {
   const { t } = useTranslation(['menu'])
   const { ga, rdb } = useAuth()
   const navigate = useNavigate()
 
-  const { uid, bookmarks } = useAppSelector((state) => state.userReducer)
+  const { uid, bookmarks } = useAppSelector((state) => state.user)
+  const { removeUser } = userSlice.actions
+  const { removeUsers } = usersSlice.actions
+  const dispatch = useAppDispatch()
 
   const handleLogout = () => {
     const isOnlineRef = ref(rdb, `users/${uid}/isOnline`)
@@ -49,6 +54,8 @@ export const Menu: FC = () => {
       }
     })
     signOut(ga)
+    dispatch(removeUser())
+    dispatch(removeUsers())
     navigate('/')
   }
 

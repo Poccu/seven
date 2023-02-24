@@ -8,16 +8,14 @@ import { useAppSelector } from '../../hooks/redux'
 
 type Props = {
   children: ReactElement
-  light: boolean
-  setLight: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const Layout: FC<Props> = ({ children, light, setLight }) => {
-  const { isAuth } = useAppSelector((state) => state.userReducer)
+export const Layout: FC<Props> = ({ children }) => {
+  const { isAuth } = useAppSelector((state) => state.user)
 
   return (
     <>
-      <Header light={light} setLight={setLight} />
+      <Header />
       <main>
         <Container maxWidth="lg" sx={{ mt: 10, mb: 2 }}>
           <Grid2 container spacing={4}>

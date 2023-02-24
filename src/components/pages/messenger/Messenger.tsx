@@ -33,8 +33,8 @@ export const Messenger: FC = () => {
 
   const { db } = useAuth()
 
-  const { uid } = useAppSelector((state) => state.userReducer)
-  const { users } = useAppSelector((state) => state.usersReducer)
+  const { uid } = useAppSelector((state) => state.user)
+  const { users } = useAppSelector((state) => state.users)
 
   useEffect(() => {
     const q = query(

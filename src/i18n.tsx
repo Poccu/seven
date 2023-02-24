@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import store from './store/store'
 
 import translationEnAbout from './translation/en/about.json'
 import translationEnAuth from './translation/en/auth.json'
@@ -50,9 +51,11 @@ const resources = {
   },
 }
 
-i18next.use(initReactI18next).init({
-  resources,
-  lng: 'ru', //default language
-})
+export const initI18next = () => {
+  const lng = store.getState().global.language
 
-export default i18next
+  return i18next.use(initReactI18next).init({
+    resources,
+    lng,
+  })
+}

@@ -27,7 +27,7 @@ export const PhotoSettings: FC = () => {
   const { t } = useTranslation(['profile'])
   const { db, st, ga } = useAuth()
 
-  const { uid, photoURL } = useAppSelector((state) => state.userReducer)
+  const { uid, photoURL } = useAppSelector((state) => state.user)
 
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)

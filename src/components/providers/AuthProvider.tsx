@@ -51,8 +51,8 @@ export const AuthContext = createContext<IContext>({} as IContext)
 export const AuthProvider: FC<Props> = ({ children }) => {
   const [usersRdb, setUsersRdb] = useState<any>({})
 
-  const { setUser, removeUser } = userSlice.actions
-  const { setUsers, removeUsers } = usersSlice.actions
+  const { setUser } = userSlice.actions
+  const { setUsers } = usersSlice.actions
   const dispatch = useAppDispatch()
 
   const ga = getAuth()
@@ -65,84 +65,81 @@ export const AuthProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const unListen = onAuthStateChanged(ga, (userAuth) => {
-      if (userAuth) {
-        onSnapshot(doc(db, 'users', userAuth.uid), (doc) => {
-          const userData: DocumentData | undefined = doc.data()
-          if (userData) {
-            dispatch(
-              setUser({
-                bookmarks: [...userData.bookmarks],
-                createdAt: userData.createdAt,
-                displayName: userData.displayName,
-                emoji: userData.emoji,
-                friends: [...userData.friends],
-                groups: [...userData.groups],
-                music: [...userData.music],
-                photoURL: userData.photoURL,
-                images: [...userData.images],
-                uid: userData.uid,
-                isAuth: true,
-              })
-            )
+      if (!userAuth) return
 
-            // Realtime Database
-            const isOnlineRef = ref(rdb, `users/${userData.uid}/isOnline`)
-            const userRef = ref(rdb, `users/${userData.uid}`)
-            const lastOnlineRef = ref(rdb, `users/${userData.uid}/lastOnline`)
+      onSnapshot(doc(db, 'users', userAuth.uid), (doc) => {
+        const userData: DocumentData | undefined = doc.data()
+        if (!userData) return
 
-            const connectedRef = ref(rdb, '.info/connected')
+        dispatch(
+          setUser({
+            bookmarks: [...userData.bookmarks],
+            createdAt: userData.createdAt,
+            displayName: userData.displayName,
+            emoji: userData.emoji,
+            friends: [...userData.friends],
+            groups: [...userData.groups],
+            music: [...userData.music],
+            photoURL: userData.photoURL,
+            images: [...userData.images],
+            uid: userData.uid,
+            isAuth: true,
+          })
+        )
 
-            onValue(connectedRef, (snap) => {
-              if (snap.val() === true) {
-                set(userRef, {
-                  bookmarks: [...userData.bookmarks],
-                  createdAt: userData.createdAt,
-                  displayName: userData.displayName,
-                  email: userData.email,
-                  emoji: userData.emoji,
-                  friends: [...userData.friends],
-                  groups: [...userData.groups],
-                  lastOnline: serverTimestamp(),
-                  music: [...userData.music],
-                  password: userData.password,
-                  photoURL: userData.photoURL,
-                  images: [...userData.images],
-                  uid: userData.uid,
-                  isOnline: true,
-                })
+        // Realtime Database
+        const isOnlineRef = ref(rdb, `users/${userData.uid}/isOnline`)
+        const userRef = ref(rdb, `users/${userData.uid}`)
+        const lastOnlineRef = ref(rdb, `users/${userData.uid}/lastOnline`)
 
-                onDisconnect(isOnlineRef).set(false)
-                onDisconnect(lastOnlineRef).set(serverTimestamp())
-              }
+        const connectedRef = ref(rdb, '.info/connected')
+
+        onValue(connectedRef, (snap) => {
+          if (snap.val() === true) {
+            set(userRef, {
+              bookmarks: [...userData.bookmarks],
+              createdAt: userData.createdAt,
+              displayName: userData.displayName,
+              email: userData.email,
+              emoji: userData.emoji,
+              friends: [...userData.friends],
+              groups: [...userData.groups],
+              lastOnline: serverTimestamp(),
+              music: [...userData.music],
+              password: userData.password,
+              photoURL: userData.photoURL,
+              images: [...userData.images],
+              uid: userData.uid,
+              isOnline: true,
             })
 
-            const usersRef = ref(rdb, `users`)
-            onValue(usersRef, (snapshot) => {
-              const data = snapshot.val()
-              setUsersRdb(data)
-            })
+            onDisconnect(isOnlineRef).set(false)
+            onDisconnect(lastOnlineRef).set(serverTimestamp())
           }
         })
 
-        const q = query(collection(db, 'users'))
-
-        onSnapshot(q, (querySnapshot) => {
-          const usersArr: IUser[] = []
-          querySnapshot.forEach(async (d: DocumentData) => {
-            usersArr.push(d.data())
-          })
-          dispatch(
-            setUsers(
-              usersArr
-                .map(({ email, password, ...rest }) => ({ ...rest }))
-                .sort((a, b) => +a.createdAt - +b.createdAt)
-            )
-          )
+        const usersRef = ref(rdb, `users`)
+        onValue(usersRef, (snapshot) => {
+          const data = snapshot.val()
+          setUsersRdb(data)
         })
-      } else {
-        dispatch(removeUser())
-        dispatch(removeUsers())
-      }
+      })
+
+      const q = query(collection(db, 'users'))
+
+      onSnapshot(q, (querySnapshot) => {
+        const usersArr: IUser[] = []
+        querySnapshot.forEach(async (d: DocumentData) => {
+          usersArr.push(d.data())
+        })
+        dispatch(
+          setUsers(
+            usersArr
+              .map(({ email, password, ...rest }) => ({ ...rest }))
+              .sort((a, b) => +a.createdAt - +b.createdAt)
+          )
+        )
+      })
     })
 
     return () => {

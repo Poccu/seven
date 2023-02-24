@@ -18,7 +18,7 @@ export const FriendList: FC<Props> = ({ user }) => {
   const { t } = useTranslation(['profile'])
   const { usersRdb } = useAuth()
 
-  const { users } = useAppSelector((state) => state.usersReducer)
+  const { users } = useAppSelector((state) => state.users)
 
   return (
     <BorderBox sx={{ mt: 2, p: 2 }}>

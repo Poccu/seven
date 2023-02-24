@@ -20,7 +20,7 @@ export const AddPost: FC = () => {
   const { db } = useAuth()
 
   const { emoji, uid, displayName, photoURL } = useAppSelector(
-    (state) => state.userReducer
+    (state) => state.user
   )
 
   const handleAddPost = async (e: any) => {

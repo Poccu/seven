@@ -2,6 +2,10 @@ export const builtWithList = [
   { title: 'Create React App', url: 'https://create-react-app.dev/' },
   { title: 'React 18', url: 'https://reactjs.org/' },
   { title: 'Redux Toolkit', url: 'https://redux-toolkit.js.org/' },
+  {
+    title: 'Redux Persist',
+    url: 'https://www.npmjs.com/package/redux-persist',
+  },
   { title: 'JavaScript (ES6+)', url: 'https://www.javascript.com/' },
   { title: 'TypeScript', url: 'https://www.typescriptlang.org/' },
   { title: 'Material UI 5', url: 'https://mui.com/' },
@@ -11,7 +15,7 @@ export const builtWithList = [
   { title: 'Notistack', url: 'https://notistack.com/' },
   {
     title: 'Emoji Picker React',
-    url: 'https://github.com/ealush/emoji-picker-react',
+    url: 'https://www.npmjs.com/package/emoji-picker-react',
   },
   { title: 'i18next', url: 'https://www.i18next.com/' },
 ]

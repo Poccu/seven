@@ -7,21 +7,32 @@ import './index.css'
 import './i18n'
 import './firebase'
 import { Provider } from 'react-redux'
-import { setupStore } from './store/store'
+import store, { persistor } from './store/store'
+import { PersistGate } from 'redux-persist/integration/react'
+import { initI18next } from './i18n'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-const store = setupStore()
+
+const onBeforeLift = async () => {
+  await initI18next()
+}
 
 root.render(
   <Provider store={store}>
-    <SnackbarProvider
-      maxSnack={1}
-      autoHideDuration={3000}
-      TransitionComponent={Grow}
+    <PersistGate
+      loading={null}
+      persistor={persistor}
+      onBeforeLift={onBeforeLift}
     >
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </SnackbarProvider>
+      <SnackbarProvider
+        maxSnack={1}
+        autoHideDuration={3000}
+        TransitionComponent={Grow}
+      >
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </SnackbarProvider>
+    </PersistGate>
   </Provider>
 )

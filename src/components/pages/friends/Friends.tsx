@@ -13,8 +13,8 @@ export const Friends: FC = () => {
   const { usersRdb } = useAuth()
   document.title = t('title1')
 
-  const { friends } = useAppSelector((state) => state.userReducer)
-  const { users } = useAppSelector((state) => state.usersReducer)
+  const { friends } = useAppSelector((state) => state.user)
+  const { users } = useAppSelector((state) => state.users)
 
   return (
     <>

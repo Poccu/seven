@@ -20,7 +20,7 @@ export const AddComment: FC<Props> = ({ post }) => {
   const { db } = useAuth()
 
   const { emoji, uid, displayName, photoURL } = useAppSelector(
-    (state) => state.userReducer
+    (state) => state.user
   )
 
   const handleAddComment = async (e: any) => {

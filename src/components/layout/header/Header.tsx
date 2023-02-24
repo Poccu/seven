@@ -19,11 +19,10 @@ import {
 } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import { DarkModeOutlined, LightModeOutlined } from '@mui/icons-material'
-import { Theme } from '../../../types'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
 import { Link as RouterLink } from 'react-router-dom'
-import { useAppSelector } from '../../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { menu } from '../sidebar/menu/menuList'
 import {
   ref,
@@ -35,16 +34,25 @@ import {
 import { signOut } from 'firebase/auth'
 import { useAuth } from '../../providers/useAuth'
 import { StyledMenu } from '../../ui/ThemeMenu'
+import { globalSlice } from '../../../store/reducers/GlobalSlice'
+import { userSlice } from '../../../store/reducers/UserSlice'
+import { usersSlice } from '../../../store/reducers/UsersSlice'
 
-export const Header: FC<Theme> = ({ light, setLight }) => {
+export const Header: FC = () => {
   const { t, i18n } = useTranslation(['menu'])
-  const [lang, setLang] = useState('ru') // set lang
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
   const navigate = useNavigate()
   const { ga, rdb } = useAuth()
-  const { isAuth, uid } = useAppSelector((state) => state.userReducer)
+
+  const { isAuth, uid } = useAppSelector((state) => state.user)
+  const { language, theme } = useAppSelector((state) => state.global)
+  const { setLangRU, setLangEN, setThemeLight, setThemeDark } =
+    globalSlice.actions
+  const { removeUser } = userSlice.actions
+  const { removeUsers } = usersSlice.actions
+  const dispatch = useAppDispatch()
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget)
@@ -54,53 +62,38 @@ export const Header: FC<Theme> = ({ light, setLight }) => {
     setAnchorEl(null)
   }
 
-  // localStorage
   useEffect(() => {
-    let value = localStorage.getItem('lang')
-    if (value !== null) {
-      setLang(JSON.parse(value))
-    } else {
-      const prefLang = navigator.language.slice(0, 2)
-      if (prefLang === 'en' || prefLang === 'ru') {
-        setLang(prefLang)
-      } else setLang('en')
-    }
-  }, [])
+    i18n.changeLanguage(language)
 
-  useEffect(() => {
-    if (lang !== null) {
-      localStorage.setItem('lang', JSON.stringify(lang))
-
-      i18n.changeLanguage(lang)
-      lang === 'en'
-        ? moment.updateLocale('en', {
-            calendar: {
-              lastDay: '[yesterday at] H:mm',
-              sameDay: '[today at] H:mm',
-              nextDay: '[tomorrow at] H:mm',
-              lastWeek: 'D MMM [at] H:mm',
-              nextWeek: 'D MMM [at] H:mm',
-              sameElse: 'D MMM YYYY',
-            },
-          })
-        : moment.updateLocale('ru', {
-            monthsShort:
-              'янв_фев_мар_апр_мая_июн_июл_авг_сен_окт_ноя_дек'.split('_'),
-            calendar: {
-              lastDay: '[вчера в] H:mm',
-              sameDay: '[сегодня в] H:mm',
-              nextDay: '[завтра в] H:mm',
-              lastWeek: 'D MMM [в] H:mm',
-              nextWeek: 'D MMM [в] H:mm',
-              sameElse: 'D MMM YYYY',
-            },
-          })
-    }
+    language === 'en'
+      ? moment.updateLocale('en', {
+          calendar: {
+            lastDay: '[yesterday at] H:mm',
+            sameDay: '[today at] H:mm',
+            nextDay: '[tomorrow at] H:mm',
+            lastWeek: 'D MMM [at] H:mm',
+            nextWeek: 'D MMM [at] H:mm',
+            sameElse: 'D MMM YYYY',
+          },
+        })
+      : moment.updateLocale('ru', {
+          monthsShort: 'янв_фев_мар_апр_мая_июн_июл_авг_сен_окт_ноя_дек'.split(
+            '_'
+          ),
+          calendar: {
+            lastDay: '[вчера в] H:mm',
+            sameDay: '[сегодня в] H:mm',
+            nextDay: '[завтра в] H:mm',
+            lastWeek: 'D MMM [в] H:mm',
+            nextWeek: 'D MMM [в] H:mm',
+            sameElse: 'D MMM YYYY',
+          },
+        })
     // eslint-disable-next-line
-  }, [lang])
+  }, [language])
 
   const handleChangeLanguage = () => {
-    i18n.language === 'ru' ? setLang('en') : setLang('ru')
+    language === 'ru' ? dispatch(setLangEN()) : dispatch(setLangRU())
   }
 
   const handleLogout = () => {
@@ -117,6 +110,8 @@ export const Header: FC<Theme> = ({ light, setLight }) => {
     })
     setAnchorEl(null)
     signOut(ga)
+    dispatch(removeUser())
+    dispatch(removeUsers())
     navigate('/')
   }
 
@@ -262,9 +257,9 @@ export const Header: FC<Theme> = ({ light, setLight }) => {
                   </Typography>
                 </IconButton>
               )}
-              {!light ? (
+              {theme === 'dark' ? (
                 <IconButton
-                  onClick={() => setLight(true)}
+                  onClick={() => dispatch(setThemeLight())}
                   color="primary"
                   size="large"
                   title={t('title1', { ns: ['other'] }) || ''}
@@ -274,7 +269,7 @@ export const Header: FC<Theme> = ({ light, setLight }) => {
                 </IconButton>
               ) : (
                 <IconButton
-                  onClick={() => setLight(false)}
+                  onClick={() => dispatch(setThemeDark())}
                   color="primary"
                   size="large"
                   title={t('title2', { ns: ['other'] }) || ''}

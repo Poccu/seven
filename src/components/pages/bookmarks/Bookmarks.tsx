@@ -46,9 +46,9 @@ export const Bookmarks: FC = () => {
   const { db, usersRdb } = useAuth()
 
   const { emoji, uid, displayName, photoURL } = useAppSelector(
-    (state) => state.userReducer
+    (state) => state.user
   )
-  const { users } = useAppSelector((state) => state.usersReducer)
+  const { users } = useAppSelector((state) => state.users)
 
   const [posts, setPosts] = useState<IPost[]>([])
 

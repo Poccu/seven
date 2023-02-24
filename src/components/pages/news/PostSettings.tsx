@@ -37,7 +37,7 @@ export const PostSettings: FC<Props> = ({
 
   const { db } = useAuth()
 
-  const { uid } = useAppSelector((state) => state.userReducer)
+  const { uid } = useAppSelector((state) => state.user)
 
   const { enqueueSnackbar } = useSnackbar()
 
