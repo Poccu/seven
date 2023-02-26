@@ -49,7 +49,7 @@ export const Friends: FC = () => {
                       <Typography variant="h5">{x.emoji}</Typography>
                     </ThemeAvatar>
                   </ThemeOnlineBadge>
-                  <Typography variant="h6">
+                  <Typography variant="h6" sx={{ wordBreak: 'break-word' }}>
                     <b>{x.displayName}</b>
                   </Typography>
                 </Stack>

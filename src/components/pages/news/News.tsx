@@ -309,7 +309,10 @@ export const News: FC = () => {
                     <Stack>
                       <Stack alignItems="center" direction="row" spacing={0.5}>
                         <Link to={`/profile/${post.author.uid}`}>
-                          <Typography variant="h6">
+                          <Typography
+                            variant="h6"
+                            sx={{ wordBreak: 'break-word' }}
+                          >
                             <b>{post.author.displayName}</b>
                           </Typography>
                         </Link>
@@ -343,7 +346,10 @@ export const News: FC = () => {
               {editingId !== post.id &&
               !deletedPosts.some((x) => x.id === post.id) ? (
                 <>
-                  <Typography variant="body1" sx={{ ml: 1 }}>
+                  <Typography
+                    variant="body1"
+                    sx={{ ml: 1, wordBreak: 'break-word' }}
+                  >
                     {post.content}
                   </Typography>
                   {post?.images?.length === 3 || post?.images?.length > 4 ? (
@@ -590,7 +596,10 @@ export const News: FC = () => {
                                 spacing={0.5}
                               >
                                 <Link to={`/profile/${comment.author.uid}`}>
-                                  <Typography variant="h6">
+                                  <Typography
+                                    variant="h6"
+                                    sx={{ wordBreak: 'break-word' }}
+                                  >
                                     <b>{comment.author.displayName}</b>
                                   </Typography>
                                 </Link>
@@ -611,7 +620,10 @@ export const News: FC = () => {
                                 )}
                               </Stack>
                               {editingId !== comment.id ? (
-                                <Typography variant="body1" sx={{ mb: 1 }}>
+                                <Typography
+                                  variant="body1"
+                                  sx={{ mb: 1, wordBreak: 'break-word' }}
+                                >
                                   {comment.content}
                                 </Typography>
                               ) : (

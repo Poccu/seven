@@ -224,7 +224,12 @@ export const Header: FC = () => {
                 </Box>
                 <Typography
                   variant="h6"
-                  sx={{ mr: 2, fontWeight: '400', letterSpacing: 3 }}
+                  sx={{
+                    mr: 2,
+                    fontWeight: '400',
+                    letterSpacing: 3,
+                    display: { xs: 'none', sm: 'block' },
+                  }}
                   color="primary"
                 >
                   SEVEN
