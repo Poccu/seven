@@ -67,7 +67,11 @@ export const Profile: FC = () => {
   return (
     <>
       <BorderBox sx={{ p: 3 }}>
-        <Stack direction="row" spacing={3}>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          alignItems={{ xs: 'center', sm: 'flex-start' }}
+          spacing={3}
+        >
           <Box>
             <ThemeAvatar
               alt={user?.displayName}
@@ -86,13 +90,13 @@ export const Profile: FC = () => {
           </Box>
           <Stack direction="column" spacing={3.5} sx={{ width: '100%' }}>
             <Stack
-              direction="row"
+              direction={{ xs: 'column', sm: 'row' }}
               justifyContent="space-between"
-              alignItems="flex-start"
+              alignItems={{ xs: 'center', sm: 'flex-start' }}
               spacing={2}
             >
               <Stack alignItems="center" direction="row" spacing={0.7}>
-                <Typography variant="h4">
+                <Typography variant="h4" sx={{ wordBreak: 'break-word' }}>
                   <b>{user?.displayName}</b>
                 </Typography>
                 {user?.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
@@ -110,38 +114,43 @@ export const Profile: FC = () => {
                   </Tooltip>
                 )}
               </Stack>
-              <Box>
-                <Typography variant="body1" color="textSecondary">
-                  {usersRdb[profileId]?.isOnline
-                    ? t('line1', { ns: ['other'] })
-                    : usersRdb[profileId]?.lastOnline
-                    ? `${t('line2', { ns: ['other'] })} ${moment(
-                        usersRdb[profileId]?.lastOnline
-                      ).calendar()}`
-                    : null}
-                </Typography>
-              </Box>
+              <Typography variant="body1" color="textSecondary">
+                {usersRdb[profileId]?.isOnline
+                  ? t('line1', { ns: ['other'] })
+                  : usersRdb[profileId]?.lastOnline
+                  ? `${t('line2', { ns: ['other'] })} ${moment(
+                      usersRdb[profileId]?.lastOnline
+                    ).calendar()}`
+                  : t('line3', { ns: ['other'] })}
+              </Typography>
             </Stack>
-            <Stack direction="row" spacing={2} sx={{ pl: 1 }}>
-              <Stack
-                justifyContent="center"
-                alignItems="center"
-                sx={{ width: '55px' }}
-              >
-                <Typography variant="h4" color="textSecondary">
-                  <b>{user?.friends?.length}</b>
-                </Typography>
-                <Typography color="textSecondary">{t('line1')}</Typography>
-              </Stack>
-              <Stack
-                justifyContent="center"
-                alignItems="center"
-                sx={{ width: '55px' }}
-              >
-                <Typography variant="h4" color="textSecondary">
-                  <b>{userPosts.length}</b>
-                </Typography>
-                <Typography color="textSecondary">{t('line2')}</Typography>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={2}
+              alignItems="center"
+              justifyContent={{ xs: 'center', sm: 'flex-start' }}
+            >
+              <Stack direction="row" spacing={2}>
+                <Stack
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{ width: '55px' }}
+                >
+                  <Typography variant="h4" color="textSecondary">
+                    <b>{user?.friends?.length}</b>
+                  </Typography>
+                  <Typography color="textSecondary">{t('line1')}</Typography>
+                </Stack>
+                <Stack
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{ width: '55px' }}
+                >
+                  <Typography variant="h4" color="textSecondary">
+                    <b>{userPosts.length}</b>
+                  </Typography>
+                  <Typography color="textSecondary">{t('line2')}</Typography>
+                </Stack>
               </Stack>
               {uid !== profileId && <AddFriend />}
             </Stack>

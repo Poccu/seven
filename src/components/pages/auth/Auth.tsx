@@ -345,6 +345,7 @@ export const Auth: FC = () => {
           left: 0,
           top: 0,
           zIndex: -1,
+          display: { xs: 'none', sm: 'block' },
         }}
       ></BackgroundPaperBox>
       <Box display="flex" alignItems="center" justifyContent="center">
