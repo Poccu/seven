@@ -91,6 +91,17 @@ export const Auth: FC = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
+    setInvalidEmail(false)
+    setAlreadyInUseEmail(false)
+    setInvalidPassword(false)
+    setUserNotFound(false)
+    setWrongPassword(false)
+    setUserData({
+      email: '',
+      password: '',
+      displayName: '',
+      photoURL: '',
+    })
   }
 
   const [showPassword, setShowPassword] = useState(false)
@@ -162,12 +173,6 @@ export const Auth: FC = () => {
           error.code === 'auth/wrong-password' && setWrongPassword(true)
         })
     }
-    setUserData({
-      email: '',
-      password: '',
-      displayName: '',
-      photoURL: '',
-    })
   }
 
   const handleGoogleLogin = () => {
@@ -399,10 +404,8 @@ export const Auth: FC = () => {
               <ThemeTextFieldAuth
                 type="email"
                 label={t('line1')}
-                variant="outlined"
                 required
                 autoComplete="off"
-                color="primary"
                 sx={{ width: '300px' }}
                 value={userData.email}
                 onChange={(e) =>
@@ -415,10 +418,8 @@ export const Auth: FC = () => {
               <ThemeTextFieldAuth
                 type={showPassword ? 'text' : 'password'}
                 label={t('line2')}
-                variant="outlined"
                 required
                 autoComplete="off"
-                color="primary"
                 sx={{ width: '300px' }}
                 InputProps={{
                   endAdornment: (
@@ -517,10 +518,8 @@ export const Auth: FC = () => {
             >
               <ThemeTextFieldAuth
                 label={t('line0')}
-                variant="outlined"
                 required
                 autoComplete="off"
-                color="primary"
                 sx={{ width: '300px' }}
                 value={userData.displayName}
                 onChange={(e) =>
@@ -534,10 +533,8 @@ export const Auth: FC = () => {
               <ThemeTextFieldAuth
                 type="email"
                 label={t('line1')}
-                variant="outlined"
                 required
                 autoComplete="off"
-                color="primary"
                 sx={{ width: '300px' }}
                 value={userData.email}
                 onChange={(e) =>
@@ -559,10 +556,8 @@ export const Auth: FC = () => {
               <ThemeTextFieldAuth
                 type={showPassword ? 'text' : 'password'}
                 label={t('line2')}
-                variant="outlined"
                 required
                 autoComplete="off"
-                color="primary"
                 sx={{ width: '300px' }}
                 InputProps={{
                   endAdornment: (
