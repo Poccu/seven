@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import globalReducer from './reducers/GlobalSlice'
 import userReducer from './reducers/UserSlice'
 import usersReducer from './reducers/UsersSlice'
+import postsReducer from './reducers/PostsSlice'
 import {
   persistStore,
   persistReducer,
@@ -18,13 +19,14 @@ const rootReducer = combineReducers({
   global: globalReducer,
   user: userReducer,
   users: usersReducer,
+  posts: postsReducer,
 })
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['global'],
+  whitelist: ['global', 'posts'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

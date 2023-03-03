@@ -30,6 +30,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 import { userSlice } from '../../../../store/reducers/UserSlice'
 import { usersSlice } from '../../../../store/reducers/UsersSlice'
+import { postsSlice } from '../../../../store/reducers/PostsSlice'
 
 export const Menu: FC = () => {
   const { t } = useTranslation(['menu'])
@@ -39,6 +40,7 @@ export const Menu: FC = () => {
   const { uid, bookmarks } = useAppSelector((state) => state.user)
   const { removeUser } = userSlice.actions
   const { removeUsers } = usersSlice.actions
+  const { removePosts } = postsSlice.actions
   const dispatch = useAppDispatch()
 
   const handleLogout = () => {
@@ -56,6 +58,7 @@ export const Menu: FC = () => {
     signOut(ga)
     dispatch(removeUser())
     dispatch(removeUsers())
+    dispatch(removePosts())
     navigate('/')
   }
 

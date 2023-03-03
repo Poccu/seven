@@ -40,7 +40,7 @@ export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
               .data()
               .comments.filter((x: IComment) => x.id !== comment.id),
             com,
-          ]
+          ].sort((a, b) => +a.createdAt - +b.createdAt)
 
           transaction.update(docRef, {
             comments: newCommentsArr,

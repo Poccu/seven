@@ -37,6 +37,7 @@ import { StyledMenu } from '../../ui/ThemeMenu'
 import { globalSlice } from '../../../store/reducers/GlobalSlice'
 import { userSlice } from '../../../store/reducers/UserSlice'
 import { usersSlice } from '../../../store/reducers/UsersSlice'
+import { postsSlice } from '../../../store/reducers/PostsSlice'
 
 export const Header: FC = () => {
   const { t, i18n } = useTranslation(['menu'])
@@ -52,6 +53,7 @@ export const Header: FC = () => {
     globalSlice.actions
   const { removeUser } = userSlice.actions
   const { removeUsers } = usersSlice.actions
+  const { removePosts } = postsSlice.actions
   const dispatch = useAppDispatch()
 
   const handleClick = (event: any) => {
@@ -112,6 +114,7 @@ export const Header: FC = () => {
     signOut(ga)
     dispatch(removeUser())
     dispatch(removeUsers())
+    dispatch(removePosts())
     navigate('/')
   }
 
