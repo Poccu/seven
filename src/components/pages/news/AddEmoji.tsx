@@ -37,17 +37,21 @@ export const AddEmoji: FC<Props> = ({ setContent }) => {
   }
 
   return (
-    <Box onMouseOver={handleToggle} onMouseOut={handleToggle}>
+    <Box
+      onMouseOver={handleToggle}
+      onMouseOut={handleToggle}
+      sx={{ display: { xs: 'none', sm: 'block' } }}
+    >
       <IconButton
         ref={anchorRef}
         id="composition-button"
         aria-controls={open ? 'composition-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
-        color="secondary"
-        sx={{ width: '50px ', height: '50px', ml: -1 }}
+        color="primary"
+        sx={{ width: '50px ', height: '50px', mx: -1 }}
       >
-        <Mood color="primary" />
+        <Mood />
       </IconButton>
       <Popper
         open={open}

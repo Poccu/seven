@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { ChangeEvent, FC, useState } from 'react'
 import { useAuth } from '../../providers/useAuth'
@@ -96,7 +96,7 @@ export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
   }
 
   return (
-    <>
+    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
       <label htmlFor="upload-photo">
         <input
           type="file"
@@ -128,6 +128,6 @@ export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
           }}
         />
       )}
-    </>
+    </Box>
   )
 }
