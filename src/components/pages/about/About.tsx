@@ -34,7 +34,7 @@ export const About: FC = () => {
           <Link
             href={x.url}
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             underline="none"
             key={index}
           >

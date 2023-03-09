@@ -102,8 +102,9 @@ export const Menu: FC = () => {
               max={99}
               sx={{
                 position: 'relative',
-                top: '-37px',
+                top: '-25px',
                 left: '245px',
+                display: { md: 'none', lg: 'inline' },
               }}
             />
           </Box>

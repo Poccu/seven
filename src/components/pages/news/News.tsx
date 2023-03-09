@@ -8,6 +8,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material'
 import { BorderBox } from '../../ui/ThemeBox'
 import {
@@ -74,6 +75,7 @@ export const News: FC = () => {
 
   const [isVisible, setIsVisible] = useState<string>('')
 
+  const theme = useTheme()
   document.title = t('title1')
 
   useEffect(() => {
@@ -283,7 +285,16 @@ export const News: FC = () => {
       <TransitionGroup>
         {posts.map((post) => (
           <Collapse key={post.id}>
-            <BorderBox sx={{ p: 3, mb: 2 }}>
+            <BorderBox
+              sx={{
+                p: 3,
+                mb: 2,
+                borderColor:
+                  post.id === 'neTIz7g7S06Kgo8oZzY2'
+                    ? '#b59261'
+                    : theme.palette.divider,
+              }}
+            >
               {!deletedPosts.some((x) => x.id === post.id) && (
                 <Stack direction="row" justifyContent="space-between">
                   <Stack
