@@ -3,6 +3,7 @@ import globalReducer from './reducers/GlobalSlice'
 import userReducer from './reducers/UserSlice'
 import usersReducer from './reducers/UsersSlice'
 import postsReducer from './reducers/PostsSlice'
+import bookmarksReducer from './reducers/BookmarksSlice'
 import {
   persistStore,
   persistReducer,
@@ -20,13 +21,14 @@ const rootReducer = combineReducers({
   user: userReducer,
   users: usersReducer,
   posts: postsReducer,
+  bookmarks: bookmarksReducer,
 })
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['global', 'posts'],
+  whitelist: ['global', 'posts', 'bookmarks'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -38,6 +38,7 @@ import { globalSlice } from '../../../store/reducers/GlobalSlice'
 import { userSlice } from '../../../store/reducers/UserSlice'
 import { usersSlice } from '../../../store/reducers/UsersSlice'
 import { postsSlice } from '../../../store/reducers/PostsSlice'
+import { bookmarksSlice } from '../../../store/reducers/BookmarksSlice'
 
 export const Header: FC = () => {
   const { t, i18n } = useTranslation(['menu'])
@@ -54,6 +55,7 @@ export const Header: FC = () => {
   const { removeUser } = userSlice.actions
   const { removeUsers } = usersSlice.actions
   const { removePosts } = postsSlice.actions
+  const { removeBookmarks } = bookmarksSlice.actions
   const dispatch = useAppDispatch()
 
   const handleClick = (event: any) => {
@@ -115,6 +117,7 @@ export const Header: FC = () => {
     dispatch(removeUser())
     dispatch(removeUsers())
     dispatch(removePosts())
+    dispatch(removeBookmarks())
     navigate('/')
   }
 

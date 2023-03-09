@@ -101,6 +101,7 @@ export const News: FC = () => {
       incViews()
       setPostsFunc()
     }
+    // eslint-disable-next-line
   }, [db])
 
   const handleOpenModal = (post: IPost) => {
