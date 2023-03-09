@@ -126,15 +126,13 @@ export const AddPost: FC = () => {
         />
         <AddEmoji setContent={setContent} />
         <AddPhotos setImages={setImages} setImagesIdDb={setImagesIdDb} />
-        <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-          <IconButton
-            color="primary"
-            onClick={handleSendPost}
-            sx={{ width: '50px ', height: '50px', mx: -1 }}
-          >
-            <Send />
-          </IconButton>
-        </Box>
+        <IconButton
+          color="primary"
+          onClick={handleSendPost}
+          sx={{ width: '50px ', height: '50px', mx: -1 }}
+        >
+          <Send />
+        </IconButton>
       </Stack>
       {images.length > 0 && (
         <Stack direction="row" sx={{ mt: 3, flexWrap: 'wrap', gap: 1 }}>

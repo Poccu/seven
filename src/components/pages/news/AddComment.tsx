@@ -121,7 +121,7 @@ export const AddComment: FC<Props> = ({ post }) => {
   return (
     <Box sx={{ mt: 0 }}>
       <Divider sx={{ mt: 2, mb: 3 }} />
-      <Stack alignItems="center" direction="row" spacing={2}>
+      <Stack alignItems="center" direction="row">
         <Link to={`/profile/${uid}`}>
           <ThemeAvatar alt={displayName || ''} src={photoURL || ''}>
             {emoji}
@@ -135,17 +135,21 @@ export const AddComment: FC<Props> = ({ post }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onKeyPress={handleAddComment}
+          sx={{ mx: 2 }}
         />
         <AddEmoji setContent={setContent} />
-        <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-          <IconButton
-            color="primary"
-            onClick={handleSendComment}
-            sx={{ width: '50px ', height: '50px', mx: -1 }}
-          >
-            <Send />
-          </IconButton>
-        </Box>
+        <IconButton
+          color="primary"
+          onClick={handleSendComment}
+          sx={{
+            width: '50px ',
+            height: '50px',
+            ml: { xs: -1, sm: 0 },
+            mr: -1,
+          }}
+        >
+          <Send />
+        </IconButton>
       </Stack>
     </Box>
   )

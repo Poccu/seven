@@ -110,7 +110,7 @@ export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
         <IconButton
           color="primary"
           component="span"
-          sx={{ width: '50px ', height: '50px', mr: -1 }}
+          sx={{ width: '50px ', height: '50px' }}
         >
           <AddAPhoto />
         </IconButton>
