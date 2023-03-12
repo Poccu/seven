@@ -5,6 +5,7 @@ import { Sidebar } from './sidebar/Sidebar'
 import { Header } from './header/Header'
 import { Footer } from './footer/Footer'
 import { useAppSelector } from '../../hooks/redux'
+import { Analytics } from '@vercel/analytics/react'
 
 type Props = {
   children: ReactElement
@@ -31,6 +32,7 @@ export const Layout: FC<Props> = ({ children }) => {
         </Container>
       </main>
       <Footer />
+      <Analytics debug={false} />
     </>
   )
 }
