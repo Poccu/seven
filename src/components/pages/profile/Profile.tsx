@@ -1,17 +1,9 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { Box, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import { BorderBox } from '../../ui/ThemeBox'
 import { ThemeProfileAvatar } from '../../ui/ThemeAvatar'
 import { useParams } from 'react-router-dom'
-import {
-  collection,
-  doc,
-  DocumentData,
-  onSnapshot,
-  query,
-  where,
-} from 'firebase/firestore'
 import { IPost, IUser } from '../../../types'
 import { PhotoSettings } from './PhotoSettings'
 import { AddFriend } from './AddFriend'
@@ -24,45 +16,20 @@ import { useAppSelector } from '../../../hooks/redux'
 export const Profile: FC = () => {
   const { t } = useTranslation(['profile'])
 
-  const { db, usersRdb } = useAuth()
+  const { usersRdb } = useAuth()
 
+  // eslint-disable-next-line
   const { id } = useParams()
   const profileId = window.location.pathname.replace('/profile/', '')
 
   const { uid } = useAppSelector((state) => state.user)
+  const { users } = useAppSelector((state) => state.users)
+  const { posts } = useAppSelector((state) => state.posts)
 
-  const [user, setUser] = useState<DocumentData | undefined>({} as IUser)
-  const [userPosts, setUserPosts] = useState<IPost[]>([])
+  const user = users.find((user: IUser) => user.uid === profileId)
+  const userPosts = posts.filter((post: IPost) => post.author.uid === profileId)
 
   document.title = user?.displayName || 'Seven'
-
-  useEffect(() => {
-    if (!uid) return
-
-    const unsub = onSnapshot(doc(db, 'users', id || uid), (doc) => {
-      const userData: DocumentData | undefined = doc.data()
-      setUser(userData)
-    })
-
-    // Find user posts
-    const q = query(
-      collection(db, 'posts'),
-      where('author.uid', '==', id || uid)
-    )
-
-    const setPostsFunc = onSnapshot(q, (querySnapshot) => {
-      const postsArr: IPost[] = []
-      querySnapshot.forEach(async (d: DocumentData) => {
-        postsArr.push(d.data())
-      })
-      setUserPosts(postsArr)
-    })
-
-    return () => {
-      unsub()
-      setPostsFunc()
-    }
-  }, [db, uid, id])
 
   return (
     <>
@@ -76,11 +43,11 @@ export const Profile: FC = () => {
             {user?.uid ? (
               <>
                 <ThemeProfileAvatar
-                  alt={user?.displayName}
-                  src={user?.photoURL}
+                  alt={user.displayName}
+                  src={user.photoURL}
                   draggable="false"
                 >
-                  <Typography variant="h2">{user?.emoji}</Typography>
+                  <Typography variant="h2">{user.emoji}</Typography>
                 </ThemeProfileAvatar>
                 {uid === profileId && <PhotoSettings />}
               </>
@@ -151,7 +118,7 @@ export const Profile: FC = () => {
                 >
                   <Typography variant="h4" color="textSecondary">
                     {user?.uid ? (
-                      <b>{user?.friends?.length}</b>
+                      <b>{user.friends.length}</b>
                     ) : (
                       <Skeleton width={50} />
                     )}

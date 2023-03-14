@@ -4,14 +4,13 @@ import { BorderBox } from '../../ui/ThemeBox'
 import { Link } from 'react-router-dom'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { IUser } from '../../../types'
-import { DocumentData } from '@firebase/firestore'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../providers/useAuth'
 import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
 import { useAppSelector } from '../../../hooks/redux'
 
 type Props = {
-  user: DocumentData | undefined
+  user: IUser | undefined
 }
 
 export const FriendList: FC<Props> = ({ user }) => {
@@ -25,10 +24,10 @@ export const FriendList: FC<Props> = ({ user }) => {
     <BorderBox sx={{ mt: 2, p: 2 }}>
       {user?.uid ? (
         <>
-          {user?.friends?.length > 0 ? (
+          {user.friends.length > 0 ? (
             <>
               <Typography variant="body2" color="textSecondary">
-                {`${t('line3')} ${user?.friends?.length}`}
+                {`${t('line3')} ${user.friends.length}`}
               </Typography>
               <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mt: 1 }}>
                 {user.friends.map((user: IUser) => (
