@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from 'react'
-import { Box, Stack, Tooltip, Typography } from '@mui/material'
+import { Box, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import { BorderBox } from '../../ui/ThemeBox'
-import { ThemeAvatar } from '../../ui/ThemeAvatar'
+import { ThemeProfileAvatar } from '../../ui/ThemeAvatar'
 import { useParams } from 'react-router-dom'
 import {
   collection,
@@ -73,20 +73,23 @@ export const Profile: FC = () => {
           spacing={3}
         >
           <Box>
-            <ThemeAvatar
-              alt={user?.displayName}
-              src={user?.photoURL}
-              sx={{
-                height: '150px',
-                width: '150px',
-                border: '3px solid',
-                borderColor: '#b59261',
-              }}
-              draggable="false"
-            >
-              <Typography variant="h2">{user?.emoji}</Typography>
-            </ThemeAvatar>
-            {uid === profileId && <PhotoSettings />}
+            {user?.uid ? (
+              <>
+                <ThemeProfileAvatar
+                  alt={user?.displayName}
+                  src={user?.photoURL}
+                  draggable="false"
+                >
+                  <Typography variant="h2">{user?.emoji}</Typography>
+                </ThemeProfileAvatar>
+                {uid === profileId && <PhotoSettings />}
+              </>
+            ) : (
+              <Skeleton
+                variant="circular"
+                sx={{ height: '150px', width: '150px' }}
+              />
+            )}
           </Box>
           <Stack direction="column" spacing={3.5} sx={{ width: '100%' }}>
             <Stack
@@ -97,7 +100,11 @@ export const Profile: FC = () => {
             >
               <Stack alignItems="center" direction="row" spacing={0.7}>
                 <Typography variant="h4" sx={{ wordBreak: 'break-word' }}>
-                  <b>{user?.displayName}</b>
+                  {user?.displayName ? (
+                    <b>{user.displayName}</b>
+                  ) : (
+                    <Skeleton width={250} />
+                  )}
                 </Typography>
                 {user?.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
                   <Tooltip
@@ -115,13 +122,19 @@ export const Profile: FC = () => {
                 )}
               </Stack>
               <Typography variant="body1" color="textSecondary">
-                {usersRdb[profileId]?.isOnline
-                  ? t('line1', { ns: ['other'] })
-                  : usersRdb[profileId]?.lastOnline
-                  ? `${t('line2', { ns: ['other'] })} ${moment(
-                      usersRdb[profileId]?.lastOnline
-                    ).calendar()}`
-                  : t('line3', { ns: ['other'] })}
+                {user?.uid && usersRdb[profileId]?.isOnline ? (
+                  t('line1', { ns: ['other'] })
+                ) : user?.uid && usersRdb[profileId]?.lastOnline ? (
+                  `${t('line2', { ns: ['other'] })} ${moment(
+                    usersRdb[profileId]?.lastOnline
+                  ).calendar()}`
+                ) : user?.uid &&
+                  !usersRdb[profileId]?.isOnline &&
+                  !usersRdb[profileId]?.lastOnline ? (
+                  t('line3', { ns: ['other'] })
+                ) : (
+                  <Skeleton width={100} />
+                )}
               </Typography>
             </Stack>
             <Stack
@@ -137,9 +150,15 @@ export const Profile: FC = () => {
                   sx={{ width: '55px' }}
                 >
                   <Typography variant="h4" color="textSecondary">
-                    <b>{user?.friends?.length}</b>
+                    {user?.uid ? (
+                      <b>{user?.friends?.length}</b>
+                    ) : (
+                      <Skeleton width={50} />
+                    )}
                   </Typography>
-                  <Typography color="textSecondary">{t('line1')}</Typography>
+                  <Typography color="textSecondary">
+                    {user?.uid ? t('line1') : <Skeleton width={50} />}
+                  </Typography>
                 </Stack>
                 <Stack
                   justifyContent="center"
@@ -147,12 +166,18 @@ export const Profile: FC = () => {
                   sx={{ width: '55px' }}
                 >
                   <Typography variant="h4" color="textSecondary">
-                    <b>{userPosts.length}</b>
+                    {user?.uid ? (
+                      <b>{userPosts.length}</b>
+                    ) : (
+                      <Skeleton width={50} />
+                    )}
                   </Typography>
-                  <Typography color="textSecondary">{t('line2')}</Typography>
+                  <Typography color="textSecondary">
+                    {user?.uid ? t('line2') : <Skeleton width={50} />}
+                  </Typography>
                 </Stack>
               </Stack>
-              {uid !== profileId && <AddFriend />}
+              {uid !== profileId && user?.uid && <AddFriend />}
             </Stack>
           </Stack>
         </Stack>

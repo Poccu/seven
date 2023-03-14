@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const Layout: FC<Props> = ({ children }) => {
-  const { isAuth } = useAppSelector((state) => state.user)
+  const { isLoggedIn } = useAppSelector((state) => state.global)
 
   return (
     <>
@@ -20,12 +20,12 @@ export const Layout: FC<Props> = ({ children }) => {
       <main>
         <Container maxWidth="lg" sx={{ mt: 10, mb: 2 }}>
           <Grid2 container spacing={4}>
-            {isAuth && (
+            {isLoggedIn && (
               <Grid2 md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
                 <Sidebar />
               </Grid2>
             )}
-            <Grid2 xs={12} md={isAuth ? 9 : 12}>
+            <Grid2 xs={12} md={isLoggedIn ? 9 : 12}>
               {children}
             </Grid2>
           </Grid2>

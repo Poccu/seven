@@ -32,6 +32,7 @@ import { userSlice } from '../../../../store/reducers/UserSlice'
 import { usersSlice } from '../../../../store/reducers/UsersSlice'
 import { postsSlice } from '../../../../store/reducers/PostsSlice'
 import { bookmarksSlice } from '../../../../store/reducers/BookmarksSlice'
+import { globalSlice } from '../../../../store/reducers/GlobalSlice'
 
 export const Menu: FC = () => {
   const { t } = useTranslation(['menu'])
@@ -39,6 +40,7 @@ export const Menu: FC = () => {
   const navigate = useNavigate()
 
   const { uid, bookmarks } = useAppSelector((state) => state.user)
+  const { setIsLoggedIn } = globalSlice.actions
   const { removeUser } = userSlice.actions
   const { removeUsers } = usersSlice.actions
   const { removePosts } = postsSlice.actions
@@ -59,6 +61,7 @@ export const Menu: FC = () => {
     })
     signOut(ga)
     dispatch(removeUser())
+    dispatch(setIsLoggedIn(false))
     dispatch(removeUsers())
     dispatch(removePosts())
     dispatch(removeBookmarks())

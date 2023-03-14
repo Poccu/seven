@@ -3,33 +3,27 @@ import { IMenuItem } from '../../../../types'
 
 export const menu: IMenuItem[] = [
   {
-    title: 'News',
     link: '/',
     icon: Icons.Article,
   },
+  // {
+  //   link: '/messenger',
+  //   icon: Icons.Forum,
+  // },
   {
-    title: 'Messenger',
-    link: '/messenger',
-    icon: Icons.Forum,
-  },
-  {
-    title: 'Friends',
     link: '/friends',
     icon: Icons.Group,
   },
-  {
-    title: 'Communities',
-    link: '/groups',
-    icon: Icons.Groups,
-  },
-  {
-    title: 'Photos',
-    link: '/photos',
-    icon: Icons.Photo,
-  },
-  {
-    title: 'Music',
-    link: '/music',
-    icon: Icons.MusicNote,
-  },
+  // {
+  //   link: '/groups',
+  //   icon: Icons.Groups,
+  // },
+  // {
+  //   link: '/photos',
+  //   icon: Icons.Photo,
+  // },
+  // {
+  //   link: '/music',
+  //   icon: Icons.MusicNote,
+  // },
 ]

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IGlobalState } from '../../types'
 
 const preferredLanguage = navigator.language.slice(0, 2) === 'ru' ? 'ru' : 'en'
@@ -10,6 +10,7 @@ const preferredTheme = window.matchMedia('(prefers-color-scheme: light)')
 const initialState = {
   language: preferredLanguage,
   theme: preferredTheme,
+  isLoggedIn: false,
 } as IGlobalState
 
 export const globalSlice = createSlice({
@@ -27,6 +28,9 @@ export const globalSlice = createSlice({
     },
     setThemeDark(state) {
       state.theme = 'dark'
+    },
+    setIsLoggedIn(state, action: PayloadAction<boolean>) {
+      state.isLoggedIn = action.payload
     },
   },
 })

@@ -36,6 +36,7 @@ export interface IUserState {
 export interface IGlobalState {
   language: string
   theme: string
+  isLoggedIn: boolean
 }
 
 export interface IUserData {
@@ -67,7 +68,6 @@ export interface IComment {
 }
 
 export interface IMenuItem {
-  title: string
   link: string
   icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & { muiName: string }
 }

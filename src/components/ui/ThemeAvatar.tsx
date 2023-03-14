@@ -8,3 +8,12 @@ export const ThemeAvatar = styled(Avatar)(({ theme }) => ({
   borderColor: theme.palette.divider,
   backgroundColor: theme.palette.action.active,
 }))
+
+export const ThemeProfileAvatar = styled(Avatar)(({ theme }) => ({
+  width: '150px',
+  height: '150px',
+  border: '3px solid',
+  color: theme.palette.secondary.main,
+  borderColor: '#b59261',
+  backgroundColor: theme.palette.action.active,
+}))
