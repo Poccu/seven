@@ -51,6 +51,7 @@ export const Menu: FC = () => {
     const isOnlineRef = ref(rdb, `users/${uid}/isOnline`)
     const lastOnlineRef = ref(rdb, `users/${uid}/lastOnline`)
     const connectedRef = ref(rdb, '.info/connected')
+
     onValue(connectedRef, (snap) => {
       if (snap.val() === true) {
         set(isOnlineRef, false)
@@ -59,6 +60,7 @@ export const Menu: FC = () => {
         onDisconnect(lastOnlineRef).set(serverTimestamp())
       }
     })
+
     signOut(ga)
     dispatch(removeUser())
     dispatch(setIsLoggedIn(false))

@@ -19,6 +19,7 @@ type Props = {
 
 export const AddEmoji: FC<Props> = ({ setContent }) => {
   const { t } = useTranslation(['emojiPicker'])
+
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
 
@@ -29,6 +30,7 @@ export const AddEmoji: FC<Props> = ({ setContent }) => {
     let codesArray: any[] = []
     sym.forEach((el) => codesArray.push('0x' + el))
     let emoji = String.fromCodePoint(...codesArray)
+
     setContent((prevContent) => prevContent + emoji)
   }
 

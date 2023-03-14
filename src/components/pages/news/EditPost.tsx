@@ -14,8 +14,10 @@ type Props = {
 
 export const EditPost: FC<Props> = ({ post, setEditingId }) => {
   const { t } = useTranslation(['news'])
-  const [content, setContent] = useState(post.content)
+
   const { db } = useAuth()
+
+  const [content, setContent] = useState(post.content)
 
   const handleEditPost = async () => {
     if (content.trim()) {

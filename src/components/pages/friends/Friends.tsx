@@ -10,8 +10,9 @@ import { useAppSelector } from '../../../hooks/redux'
 
 export const Friends: FC = () => {
   const { t } = useTranslation(['friends'])
-  const { usersRdb } = useAuth()
   document.title = t('title1')
+
+  const { usersRdb } = useAuth()
 
   const { friends } = useAppSelector((state) => state.user)
   const { users } = useAppSelector((state) => state.users)
@@ -26,8 +27,8 @@ export const Friends: FC = () => {
       <BorderBox sx={{ p: 3, mb: 2 }}>
         <Stack spacing={3}>
           {friends?.length ? (
-            friends.map((x) => (
-              <Link to={`/profile/${x.uid}`} key={x.uid}>
+            friends.map((user) => (
+              <Link to={`/profile/${user.uid}`} key={user.uid}>
                 <Stack direction="row" spacing={3} alignItems="center">
                   <ThemeOnlineBadge
                     overlap="circular"
@@ -35,22 +36,22 @@ export const Friends: FC = () => {
                       vertical: 'bottom',
                       horizontal: 'right',
                     }}
-                    variant={usersRdb[x.uid]?.isOnline ? 'dot' : undefined}
+                    variant={usersRdb[user.uid]?.isOnline ? 'dot' : undefined}
                   >
                     <ThemeAvatar
-                      alt={x.displayName}
-                      src={users.find((u) => u.uid === x.uid)?.photoURL}
+                      alt={user.displayName}
+                      src={users.find((u) => u.uid === user.uid)?.photoURL}
                       sx={{
                         height: '55px',
                         width: '55px',
                       }}
                       draggable="false"
                     >
-                      <Typography variant="h5">{x.emoji}</Typography>
+                      <Typography variant="h5">{user.emoji}</Typography>
                     </ThemeAvatar>
                   </ThemeOnlineBadge>
                   <Typography variant="h6" sx={{ wordBreak: 'break-word' }}>
-                    <b>{x.displayName}</b>
+                    <b>{user.displayName}</b>
                   </Typography>
                 </Stack>
               </Link>

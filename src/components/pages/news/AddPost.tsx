@@ -14,10 +14,12 @@ import { useAppSelector } from '../../../hooks/redux'
 
 export const AddPost: FC = () => {
   const { t } = useTranslation(['news'])
+
+  const { db } = useAuth()
+
   const [content, setContent] = useState('')
   const [images, setImages] = useState<string[]>([])
   const [imagesIdDb, setImagesIdDb] = useState<string>('')
-  const { db } = useAuth()
 
   const { emoji, uid, displayName, photoURL } = useAppSelector(
     (state) => state.user
@@ -51,6 +53,7 @@ export const AddPost: FC = () => {
           views: 0,
           id: imagesIdDb || idDb,
         })
+
         setContent('')
       } catch (e) {
         console.error('Error adding document: ', e)
@@ -90,6 +93,7 @@ export const AddPost: FC = () => {
           views: 0,
           id: imagesIdDb || idDb,
         })
+
         setContent('')
       } catch (e) {
         console.error('Error adding document: ', e)
@@ -101,8 +105,8 @@ export const AddPost: FC = () => {
     }
   }
 
-  const handleDeleteImage = (image: string) => {
-    const newImagesArr = images.filter((x) => x !== image)
+  const handleDeleteImage = (imageUrl: string) => {
+    const newImagesArr = images.filter((image) => image !== imageUrl)
     setImages(newImagesArr)
   }
 

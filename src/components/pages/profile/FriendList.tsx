@@ -16,6 +16,7 @@ type Props = {
 
 export const FriendList: FC<Props> = ({ user }) => {
   const { t } = useTranslation(['profile'])
+
   const { usersRdb } = useAuth()
 
   const { users } = useAppSelector((state) => state.users)

@@ -30,15 +30,15 @@ export const About: FC = () => {
       <Typography>{t('line1')}</Typography>
       <Typography sx={{ mt: 3 }}>{t('line2')}</Typography>
       <ul>
-        {builtWithList.map((x, index) => (
+        {builtWithList.map((item, index) => (
           <Link
-            href={x.url}
+            href={item.url}
             target="_blank"
             rel="noopener noreferrer"
             underline="none"
             key={index}
           >
-            <li>{x.title}</li>
+            <li>{item.title}</li>
           </Link>
         ))}
       </ul>

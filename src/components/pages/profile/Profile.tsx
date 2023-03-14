@@ -23,21 +23,22 @@ import { useAppSelector } from '../../../hooks/redux'
 
 export const Profile: FC = () => {
   const { t } = useTranslation(['profile'])
+
   const { db, usersRdb } = useAuth()
+
   const { id } = useParams()
   const profileId = window.location.pathname.replace('/profile/', '')
+
   const { uid } = useAppSelector((state) => state.user)
 
   const [user, setUser] = useState<DocumentData | undefined>({} as IUser)
-  // console.log('user', user)
-
   const [userPosts, setUserPosts] = useState<IPost[]>([])
-  // console.log('userPosts', userPosts)
 
-  document.title = user?.displayName
+  document.title = user?.displayName || 'Seven'
 
   useEffect(() => {
     if (!uid) return
+
     const unsub = onSnapshot(doc(db, 'users', id || uid), (doc) => {
       const userData: DocumentData | undefined = doc.data()
       setUser(userData)
@@ -52,7 +53,6 @@ export const Profile: FC = () => {
     const setPostsFunc = onSnapshot(q, (querySnapshot) => {
       const postsArr: IPost[] = []
       querySnapshot.forEach(async (d: DocumentData) => {
-        // console.log('AUTHOR HERE', d.data())
         postsArr.push(d.data())
       })
       setUserPosts(postsArr)

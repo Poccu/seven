@@ -6,14 +6,7 @@ import MenuItem from '@mui/material/MenuItem'
 import MenuList from '@mui/material/MenuList'
 import { Box, ListItemIcon, Typography } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import { Clear, Edit, Upload } from '@mui/icons-material'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { updateProfile } from 'firebase/auth'
@@ -25,6 +18,7 @@ import { useAppSelector } from '../../../hooks/redux'
 
 export const PhotoSettings: FC = () => {
   const { t } = useTranslation(['profile'])
+
   const { db, st, ga } = useAuth()
 
   const { uid, photoURL } = useAppSelector((state) => state.user)
@@ -66,16 +60,6 @@ export const PhotoSettings: FC = () => {
 
     const docRef = doc(db, 'users', uid)
     await setDoc(docRef, { photoURL: null }, { merge: true })
-
-    // Update posts avatar
-    const q = query(collection(db, 'posts'), where('author.uid', '==', uid))
-
-    const querySnapshot = await getDocs(q)
-    querySnapshot.forEach(async (d) => {
-      // doc.data() is never undefined for query doc snapshots
-      const docRef = doc(db, 'posts', d.id)
-      await setDoc(docRef, { author: { photoURL: null } }, { merge: true })
-    })
   }
 
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -135,23 +119,6 @@ export const PhotoSettings: FC = () => {
             await setDoc(docRef, { photoURL: downloadURL }, { merge: true })
 
             setProgress(0)
-
-            // Update posts avatar
-            const q = query(
-              collection(db, 'posts'),
-              where('author.uid', '==', uid)
-            )
-
-            const querySnapshot = await getDocs(q)
-            querySnapshot.forEach(async (d) => {
-              // doc.data() is never undefined for query doc snapshots
-              const docRef = doc(db, 'posts', d.id)
-              await setDoc(
-                docRef,
-                { author: { photoURL: downloadURL } },
-                { merge: true }
-              )
-            })
           })
         }
       )

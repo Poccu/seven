@@ -14,9 +14,6 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   signInWithPopup,
-  GoogleAuthProvider,
-  GithubAuthProvider,
-  FacebookAuthProvider,
 } from 'firebase/auth'
 import { useAuth } from '../../providers/useAuth'
 import { IUserData } from '../../../types'
@@ -69,8 +66,9 @@ const a11yProps = (index: number) => {
 
 export const Auth: FC = () => {
   const { t } = useTranslation(['auth'])
-  const { ga, db, gProvider, gitProvider, fProvider } = useAuth()
   document.title = 'Seven'
+
+  const { ga, db, gProvider, gitProvider, fProvider } = useAuth()
 
   const [isRegForm, setIsRegForm] = useState(false)
   const [userData, setUserData] = useState<IUserData>({
@@ -89,6 +87,8 @@ export const Auth: FC = () => {
 
   const [value, setValue] = useState(0)
 
+  const [showPassword, setShowPassword] = useState(false)
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
     setInvalidEmail(false)
@@ -103,8 +103,6 @@ export const Auth: FC = () => {
       photoURL: '',
     })
   }
-
-  const [showPassword, setShowPassword] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
 
@@ -190,6 +188,7 @@ export const Auth: FC = () => {
         try {
           await runTransaction(db, async (transaction) => {
             const sfDoc = await transaction.get(docRef)
+
             if (!sfDoc.exists()) {
               try {
                 await setDoc(docRef, {
@@ -221,11 +220,11 @@ export const Auth: FC = () => {
         // Handle Errors here.
         const errorCode = error.code
         const errorMessage = error.message
-        console.log('----------------', error.code, error.message)
+        console.log('----------------', errorCode, errorMessage)
         // The email of the user's account used.
-        const email = error.customData.email
+        // const email = error.customData.email
         // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error)
+        // const credential = GoogleAuthProvider.credentialFromError(error)
         // ...
       })
   }
@@ -245,6 +244,7 @@ export const Auth: FC = () => {
         try {
           await runTransaction(db, async (transaction) => {
             const sfDoc = await transaction.get(docRef)
+
             if (!sfDoc.exists()) {
               try {
                 await setDoc(docRef, {
@@ -276,11 +276,11 @@ export const Auth: FC = () => {
         // Handle Errors here.
         const errorCode = error.code
         const errorMessage = error.message
-        console.log('----------------', error.code, error.message)
+        console.log('----------------', errorCode, errorMessage)
         // The email of the user's account used.
-        const email = error.customData.email
+        // const email = error.customData.email
         // The AuthCredential type that was used.
-        const credential = GithubAuthProvider.credentialFromError(error)
+        // const credential = GithubAuthProvider.credentialFromError(error)
         // ...
       })
   }
@@ -300,6 +300,7 @@ export const Auth: FC = () => {
         try {
           await runTransaction(db, async (transaction) => {
             const sfDoc = await transaction.get(docRef)
+
             if (!sfDoc.exists()) {
               try {
                 await setDoc(docRef, {
@@ -331,11 +332,11 @@ export const Auth: FC = () => {
         // Handle Errors here.
         const errorCode = error.code
         const errorMessage = error.message
-        console.log('----------------', error.code, error.message)
+        console.log('----------------', errorCode, errorMessage)
         // The email of the user's account used.
-        const email = error.customData.email
+        // const email = error.customData.email
         // The AuthCredential type that was used.
-        const credential = FacebookAuthProvider.credentialFromError(error)
+        // const credential = FacebookAuthProvider.credentialFromError(error)
         // ...
       })
   }

@@ -17,6 +17,7 @@ type Props = {
 
 export const AddComment: FC<Props> = ({ post }) => {
   const { t } = useTranslation(['news'])
+
   const [content, setContent] = useState('')
   const { db } = useAuth()
 
@@ -45,9 +46,11 @@ export const AddComment: FC<Props> = ({ post }) => {
       try {
         await runTransaction(db, async (transaction) => {
           const sfDoc = await transaction.get(docRef)
+
           if (!sfDoc.exists()) {
             throw new Error('Document does not exist!')
           }
+
           const newCommentsArr = [
             ...sfDoc.data().comments,
             {
@@ -59,6 +62,7 @@ export const AddComment: FC<Props> = ({ post }) => {
               id: idDb,
             },
           ]
+
           transaction.update(docRef, {
             comments: newCommentsArr,
           })
@@ -92,9 +96,11 @@ export const AddComment: FC<Props> = ({ post }) => {
       try {
         await runTransaction(db, async (transaction) => {
           const sfDoc = await transaction.get(docRef)
+
           if (!sfDoc.exists()) {
             throw new Error('Document does not exist!')
           }
+
           const newCommentsArr = [
             ...sfDoc.data().comments,
             {
@@ -106,6 +112,7 @@ export const AddComment: FC<Props> = ({ post }) => {
               id: idDb,
             },
           ]
+
           transaction.update(docRef, {
             comments: newCommentsArr,
           })

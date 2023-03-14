@@ -12,7 +12,6 @@ export const SettingsBox = styled(Box)(({ theme }) => ({
   border: '1px solid',
   borderColor: theme.palette.divider,
   backgroundColor: theme.palette.action.disabled,
-  // backgroundColor: theme.palette.background.paper,
 }))
 
 export const BackgroundPaperBox = styled(Box)(({ theme }) => ({

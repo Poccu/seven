@@ -123,6 +123,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
         })
 
         const usersRef = ref(rdb, `users`)
+
         onValue(usersRef, (snapshot) => {
           const data = snapshot.val()
           setUsersRdb(data)
@@ -136,6 +137,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
         querySnapshot.forEach(async (d: DocumentData) => {
           usersArr.push(d.data())
         })
+
         dispatch(
           setUsers(
             usersArr

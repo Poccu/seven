@@ -45,6 +45,8 @@ import { BookmarksOrderBy } from './BookmarksOrderBy'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
+  document.title = t('title1')
+
   const { db, usersRdb } = useAuth()
 
   const { emoji, uid, displayName, photoURL } = useAppSelector(
@@ -63,8 +65,6 @@ export const Bookmarks: FC = () => {
 
   const [isVisible, setIsVisible] = useState<string>('')
 
-  document.title = t('title1')
-
   useEffect(() => {
     const q = query(
       collection(db, 'posts'),
@@ -76,6 +76,7 @@ export const Bookmarks: FC = () => {
       querySnapshot.forEach(async (d: DocumentData) => {
         postsArr.push(d.data())
       })
+
       dispatch(setBookmarks(postsArr))
     })
 
@@ -125,7 +126,7 @@ export const Bookmarks: FC = () => {
         const newLikesArr = [
           ...new Map(
             [...sfDoc.data().likes, { displayName, photoURL, uid, emoji }].map(
-              (item) => [item['uid'], item]
+              (like) => [like['uid'], like]
             )
           ).values(),
         ]
@@ -145,12 +146,15 @@ export const Bookmarks: FC = () => {
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         const newLikesArr = sfDoc
           .data()
-          .likes.filter((x: IUser) => x.uid !== uid)
+          .likes.filter((user: IUser) => user.uid !== uid)
+
         transaction.update(docRef, {
           likes: newLikesArr,
         })
@@ -171,21 +175,27 @@ export const Bookmarks: FC = () => {
           throw new Error('Document does not exist!')
         }
 
-        const comment = sfDoc.data().comments.find((x: IComment) => x.id === id)
+        const comment = sfDoc
+          .data()
+          .comments.find((comment: IComment) => comment.id === id)
 
         const newLikesArr = [
           ...new Map(
             [
-              ...sfDoc.data().comments.find((x: IComment) => x.id === id).likes,
+              ...sfDoc
+                .data()
+                .comments.find((comment: IComment) => comment.id === id).likes,
               { displayName, photoURL, uid, emoji },
-            ].map((item) => [item['uid'], item])
+            ].map((like) => [like['uid'], like])
           ).values(),
         ]
 
         comment.likes = newLikesArr
 
         const newCommentsArr = [
-          ...sfDoc.data().comments.filter((x: IComment) => x.id !== id),
+          ...sfDoc
+            .data()
+            .comments.filter((comment: IComment) => comment.id !== id),
           comment,
         ].sort((a, b) => +a.createdAt - +b.createdAt)
 
@@ -204,19 +214,26 @@ export const Bookmarks: FC = () => {
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
 
-        const comment = sfDoc.data().comments.find((x: IComment) => x.id === id)
+        const comment = sfDoc
+          .data()
+          .comments.find((comment: IComment) => comment.id === id)
+
         const newLikesArr = sfDoc
           .data()
-          .comments.find((x: IComment) => x.id === id)
-          .likes.filter((x: IUser) => x.uid !== uid)
+          .comments.find((comment: IComment) => comment.id === id)
+          .likes.filter((user: IUser) => user.uid !== uid)
+
         comment.likes = newLikesArr
 
         const newCommentsArr = [
-          ...sfDoc.data().comments.filter((x: IComment) => x.id !== id),
+          ...sfDoc
+            .data()
+            .comments.filter((comment: IComment) => comment.id !== id),
           comment,
         ].sort((a, b) => +a.createdAt - +b.createdAt)
 
@@ -241,12 +258,15 @@ export const Bookmarks: FC = () => {
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         const newCommentsArr = sfDoc
           .data()
-          .comments.filter((x: IPost) => x.id !== id)
+          .comments.filter((comment: IComment) => comment.id !== id)
+
         transaction.update(docRef, {
           comments: newCommentsArr,
         })
@@ -263,9 +283,11 @@ export const Bookmarks: FC = () => {
     try {
       runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(curUserRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         transaction.update(curUserRef, {
           bookmarks: [],
         })
@@ -500,7 +522,7 @@ export const Bookmarks: FC = () => {
                       }
                       placement="top"
                     >
-                      {!post.likes.some((x) => x.uid === uid) ? (
+                      {!post.likes.some((user) => user.uid === uid) ? (
                         <IconButton
                           onClick={() => handleLike(post)}
                           color="secondary"
@@ -706,7 +728,9 @@ export const Bookmarks: FC = () => {
                                   }
                                   placement="top"
                                 >
-                                  {!comment.likes.some((x) => x.uid === uid) ? (
+                                  {!comment.likes.some(
+                                    (user) => user.uid === uid
+                                  ) ? (
                                     <IconButton
                                       onClick={() =>
                                         handleLikeComment(post, comment.id)

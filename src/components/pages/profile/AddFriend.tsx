@@ -9,7 +9,9 @@ import { useAppSelector } from '../../../hooks/redux'
 
 export const AddFriend: FC = () => {
   const { t } = useTranslation(['profile'])
+
   const { db } = useAuth()
+
   const profileId = window.location.pathname.replace('/profile/', '')
 
   const { emoji, uid, displayName, photoURL, friends } = useAppSelector(
@@ -29,14 +31,16 @@ export const AddFriend: FC = () => {
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         const newFriendsArr = [
           ...new Map(
             [
               ...sfDoc.data().friends,
               { displayName, photoURL, uid, emoji },
-            ].map((item) => [item['uid'], item])
+            ].map((user) => [user['uid'], user])
           ).values(),
         ]
+
         transaction.update(docRef, {
           friends: newFriendsArr,
         })
@@ -44,6 +48,7 @@ export const AddFriend: FC = () => {
         if (!sfCurDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         const newFriendsArrCur = [
           ...new Map(
             [
@@ -54,9 +59,10 @@ export const AddFriend: FC = () => {
                 uid: sfDoc.data().uid,
                 emoji: sfDoc.data().emoji,
               },
-            ].map((item) => [item['uid'], item])
+            ].map((user) => [user['uid'], user])
           ).values(),
         ]
+
         transaction.update(curRef, {
           friends: newFriendsArrCur,
         })
@@ -79,9 +85,11 @@ export const AddFriend: FC = () => {
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         const newFriendsArr = sfDoc
           .data()
-          .friends.filter((x: IUser) => x.uid !== uid)
+          .friends.filter((user: IUser) => user.uid !== uid)
+
         transaction.update(docRef, {
           friends: newFriendsArr,
         })
@@ -89,9 +97,11 @@ export const AddFriend: FC = () => {
         if (!sfCurDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         const newFriendsArrCur = sfCurDoc
           .data()
-          .friends.filter((x: IUser) => x.uid !== sfDoc.data().uid)
+          .friends.filter((user: IUser) => user.uid !== sfDoc.data().uid)
+
         transaction.update(curRef, {
           friends: newFriendsArrCur,
         })
@@ -103,7 +113,7 @@ export const AddFriend: FC = () => {
 
   return (
     <>
-      {!friends?.some((x) => x.uid === profileId) ? (
+      {!friends?.some((user) => user.uid === profileId) ? (
         <ThemeButton
           onClick={handleAddFriend}
           startIcon={<PersonAddAlt1 style={{ fontSize: '18px' }} />}

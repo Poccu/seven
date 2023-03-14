@@ -54,16 +54,18 @@ import { PostsOrderBy } from './PostsOrderBy'
 
 export const News: FC = () => {
   const { t } = useTranslation(['news'])
+  document.title = t('title1')
+
+  const { db, usersRdb } = useAuth()
+
   const [editingId, setEditingId] = useState('')
   const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
 
-  const { db, usersRdb } = useAuth()
   const { posts } = useAppSelector((state) => state.posts)
   const { users } = useAppSelector((state) => state.users)
   const { emoji, uid, displayName, photoURL } = useAppSelector(
     (state) => state.user
   )
-
   const { setPosts } = postsSlice.actions
   const dispatch = useAppDispatch()
 
@@ -76,7 +78,6 @@ export const News: FC = () => {
   const [isVisible, setIsVisible] = useState<string>('')
 
   const theme = useTheme()
-  document.title = t('title1')
 
   useEffect(() => {
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
@@ -94,6 +95,7 @@ export const News: FC = () => {
       querySnapshot.forEach(async (d: DocumentData) => {
         postsArr.push(d.data())
       })
+
       dispatch(setPosts(postsArr))
     })
 
@@ -144,7 +146,7 @@ export const News: FC = () => {
         const newLikesArr = [
           ...new Map(
             [...sfDoc.data().likes, { displayName, photoURL, uid, emoji }].map(
-              (item) => [item['uid'], item]
+              (like) => [like['uid'], like]
             )
           ).values(),
         ]
@@ -153,7 +155,6 @@ export const News: FC = () => {
           likes: newLikesArr,
         })
       })
-      // console.log('Like!')
     } catch (e) {
       console.log('Like failed: ', e)
     }
@@ -165,17 +166,19 @@ export const News: FC = () => {
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         const newLikesArr = sfDoc
           .data()
-          .likes.filter((x: IUser) => x.uid !== uid)
+          .likes.filter((user: IUser) => user.uid !== uid)
+
         transaction.update(docRef, {
           likes: newLikesArr,
         })
       })
-      // console.log('Dislike!')
     } catch (e) {
       console.log('Dislike failed: ', e)
     }
@@ -192,21 +195,27 @@ export const News: FC = () => {
           throw new Error('Document does not exist!')
         }
 
-        const comment = sfDoc.data().comments.find((x: IComment) => x.id === id)
+        const comment = sfDoc
+          .data()
+          .comments.find((comment: IComment) => comment.id === id)
 
         const newLikesArr = [
           ...new Map(
             [
-              ...sfDoc.data().comments.find((x: IComment) => x.id === id).likes,
+              ...sfDoc
+                .data()
+                .comments.find((comment: IComment) => comment.id === id).likes,
               { displayName, photoURL, uid, emoji },
-            ].map((item) => [item['uid'], item])
+            ].map((like) => [like['uid'], like])
           ).values(),
         ]
 
         comment.likes = newLikesArr
 
         const newCommentsArr = [
-          ...sfDoc.data().comments.filter((x: IComment) => x.id !== id),
+          ...sfDoc
+            .data()
+            .comments.filter((comment: IComment) => comment.id !== id),
           comment,
         ].sort((a, b) => +a.createdAt - +b.createdAt)
 
@@ -214,7 +223,6 @@ export const News: FC = () => {
           comments: newCommentsArr,
         })
       })
-      // console.log('Like comment!')
     } catch (e) {
       console.log('Like comment failed: ', e)
     }
@@ -226,19 +234,26 @@ export const News: FC = () => {
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
 
-        const comment = sfDoc.data().comments.find((x: IComment) => x.id === id)
+        const comment = sfDoc
+          .data()
+          .comments.find((comment: IComment) => comment.id === id)
+
         const newLikesArr = sfDoc
           .data()
-          .comments.find((x: IComment) => x.id === id)
-          .likes.filter((x: IUser) => x.uid !== uid)
+          .comments.find((comment: IComment) => comment.id === id)
+          .likes.filter((user: IUser) => user.uid !== uid)
+
         comment.likes = newLikesArr
 
         const newCommentsArr = [
-          ...sfDoc.data().comments.filter((x: IComment) => x.id !== id),
+          ...sfDoc
+            .data()
+            .comments.filter((comment: IComment) => comment.id !== id),
           comment,
         ].sort((a, b) => +a.createdAt - +b.createdAt)
 
@@ -246,7 +261,6 @@ export const News: FC = () => {
           comments: newCommentsArr,
         })
       })
-      // console.log('Dislike comment!')
     } catch (e) {
       console.log('Dislike comment failed: ', e)
     }
@@ -258,12 +272,15 @@ export const News: FC = () => {
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         const newCommentsArr = sfDoc
           .data()
-          .comments.filter((x: IPost) => x.id !== id)
+          .comments.filter((comment: IPost) => comment.id !== id)
+
         transaction.update(docRef, {
           comments: newCommentsArr,
         })
@@ -531,7 +548,7 @@ export const News: FC = () => {
                         }
                         placement="top"
                       >
-                        {!post.likes.some((x) => x.uid === uid) ? (
+                        {!post.likes.some((user) => user.uid === uid) ? (
                           <IconButton
                             onClick={() => handleLike(post)}
                             color="secondary"
@@ -755,7 +772,9 @@ export const News: FC = () => {
                                 }
                                 placement="top"
                               >
-                                {!comment.likes.some((x) => x.uid === uid) ? (
+                                {!comment.likes.some(
+                                  (user) => user.uid === uid
+                                ) ? (
                                   <IconButton
                                     onClick={() =>
                                       handleLikeComment(post, comment.id)

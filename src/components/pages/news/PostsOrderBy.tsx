@@ -12,6 +12,7 @@ import { postsSlice } from '../../../store/reducers/PostsSlice'
 
 export const PostsOrderBy: FC = () => {
   const { t } = useTranslation(['other'])
+
   const { sortPostsBy } = useAppSelector((state) => state.posts)
   const {
     setPostsByNewest,

@@ -12,6 +12,7 @@ import { bookmarksSlice } from '../../../store/reducers/BookmarksSlice'
 
 export const BookmarksOrderBy: FC = () => {
   const { t } = useTranslation(['other'])
+
   const { sortBookmarksBy } = useAppSelector((state) => state.bookmarks)
   const {
     setBookmarksByNewest,
@@ -47,7 +48,6 @@ export const BookmarksOrderBy: FC = () => {
       <Chip
         label={t('title6')}
         icon={<ExpandMore />}
-        // sx={{ color: '#fff' }}
         color={sortBookmarksBy === 'newest' ? 'primary' : 'default'}
         onClick={handleSortBookmarksByNewest}
       />

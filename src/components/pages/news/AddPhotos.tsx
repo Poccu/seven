@@ -31,16 +31,14 @@ export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
         x--
       }
     }
+
     setImagesIdDb(idDb)
 
     if (e.target.files) {
       const files = e.target.files
-      // console.log(files)
       const filesArr = Object.values(files)
 
       filesArr.forEach((file) => {
-        // console.log('file:', file)
-
         const storageRef = ref(st, `images/posts/${idDb}/${file?.name}`)
         const uploadTask = uploadBytesResumable(storageRef, file)
 

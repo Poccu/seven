@@ -5,15 +5,15 @@ import { socials } from './socialsList'
 export const Socials: FC = () => {
   return (
     <Stack justifyContent="center" direction="row" spacing={1}>
-      {socials.map((x) => (
+      {socials.map((social) => (
         <IconButton
-          href={x.link}
+          href={social.link}
           target="_blank"
           rel="noopener noreferrer"
           color="primary"
-          key={x.link}
+          key={social.link}
         >
-          <x.icon />
+          <social.icon />
         </IconButton>
       ))}
     </Stack>

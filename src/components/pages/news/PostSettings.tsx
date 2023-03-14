@@ -32,10 +32,11 @@ export const PostSettings: FC<Props> = ({
   setDeletedPosts,
 }) => {
   const { t } = useTranslation(['news'])
-  const [open, setOpen] = useState(false)
-  const anchorRef = useRef<HTMLButtonElement>(null)
 
   const { db } = useAuth()
+
+  const [open, setOpen] = useState(false)
+  const anchorRef = useRef<HTMLButtonElement>(null)
 
   const { uid } = useAppSelector((state) => state.user)
 
@@ -85,11 +86,14 @@ export const PostSettings: FC<Props> = ({
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         if (!sfDoc.data().bookmarks.includes(uid)) {
           const newBookmarksArr = [...sfDoc.data().bookmarks, uid]
+
           transaction.update(docRef, {
             bookmarks: newBookmarksArr,
           })
@@ -105,11 +109,14 @@ export const PostSettings: FC<Props> = ({
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(curUserRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         if (!sfDoc.data().bookmarks.includes(post.id)) {
           const newBookmarksArr = [...sfDoc.data().bookmarks, post.id]
+
           transaction.update(curUserRef, {
             bookmarks: newBookmarksArr,
           })
@@ -128,12 +135,15 @@ export const PostSettings: FC<Props> = ({
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(docRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         const newBookmarksArr = sfDoc
           .data()
           .bookmarks.filter((id: string) => id !== uid)
+
         transaction.update(docRef, {
           bookmarks: newBookmarksArr,
         })
@@ -148,12 +158,15 @@ export const PostSettings: FC<Props> = ({
     try {
       await runTransaction(db, async (transaction) => {
         const sfDoc = await transaction.get(curUserRef)
+
         if (!sfDoc.exists()) {
           throw new Error('Document does not exist!')
         }
+
         const newBookmarksArr = sfDoc
           .data()
-          .bookmarks.filter((x: string) => x !== post.id)
+          .bookmarks.filter((id: string) => id !== post.id)
+
         transaction.update(curUserRef, {
           bookmarks: newBookmarksArr,
         })

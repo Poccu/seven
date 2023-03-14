@@ -106,6 +106,7 @@ export const Header: FC = () => {
     const isOnlineRef = ref(rdb, `users/${uid}/isOnline`)
     const lastOnlineRef = ref(rdb, `users/${uid}/lastOnline`)
     const connectedRef = ref(rdb, '.info/connected')
+
     onValue(connectedRef, (snap) => {
       if (snap.val() === true) {
         set(isOnlineRef, false)
@@ -114,6 +115,7 @@ export const Header: FC = () => {
         onDisconnect(lastOnlineRef).set(serverTimestamp())
       }
     })
+
     setAnchorEl(null)
     signOut(ga)
     dispatch(removeUser())

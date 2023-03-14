@@ -71,13 +71,3 @@ export interface IMenuItem {
   link: string
   icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & { muiName: string }
 }
-
-export interface IMessage {
-  author: IUser
-  createdAt: string
-  content: string
-  comments: string[]
-  images: string[]
-  likes: IUser[]
-  id: string
-}
