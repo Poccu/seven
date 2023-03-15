@@ -373,7 +373,7 @@ export const Auth: FC = () => {
           >
             <Tab
               label={
-                <Typography variant="h6">
+                <Typography sx={{ fontSize: { xs: '16px', sm: '20px' } }}>
                   <b>{t('title1')}</b>
                 </Typography>
               }
@@ -381,7 +381,7 @@ export const Auth: FC = () => {
             />
             <Tab
               label={
-                <Typography variant="h6">
+                <Typography sx={{ fontSize: { xs: '16px', sm: '20px' } }}>
                   <b>{t('title2')}</b>
                 </Typography>
               }
@@ -407,7 +407,7 @@ export const Auth: FC = () => {
                 label={t('line1')}
                 required
                 autoComplete="off"
-                sx={{ width: '300px' }}
+                sx={{ width: { xs: '260px', sm: '300px' } }}
                 value={userData.email}
                 onChange={(e) =>
                   setUserData({ ...userData, email: e.target.value })
@@ -421,7 +421,7 @@ export const Auth: FC = () => {
                 label={t('line2')}
                 required
                 autoComplete="off"
-                sx={{ width: '300px' }}
+                sx={{ width: { xs: '260px', sm: '300px' } }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -444,7 +444,9 @@ export const Auth: FC = () => {
                 helperText={(wrongPassword && t('error2')) || ' '}
               />
               <ThemeButton type="submit" onClick={() => setIsRegForm(false)}>
-                <b>{t('button1')}</b>
+                <Typography sx={{ fontSize: { xs: '17px', sm: '22px' } }}>
+                  <b>{t('button1')}</b>
+                </Typography>
               </ThemeButton>
             </Stack>
           </Box>
@@ -521,7 +523,7 @@ export const Auth: FC = () => {
                 label={t('line0')}
                 required
                 autoComplete="off"
-                sx={{ width: '300px' }}
+                sx={{ width: { xs: '260px', sm: '300px' } }}
                 value={userData.displayName}
                 onChange={(e) =>
                   setUserData({
@@ -536,7 +538,7 @@ export const Auth: FC = () => {
                 label={t('line1')}
                 required
                 autoComplete="off"
-                sx={{ width: '300px' }}
+                sx={{ width: { xs: '260px', sm: '300px' } }}
                 value={userData.email}
                 onChange={(e) =>
                   setUserData({ ...userData, email: e.target.value })
@@ -559,7 +561,7 @@ export const Auth: FC = () => {
                 label={t('line2')}
                 required
                 autoComplete="off"
-                sx={{ width: '300px' }}
+                sx={{ width: { xs: '260px', sm: '300px' } }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -582,7 +584,9 @@ export const Auth: FC = () => {
                 helperText={invalidPassword ? t('error5') : ' '}
               />
               <ThemeButton type="submit" onClick={() => setIsRegForm(true)}>
-                <b>{t('button2')}</b>
+                <Typography sx={{ fontSize: { xs: '17px', sm: '22px' } }}>
+                  <b>{t('button2')}</b>
+                </Typography>
               </ThemeButton>
             </Stack>
           </Box>
