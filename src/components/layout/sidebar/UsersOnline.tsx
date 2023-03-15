@@ -12,6 +12,8 @@ export const UsersOnline: FC = () => {
 
   const { users } = useAppSelector((state) => state.users)
 
+  const usersRdbList = Object.values(usersRdb)
+
   const onlineUsersList = Object.values(usersRdb).filter(
     (user: any) => user.isOnline === true
   )
@@ -19,14 +21,14 @@ export const UsersOnline: FC = () => {
   return (
     <BorderBox sx={{ mt: 2, p: 2 }}>
       <Typography variant="body2" color="textSecondary">
-        {onlineUsersList.length > 0 ? (
+        {usersRdbList.length > 0 ? (
           `Online ${onlineUsersList.length}`
         ) : (
-          <Skeleton />
+          <Skeleton width={100} />
         )}
       </Typography>
       <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mt: 1 }}>
-        {onlineUsersList.length > 0
+        {usersRdbList.length > 0 && onlineUsersList.length > 0
           ? onlineUsersList.map((user: any) => (
               <Box key={user.uid} sx={{ width: '55px', mb: 0 }}>
                 <Link to={`/profile/${user.uid}`}>

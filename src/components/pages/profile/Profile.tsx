@@ -18,6 +18,8 @@ export const Profile: FC = () => {
 
   const { usersRdb } = useAuth()
 
+  const usersRdbList = Object.values(usersRdb)
+
   // eslint-disable-next-line
   const { id } = useParams()
   const profileId = window.location.pathname.replace('/profile/', '')
@@ -40,7 +42,7 @@ export const Profile: FC = () => {
           spacing={3}
         >
           <Box>
-            {user?.uid ? (
+            {usersRdbList.length > 0 && user?.uid ? (
               <>
                 <ThemeProfileAvatar
                   alt={user.displayName}
@@ -67,35 +69,41 @@ export const Profile: FC = () => {
             >
               <Stack alignItems="center" direction="row" spacing={0.7}>
                 <Typography variant="h4" sx={{ wordBreak: 'break-word' }}>
-                  {user?.displayName ? (
+                  {usersRdbList.length > 0 && user?.displayName ? (
                     <b>{user.displayName}</b>
                   ) : (
                     <Skeleton width={250} />
                   )}
                 </Typography>
-                {user?.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
-                  <Tooltip
-                    title={t('title3', { ns: ['other'] })}
-                    placement="top"
-                  >
-                    <TaskAlt
-                      color="info"
-                      sx={{
-                        width: '30px ',
-                        height: '30px',
-                      }}
-                    />
-                  </Tooltip>
-                )}
+                {usersRdbList.length > 0 &&
+                  user?.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
+                    <Tooltip
+                      title={t('title3', { ns: ['other'] })}
+                      placement="top"
+                    >
+                      <TaskAlt
+                        color="info"
+                        sx={{
+                          width: '30px ',
+                          height: '30px',
+                        }}
+                      />
+                    </Tooltip>
+                  )}
               </Stack>
               <Typography variant="body1" color="textSecondary">
-                {user?.uid && usersRdb[profileId]?.isOnline ? (
+                {usersRdbList.length > 0 &&
+                user?.uid &&
+                usersRdb[profileId]?.isOnline ? (
                   t('line1', { ns: ['other'] })
-                ) : user?.uid && usersRdb[profileId]?.lastOnline ? (
+                ) : usersRdbList.length > 0 &&
+                  user?.uid &&
+                  usersRdb[profileId]?.lastOnline ? (
                   `${t('line2', { ns: ['other'] })} ${moment(
                     usersRdb[profileId]?.lastOnline
                   ).calendar()}`
-                ) : user?.uid &&
+                ) : usersRdbList.length > 0 &&
+                  user?.uid &&
                   !usersRdb[profileId]?.isOnline &&
                   !usersRdb[profileId]?.lastOnline ? (
                   t('line3', { ns: ['other'] })
@@ -117,14 +125,18 @@ export const Profile: FC = () => {
                   sx={{ width: '55px' }}
                 >
                   <Typography variant="h4" color="textSecondary">
-                    {user?.uid ? (
+                    {usersRdbList.length > 0 && user?.uid ? (
                       <b>{user.friends.length}</b>
                     ) : (
                       <Skeleton width={50} />
                     )}
                   </Typography>
                   <Typography color="textSecondary">
-                    {user?.uid ? t('line1') : <Skeleton width={50} />}
+                    {usersRdbList.length > 0 && user?.uid ? (
+                      t('line1')
+                    ) : (
+                      <Skeleton width={50} />
+                    )}
                   </Typography>
                 </Stack>
                 <Stack
@@ -133,18 +145,24 @@ export const Profile: FC = () => {
                   sx={{ width: '55px' }}
                 >
                   <Typography variant="h4" color="textSecondary">
-                    {user?.uid ? (
+                    {usersRdbList.length > 0 && user?.uid ? (
                       <b>{userPosts.length}</b>
                     ) : (
                       <Skeleton width={50} />
                     )}
                   </Typography>
                   <Typography color="textSecondary">
-                    {user?.uid ? t('line2') : <Skeleton width={50} />}
+                    {usersRdbList.length > 0 && user?.uid ? (
+                      t('line2')
+                    ) : (
+                      <Skeleton width={50} />
+                    )}
                   </Typography>
                 </Stack>
               </Stack>
-              {uid !== profileId && user?.uid && <AddFriend />}
+              {usersRdbList.length > 0 && uid !== profileId && user?.uid && (
+                <AddFriend />
+              )}
             </Stack>
           </Stack>
         </Stack>

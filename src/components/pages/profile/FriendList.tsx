@@ -18,11 +18,13 @@ export const FriendList: FC<Props> = ({ user }) => {
 
   const { usersRdb } = useAuth()
 
+  const usersRdbList = Object.values(usersRdb)
+
   const { users } = useAppSelector((state) => state.users)
 
   return (
     <BorderBox sx={{ mt: 2, p: 2 }}>
-      {user?.uid ? (
+      {usersRdbList.length > 0 && user?.uid ? (
         <>
           {user.friends.length > 0 ? (
             <>
@@ -84,7 +86,7 @@ export const FriendList: FC<Props> = ({ user }) => {
       ) : (
         <>
           <Typography variant="body2" color="textSecondary">
-            <Skeleton />
+            <Skeleton width={100} />
           </Typography>
           <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mt: 1 }}>
             {[...Array(4).keys()].map((user) => (

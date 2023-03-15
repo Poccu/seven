@@ -30,7 +30,6 @@ import {
 import { useAppDispatch } from '../../hooks/redux'
 import { userSlice } from '../../store/reducers/UserSlice'
 import { usersSlice } from '../../store/reducers/UsersSlice'
-import { globalSlice } from '../../store/reducers/GlobalSlice'
 
 type Props = {
   children: any
@@ -52,7 +51,6 @@ export const AuthContext = createContext<IContext>({} as IContext)
 export const AuthProvider: FC<Props> = ({ children }) => {
   const [usersRdb, setUsersRdb] = useState<any>({})
 
-  const { setIsLoggedIn } = globalSlice.actions
   const { setUser } = userSlice.actions
   const { setUsers } = usersSlice.actions
   const dispatch = useAppDispatch()
@@ -88,8 +86,6 @@ export const AuthProvider: FC<Props> = ({ children }) => {
             isAuth: true,
           })
         )
-
-        dispatch(setIsLoggedIn(true))
 
         // Realtime Database
         const isOnlineRef = ref(rdb, `users/${userData.uid}/isOnline`)

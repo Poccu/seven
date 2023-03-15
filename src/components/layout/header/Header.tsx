@@ -48,11 +48,9 @@ export const Header: FC = () => {
   const navigate = useNavigate()
   const { ga, rdb } = useAuth()
 
-  const { uid } = useAppSelector((state) => state.user)
-  const { language, theme, isLoggedIn } = useAppSelector(
-    (state) => state.global
-  )
-  const { setLangRU, setLangEN, setThemeLight, setThemeDark, setIsLoggedIn } =
+  const { isAuth, uid } = useAppSelector((state) => state.user)
+  const { language, theme } = useAppSelector((state) => state.global)
+  const { setLangRU, setLangEN, setThemeLight, setThemeDark } =
     globalSlice.actions
   const { removeUser } = userSlice.actions
   const { removeUsers } = usersSlice.actions
@@ -119,7 +117,6 @@ export const Header: FC = () => {
     setAnchorEl(null)
     signOut(ga)
     dispatch(removeUser())
-    dispatch(setIsLoggedIn(false))
     dispatch(removeUsers())
     dispatch(removePosts())
     dispatch(removeBookmarks())
@@ -145,7 +142,7 @@ export const Header: FC = () => {
               direction="row"
               sx={{ ml: 1, display: { xs: 'flex', md: 'none' } }}
             >
-              {isLoggedIn ? (
+              {isAuth ? (
                 <Box>
                   <IconButton
                     color="primary"

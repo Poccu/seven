@@ -28,7 +28,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['global', 'posts', 'bookmarks'],
+  blacklist: ['users'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

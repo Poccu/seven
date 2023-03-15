@@ -10,7 +10,6 @@ import { useAppSelector } from '../../hooks/redux'
 
 export const RoutesList: FC = () => {
   const { isAuth, uid } = useAppSelector((state) => state.user)
-  const { isLoggedIn } = useAppSelector((state) => state.global)
 
   return (
     <Box
@@ -29,11 +28,7 @@ export const RoutesList: FC = () => {
                 path={route.path}
                 element={
                   <Layout>
-                    {route.auth && !isAuth && !isLoggedIn ? (
-                      <Auth />
-                    ) : (
-                      <route.component />
-                    )}
+                    {route.auth && isAuth ? <route.component /> : <Auth />}
                   </Layout>
                 }
                 key={`route${index}`}

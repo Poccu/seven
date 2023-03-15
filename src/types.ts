@@ -36,7 +36,6 @@ export interface IUserState {
 export interface IGlobalState {
   language: string
   theme: string
-  isLoggedIn: boolean
 }
 
 export interface IUserData {
