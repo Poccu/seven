@@ -4,6 +4,7 @@ import { ChangeEvent, FC, useState } from 'react'
 import { useAuth } from '../../providers/useAuth'
 import { AddAPhoto } from '@mui/icons-material'
 import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   setImages: React.Dispatch<React.SetStateAction<string[]>>
@@ -11,6 +12,7 @@ type Props = {
 }
 
 export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
+  const { t } = useTranslation(['other'])
   const { st } = useAuth()
 
   const [progress, setProgress] = useState<number>(0)
@@ -108,6 +110,7 @@ export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
         <IconButton
           color="primary"
           component="span"
+          title={t('button1') || ''}
           sx={{ width: '50px ', height: '50px' }}
         >
           <AddAPhoto />

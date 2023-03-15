@@ -20,7 +20,7 @@ export const EditPost: FC<Props> = ({ post, setEditingId }) => {
   const [content, setContent] = useState(post.content)
 
   const handleEditPost = async () => {
-    if (content.trim()) {
+    if (content.trim() || post.images.length > 0) {
       const docRef = doc(db, 'posts', post.id)
       setDoc(docRef, { content: content.trim() }, { merge: true })
       setEditingId('')

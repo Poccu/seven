@@ -25,48 +25,8 @@ export const AddPost: FC = () => {
     (state) => state.user
   )
 
-  const handleAddPost = async (e: any) => {
-    if (e.key === 'Enter' && content.trim()) {
-      let charList =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
-
-      let idDb = ''
-
-      if (charList) {
-        let x = 20
-        while (x > 0) {
-          let index = Math.floor(Math.random() * charList.length) // pick random index from charList
-          idDb += charList[index]
-          x--
-        }
-      }
-
-      try {
-        await setDoc(doc(db, 'posts', imagesIdDb || idDb), {
-          author: { uid, displayName, photoURL, emoji },
-          content: content.trim(),
-          createdAt: Date.now(),
-          comments: [],
-          likes: [],
-          bookmarks: [],
-          images,
-          views: 0,
-          id: imagesIdDb || idDb,
-        })
-
-        setContent('')
-      } catch (e) {
-        console.error('Error adding document: ', e)
-      }
-      setContent('')
-      setImagesIdDb('')
-      setImages([])
-      e.target.blur()
-    }
-  }
-
   const handleSendPost = async (e: any) => {
-    if (content.trim()) {
+    if (content.trim() || images.length > 0) {
       let charList =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
 
@@ -125,7 +85,6 @@ export const AddPost: FC = () => {
           autoComplete="off"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          onKeyPress={handleAddPost}
           sx={{ mx: 2 }}
         />
         <AddEmoji setContent={setContent} />
@@ -133,6 +92,7 @@ export const AddPost: FC = () => {
         <IconButton
           color="primary"
           onClick={handleSendPost}
+          title={t('button2', { ns: ['other'] }) || ''}
           sx={{ width: '50px ', height: '50px', mx: -1 }}
         >
           <Send />

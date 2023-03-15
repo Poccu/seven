@@ -377,7 +377,11 @@ export const Bookmarks: FC = () => {
                 </Stack>
                 <Typography
                   variant="body1"
-                  sx={{ ml: 1, wordBreak: 'break-word' }}
+                  sx={{
+                    ml: 1,
+                    wordBreak: 'break-word',
+                    whiteSpace: 'pre-line',
+                  }}
                 >
                   {post.content}
                 </Typography>
@@ -637,7 +641,11 @@ export const Bookmarks: FC = () => {
                                 </Stack>
                                 <Typography
                                   variant="body1"
-                                  sx={{ mb: 1, wordBreak: 'break-word' }}
+                                  sx={{
+                                    mb: 1,
+                                    wordBreak: 'break-word',
+                                    whiteSpace: 'pre-line',
+                                  }}
                                 >
                                   {comment.content}
                                 </Typography>
