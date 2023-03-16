@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react'
 import {
+  alpha,
   AvatarGroup,
   Box,
+  Chip,
   Divider,
   IconButton,
   Modal,
@@ -501,100 +503,143 @@ export const News: FC = () => {
                     direction="row"
                     justifyContent="space-between"
                     alignItems="center"
-                    sx={{ ml: -1, mb: -1 }}
                   >
                     <Stack
                       alignItems="center"
                       direction="row"
-                      // spacing={0.2}
+                      spacing={1}
                       sx={{ mt: 2, zIndex: 1 }}
                     >
-                      <Stack
-                        alignItems="center"
-                        direction="row"
-                        sx={{ width: '55px' }}
-                      >
-                        <ThemeTooltip
-                          title={
-                            post.likes.length > 0 && (
-                              <Stack alignItems="center">
-                                <Typography
-                                  textAlign="center"
-                                  variant="body2"
-                                  sx={{ cursor: 'pointer' }}
-                                  onClick={() => handleOpenModal(post)}
-                                >
-                                  {t('line10')}
-                                </Typography>
-                                <AvatarGroup
-                                  max={4}
-                                  spacing={12}
-                                  sx={{ cursor: 'pointer' }}
-                                  onClick={() => handleOpenModal(post)}
-                                >
-                                  {post.likes.map((user) => (
-                                    <Link
-                                      to={`/profile/${user.uid}`}
-                                      key={user.uid}
+                      <ThemeTooltip
+                        title={
+                          post.likes.length > 0 && (
+                            <Stack alignItems="center">
+                              <Typography
+                                textAlign="center"
+                                variant="body2"
+                                sx={{ cursor: 'pointer' }}
+                                onClick={() => handleOpenModal(post)}
+                              >
+                                {t('line10')}
+                              </Typography>
+                              <AvatarGroup
+                                max={4}
+                                spacing={12}
+                                sx={{ cursor: 'pointer' }}
+                                onClick={() => handleOpenModal(post)}
+                              >
+                                {post.likes.map((user) => (
+                                  <Link
+                                    to={`/profile/${user.uid}`}
+                                    key={user.uid}
+                                  >
+                                    <ThemeAvatar
+                                      alt={user.displayName}
+                                      src={
+                                        users.find((u) => u.uid === user.uid)
+                                          ?.photoURL
+                                      }
+                                      title={user.displayName}
+                                      sx={{
+                                        width: '40px',
+                                        height: '40px',
+                                      }}
                                     >
-                                      <ThemeAvatar
-                                        alt={user.displayName}
-                                        src={
-                                          users.find((u) => u.uid === user.uid)
-                                            ?.photoURL
-                                        }
-                                        title={user.displayName}
-                                        sx={{
-                                          width: '40px',
-                                          height: '40px',
-                                        }}
-                                      >
-                                        {user.emoji}
-                                      </ThemeAvatar>
-                                    </Link>
-                                  ))}
-                                </AvatarGroup>
-                              </Stack>
-                            )
-                          }
-                          placement="top"
-                        >
-                          {!post.likes.some((user) => user.uid === uid) ? (
-                            <IconButton
-                              onClick={() => handleLike(post)}
-                              color="secondary"
-                            >
-                              <FavoriteBorder />
-                            </IconButton>
-                          ) : (
-                            <IconButton
-                              onClick={() => handleDislike(post)}
-                              color="error"
-                            >
-                              <Favorite />
-                            </IconButton>
-                          )}
-                        </ThemeTooltip>
-                        <Typography
-                          variant="body1"
-                          color="textSecondary"
-                          sx={{ ml: -0.5 }}
-                        >
-                          <b>{post.likes.length > 0 && post.likes.length}</b>
-                        </Typography>
-                      </Stack>
-                      <IconButton color="secondary">
-                        <ChatBubbleOutline />
-                      </IconButton>
-                      <Typography
-                        variant="body1"
-                        color="textSecondary"
-                        sx={{ ml: -0.5 }}
+                                      {user.emoji}
+                                    </ThemeAvatar>
+                                  </Link>
+                                ))}
+                              </AvatarGroup>
+                            </Stack>
+                          )
+                        }
+                        placement="top"
+                        arrow
                       >
-                        <b>
-                          {post.comments.length > 0 && post.comments.length}
-                        </b>
-                      </Typography>
+                        {!post.likes.some((user) => user.uid === uid) ? (
+                          <Chip
+                            label={
+                              <Typography variant="body2">
+                                <b>
+                                  {post.likes.length > 0 && post.likes.length}
+                                </b>
+                              </Typography>
+                            }
+                            sx={{
+                              color: theme.palette.text.secondary,
+                              backgroundColor: alpha(
+                                theme.palette.grey[700],
+                                0.1
+                              ),
+                              '&:hover': {
+                                backgroundColor: alpha(
+                                  theme.palette.grey[700],
+                                  0.2
+                                ),
+                              },
+                              pl: post.likes.length > 0 ? '0px' : '8px',
+                            }}
+                            icon={
+                              <FavoriteBorder
+                                sx={{ pl: 0.6 }}
+                                color="secondary"
+                              />
+                            }
+                            onClick={() => handleLike(post)}
+                          />
+                        ) : (
+                          <Chip
+                            label={
+                              <Typography variant="body2">
+                                <b>
+                                  {post.likes.length > 0 && post.likes.length}
+                                </b>
+                              </Typography>
+                            }
+                            sx={{
+                              color: theme.palette.error.main,
+                              backgroundColor: alpha(
+                                theme.palette.error.main,
+                                0.1
+                              ),
+                              '&:hover': {
+                                backgroundColor: alpha(
+                                  theme.palette.error.main,
+                                  0.2
+                                ),
+                              },
+                            }}
+                            icon={<Favorite sx={{ pl: 0.6 }} color="error" />}
+                            onClick={() => handleDislike(post)}
+                          />
+                        )}
+                      </ThemeTooltip>
+                      <Chip
+                        label={
+                          <Typography variant="body2">
+                            <b>
+                              {post.comments.length > 0 && post.comments.length}
+                            </b>
+                          </Typography>
+                        }
+                        sx={{
+                          color: theme.palette.text.secondary,
+                          backgroundColor: alpha(theme.palette.grey[700], 0.1),
+                          '&:hover': {
+                            backgroundColor: alpha(
+                              theme.palette.grey[700],
+                              0.2
+                            ),
+                          },
+                          pl: post.comments.length > 0 ? '0px' : '8px',
+                        }}
+                        icon={
+                          <ChatBubbleOutline
+                            sx={{ pl: 0.7 }}
+                            color="secondary"
+                          />
+                        }
+                      />
                     </Stack>
                     <Stack
                       alignItems="center"
@@ -602,8 +647,8 @@ export const News: FC = () => {
                       spacing={1}
                       sx={{ mt: 2, zIndex: 1 }}
                     >
-                      <Visibility color="secondary" />
-                      <Typography variant="body2" color="textSecondary">
+                      <Visibility color="secondary" fontSize="small" />
+                      <Typography variant="caption" color="textSecondary">
                         {post.views < 1000
                           ? post.views
                           : Math.floor(post.views / 100) / 10 + 'K'}
@@ -793,6 +838,7 @@ export const News: FC = () => {
                                     )
                                   }
                                   placement="top"
+                                  arrow
                                 >
                                   {!comment.likes.some(
                                     (user) => user.uid === uid
@@ -831,7 +877,7 @@ export const News: FC = () => {
                                   )}
                                 </ThemeTooltip>
                                 <Typography
-                                  variant="body1"
+                                  variant="body2"
                                   color="textSecondary"
                                   sx={{ ml: -0.5, mb: -1 }}
                                 >
