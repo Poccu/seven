@@ -53,7 +53,7 @@ export const DeletePost: FC<Props> = ({
         onClick={handleUndo}
         startIcon={<Clear style={{ fontSize: '30px' }} />}
       >
-        <b>{t('button1')}</b>
+        <b>{t('Undo')}</b>
       </ThemeButton>
       <ThemeLinearProgress
         variant="determinate"

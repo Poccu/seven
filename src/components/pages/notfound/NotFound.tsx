@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 export const NotFound: FC = () => {
   const { t } = useTranslation(['notFound'])
-  document.title = t('title1')
+  document.title = t('Oops! Page not found 😞')
 
   return (
     <Box
@@ -37,12 +37,12 @@ export const NotFound: FC = () => {
         justifyContent="center"
       >
         <Typography variant="h3" align="center">
-          <b>{t('title1')}</b>
+          <b>{t('Oops! Page not found 😞')}</b>
         </Typography>
         <br />
         <Box component={Link} to="/">
           <ThemeButton>
-            <b>{t('button1')}</b>
+            <b>{t('Home')}</b>
           </ThemeButton>
         </Box>
         <>

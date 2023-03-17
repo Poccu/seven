@@ -49,7 +49,7 @@ import { BookmarksOrderBy } from './BookmarksOrderBy'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
-  document.title = t('title1')
+  document.title = t('Bookmarks')
 
   const { db, usersRdb } = useAuth()
 
@@ -307,7 +307,7 @@ export const Bookmarks: FC = () => {
     <>
       <BorderBox sx={{ p: 3, mb: 2 }}>
         <Typography variant="h5" textAlign="center">
-          <b>{t('title1')}</b>
+          <b>{t('Bookmarks')}</b>
         </Typography>
       </BorderBox>
       <BookmarksOrderBy />
@@ -356,7 +356,7 @@ export const Bookmarks: FC = () => {
                         </Link>
                         {post.author.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
                           <Tooltip
-                            title={t('title3', { ns: ['other'] })}
+                            title={t('Admin', { ns: ['other'] })}
                             placement="top"
                           >
                             <TaskAlt
@@ -495,7 +495,7 @@ export const Bookmarks: FC = () => {
                               sx={{ cursor: 'pointer' }}
                               onClick={() => handleOpenModal(post)}
                             >
-                              {t('line10', { ns: ['news'] })}
+                              {t('Likes', { ns: ['news'] })}
                             </Typography>
                             <AvatarGroup
                               max={4}
@@ -666,7 +666,7 @@ export const Bookmarks: FC = () => {
                                 {comment.author.uid ===
                                   'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
                                   <Tooltip
-                                    title={t('title3', { ns: ['other'] })}
+                                    title={t('Admin', { ns: ['other'] })}
                                     placement="top"
                                   >
                                     <TaskAlt
@@ -738,7 +738,7 @@ export const Bookmarks: FC = () => {
                                             )
                                           }
                                         >
-                                          {t('line10', { ns: ['news'] })}
+                                          {t('Likes', { ns: ['news'] })}
                                         </Typography>
                                         <AvatarGroup
                                           max={4}
@@ -858,7 +858,7 @@ export const Bookmarks: FC = () => {
               >
                 <Skeleton
                   variant="circular"
-                  sx={{ width: '55px', height: '55px', mb: 0.5 }}
+                  sx={{ width: '46px', height: '46px' }}
                 />
                 <Stack>
                   <Stack alignItems="center" direction="row" spacing={0.5}>
@@ -889,7 +889,7 @@ export const Bookmarks: FC = () => {
             color="textSecondary"
             sx={{ my: 4 }}
           >
-            <b>{t('line1')}</b>
+            <b>{t('No bookmarks yet 😞')}</b>
           </Typography>
         </BorderBox>
       )}
@@ -915,7 +915,7 @@ export const Bookmarks: FC = () => {
         >
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body1">
-              {t('line10', { ns: ['news'] })}:{' '}
+              {t('Likes', { ns: ['news'] })}:{' '}
               {modalData.length > 0 && modalData.length}
             </Typography>
             <IconButton

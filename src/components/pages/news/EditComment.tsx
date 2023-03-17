@@ -65,7 +65,7 @@ export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
     <Box sx={{ mt: 2 }}>
       <Stack alignItems="center" direction="row">
         <ThemeTextFieldAddPost
-          label={<b>{t('line11')}</b>}
+          label={<b>{t('Edit comment')}</b>}
           multiline
           fullWidth
           color="secondary"
@@ -84,10 +84,10 @@ export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
           setEditingId('')
         }}
       >
-        {t('button2')}
+        {t('Cancel')}
       </Button>
       <Button onClick={() => handleEditComment(post, comment)}>
-        {t('button3')}
+        {t('Save')}
       </Button>
     </Box>
   )

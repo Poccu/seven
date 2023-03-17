@@ -119,7 +119,7 @@ export const AddFriend: FC = () => {
           startIcon={<PersonAddAlt1 style={{ fontSize: '18px' }} />}
           sx={{ height: 28, fontSize: 15 }}
         >
-          <b>{t('button1')}</b>
+          <b>{t('Add friend')}</b>
         </ThemeButton>
       ) : (
         <ThemeButton
@@ -127,7 +127,7 @@ export const AddFriend: FC = () => {
           startIcon={<PersonRemoveAlt1 style={{ fontSize: '18px' }} />}
           sx={{ height: 28, fontSize: 15 }}
         >
-          <b>{t('button2')}</b>
+          <b>{t('Delete friend')}</b>
         </ThemeButton>
       )}
     </>

@@ -182,7 +182,9 @@ export const PhotoSettings: FC = () => {
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <Upload color="primary" />
                       </ListItemIcon>
-                      <Typography variant="body1">{t('line4')}</Typography>
+                      <Typography variant="body1">
+                        {t('Upload photo')}
+                      </Typography>
                       <input
                         type="file"
                         accept="image/png, image/jpeg"
@@ -195,7 +197,9 @@ export const PhotoSettings: FC = () => {
                         <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                           <Clear color="error" />
                         </ListItemIcon>
-                        <Typography variant="body1">{t('line5')}</Typography>
+                        <Typography variant="body1">
+                          {t('Delete photo')}
+                        </Typography>
                       </MenuItem>
                     )}
                   </MenuList>

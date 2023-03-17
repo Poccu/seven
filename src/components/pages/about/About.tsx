@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 export const About: FC = () => {
   const { t } = useTranslation(['about'])
-  document.title = t('title1')
+  document.title = t('About')
 
   return (
     <BorderBox sx={{ p: 3, mb: 2 }}>
@@ -27,8 +27,8 @@ export const About: FC = () => {
       >
         SEVEN
       </Typography>
-      <Typography>{t('line1')}</Typography>
-      <Typography sx={{ mt: 3 }}>{t('line2')}</Typography>
+      <Typography>{t('content')}</Typography>
+      <Typography sx={{ mt: 3 }}>{t('Built with:')}</Typography>
       <ul>
         {builtWithList.map((item, index) => (
           <Link

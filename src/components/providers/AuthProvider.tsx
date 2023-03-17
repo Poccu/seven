@@ -118,7 +118,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
           }
         })
 
-        const usersRef = ref(rdb, `users`)
+        const usersRef = ref(rdb, 'users')
 
         onValue(usersRef, (snapshot) => {
           const data = snapshot.val()

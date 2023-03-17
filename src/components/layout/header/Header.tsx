@@ -169,7 +169,7 @@ export const Header: FC = () => {
                       onClick={handleClose}
                     >
                       <Person />
-                      <ListItemText>{t('title10')}</ListItemText>
+                      <ListItemText>{t('My profile')}</ListItemText>
                     </MenuItem>
                     {menu.map((item, index) => (
                       <MenuItem
@@ -188,7 +188,7 @@ export const Header: FC = () => {
                       onClick={handleClose}
                     >
                       <BookmarkBorder />
-                      <ListItemText>{t('title6')}</ListItemText>
+                      <ListItemText>{t('Bookmarks')}</ListItemText>
                     </MenuItem>
                     <Divider />
                     <MenuItem
@@ -197,7 +197,7 @@ export const Header: FC = () => {
                       onClick={handleClose}
                     >
                       <InfoOutlined />
-                      <ListItemText>{t('title7')}</ListItemText>
+                      <ListItemText>{t('About')}</ListItemText>
                     </MenuItem>
                     <Divider />
                     <MenuItem
@@ -206,7 +206,7 @@ export const Header: FC = () => {
                       onClick={handleLogout}
                     >
                       <Logout />
-                      <ListItemText>{t('title8')}</ListItemText>
+                      <ListItemText>{t('Logout')}</ListItemText>
                     </MenuItem>
                   </StyledMenu>
                 </Box>
@@ -250,7 +250,7 @@ export const Header: FC = () => {
                   onClick={handleChangeLanguage}
                   color="primary"
                   size="large"
-                  title={t('title4', { ns: ['other'] }) || ''}
+                  title={t('Сменить язык на EN', { ns: ['other'] }) || ''}
                   sx={{ width: '50px ', height: '50px' }}
                 >
                   <Typography>
@@ -262,7 +262,7 @@ export const Header: FC = () => {
                   onClick={handleChangeLanguage}
                   color="primary"
                   size="large"
-                  title={t('title4', { ns: ['other'] }) || ''}
+                  title={t('Change language to RU', { ns: ['other'] }) || ''}
                   sx={{ width: '50px ', height: '50px' }}
                 >
                   <Typography>
@@ -275,7 +275,7 @@ export const Header: FC = () => {
                   onClick={() => dispatch(setThemeLight())}
                   color="primary"
                   size="large"
-                  title={t('title1', { ns: ['other'] }) || ''}
+                  title={t('Toggle Light Mode', { ns: ['other'] }) || ''}
                   sx={{ width: '50px ', height: '50px' }}
                 >
                   <LightModeOutlined fontSize="inherit" />
@@ -285,7 +285,7 @@ export const Header: FC = () => {
                   onClick={() => dispatch(setThemeDark())}
                   color="primary"
                   size="large"
-                  title={t('title2', { ns: ['other'] }) || ''}
+                  title={t('Toggle Dark Mode', { ns: ['other'] }) || ''}
                   sx={{ width: '50px ', height: '50px' }}
                 >
                   <DarkModeOutlined fontSize="inherit" />

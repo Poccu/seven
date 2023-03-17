@@ -29,7 +29,7 @@ export const FriendList: FC<Props> = ({ user }) => {
           {user.friends.length > 0 ? (
             <>
               <Typography variant="body2" color="textSecondary">
-                {`${t('line3')} ${user.friends.length}`}
+                {`${t('Friends')} ${user.friends.length}`}
               </Typography>
               <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mt: 1 }}>
                 {user.friends.map((user: IUser) => (
@@ -79,7 +79,7 @@ export const FriendList: FC<Props> = ({ user }) => {
               color="textSecondary"
               sx={{ my: 4 }}
             >
-              <b>{t('line1', { ns: ['friends'] })}</b>
+              <b>{t('No friends yet 😞', { ns: ['friends'] })}</b>
             </Typography>
           )}
         </>

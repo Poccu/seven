@@ -79,7 +79,7 @@ export const AddPost: FC = () => {
           </ThemeAvatar>
         </Link>
         <ThemeTextFieldAddPost
-          label={<b>{t('line1')}</b>}
+          label={<b>{t(`What's new?`)}</b>}
           multiline
           fullWidth
           autoComplete="off"
@@ -92,7 +92,7 @@ export const AddPost: FC = () => {
         <IconButton
           color="primary"
           onClick={handleSendPost}
-          title={t('button2', { ns: ['other'] }) || ''}
+          title={t('Post', { ns: ['other'] }) || ''}
           sx={{ width: '50px ', height: '50px', mx: -1 }}
         >
           <Send />

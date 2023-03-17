@@ -76,7 +76,7 @@ export const Menu: FC = () => {
               <ListItemIcon sx={{ mr: -2 }}>
                 <Person color="primary" />
               </ListItemIcon>
-              <ListItemText primary={t('title10')} />
+              <ListItemText primary={t('My profile')} />
             </ListItemButton>
           </ListItem>
           {menu.map((item, index) => (
@@ -98,7 +98,7 @@ export const Menu: FC = () => {
                 <ListItemIcon sx={{ mr: -2 }}>
                   <BookmarkBorder color="primary" />
                 </ListItemIcon>
-                <ListItemText primary={t('title6')} />
+                <ListItemText primary={t('Bookmarks')} />
               </ListItemButton>
             </ListItem>
             <Badge
@@ -118,7 +118,7 @@ export const Menu: FC = () => {
               <ListItemIcon sx={{ mr: -2 }}>
                 <InfoOutlined color="primary" />
               </ListItemIcon>
-              <ListItemText primary={t('title7')} />
+              <ListItemText primary={t('About')} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -126,7 +126,7 @@ export const Menu: FC = () => {
               <ListItemIcon sx={{ mr: -2 }}>
                 <Logout color="primary" />
               </ListItemIcon>
-              <ListItemText primary={t('title8')} />
+              <ListItemText primary={t('Logout')} />
             </ListItemButton>
           </ListItem>
         </List>

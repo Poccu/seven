@@ -44,27 +44,27 @@ export const BookmarksOrderBy: FC = () => {
       direction="row"
       sx={{ ml: 2, mb: 2, flexWrap: 'wrap', gap: 2 }}
     >
-      <Typography>{t('title5')}</Typography>
+      <Typography>{t('Sort by')}</Typography>
       <Chip
-        label={t('title6')}
+        label={t('Newest')}
         icon={<ExpandMore />}
         color={sortBookmarksBy === 'newest' ? 'primary' : 'default'}
         onClick={handleSortBookmarksByNewest}
       />
       <Chip
-        label={t('title7')}
+        label={t('Oldest')}
         icon={<ExpandLess />}
         color={sortBookmarksBy === 'oldest' ? 'primary' : 'default'}
         onClick={handleSortBookmarksByOldest}
       />
       <Chip
-        label={t('title8')}
+        label={t('Likes')}
         icon={<FavoriteBorder sx={{ pl: 0.6 }} />}
         color={sortBookmarksBy === 'popularity' ? 'primary' : 'default'}
         onClick={handleSortBookmarksByPopularity}
       />
       <Chip
-        label={t('title9')}
+        label={t('Controversial')}
         icon={<Group sx={{ pl: 0.6 }} />}
         color={sortBookmarksBy === 'controversial' ? 'primary' : 'default'}
         onClick={handleSortBookmarksByControversial}

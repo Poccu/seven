@@ -44,27 +44,27 @@ export const PostsOrderBy: FC = () => {
       direction="row"
       sx={{ ml: 2, mb: 2, flexWrap: 'wrap', gap: 2 }}
     >
-      <Typography>{t('title5')}</Typography>
+      <Typography>{t('Sort by')}</Typography>
       <Chip
-        label={t('title6')}
+        label={t('Newest')}
         icon={<ExpandMore />}
         color={sortPostsBy === 'newest' ? 'primary' : 'default'}
         onClick={handleSortPostsByNewest}
       />
       <Chip
-        label={t('title7')}
+        label={t('Oldest')}
         icon={<ExpandLess />}
         color={sortPostsBy === 'oldest' ? 'primary' : 'default'}
         onClick={handleSortPostsByOldest}
       />
       <Chip
-        label={t('title8')}
+        label={t('Likes')}
         icon={<FavoriteBorder sx={{ pl: 0.6 }} />}
         color={sortPostsBy === 'popularity' ? 'primary' : 'default'}
         onClick={handleSortPostsByPopularity}
       />
       <Chip
-        label={t('title9')}
+        label={t('Controversial')}
         icon={<Group sx={{ pl: 0.6 }} />}
         color={sortPostsBy === 'controversial' ? 'primary' : 'default'}
         onClick={handleSortPostsByControversial}

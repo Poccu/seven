@@ -84,42 +84,42 @@ export const AddEmoji: FC<Props> = ({ setContent }) => {
                   defaultCaption: 'Pick one!',
                   defaultEmoji: '1f92a', // 🤪
                 }}
-                searchPlaceHolder={t('title1') || 'Search'}
+                searchPlaceHolder={t('Search') || 'Search'}
                 categories={[
                   {
-                    name: t('title2'),
+                    name: t('Recently Used'),
                     category: Categories.SUGGESTED,
                   },
                   {
-                    name: t('title3'),
+                    name: t('Smileys & People'),
                     category: Categories.SMILEYS_PEOPLE,
                   },
                   {
-                    name: t('title4'),
+                    name: t('Animals & Nature'),
                     category: Categories.ANIMALS_NATURE,
                   },
                   {
-                    name: t('title5'),
+                    name: t('Food & Drink'),
                     category: Categories.FOOD_DRINK,
                   },
                   {
-                    name: t('title6'),
+                    name: t('Travel & Places'),
                     category: Categories.TRAVEL_PLACES,
                   },
                   {
-                    name: t('title7'),
+                    name: t('Activities'),
                     category: Categories.ACTIVITIES,
                   },
                   {
-                    name: t('title8'),
+                    name: t('Objects'),
                     category: Categories.OBJECTS,
                   },
                   {
-                    name: t('title9'),
+                    name: t('Symbols'),
                     category: Categories.SYMBOLS,
                   },
                   {
-                    name: t('title10'),
+                    name: t('Flags'),
                     category: Categories.FLAGS,
                   },
                 ]}

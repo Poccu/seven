@@ -37,7 +37,7 @@ export const EditPost: FC<Props> = ({ post, setEditingId }) => {
     <Box>
       <Stack alignItems="center" direction="row">
         <ThemeTextFieldAddPost
-          label={<b>{t('line9')}</b>}
+          label={<b>{t('Edit post')}</b>}
           multiline
           fullWidth
           color="secondary"
@@ -56,9 +56,9 @@ export const EditPost: FC<Props> = ({ post, setEditingId }) => {
           setEditingId('')
         }}
       >
-        {t('button2')}
+        {t('Cancel')}
       </Button>
-      <Button onClick={handleEditPost}>{t('button3')}</Button>
+      <Button onClick={handleEditPost}>{t('Save')}</Button>
     </Box>
   )
 }

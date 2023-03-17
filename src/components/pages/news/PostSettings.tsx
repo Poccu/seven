@@ -126,7 +126,7 @@ export const PostSettings: FC<Props> = ({
       console.log('Bookmark failed: ', e)
     }
 
-    enqueueSnackbar(t('line3'), { variant: 'success' })
+    enqueueSnackbar(t('Post added to Bookmarks!'), { variant: 'success' })
   }
 
   const handleRemoveBookmark = async (post: IPost) => {
@@ -175,7 +175,7 @@ export const PostSettings: FC<Props> = ({
       console.log('Delete Bookmark failed: ', e)
     }
 
-    enqueueSnackbar(t('line4'), { variant: 'error' })
+    enqueueSnackbar(t('Post removed from Bookmarks!'), { variant: 'error' })
   }
 
   return (
@@ -220,14 +220,18 @@ export const PostSettings: FC<Props> = ({
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <BookmarkAddOutlined color="primary" />
                       </ListItemIcon>
-                      <Typography variant="body1">{t('line5')}</Typography>
+                      <Typography variant="body1">
+                        {t('Add to Bookmarks')}
+                      </Typography>
                     </MenuItem>
                   ) : (
                     <MenuItem onClick={() => handleRemoveBookmark(post)}>
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <BookmarkRemoveOutlined color="primary" />
                       </ListItemIcon>
-                      <Typography variant="body1">{t('line6')}</Typography>
+                      <Typography variant="body1">
+                        {t('Remove from Bookmarks')}
+                      </Typography>
                     </MenuItem>
                   )}
                   {post.author.uid === uid &&
@@ -242,7 +246,7 @@ export const PostSettings: FC<Props> = ({
                         <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                           <Edit color="primary" />
                         </ListItemIcon>
-                        <Typography variant="body1">{t('line7')}</Typography>
+                        <Typography variant="body1">{t('Edit')}</Typography>
                       </MenuItem>
                     )}
                   {post.author.uid === uid && (
@@ -250,7 +254,9 @@ export const PostSettings: FC<Props> = ({
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <Clear color="error" />
                       </ListItemIcon>
-                      <Typography variant="body1">{t('line8')}</Typography>
+                      <Typography variant="body1">
+                        {t('Delete post')}
+                      </Typography>
                     </MenuItem>
                   )}
                 </MenuList>

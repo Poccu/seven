@@ -10,7 +10,7 @@ import { useAppSelector } from '../../../hooks/redux'
 
 export const Friends: FC = () => {
   const { t } = useTranslation(['friends'])
-  document.title = t('title1')
+  document.title = t('Friends')
 
   const { usersRdb } = useAuth()
 
@@ -21,7 +21,7 @@ export const Friends: FC = () => {
     <>
       <BorderBox sx={{ p: 3, mb: 2 }}>
         <Typography variant="h5" textAlign="center">
-          <b>{t('title1')}</b>
+          <b>{t('Friends')}</b>
         </Typography>
       </BorderBox>
       <BorderBox sx={{ p: 3, mb: 2 }}>
@@ -67,7 +67,7 @@ export const Friends: FC = () => {
                   color="textSecondary"
                   sx={{ my: 4 }}
                 >
-                  <b>{t('line1')}</b>
+                  <b>{t('No friends yet 😞')}</b>
                 </Typography>
               )}
             </>

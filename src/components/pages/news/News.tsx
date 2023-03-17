@@ -57,7 +57,7 @@ import { PostsOrderBy } from './PostsOrderBy'
 
 export const News: FC = () => {
   const { t } = useTranslation(['news'])
-  document.title = t('title1')
+  document.title = t('News')
 
   const { db, usersRdb } = useAuth()
 
@@ -363,7 +363,7 @@ export const News: FC = () => {
                           {post.author.uid ===
                             'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
                             <Tooltip
-                              title={t('title3', { ns: ['other'] })}
+                              title={t('Admin', { ns: ['other'] })}
                               placement="top"
                             >
                               <TaskAlt
@@ -520,7 +520,7 @@ export const News: FC = () => {
                                 sx={{ cursor: 'pointer' }}
                                 onClick={() => handleOpenModal(post)}
                               >
-                                {t('line10')}
+                                {t('Likes')}
                               </Typography>
                               <AvatarGroup
                                 max={4}
@@ -698,7 +698,7 @@ export const News: FC = () => {
                                 {comment.author.uid ===
                                   'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
                                   <Tooltip
-                                    title={t('title3', { ns: ['other'] })}
+                                    title={t('Admin', { ns: ['other'] })}
                                     placement="top"
                                   >
                                     <TaskAlt
@@ -746,7 +746,7 @@ export const News: FC = () => {
                                       onClick={() => setEditingId(comment.id)}
                                       sx={{ cursor: 'pointer' }}
                                     >
-                                      {t('button4')}
+                                      {t('Edit')}
                                     </Typography>
                                   )}
                               </Stack>
@@ -796,7 +796,7 @@ export const News: FC = () => {
                                             )
                                           }
                                         >
-                                          {t('line10')}
+                                          {t('Likes')}
                                         </Typography>
                                         <AvatarGroup
                                           max={4}
@@ -911,7 +911,7 @@ export const News: FC = () => {
               >
                 <Skeleton
                   variant="circular"
-                  sx={{ width: '55px', height: '55px', mb: 0.5 }}
+                  sx={{ width: '46px', height: '46px' }}
                 />
                 <Stack>
                   <Stack alignItems="center" direction="row" spacing={0.5}>
@@ -947,7 +947,7 @@ export const News: FC = () => {
         >
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body1">
-              {t('line10')}: {modalData.length > 0 && modalData.length}
+              {t('Likes')}: {modalData.length > 0 && modalData.length}
             </Typography>
             <IconButton
               onClick={handleCloseModal}

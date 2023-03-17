@@ -78,7 +78,7 @@ export const Profile: FC = () => {
                 {usersRdbList.length > 0 &&
                   user?.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
                     <Tooltip
-                      title={t('title3', { ns: ['other'] })}
+                      title={t('Admin', { ns: ['other'] })}
                       placement="top"
                     >
                       <TaskAlt
@@ -95,18 +95,18 @@ export const Profile: FC = () => {
                 {usersRdbList.length > 0 &&
                 user?.uid &&
                 usersRdb[profileId]?.isOnline ? (
-                  t('line1', { ns: ['other'] })
+                  t('online', { ns: ['other'] })
                 ) : usersRdbList.length > 0 &&
                   user?.uid &&
                   usersRdb[profileId]?.lastOnline ? (
-                  `${t('line2', { ns: ['other'] })} ${moment(
+                  `${t('last seen', { ns: ['other'] })} ${moment(
                     usersRdb[profileId]?.lastOnline
                   ).calendar()}`
                 ) : usersRdbList.length > 0 &&
                   user?.uid &&
                   !usersRdb[profileId]?.isOnline &&
                   !usersRdb[profileId]?.lastOnline ? (
-                  t('line3', { ns: ['other'] })
+                  t('offline', { ns: ['other'] })
                 ) : (
                   <Skeleton width={100} />
                 )}
@@ -133,7 +133,7 @@ export const Profile: FC = () => {
                   </Typography>
                   <Typography color="textSecondary">
                     {usersRdbList.length > 0 && user?.uid ? (
-                      t('line1')
+                      t('friends')
                     ) : (
                       <Skeleton width={50} />
                     )}
@@ -153,7 +153,7 @@ export const Profile: FC = () => {
                   </Typography>
                   <Typography color="textSecondary">
                     {usersRdbList.length > 0 && user?.uid ? (
-                      t('line2')
+                      t('posts')
                     ) : (
                       <Skeleton width={50} />
                     )}

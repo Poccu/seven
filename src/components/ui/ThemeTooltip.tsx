@@ -12,7 +12,7 @@ export const ThemeTooltip = styled(({ className, ...props }: TooltipProps) => (
   [`& .${tooltipClasses.arrow}`]: {
     color: theme.palette.background.default,
     '&:before': {
-      border: `1px solid`,
+      border: '1px solid',
       borderColor: theme.palette.divider,
     },
   },

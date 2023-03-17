@@ -5,9 +5,9 @@
   "title3": "Communities",
   "title4": "Photos",
   "title5": "Music",
-  "title6": "Bookmarks",
-  "title7": "About",
-  "title8": "Logout",
+  "Bookmarks": "Bookmarks",
+  "About": "About",
+  "Logout": "Logout",
   "title9": "Sign in",
-  "title10": "My profile"
+  "My profile": "My profile"
 }

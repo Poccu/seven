@@ -85,7 +85,7 @@ export const AddComment: FC<Props> = ({ post }) => {
           </ThemeAvatar>
         </Link>
         <ThemeTextFieldAddComment
-          label={t('line2')}
+          label={t('Leave a comment…')}
           multiline
           fullWidth
           autoComplete="off"
@@ -97,7 +97,7 @@ export const AddComment: FC<Props> = ({ post }) => {
         <IconButton
           color="primary"
           onClick={handleSendComment}
-          title={t('button2', { ns: ['other'] }) || ''}
+          title={t('Post', { ns: ['other'] }) || ''}
           sx={{
             width: '50px ',
             height: '50px',
