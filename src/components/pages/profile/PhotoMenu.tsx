@@ -1,22 +1,26 @@
 import { ChangeEvent, FC, useRef, useState } from 'react'
-import ClickAwayListener from '@mui/material/ClickAwayListener'
-import Grow from '@mui/material/Grow'
-import Popper from '@mui/material/Popper'
-import MenuItem from '@mui/material/MenuItem'
-import MenuList from '@mui/material/MenuList'
-import { Box, ListItemIcon, Typography } from '@mui/material'
-import { useAuth } from '../../providers/useAuth'
-import { doc, setDoc } from 'firebase/firestore'
+import {
+  Box,
+  ClickAwayListener,
+  Grow,
+  ListItemIcon,
+  MenuItem,
+  MenuList,
+  Popper,
+  Typography,
+} from '@mui/material'
 import { Clear, Edit, Upload } from '@mui/icons-material'
+import { doc, setDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { updateProfile } from 'firebase/auth'
-import { ThemeIconButton } from '../../ui/ThemeIconButton'
-import { SettingsBox } from '../../ui/ThemeBox'
-import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '../../providers/useAuth'
 import { useAppSelector } from '../../../hooks/redux'
+import { MenuBox } from '../../ui/ThemeBox'
+import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
+import { ThemeIconButton } from '../../ui/ThemeIconButton'
 
-export const PhotoSettings: FC = () => {
+export const PhotoMenu: FC = () => {
   const { t } = useTranslation(['profile'])
 
   const { db, st, ga } = useAuth()
@@ -170,7 +174,7 @@ export const PhotoSettings: FC = () => {
                 transformOrigin: 'right top',
               }}
             >
-              <SettingsBox>
+              <MenuBox>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
                     autoFocusItem={open}
@@ -204,7 +208,7 @@ export const PhotoSettings: FC = () => {
                     )}
                   </MenuList>
                 </ClickAwayListener>
-              </SettingsBox>
+              </MenuBox>
             </Grow>
           )}
         </Popper>

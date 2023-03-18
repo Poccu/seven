@@ -1,7 +1,5 @@
 import { FC, useRef, useState } from 'react'
-import Grow from '@mui/material/Grow'
-import Popper from '@mui/material/Popper'
-import { Box, IconButton } from '@mui/material'
+import { Box, Grow, IconButton, Popper } from '@mui/material'
 import { Mood } from '@mui/icons-material'
 import EmojiPicker, {
   EmojiStyle,

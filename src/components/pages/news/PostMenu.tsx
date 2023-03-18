@@ -1,13 +1,15 @@
 import { FC, useRef, useState } from 'react'
-import ClickAwayListener from '@mui/material/ClickAwayListener'
-import Grow from '@mui/material/Grow'
-import Popper from '@mui/material/Popper'
-import MenuItem from '@mui/material/MenuItem'
-import MenuList from '@mui/material/MenuList'
-import { Box, IconButton, ListItemIcon, Typography } from '@mui/material'
-import { useAuth } from '../../providers/useAuth'
-import { IPost } from '../../../types'
-import { doc, runTransaction } from 'firebase/firestore'
+import {
+  Box,
+  ClickAwayListener,
+  Grow,
+  IconButton,
+  ListItemIcon,
+  MenuItem,
+  MenuList,
+  Popper,
+  Typography,
+} from '@mui/material'
 import {
   MoreHoriz,
   BookmarkAddOutlined,
@@ -15,9 +17,12 @@ import {
   Clear,
   Edit,
 } from '@mui/icons-material'
-import { SettingsBox } from '../../ui/ThemeBox'
+import { doc, runTransaction } from 'firebase/firestore'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '../../providers/useAuth'
+import { IPost } from '../../../types'
+import { MenuBox } from '../../ui/ThemeBox'
 import { useAppSelector } from '../../../hooks/redux'
 
 type Props = {
@@ -26,7 +31,7 @@ type Props = {
   setDeletedPosts: React.Dispatch<React.SetStateAction<IPost[]>>
 }
 
-export const PostSettings: FC<Props> = ({
+export const PostMenu: FC<Props> = ({
   post,
   setEditingId,
   setDeletedPosts,
@@ -207,7 +212,7 @@ export const PostSettings: FC<Props> = ({
               transformOrigin: 'right top',
             }}
           >
-            <SettingsBox>
+            <MenuBox>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
@@ -261,7 +266,7 @@ export const PostSettings: FC<Props> = ({
                   )}
                 </MenuList>
               </ClickAwayListener>
-            </SettingsBox>
+            </MenuBox>
           </Grow>
         )}
       </Popper>

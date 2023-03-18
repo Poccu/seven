@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Box, Divider, IconButton, Stack } from '@mui/material'
+import { Divider, IconButton, Stack } from '@mui/material'
 import { useAuth } from '../../providers/useAuth'
 import { doc, runTransaction } from 'firebase/firestore'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
@@ -76,7 +76,7 @@ export const AddComment: FC<Props> = ({ post }) => {
   }
 
   return (
-    <Box sx={{ mt: 0 }}>
+    <>
       <Divider sx={{ mt: 2, mb: 3 }} />
       <Stack alignItems="center" direction="row">
         <Link to={`/profile/${uid}`}>
@@ -108,6 +108,6 @@ export const AddComment: FC<Props> = ({ post }) => {
           <Send />
         </IconButton>
       </Stack>
-    </Box>
+    </>
   )
 }

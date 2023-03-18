@@ -7,7 +7,7 @@ export const BorderBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }))
 
-export const SettingsBox = styled(Box)(({ theme }) => ({
+export const MenuBox = styled(Box)(({ theme }) => ({
   borderRadius: '10px',
   border: '1px solid',
   borderColor: theme.palette.divider,

@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../providers/useAuth'
 import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
 import { useAppSelector } from '../../../hooks/redux'
+import { SkeletonUser } from '../../ui/skeletons/SkeletonUser'
 
 type Props = {
   user: IUser | undefined
@@ -33,7 +34,7 @@ export const FriendList: FC<Props> = ({ user }) => {
               </Typography>
               <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mt: 1 }}>
                 {user.friends.map((user: IUser) => (
-                  <Box key={user.uid} sx={{ width: '55px', mb: 0 }}>
+                  <Box key={user.uid} sx={{ width: '55px' }}>
                     <Link to={`/profile/${user.uid}`}>
                       <ThemeOnlineBadge
                         overlap="circular"
@@ -90,15 +91,7 @@ export const FriendList: FC<Props> = ({ user }) => {
           </Typography>
           <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mt: 1 }}>
             {[...Array(4).keys()].map((user) => (
-              <Box key={user} sx={{ width: '55px', mb: 0 }}>
-                <Skeleton
-                  variant="circular"
-                  sx={{ width: '55px', height: '55px', mb: 0.5 }}
-                />
-                <Typography variant="body2" textAlign="center" fontSize="13px">
-                  <Skeleton />
-                </Typography>
-              </Box>
+              <SkeletonUser key={user} />
             ))}
           </Stack>
         </>

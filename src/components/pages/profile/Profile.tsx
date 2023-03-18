@@ -5,7 +5,7 @@ import { BorderBox } from '../../ui/ThemeBox'
 import { ThemeProfileAvatar } from '../../ui/ThemeAvatar'
 import { useParams } from 'react-router-dom'
 import { IPost, IUser } from '../../../types'
-import { PhotoSettings } from './PhotoSettings'
+import { PhotoMenu } from './PhotoMenu'
 import { AddFriend } from './AddFriend'
 import { FriendList } from './FriendList'
 import { TaskAlt } from '@mui/icons-material'
@@ -51,7 +51,7 @@ export const Profile: FC = () => {
                 >
                   <Typography variant="h2">{user.emoji}</Typography>
                 </ThemeProfileAvatar>
-                {uid === profileId && <PhotoSettings />}
+                {uid === profileId && <PhotoMenu />}
               </>
             ) : (
               <Skeleton

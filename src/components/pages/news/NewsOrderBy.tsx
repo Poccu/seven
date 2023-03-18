@@ -1,16 +1,16 @@
 import { FC } from 'react'
 import { Chip, Stack, Typography } from '@mui/material'
-import { useTranslation } from 'react-i18next'
 import {
   ExpandLess,
   ExpandMore,
   FavoriteBorder,
   Group,
 } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { postsSlice } from '../../../store/reducers/PostsSlice'
 
-export const PostsOrderBy: FC = () => {
+export const NewsOrderBy: FC = () => {
   const { t } = useTranslation(['other'])
 
   const { sortPostsBy } = useAppSelector((state) => state.posts)

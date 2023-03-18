@@ -6,6 +6,7 @@ import { useAuth } from '../../providers/useAuth'
 import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
 import { ThemeAvatar } from '../../ui/ThemeAvatar'
 import { useAppSelector } from '../../../hooks/redux'
+import { SkeletonUserOnline } from '../../ui/skeletons/SkeletonUserOnline'
 
 export const UsersOnline: FC = () => {
   const { usersRdb } = useAuth()
@@ -30,7 +31,7 @@ export const UsersOnline: FC = () => {
       <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mt: 1 }}>
         {usersRdbList.length > 0 && onlineUsersList.length > 0
           ? onlineUsersList.map((user: any) => (
-              <Box key={user.uid} sx={{ width: '55px', mb: 0 }}>
+              <Box key={user.uid} sx={{ width: '55px' }}>
                 <Link to={`/profile/${user.uid}`}>
                   <ThemeOnlineBadge
                     overlap="circular"
@@ -65,24 +66,7 @@ export const UsersOnline: FC = () => {
               </Box>
             ))
           : [...Array(4).keys()].map((user) => (
-              <Box key={user} sx={{ width: '55px', mb: 0 }}>
-                <ThemeOnlineBadge
-                  overlap="circular"
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  variant="dot"
-                >
-                  <Skeleton
-                    variant="circular"
-                    sx={{ width: '55px', height: '55px', mb: 0.5 }}
-                  />
-                </ThemeOnlineBadge>
-                <Typography variant="body2" textAlign="center" fontSize="13px">
-                  <Skeleton />
-                </Typography>
-              </Box>
+              <SkeletonUserOnline key={user} />
             ))}
       </Stack>
     </BorderBox>
