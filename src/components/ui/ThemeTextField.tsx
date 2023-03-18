@@ -48,7 +48,7 @@ export const ThemeTextFieldAddComment = styled(TextField)(({ theme }) => ({
   },
   '& .MuiOutlinedInput-notchedOutline': {
     borderWidth: 2,
-    borderColor: theme.palette.action.selected,
+    borderColor: theme.palette.action.active,
   },
   '&:hover .MuiOutlinedInput-notchedOutline': {
     borderWidth: 2,

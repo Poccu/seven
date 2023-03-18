@@ -24,7 +24,7 @@ export const ModalLikes: FC<Props> = ({
   const { users } = useAppSelector((state) => state.users)
 
   return (
-    <Modal open={openModal} onClose={handleCloseModal}>
+    <Modal open={openModal} onClose={handleCloseModal} sx={{ zIndex: 1600 }}>
       <BorderBox
         sx={{
           position: 'absolute',

@@ -5,7 +5,10 @@ export let themeLight = createTheme({
   palette: {
     mode: 'light',
     primary: {
+      light: '#c3a780',
       main: '#b59261',
+      dark: '#ad864e',
+      // dark: '#7e6643',
     },
     secondary: {
       main: grey[500],
@@ -30,8 +33,8 @@ export let themeLight = createTheme({
       hoverOpacity: 0.1,
       focus: grey[200],
       focusOpacity: 0.1,
-      selected: grey[300],
-      selectedOpacity: 0.1,
+      selected: '#ffffff',
+      selectedOpacity: 0.3,
       disabled: grey[100],
     },
     divider: grey[300],
@@ -72,7 +75,9 @@ export let themeDark = createTheme({
   palette: {
     mode: 'dark',
     primary: {
+      light: '#c3a780',
       main: '#b59261',
+      dark: '#7e6643',
     },
     secondary: {
       main: grey[700],
@@ -92,8 +97,8 @@ export let themeDark = createTheme({
       hoverOpacity: 0.1,
       focus: grey[900],
       focusOpacity: 0.1,
-      selected: grey[800],
-      selectedOpacity: 0.1,
+      selected: grey[900],
+      selectedOpacity: 0.3,
       disabled: '#1c1c1c',
     },
     divider: grey[900],

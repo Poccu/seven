@@ -20,6 +20,7 @@ export const ModalImage: FC<Props> = ({
       BackdropProps={{
         style: { backgroundColor: 'rgba(0, 0, 0, 0.95)' },
       }}
+      sx={{ zIndex: 1600 }}
     >
       <>
         <Box
