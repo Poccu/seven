@@ -20,10 +20,10 @@ import {
 import { doc, runTransaction } from 'firebase/firestore'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../../providers/useAuth'
-import { IPost } from '../../../types'
-import { MenuBox } from '../../ui/ThemeBox'
-import { useAppSelector } from '../../../hooks/redux'
+import { useAuth } from '@providers/useAuth'
+import { IPost } from 'src/types'
+import { MenuBox } from '@ui/ThemeBox'
+import { useAppSelector } from '@hooks/redux'
 
 type Props = {
   post: IPost

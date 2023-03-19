@@ -1,9 +1,9 @@
 import { FC, useState } from 'react'
 import { Box, Button, Stack } from '@mui/material'
-import { useAuth } from '../../providers/useAuth'
-import { IPost } from '../../../types'
+import { useAuth } from '@providers/useAuth'
+import { IPost } from 'src/types'
 import { doc, setDoc } from 'firebase/firestore'
-import { ThemeTextFieldAddPost } from '../../ui/ThemeTextField'
+import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
 import { useTranslation } from 'react-i18next'
 import { AddEmoji } from './AddEmoji'
 

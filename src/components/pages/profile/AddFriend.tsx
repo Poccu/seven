@@ -1,11 +1,11 @@
 import { PersonAddAlt1, PersonRemoveAlt1 } from '@mui/icons-material'
 import { doc, runTransaction } from 'firebase/firestore'
 import { FC } from 'react'
-import { IUser } from '../../../types'
-import { useAuth } from '../../providers/useAuth'
-import { ThemeButton } from '../../ui/ThemeButton'
+import { IUser } from 'src/types'
+import { useAuth } from '@providers/useAuth'
+import { ThemeButton } from '@ui/ThemeButton'
 import { useTranslation } from 'react-i18next'
-import { useAppSelector } from '../../../hooks/redux'
+import { useAppSelector } from '@hooks/redux'
 
 export const AddFriend: FC = () => {
   const { t } = useTranslation(['profile'])

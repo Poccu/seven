@@ -9,16 +9,16 @@ import {
   runTransaction,
   where,
 } from 'firebase/firestore'
-import { IPost } from '../../../types'
-import { useAuth } from '../../providers/useAuth'
-import { BorderBox } from '../../ui/ThemeBox'
+import { IPost } from 'src/types'
+import { useAuth } from '@providers/useAuth'
+import { BorderBox } from '@ui/ThemeBox'
 import { TransitionGroup } from 'react-transition-group'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { bookmarksSlice } from '../../../store/reducers/BookmarksSlice'
+import { useAppDispatch, useAppSelector } from '@hooks/redux'
+import { bookmarksSlice } from '@reducers/BookmarksSlice'
 import { BookmarksOrderBy } from './BookmarksOrderBy'
 import { BookmarksPost } from './BookmarksPost'
-import { SkeletonPost } from '../../ui/skeletons/SkeletonPost'
+import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])

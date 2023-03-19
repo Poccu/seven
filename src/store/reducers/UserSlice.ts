@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IUser, IUserState } from '../../types'
+import { IUserState, IUser } from 'src/types'
 
 const initialState = {
   bookmarks: null,

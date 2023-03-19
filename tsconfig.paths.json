@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@reducers/*": ["./src/store/reducers/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@providers/*": ["./src/components/providers/*"],
+      "@modals/*": ["./src/components/modals/*"],
+      "@ui/*": ["./src/components/ui/*"]
+    }
+  }
+}

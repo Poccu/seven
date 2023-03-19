@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { IGlobalState } from '../../types'
+import { IGlobalState } from 'src/types'
 
 const preferredLanguage = navigator.language.slice(0, 2) === 'ru' ? 'ru' : 'en'
 const preferredTheme = window.matchMedia('(prefers-color-scheme: light)')

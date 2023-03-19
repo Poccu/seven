@@ -1,12 +1,12 @@
 import { FC } from 'react'
 import { Box, Skeleton, Stack, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { BorderBox } from '../../ui/ThemeBox'
-import { useAuth } from '../../providers/useAuth'
-import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
-import { ThemeAvatar } from '../../ui/ThemeAvatar'
-import { useAppSelector } from '../../../hooks/redux'
-import { SkeletonUserOnline } from '../../ui/skeletons/SkeletonUserOnline'
+import { BorderBox } from '@ui/ThemeBox'
+import { useAuth } from '@providers/useAuth'
+import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
+import { ThemeAvatar } from '@ui/ThemeAvatar'
+import { useAppSelector } from '@hooks/redux'
+import { SkeletonUserOnline } from '@ui/skeletons/SkeletonUserOnline'
 
 export const UsersOnline: FC = () => {
   const { usersRdb } = useAuth()

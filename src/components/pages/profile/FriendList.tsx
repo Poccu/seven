@@ -1,14 +1,14 @@
 import { FC } from 'react'
 import { Box, Skeleton, Stack, Typography } from '@mui/material'
-import { BorderBox } from '../../ui/ThemeBox'
+import { BorderBox } from '@ui/ThemeBox'
 import { Link } from 'react-router-dom'
-import { ThemeAvatar } from '../../ui/ThemeAvatar'
-import { IUser } from '../../../types'
+import { ThemeAvatar } from '@ui/ThemeAvatar'
+import { IUser } from 'src/types'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../../providers/useAuth'
-import { ThemeOnlineBadge } from '../../ui/ThemeOnlineBadge'
-import { useAppSelector } from '../../../hooks/redux'
-import { SkeletonUser } from '../../ui/skeletons/SkeletonUser'
+import { useAuth } from '@providers/useAuth'
+import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
+import { useAppSelector } from '@hooks/redux'
+import { SkeletonUser } from '@ui/skeletons/SkeletonUser'
 
 type Props = {
   user: IUser | undefined

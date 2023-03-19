@@ -15,8 +15,8 @@ import {
   updateProfile,
   signInWithPopup,
 } from 'firebase/auth'
-import { useAuth } from '../../providers/useAuth'
-import { IUserData } from '../../../types'
+import { useAuth } from '@providers/useAuth'
+import { IUserData } from 'src/types'
 import { doc, runTransaction, setDoc } from 'firebase/firestore'
 import {
   Facebook,
@@ -26,9 +26,9 @@ import {
   VisibilityOff,
 } from '@mui/icons-material'
 import { emojis } from './emojis'
-import { ThemeTextFieldAuth } from '../../ui/ThemeTextField'
-import { ThemeButton } from '../../ui/ThemeButton'
-import { BackgroundPaperBox } from '../../ui/ThemeBox'
+import { ThemeTextFieldAuth } from '@ui/ThemeTextField'
+import { ThemeButton } from '@ui/ThemeButton'
+import { BackgroundPaperBox } from '@ui/ThemeBox'
 import { useTranslation } from 'react-i18next'
 
 interface TabPanelProps {

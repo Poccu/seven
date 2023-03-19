@@ -7,8 +7,8 @@ import {
   Group,
 } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { postsSlice } from '../../../store/reducers/PostsSlice'
+import { useAppDispatch, useAppSelector } from '@hooks/redux'
+import { postsSlice } from '@reducers/PostsSlice'
 
 export const NewsOrderBy: FC = () => {
   const { t } = useTranslation(['other'])

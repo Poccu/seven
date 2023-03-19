@@ -9,7 +9,7 @@ import EmojiPicker, {
   EmojiClickData,
 } from 'emoji-picker-react'
 import { useTranslation } from 'react-i18next'
-import { useAppSelector } from '../../../hooks/redux'
+import { useAppSelector } from '@hooks/redux'
 
 type Props = {
   setContent: React.Dispatch<React.SetStateAction<string>>

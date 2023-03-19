@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Box, Link, Typography } from '@mui/material'
-import { BorderBox } from '../../ui/ThemeBox'
+import { BorderBox } from '@ui/ThemeBox'
 import { builtWithList } from './builtWithList'
 import { useTranslation } from 'react-i18next'
 

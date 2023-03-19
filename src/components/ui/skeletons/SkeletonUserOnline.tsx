@@ -1,6 +1,6 @@
 import { Box, Skeleton, Typography } from '@mui/material'
 import { FC } from 'react'
-import { ThemeOnlineBadge } from '../ThemeOnlineBadge'
+import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
 
 export const SkeletonUserOnline: FC = () => {
   return (

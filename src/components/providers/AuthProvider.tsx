@@ -16,7 +16,7 @@ import {
   collection,
   query,
 } from 'firebase/firestore'
-import { IUser } from '../../types'
+import { IUser } from 'src/types'
 import { FirebaseStorage, getStorage } from 'firebase/storage'
 import {
   getDatabase,
@@ -27,9 +27,9 @@ import {
   serverTimestamp,
   Database,
 } from 'firebase/database'
-import { useAppDispatch } from '../../hooks/redux'
-import { userSlice } from '../../store/reducers/UserSlice'
-import { usersSlice } from '../../store/reducers/UsersSlice'
+import { useAppDispatch } from '@hooks/redux'
+import { userSlice } from '@reducers/UserSlice'
+import { usersSlice } from '@reducers/UsersSlice'
 
 type Props = {
   children: any

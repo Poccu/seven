@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { ThemeButton } from '../../ui/ThemeButton'
-import { BackgroundPaperBox } from '../../ui/ThemeBox'
+import { ThemeButton } from '@ui/ThemeButton'
+import { BackgroundPaperBox } from '@ui/ThemeBox'
 import { useTranslation } from 'react-i18next'
 
 export const NotFound: FC = () => {

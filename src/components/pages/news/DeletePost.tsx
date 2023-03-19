@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react'
 import { Box } from '@mui/material'
-import { useAuth } from '../../providers/useAuth'
-import { IPost } from '../../../types'
+import { useAuth } from '@providers/useAuth'
+import { IPost } from 'src/types'
 import { deleteDoc, doc } from 'firebase/firestore'
-import { ThemeButton } from '../../ui/ThemeButton'
+import { ThemeButton } from '@ui/ThemeButton'
 import { Clear } from '@mui/icons-material'
-import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
+import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
 import { useTranslation } from 'react-i18next'
 
 type Props = {

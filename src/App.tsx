@@ -3,7 +3,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import { RoutesList } from './components/routes/RoutesList'
 import { themeDark, themeLight } from './components/theme/themes'
 import './App.css'
-import { useAppSelector } from './hooks/redux'
+import { useAppSelector } from '@hooks/redux'
 
 export const App: FC = () => {
   const { theme } = useAppSelector((state) => state.global)

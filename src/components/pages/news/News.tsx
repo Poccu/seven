@@ -13,14 +13,14 @@ import {
 } from 'firebase/firestore'
 import { TransitionGroup } from 'react-transition-group'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { postsSlice } from '../../../store/reducers/PostsSlice'
+import { useAppDispatch, useAppSelector } from '@hooks/redux'
+import { postsSlice } from '@reducers/PostsSlice'
 import { NewsOrderBy } from './NewsOrderBy'
-import { SkeletonPost } from '../../ui/skeletons/SkeletonPost'
+import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 import { NewsPost } from './NewsPost'
 import { AddPost } from './AddPost'
-import { useAuth } from '../../providers/useAuth'
-import { IPost } from '../../../types'
+import { useAuth } from '@providers/useAuth'
+import { IPost } from 'src/types'
 
 export const News: FC = () => {
   const { t } = useTranslation(['news'])

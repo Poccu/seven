@@ -1,9 +1,9 @@
 import { Box, IconButton } from '@mui/material'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { ChangeEvent, FC, useState } from 'react'
-import { useAuth } from '../../providers/useAuth'
+import { useAuth } from '@providers/useAuth'
 import { AddAPhoto } from '@mui/icons-material'
-import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
+import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
 import { useTranslation } from 'react-i18next'
 
 type Props = {

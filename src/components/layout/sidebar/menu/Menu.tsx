@@ -9,7 +9,7 @@ import {
   Badge,
   Box,
 } from '@mui/material'
-import { BorderBox } from '../../../ui/ThemeBox'
+import { BorderBox } from '@ui/ThemeBox'
 import { useNavigate } from 'react-router-dom'
 import {
   BookmarkBorder,
@@ -17,7 +17,7 @@ import {
   Logout,
   Person,
 } from '@mui/icons-material'
-import { useAuth } from '../../../providers/useAuth'
+import { useAuth } from '@providers/useAuth'
 import { signOut } from 'firebase/auth'
 import { useTranslation } from 'react-i18next'
 import {
@@ -27,11 +27,11 @@ import {
   set,
   serverTimestamp,
 } from 'firebase/database'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
-import { userSlice } from '../../../../store/reducers/UserSlice'
-import { usersSlice } from '../../../../store/reducers/UsersSlice'
-import { postsSlice } from '../../../../store/reducers/PostsSlice'
-import { bookmarksSlice } from '../../../../store/reducers/BookmarksSlice'
+import { useAppDispatch, useAppSelector } from '@hooks/redux'
+import { userSlice } from '@reducers/UserSlice'
+import { usersSlice } from '@reducers/UsersSlice'
+import { postsSlice } from '@reducers/PostsSlice'
+import { bookmarksSlice } from '@reducers/BookmarksSlice'
 
 export const Menu: FC = () => {
   const { t } = useTranslation(['menu'])

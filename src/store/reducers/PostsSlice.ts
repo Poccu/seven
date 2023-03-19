@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IPost } from './../../types'
+import { IPost } from 'src/types'
 
 const initialState = {
   sortPostsBy: 'newest',

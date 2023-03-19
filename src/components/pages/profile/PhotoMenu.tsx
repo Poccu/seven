@@ -14,11 +14,11 @@ import { doc, setDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { updateProfile } from 'firebase/auth'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../../providers/useAuth'
-import { useAppSelector } from '../../../hooks/redux'
-import { MenuBox } from '../../ui/ThemeBox'
-import { ThemeLinearProgress } from '../../ui/ThemeLinearProgress'
-import { ThemeIconButton } from '../../ui/ThemeIconButton'
+import { useAuth } from '@providers/useAuth'
+import { useAppSelector } from '@hooks/redux'
+import { MenuBox } from '@ui/ThemeBox'
+import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
+import { ThemeIconButton } from '@ui/ThemeIconButton'
 
 export const PhotoMenu: FC = () => {
   const { t } = useTranslation(['profile'])

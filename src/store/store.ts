@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import globalReducer from './reducers/GlobalSlice'
-import userReducer from './reducers/UserSlice'
-import usersReducer from './reducers/UsersSlice'
-import postsReducer from './reducers/PostsSlice'
-import bookmarksReducer from './reducers/BookmarksSlice'
+import globalReducer from '@reducers/GlobalSlice'
+import userReducer from '@reducers/UserSlice'
+import usersReducer from '@reducers/UsersSlice'
+import postsReducer from '@reducers/PostsSlice'
+import bookmarksReducer from '@reducers/BookmarksSlice'
 import {
   persistStore,
   persistReducer,

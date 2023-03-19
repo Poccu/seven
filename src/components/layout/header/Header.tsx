@@ -10,11 +10,11 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
 import {
   BookmarkBorder,
   InfoOutlined,
   Logout,
+  Menu,
   Person,
 } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
@@ -22,7 +22,7 @@ import { DarkModeOutlined, LightModeOutlined } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
 import { Link as RouterLink } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { menu } from '../sidebar/menu/menuList'
 import {
   ref,
@@ -32,13 +32,13 @@ import {
   serverTimestamp,
 } from 'firebase/database'
 import { signOut } from 'firebase/auth'
-import { useAuth } from '../../providers/useAuth'
-import { StyledMenu } from '../../ui/ThemeMenu'
-import { globalSlice } from '../../../store/reducers/GlobalSlice'
-import { userSlice } from '../../../store/reducers/UserSlice'
-import { usersSlice } from '../../../store/reducers/UsersSlice'
-import { postsSlice } from '../../../store/reducers/PostsSlice'
-import { bookmarksSlice } from '../../../store/reducers/BookmarksSlice'
+import { useAuth } from '@providers/useAuth'
+import { StyledMenu } from '@ui/ThemeMenu'
+import { globalSlice } from '@reducers/GlobalSlice'
+import { userSlice } from '@reducers/UserSlice'
+import { usersSlice } from '@reducers/UsersSlice'
+import { postsSlice } from '@reducers/PostsSlice'
+import { bookmarksSlice } from '@reducers/BookmarksSlice'
 
 export const Header: FC = () => {
   const { t, i18n } = useTranslation(['menu'])
@@ -152,7 +152,7 @@ export const Header: FC = () => {
                     onClick={handleClick}
                     sx={{ width: '50px ', height: '50px' }}
                   >
-                    <MenuIcon fontSize="inherit" />
+                    <Menu fontSize="inherit" />
                   </IconButton>
                   <StyledMenu
                     id="basic-menu"

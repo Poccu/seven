@@ -1,16 +1,16 @@
 import { FC, useState } from 'react'
 import { Box, IconButton, Stack } from '@mui/material'
-import { useAuth } from '../../providers/useAuth'
-import { BorderBox } from '../../ui/ThemeBox'
+import { useAuth } from '@providers/useAuth'
+import { BorderBox } from '@ui/ThemeBox'
 import { doc, setDoc } from 'firebase/firestore'
-import { ThemeAvatar } from '../../ui/ThemeAvatar'
-import { ThemeTextFieldAddPost } from '../../ui/ThemeTextField'
+import { ThemeAvatar } from '@ui/ThemeAvatar'
+import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
 import { Link } from 'react-router-dom'
 import { AddPhotos } from './AddPhotos'
 import { useTranslation } from 'react-i18next'
 import { Clear, Send } from '@mui/icons-material'
 import { AddEmoji } from './AddEmoji'
-import { useAppSelector } from '../../../hooks/redux'
+import { useAppSelector } from '@hooks/redux'
 
 export const AddPost: FC = () => {
   const { t } = useTranslation(['news'])

@@ -6,7 +6,7 @@ import { Auth } from '../pages/auth/Auth'
 import { NotFound } from '../pages/notfound/NotFound'
 import { Profile } from '../pages/profile/Profile'
 import { routes } from './routes'
-import { useAppSelector } from '../../hooks/redux'
+import { useAppSelector } from '@hooks/redux'
 
 export const RoutesList: FC = () => {
   const { isAuth, uid } = useAppSelector((state) => state.user)

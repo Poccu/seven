@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import { App } from './App'
 import { SnackbarProvider } from 'notistack'
-import { AuthProvider } from './components/providers/AuthProvider'
+import { AuthProvider } from '@providers/AuthProvider'
 import { Grow } from '@mui/material'
 import './i18n'
 import './firebase'

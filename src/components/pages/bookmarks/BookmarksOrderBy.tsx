@@ -7,8 +7,8 @@ import {
   FavoriteBorder,
   Group,
 } from '@mui/icons-material'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { bookmarksSlice } from '../../../store/reducers/BookmarksSlice'
+import { useAppDispatch, useAppSelector } from '@hooks/redux'
+import { bookmarksSlice } from '@reducers/BookmarksSlice'
 
 export const BookmarksOrderBy: FC = () => {
   const { t } = useTranslation(['other'])
