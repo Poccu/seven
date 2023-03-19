@@ -1,5 +1,7 @@
 import { FC } from 'react'
+
 import { Skeleton, Stack, Typography } from '@mui/material'
+
 import { BorderBox } from '@ui/ThemeBox'
 
 export const SkeletonPost: FC = () => {

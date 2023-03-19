@@ -1,17 +1,20 @@
 import { FC } from 'react'
+import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import moment from 'moment'
+
 import { Box, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
+import { TaskAlt } from '@mui/icons-material'
+
+import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@providers/useAuth'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeProfileAvatar } from '@ui/ThemeAvatar'
-import { useParams } from 'react-router-dom'
+
 import { IPost, IUser } from 'src/types'
 import { PhotoMenu } from './PhotoMenu'
 import { AddFriend } from './AddFriend'
 import { FriendList } from './FriendList'
-import { TaskAlt } from '@mui/icons-material'
-import { useTranslation } from 'react-i18next'
-import moment from 'moment'
-import { useAppSelector } from '@hooks/redux'
 
 export const Profile: FC = () => {
   const { t } = useTranslation(['profile'])

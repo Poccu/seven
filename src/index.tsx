@@ -1,14 +1,17 @@
 import ReactDOM from 'react-dom/client'
-import { App } from './App'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import { SnackbarProvider } from 'notistack'
-import { AuthProvider } from '@providers/AuthProvider'
+
 import { Grow } from '@mui/material'
+
+import { AuthProvider } from '@providers/AuthProvider'
+
+import store, { persistor } from './store/store'
+import { App } from './App'
+import { initI18next } from './i18n'
 import './i18n'
 import './firebase'
-import { Provider } from 'react-redux'
-import store, { persistor } from './store/store'
-import { PersistGate } from 'redux-persist/integration/react'
-import { initI18next } from './i18n'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 

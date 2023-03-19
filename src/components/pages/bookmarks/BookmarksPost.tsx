@@ -1,4 +1,10 @@
 import { FC, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { TransitionGroup } from 'react-transition-group'
+import { doc, runTransaction } from 'firebase/firestore'
+import moment from 'moment'
+
 import {
   alpha,
   AvatarGroup,
@@ -20,20 +26,17 @@ import {
   TaskAlt,
   Visibility,
 } from '@mui/icons-material'
-import { doc, runTransaction } from 'firebase/firestore'
-import moment from 'moment'
-import { Link } from 'react-router-dom'
-import { TransitionGroup } from 'react-transition-group'
-import { BorderBox } from '@ui/ThemeBox'
-import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
-import { ThemeAvatar } from '@ui/ThemeAvatar'
-import { ThemeTooltip } from '@ui/ThemeTooltip'
-import { IComment, IPost, IUser } from 'src/types'
-import { useAuth } from '@providers/useAuth'
+
 import { useAppSelector } from '@hooks/redux'
-import { useTranslation } from 'react-i18next'
+import { useAuth } from '@providers/useAuth'
+import { BorderBox } from '@ui/ThemeBox'
+import { ThemeAvatar } from '@ui/ThemeAvatar'
+import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
+import { ThemeTooltip } from '@ui/ThemeTooltip'
 import { ModalLikes } from '@modals/ModalLikes'
 import { ModalImage } from '@modals/ModalImage'
+
+import { IComment, IPost, IUser } from 'src/types'
 
 type Props = {
   post: IPost

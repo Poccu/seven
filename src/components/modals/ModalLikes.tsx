@@ -1,13 +1,16 @@
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import { Box, IconButton, Modal, Stack, Typography } from '@mui/material'
 import { Clear, Favorite } from '@mui/icons-material'
-import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+
 import { useAppSelector } from '@hooks/redux'
-import { IUser } from 'src/types'
-import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { BorderBox } from '@ui/ThemeBox'
+import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeLikeIconButton } from '@ui/ThemeIconButton'
+
+import { IUser } from 'src/types'
 
 type Props = {
   openModal: boolean

@@ -1,10 +1,13 @@
 import { FC, useState } from 'react'
-import { Box, Button, Stack } from '@mui/material'
-import { useAuth } from '@providers/useAuth'
-import { IPost } from 'src/types'
-import { doc, setDoc } from 'firebase/firestore'
-import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
 import { useTranslation } from 'react-i18next'
+import { doc, setDoc } from 'firebase/firestore'
+
+import { Box, Button, Stack } from '@mui/material'
+
+import { useAuth } from '@providers/useAuth'
+import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
+
+import { IPost } from 'src/types'
 import { AddEmoji } from './AddEmoji'
 
 type Props = {

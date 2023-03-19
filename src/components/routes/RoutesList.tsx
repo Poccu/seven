@@ -1,12 +1,15 @@
 import { FC } from 'react'
-import { Box } from '@mui/material'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
+import { Box } from '@mui/material'
+
+import { useAppSelector } from '@hooks/redux'
+
+import { routes } from './routes'
 import { Layout } from '../layout/Layout'
 import { Auth } from '../pages/auth/Auth'
 import { NotFound } from '../pages/notfound/NotFound'
 import { Profile } from '../pages/profile/Profile'
-import { routes } from './routes'
-import { useAppSelector } from '@hooks/redux'
 
 export const RoutesList: FC = () => {
   const { isAuth, uid } = useAppSelector((state) => state.user)

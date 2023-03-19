@@ -1,15 +1,18 @@
 import { FC, useState } from 'react'
-import { Divider, IconButton, Stack } from '@mui/material'
-import { useAuth } from '@providers/useAuth'
-import { doc, runTransaction } from 'firebase/firestore'
-import { ThemeAvatar } from '@ui/ThemeAvatar'
-import { IPost } from 'src/types'
-import { ThemeTextFieldAddComment } from '@ui/ThemeTextField'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { AddEmoji } from './AddEmoji'
-import { useAppSelector } from '@hooks/redux'
+import { doc, runTransaction } from 'firebase/firestore'
+
+import { Divider, IconButton, Stack } from '@mui/material'
 import { Send } from '@mui/icons-material'
+
+import { useAppSelector } from '@hooks/redux'
+import { useAuth } from '@providers/useAuth'
+import { ThemeAvatar } from '@ui/ThemeAvatar'
+import { ThemeTextFieldAddComment } from '@ui/ThemeTextField'
+
+import { IPost } from 'src/types'
+import { AddEmoji } from './AddEmoji'
 
 type Props = {
   post: IPost

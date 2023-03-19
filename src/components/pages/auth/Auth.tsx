@@ -1,4 +1,13 @@
 import { FC, SyntheticEvent, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { doc, runTransaction, setDoc } from 'firebase/firestore'
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+  signInWithPopup,
+} from 'firebase/auth'
+
 import {
   Box,
   Typography,
@@ -10,26 +19,20 @@ import {
   Divider,
 } from '@mui/material'
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-  signInWithPopup,
-} from 'firebase/auth'
-import { useAuth } from '@providers/useAuth'
-import { IUserData } from 'src/types'
-import { doc, runTransaction, setDoc } from 'firebase/firestore'
-import {
   Facebook,
   GitHub,
   Google,
   Visibility,
   VisibilityOff,
 } from '@mui/icons-material'
-import { emojis } from './emojis'
+
+import { useAuth } from '@providers/useAuth'
 import { ThemeTextFieldAuth } from '@ui/ThemeTextField'
 import { ThemeButton } from '@ui/ThemeButton'
 import { BackgroundPaperBox } from '@ui/ThemeBox'
-import { useTranslation } from 'react-i18next'
+
+import { IUserData } from 'src/types'
+import { emojis } from './emojis'
 
 interface TabPanelProps {
   children?: React.ReactNode

@@ -1,12 +1,14 @@
 import { FC } from 'react'
-import { Chip, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+
+import { Chip, Stack, Typography } from '@mui/material'
 import {
   ExpandLess,
   ExpandMore,
   FavoriteBorder,
   Group,
 } from '@mui/icons-material'
+
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { bookmarksSlice } from '@reducers/BookmarksSlice'
 

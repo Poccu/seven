@@ -1,8 +1,11 @@
 import { FC } from 'react'
-import { Box, Link, Typography } from '@mui/material'
-import { BorderBox } from '@ui/ThemeBox'
-import { builtWithList } from './builtWithList'
 import { useTranslation } from 'react-i18next'
+
+import { Box, Link, Typography } from '@mui/material'
+
+import { BorderBox } from '@ui/ThemeBox'
+
+import { builtWithList } from './builtWithList'
 
 export const About: FC = () => {
   const { t } = useTranslation(['about'])

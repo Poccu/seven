@@ -1,5 +1,6 @@
 import { FC, useEffect } from 'react'
-import { Collapse, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { TransitionGroup } from 'react-transition-group'
 import {
   collection,
   query,
@@ -9,16 +10,18 @@ import {
   runTransaction,
   where,
 } from 'firebase/firestore'
-import { IPost } from 'src/types'
-import { useAuth } from '@providers/useAuth'
-import { BorderBox } from '@ui/ThemeBox'
-import { TransitionGroup } from 'react-transition-group'
-import { useTranslation } from 'react-i18next'
+
+import { Collapse, Typography } from '@mui/material'
+
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
+import { useAuth } from '@providers/useAuth'
 import { bookmarksSlice } from '@reducers/BookmarksSlice'
-import { BookmarksOrderBy } from './BookmarksOrderBy'
-import { BookmarksPost } from './BookmarksPost'
+import { BorderBox } from '@ui/ThemeBox'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
+
+import { IPost } from 'src/types'
+import { BookmarksPost } from './BookmarksPost'
+import { BookmarksOrderBy } from './BookmarksOrderBy'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])

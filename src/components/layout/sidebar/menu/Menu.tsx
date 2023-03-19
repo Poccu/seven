@@ -1,5 +1,15 @@
 import { FC } from 'react'
-import { menu } from './menuList'
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { signOut } from 'firebase/auth'
+import {
+  ref,
+  onValue,
+  onDisconnect,
+  set,
+  serverTimestamp,
+} from 'firebase/database'
+
 import {
   List,
   ListItem,
@@ -9,29 +19,22 @@ import {
   Badge,
   Box,
 } from '@mui/material'
-import { BorderBox } from '@ui/ThemeBox'
-import { useNavigate } from 'react-router-dom'
 import {
   BookmarkBorder,
   InfoOutlined,
   Logout,
   Person,
 } from '@mui/icons-material'
-import { useAuth } from '@providers/useAuth'
-import { signOut } from 'firebase/auth'
-import { useTranslation } from 'react-i18next'
-import {
-  ref,
-  onValue,
-  onDisconnect,
-  set,
-  serverTimestamp,
-} from 'firebase/database'
+
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
+import { useAuth } from '@providers/useAuth'
 import { userSlice } from '@reducers/UserSlice'
 import { usersSlice } from '@reducers/UsersSlice'
 import { postsSlice } from '@reducers/PostsSlice'
 import { bookmarksSlice } from '@reducers/BookmarksSlice'
+import { BorderBox } from '@ui/ThemeBox'
+
+import { menu } from './menuList'
 
 export const Menu: FC = () => {
   const { t } = useTranslation(['menu'])

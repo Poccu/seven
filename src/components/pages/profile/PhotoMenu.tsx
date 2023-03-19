@@ -1,4 +1,9 @@
 import { ChangeEvent, FC, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { doc, setDoc } from 'firebase/firestore'
+import { updateProfile } from 'firebase/auth'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+
 import {
   Box,
   ClickAwayListener,
@@ -10,15 +15,12 @@ import {
   Typography,
 } from '@mui/material'
 import { Clear, Edit, Upload } from '@mui/icons-material'
-import { doc, setDoc } from 'firebase/firestore'
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import { updateProfile } from 'firebase/auth'
-import { useTranslation } from 'react-i18next'
-import { useAuth } from '@providers/useAuth'
+
 import { useAppSelector } from '@hooks/redux'
+import { useAuth } from '@providers/useAuth'
 import { MenuBox } from '@ui/ThemeBox'
-import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
 import { ThemeIconButton } from '@ui/ThemeIconButton'
+import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
 
 export const PhotoMenu: FC = () => {
   const { t } = useTranslation(['profile'])

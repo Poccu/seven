@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+
 import { IGlobalState } from 'src/types'
 
 const preferredLanguage = navigator.language.slice(0, 2) === 'ru' ? 'ru' : 'en'

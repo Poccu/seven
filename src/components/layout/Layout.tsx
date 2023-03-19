@@ -1,11 +1,14 @@
 import { FC, ReactElement } from 'react'
+
 import { Container } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
+import Grid2 from '@mui/material/Unstable_Grid2'
+import { Analytics } from '@vercel/analytics/react'
+
+import { useAppSelector } from '@hooks/redux'
+
 import { Sidebar } from './sidebar/Sidebar'
 import { Header } from './header/Header'
 import { Footer } from './footer/Footer'
-import { useAppSelector } from '@hooks/redux'
-import { Analytics } from '@vercel/analytics/react'
 
 type Props = {
   children: ReactElement

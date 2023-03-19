@@ -1,4 +1,8 @@
 import { FC, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { doc, runTransaction } from 'firebase/firestore'
+import { useSnackbar } from 'notistack'
+
 import {
   Box,
   ClickAwayListener,
@@ -17,13 +21,12 @@ import {
   Clear,
   Edit,
 } from '@mui/icons-material'
-import { doc, runTransaction } from 'firebase/firestore'
-import { useSnackbar } from 'notistack'
-import { useTranslation } from 'react-i18next'
-import { useAuth } from '@providers/useAuth'
-import { IPost } from 'src/types'
-import { MenuBox } from '@ui/ThemeBox'
+
 import { useAppSelector } from '@hooks/redux'
+import { useAuth } from '@providers/useAuth'
+import { MenuBox } from '@ui/ThemeBox'
+
+import { IPost } from 'src/types'
 
 type Props = {
   post: IPost

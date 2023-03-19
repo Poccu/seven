@@ -1,5 +1,6 @@
-import { Box, Skeleton, Typography } from '@mui/material'
 import { FC } from 'react'
+
+import { Box, Skeleton, Typography } from '@mui/material'
 
 export const SkeletonUser: FC = () => {
   return (

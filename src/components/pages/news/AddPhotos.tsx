@@ -1,10 +1,12 @@
-import { Box, IconButton } from '@mui/material'
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import { ChangeEvent, FC, useState } from 'react'
-import { useAuth } from '@providers/useAuth'
-import { AddAPhoto } from '@mui/icons-material'
-import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
+import { FC, useState, ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+
+import { Box, IconButton } from '@mui/material'
+import { AddAPhoto } from '@mui/icons-material'
+
+import { useAuth } from '@providers/useAuth'
+import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
 
 type Props = {
   setImages: React.Dispatch<React.SetStateAction<string[]>>

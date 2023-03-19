@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
-import { Collapse } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { TransitionGroup } from 'react-transition-group'
 import {
   collection,
   onSnapshot,
@@ -11,16 +12,18 @@ import {
   getDocs,
   DocumentData,
 } from 'firebase/firestore'
-import { TransitionGroup } from 'react-transition-group'
-import { useTranslation } from 'react-i18next'
+
+import { Collapse } from '@mui/material'
+
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
+import { useAuth } from '@providers/useAuth'
 import { postsSlice } from '@reducers/PostsSlice'
-import { NewsOrderBy } from './NewsOrderBy'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
+
+import { IPost } from 'src/types'
+import { NewsOrderBy } from './NewsOrderBy'
 import { NewsPost } from './NewsPost'
 import { AddPost } from './AddPost'
-import { useAuth } from '@providers/useAuth'
-import { IPost } from 'src/types'
 
 export const News: FC = () => {
   const { t } = useTranslation(['news'])

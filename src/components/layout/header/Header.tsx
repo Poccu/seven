@@ -1,4 +1,16 @@
 import { FC, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { signOut } from 'firebase/auth'
+import {
+  ref,
+  onValue,
+  onDisconnect,
+  set,
+  serverTimestamp,
+} from 'firebase/database'
+import moment from 'moment'
+
 import {
   AppBar,
   Box,
@@ -12,33 +24,24 @@ import {
 } from '@mui/material'
 import {
   BookmarkBorder,
+  DarkModeOutlined,
   InfoOutlined,
+  LightModeOutlined,
   Logout,
   Menu,
   Person,
 } from '@mui/icons-material'
-import { Link, useNavigate } from 'react-router-dom'
-import { DarkModeOutlined, LightModeOutlined } from '@mui/icons-material'
-import { useTranslation } from 'react-i18next'
-import moment from 'moment'
-import { Link as RouterLink } from 'react-router-dom'
+
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
-import { menu } from '../sidebar/menu/menuList'
-import {
-  ref,
-  onValue,
-  onDisconnect,
-  set,
-  serverTimestamp,
-} from 'firebase/database'
-import { signOut } from 'firebase/auth'
 import { useAuth } from '@providers/useAuth'
-import { StyledMenu } from '@ui/ThemeMenu'
 import { globalSlice } from '@reducers/GlobalSlice'
 import { userSlice } from '@reducers/UserSlice'
 import { usersSlice } from '@reducers/UsersSlice'
 import { postsSlice } from '@reducers/PostsSlice'
 import { bookmarksSlice } from '@reducers/BookmarksSlice'
+import { StyledMenu } from '@ui/ThemeMenu'
+
+import { menu } from '../sidebar/menu/menuList'
 
 export const Header: FC = () => {
   const { t, i18n } = useTranslation(['menu'])
@@ -164,7 +167,7 @@ export const Header: FC = () => {
                     }}
                   >
                     <MenuItem
-                      component={RouterLink}
+                      component={Link}
                       to={`/profile/${uid}`}
                       onClick={handleClose}
                     >
@@ -173,7 +176,7 @@ export const Header: FC = () => {
                     </MenuItem>
                     {menu.map((item, index) => (
                       <MenuItem
-                        component={RouterLink}
+                        component={Link}
                         to={item.link}
                         onClick={handleClose}
                         key={`menu${index}`}
@@ -183,7 +186,7 @@ export const Header: FC = () => {
                       </MenuItem>
                     ))}
                     <MenuItem
-                      component={RouterLink}
+                      component={Link}
                       to="/bookmarks"
                       onClick={handleClose}
                     >
@@ -192,7 +195,7 @@ export const Header: FC = () => {
                     </MenuItem>
                     <Divider />
                     <MenuItem
-                      component={RouterLink}
+                      component={Link}
                       to="/about"
                       onClick={handleClose}
                     >
@@ -200,11 +203,7 @@ export const Header: FC = () => {
                       <ListItemText>{t('About')}</ListItemText>
                     </MenuItem>
                     <Divider />
-                    <MenuItem
-                      component={RouterLink}
-                      to="/"
-                      onClick={handleLogout}
-                    >
+                    <MenuItem component={Link} to="/" onClick={handleLogout}>
                       <Logout />
                       <ListItemText>{t('Logout')}</ListItemText>
                     </MenuItem>

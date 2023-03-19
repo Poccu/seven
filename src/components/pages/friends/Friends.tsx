@@ -1,12 +1,14 @@
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import { Skeleton, Stack, Typography } from '@mui/material'
+
+import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@providers/useAuth'
 import { BorderBox } from '@ui/ThemeBox'
-import { Link } from 'react-router-dom'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
-import { useTranslation } from 'react-i18next'
 import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
-import { useAppSelector } from '@hooks/redux'
 
 export const Friends: FC = () => {
   const { t } = useTranslation(['friends'])

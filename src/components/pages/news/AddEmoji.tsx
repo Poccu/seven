@@ -1,6 +1,5 @@
 import { FC, useRef, useState } from 'react'
-import { Box, Grow, IconButton, Popper } from '@mui/material'
-import { Mood } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 import EmojiPicker, {
   EmojiStyle,
   SkinTones,
@@ -8,7 +7,10 @@ import EmojiPicker, {
   Categories,
   EmojiClickData,
 } from 'emoji-picker-react'
-import { useTranslation } from 'react-i18next'
+
+import { Box, Grow, IconButton, Popper } from '@mui/material'
+import { Mood } from '@mui/icons-material'
+
 import { useAppSelector } from '@hooks/redux'
 
 type Props = {

@@ -1,5 +1,7 @@
 import { FC } from 'react'
+
 import { IconButton, Stack } from '@mui/material'
+
 import { socials } from './socialsList'
 
 export const Socials: FC = () => {

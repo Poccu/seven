@@ -1,4 +1,6 @@
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
+
 import { Chip, Stack, Typography } from '@mui/material'
 import {
   ExpandLess,
@@ -6,7 +8,7 @@ import {
   FavoriteBorder,
   Group,
 } from '@mui/icons-material'
-import { useTranslation } from 'react-i18next'
+
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { postsSlice } from '@reducers/PostsSlice'
 
