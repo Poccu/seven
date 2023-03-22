@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IPost } from 'src/types'
+import { IPost } from 'src/types/types'
 
 const initialState = {
   sortBookmarksBy: 'newest',
@@ -80,4 +80,4 @@ export const {
   setBookmarksByControversial,
 } = bookmarksSlice.actions
 
-export default bookmarksSlice.reducer
+export const bookmarksReducer = bookmarksSlice.reducer

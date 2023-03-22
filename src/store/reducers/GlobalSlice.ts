@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { IGlobalState } from 'src/types'
+import { IGlobalState } from 'src/types/types'
 
 const preferredLanguage = navigator.language.slice(0, 2) === 'ru' ? 'ru' : 'en'
 const preferredTheme = window.matchMedia('(prefers-color-scheme: light)')
@@ -38,4 +38,4 @@ export const globalSlice = createSlice({
 export const { setLangRU, setLangEN, setThemeLight, setThemeDark } =
   globalSlice.actions
 
-export default globalSlice.reducer
+export const globalReducer = globalSlice.reducer

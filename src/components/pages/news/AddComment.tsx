@@ -8,10 +8,11 @@ import { Send } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
+import { generateUniqueId } from '@utils/generateUniqueId'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeTextFieldAddComment } from '@ui/ThemeTextField'
 
-import { IPost } from 'src/types'
+import { IPost } from 'src/types/types'
 import { AddEmoji } from './AddEmoji'
 
 type Props = {
@@ -30,20 +31,6 @@ export const AddComment: FC<Props> = ({ post }) => {
 
   const handleSendComment = async (e: any) => {
     if (content.trim()) {
-      let charList =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
-
-      let idDb = ''
-
-      if (charList) {
-        let x = 20
-        while (x > 0) {
-          let index = Math.floor(Math.random() * charList.length) // pick random index from charList
-          idDb += charList[index]
-          x--
-        }
-      }
-
       const docRef = doc(db, 'posts', post.id)
 
       try {
@@ -62,7 +49,7 @@ export const AddComment: FC<Props> = ({ post }) => {
               createdAt: Date.now(),
               images: [],
               likes: [],
-              id: idDb,
+              id: generateUniqueId(),
             },
           ]
 

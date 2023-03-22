@@ -8,7 +8,7 @@ import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
 import { ThemeButton } from '@ui/ThemeButton'
 
-import { IUser } from 'src/types'
+import { IUser } from 'src/types/types'
 
 export const AddFriend: FC = () => {
   const { t } = useTranslation(['profile'])

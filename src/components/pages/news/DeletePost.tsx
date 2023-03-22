@@ -9,7 +9,7 @@ import { useAuth } from '@hooks/useAuth'
 import { ThemeButton } from '@ui/ThemeButton'
 import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
 
-import { IPost } from 'src/types'
+import { IPost } from 'src/types/types'
 
 type Props = {
   post: IPost
@@ -46,7 +46,7 @@ export const DeletePost: FC<Props> = ({
   }
 
   const handleUndo = () => {
-    let newArr = deletedPosts.filter((x) => x.id !== post.id)
+    const newArr = deletedPosts.filter((x) => x.id !== post.id)
     setDeletedPosts(newArr)
   }
 

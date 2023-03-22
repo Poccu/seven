@@ -11,7 +11,7 @@ import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
 import { SkeletonUser } from '@ui/skeletons/SkeletonUser'
 
-import { IUser } from 'src/types'
+import { IUser } from 'src/types/types'
 
 type Props = {
   user: IUser | undefined
@@ -27,7 +27,7 @@ export const FriendList: FC<Props> = ({ user }) => {
   const { users } = useAppSelector((state) => state.users)
 
   return (
-    <BorderBox sx={{ mt: 2, p: 2 }}>
+    <BorderBox sx={{ p: 2, mb: 2 }}>
       {usersRdbList.length > 0 && user?.uid ? (
         <>
           {user.friends.length > 0 ? (

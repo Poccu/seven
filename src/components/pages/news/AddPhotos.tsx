@@ -6,6 +6,7 @@ import { Box, IconButton } from '@mui/material'
 import { AddAPhoto } from '@mui/icons-material'
 
 import { useAuth } from '@hooks/useAuth'
+import { generateUniqueId } from '@utils/generateUniqueId'
 import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
 
 type Props = {
@@ -21,29 +22,16 @@ export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
 
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
+    const uniqueId = generateUniqueId()
 
-    let charList =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
-
-    let idDb = ''
-
-    if (charList) {
-      let x = 20
-      while (x > 0) {
-        let index = Math.floor(Math.random() * charList.length) // pick random index from charList
-        idDb += charList[index]
-        x--
-      }
-    }
-
-    setImagesIdDb(idDb)
+    setImagesIdDb(uniqueId)
 
     if (e.target.files) {
       const files = e.target.files
       const filesArr = Object.values(files)
 
       filesArr.forEach((file) => {
-        const storageRef = ref(st, `images/posts/${idDb}/${file?.name}`)
+        const storageRef = ref(st, `images/posts/${uniqueId}/${file?.name}`)
         const uploadTask = uploadBytesResumable(storageRef, file)
 
         // Listen for state changes, errors, and completion of the upload.

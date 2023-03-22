@@ -27,12 +27,12 @@ import {
 } from '@mui/icons-material'
 
 import { useAuth } from '@hooks/useAuth'
+import { getRandomEmoji } from '@utils/getRandomEmoji'
 import { ThemeTextFieldAuth } from '@ui/ThemeTextField'
 import { ThemeButton } from '@ui/ThemeButton'
 import { BackgroundPaperBox } from '@ui/ThemeBox'
 
-import { IUserData } from 'src/types'
-import { emojis } from './emojis'
+import { IUserData } from 'src/types/types'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -118,8 +118,6 @@ export const Auth: FC = () => {
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const random = Math.floor(Math.random() * emojis.length)
-
     if (isRegForm) {
       await createUserWithEmailAndPassword(
         ga,
@@ -150,7 +148,7 @@ export const Auth: FC = () => {
               createdAt:
                 user.metadata.creationTime &&
                 +new Date(user.metadata.creationTime).getTime(),
-              emoji: emojis[random],
+              emoji: getRandomEmoji(),
             })
           } catch (e) {
             console.error('Error adding document: ', e)
@@ -177,8 +175,6 @@ export const Auth: FC = () => {
   }
 
   const handleGoogleLogin = () => {
-    const random = Math.floor(Math.random() * emojis.length)
-
     signInWithPopup(ga, gProvider)
       .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -208,7 +204,7 @@ export const Auth: FC = () => {
                   createdAt:
                     user.metadata.creationTime &&
                     +new Date(user.metadata.creationTime).getTime(),
-                  emoji: emojis[random],
+                  emoji: getRandomEmoji(),
                 })
               } catch (e) {
                 console.error('Error adding document: ', e)
@@ -233,8 +229,6 @@ export const Auth: FC = () => {
   }
 
   const handleGithubLogin = () => {
-    const random = Math.floor(Math.random() * emojis.length)
-
     signInWithPopup(ga, gitProvider)
       .then(async (result) => {
         // // This gives you a GitHub Access Token. You can use it to access the GitHub API.
@@ -264,7 +258,7 @@ export const Auth: FC = () => {
                   createdAt:
                     user.metadata.creationTime &&
                     +new Date(user.metadata.creationTime).getTime(),
-                  emoji: emojis[random],
+                  emoji: getRandomEmoji(),
                 })
               } catch (e) {
                 console.error('Error adding document: ', e)
@@ -289,8 +283,6 @@ export const Auth: FC = () => {
   }
 
   const handleFacebookLogin = () => {
-    const random = Math.floor(Math.random() * emojis.length)
-
     signInWithPopup(ga, fProvider)
       .then(async (result) => {
         // // This gives you a Facebook Access Token. You can use it to access the Facebook API.
@@ -320,7 +312,7 @@ export const Auth: FC = () => {
                   createdAt:
                     user.metadata.creationTime &&
                     +new Date(user.metadata.creationTime).getTime(),
-                  emoji: emojis[random],
+                  emoji: getRandomEmoji(),
                 })
               } catch (e) {
                 console.error('Error adding document: ', e)

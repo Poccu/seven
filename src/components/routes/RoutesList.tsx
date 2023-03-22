@@ -25,19 +25,17 @@ export const RoutesList: FC = () => {
     >
       <Router>
         <Routes>
-          {routes.map((route, index) => {
-            return (
-              <Route
-                path={route.path}
-                element={
-                  <Layout>
-                    {route.auth && isAuth ? <route.component /> : <Auth />}
-                  </Layout>
-                }
-                key={`route${index}`}
-              />
-            )
-          })}
+          {routes.map((route, index) => (
+            <Route
+              path={route.path}
+              element={
+                <Layout>
+                  {route.auth && isAuth ? <route.component /> : <Auth />}
+                </Layout>
+              }
+              key={`route${index}`}
+            />
+          ))}
           <Route
             path={`/profile/${uid}`}
             element={

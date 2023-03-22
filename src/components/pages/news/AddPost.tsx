@@ -8,6 +8,7 @@ import { Clear, Send } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
+import { generateUniqueId } from '@utils/generateUniqueId'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
@@ -30,22 +31,10 @@ export const AddPost: FC = () => {
 
   const handleSendPost = async (e: any) => {
     if (content.trim() || images.length > 0) {
-      let charList =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
-
-      let idDb = ''
-
-      if (charList) {
-        let x = 20
-        while (x > 0) {
-          let index = Math.floor(Math.random() * charList.length) // pick random index from charList
-          idDb += charList[index]
-          x--
-        }
-      }
+      const uniqueId = generateUniqueId()
 
       try {
-        await setDoc(doc(db, 'posts', imagesIdDb || idDb), {
+        await setDoc(doc(db, 'posts', imagesIdDb || uniqueId), {
           author: { uid, displayName, photoURL, emoji },
           content: content.trim(),
           createdAt: Date.now(),
@@ -54,7 +43,7 @@ export const AddPost: FC = () => {
           bookmarks: [],
           images,
           views: 0,
-          id: imagesIdDb || idDb,
+          id: imagesIdDb || uniqueId,
         })
 
         setContent('')

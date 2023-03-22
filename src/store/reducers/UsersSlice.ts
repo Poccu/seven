@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IUser } from 'src/types'
+import { IUser } from 'src/types/types'
 
 const initialState = {
   users: [] as IUser[],
@@ -22,4 +22,4 @@ export const usersSlice = createSlice({
 
 export const { setUsers, removeUsers } = usersSlice.actions
 
-export default usersSlice.reducer
+export const usersReducer = usersSlice.reducer

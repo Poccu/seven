@@ -10,7 +10,7 @@ import { BorderBox } from '@ui/ThemeBox'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeLikeIconButton } from '@ui/ThemeIconButton'
 
-import { IUser } from 'src/types'
+import { IUser } from 'src/types/types'
 
 type Props = {
   openModal: boolean

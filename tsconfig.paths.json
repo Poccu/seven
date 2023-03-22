@@ -2,8 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@assets/*": ["./src/assets/*"],
       "@reducers/*": ["./src/store/reducers/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@utils/*": ["./src/utils/*"],
       "@layout/*": ["./src/components/layout/*"],
       "@modals/*": ["./src/components/modals/*"],
       "@pages/*": ["./src/components/pages/*"],

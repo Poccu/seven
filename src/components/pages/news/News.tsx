@@ -20,7 +20,7 @@ import { useAuth } from '@hooks/useAuth'
 import { setPosts } from '@reducers/PostsSlice'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 
-import { IPost } from 'src/types'
+import { IPost } from 'src/types/types'
 import { NewsOrderBy } from './NewsOrderBy'
 import { NewsPost } from './NewsPost'
 import { AddPost } from './AddPost'

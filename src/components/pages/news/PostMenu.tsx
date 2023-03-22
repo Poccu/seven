@@ -26,7 +26,7 @@ import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
 import { MenuBox } from '@ui/ThemeBox'
 
-import { IPost } from 'src/types'
+import { IPost } from 'src/types/types'
 
 type Props = {
   post: IPost

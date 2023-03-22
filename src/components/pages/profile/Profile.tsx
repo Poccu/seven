@@ -11,7 +11,7 @@ import { useAuth } from '@hooks/useAuth'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeProfileAvatar } from '@ui/ThemeAvatar'
 
-import { IPost, IUser } from 'src/types'
+import { IPost, IUser } from 'src/types/types'
 import { PhotoMenu } from './PhotoMenu'
 import { AddFriend } from './AddFriend'
 import { FriendList } from './FriendList'
@@ -38,7 +38,7 @@ export const Profile: FC = () => {
 
   return (
     <>
-      <BorderBox sx={{ p: 3 }}>
+      <BorderBox sx={{ p: 3, mb: 2 }}>
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
           alignItems={{ xs: 'center', sm: 'flex-start' }}

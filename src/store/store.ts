@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
-import globalReducer from '@reducers/GlobalSlice'
-import userReducer from '@reducers/UserSlice'
-import usersReducer from '@reducers/UsersSlice'
-import postsReducer from '@reducers/PostsSlice'
-import bookmarksReducer from '@reducers/BookmarksSlice'
+import { globalReducer } from '@reducers/GlobalSlice'
+import { userReducer } from '@reducers/UserSlice'
+import { usersReducer } from '@reducers/UsersSlice'
+import { postsReducer } from '@reducers/PostsSlice'
+import { bookmarksReducer } from '@reducers/BookmarksSlice'
 
 import {
   persistStore,
@@ -35,7 +35,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const store = configureStore({
+export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -48,7 +48,6 @@ const store = configureStore({
 const setupStore = () => store
 
 export const persistor = persistStore(store)
-export default store
 
 export type RootState = ReturnType<typeof rootReducer>
 export type AppStore = ReturnType<typeof setupStore>

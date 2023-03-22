@@ -7,7 +7,7 @@ import { Box, Button, Stack } from '@mui/material'
 import { useAuth } from '@hooks/useAuth'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
 
-import { IComment, IPost } from 'src/types'
+import { IComment, IPost } from 'src/types/types'
 import { AddEmoji } from './AddEmoji'
 
 type Props = {

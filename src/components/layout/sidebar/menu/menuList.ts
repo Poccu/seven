@@ -1,6 +1,6 @@
 import * as Icons from '@mui/icons-material'
 
-import { IMenuItem } from 'src/types'
+import { IMenuItem } from 'src/types/types'
 
 export const menu: IMenuItem[] = [
   {

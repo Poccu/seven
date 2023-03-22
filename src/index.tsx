@@ -7,11 +7,10 @@ import { Grow } from '@mui/material'
 
 import { AuthProvider } from '@providers/AuthProvider'
 
-import store, { persistor } from './store/store'
+import { persistor, store } from './store/store'
+import { initI18next } from './config/i18n'
+import './config/firebase'
 import { App } from './App'
-import { initI18next } from './i18n'
-import './i18n'
-import './firebase'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IPost } from 'src/types'
+import { IPost } from 'src/types/types'
 
 const initialState = {
   sortPostsBy: 'newest',
@@ -70,4 +70,4 @@ export const {
   setPostsByControversial,
 } = postsSlice.actions
 
-export default postsSlice.reducer
+export const postsReducer = postsSlice.reducer

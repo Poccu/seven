@@ -19,7 +19,7 @@ import { setBookmarks } from '@reducers/BookmarksSlice'
 import { BorderBox } from '@ui/ThemeBox'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 
-import { IPost } from 'src/types'
+import { IPost } from 'src/types/types'
 import { BookmarksPost } from './BookmarksPost'
 import { BookmarksOrderBy } from './BookmarksOrderBy'
 
@@ -96,7 +96,7 @@ export const Bookmarks: FC = () => {
         [...Array(3).keys()].map((post) => <SkeletonPost key={post} />)
       )}
       {users.length > 0 && bookmarks.length === 0 && (
-        <BorderBox sx={{ mt: 2, p: 2 }}>
+        <BorderBox sx={{ p: 3, mb: 2 }}>
           <Typography
             variant="h4"
             textAlign="center"

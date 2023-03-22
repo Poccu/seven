@@ -31,7 +31,7 @@ import { useAppDispatch } from '@hooks/redux'
 import { setUser } from '@reducers/UserSlice'
 import { setUsers } from '@reducers/UsersSlice'
 
-import { IUser } from 'src/types'
+import { IUser } from 'src/types/types'
 
 type Props = {
   children: any

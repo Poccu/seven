@@ -36,7 +36,7 @@ import { ThemeTooltip } from '@ui/ThemeTooltip'
 import { ModalLikes } from '@modals/ModalLikes'
 import { ModalImage } from '@modals/ModalImage'
 
-import { IComment, IPost, IUser } from 'src/types'
+import { IComment, IPost, IUser } from 'src/types/types'
 import { PostMenu } from './PostMenu'
 import { EditPost } from './EditPost'
 import { DeletePost } from './DeletePost'

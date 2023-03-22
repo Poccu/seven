@@ -22,7 +22,7 @@ export const UsersOnline: FC = () => {
   )
 
   return (
-    <BorderBox sx={{ mt: 2, p: 2 }}>
+    <BorderBox sx={{ p: 2, mb: 2 }}>
       <Typography variant="body2" color="textSecondary">
         {usersRdbList.length > 0 ? (
           `Online ${onlineUsersList.length}`

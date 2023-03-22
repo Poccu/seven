@@ -67,7 +67,7 @@ export const Menu: FC = () => {
   }
 
   return (
-    <BorderBox>
+    <BorderBox sx={{ mb: 2 }}>
       <nav>
         <List>
           <ListItem disablePadding>
