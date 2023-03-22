@@ -28,8 +28,8 @@ import {
 import { FirebaseStorage, getStorage } from 'firebase/storage'
 
 import { useAppDispatch } from '@hooks/redux'
-import { userSlice } from '@reducers/UserSlice'
-import { usersSlice } from '@reducers/UsersSlice'
+import { setUser } from '@reducers/UserSlice'
+import { setUsers } from '@reducers/UsersSlice'
 
 import { IUser } from 'src/types'
 
@@ -53,8 +53,6 @@ export const AuthContext = createContext<IContext>({} as IContext)
 export const AuthProvider: FC<Props> = ({ children }) => {
   const [usersRdb, setUsersRdb] = useState<any>({})
 
-  const { setUser } = userSlice.actions
-  const { setUsers } = usersSlice.actions
   const dispatch = useAppDispatch()
 
   const ga = getAuth()

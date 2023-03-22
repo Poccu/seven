@@ -33,6 +33,7 @@ export const userSlice = createSlice({
       state.uid = action.payload.uid
       state.isAuth = action.payload.isAuth
     },
+
     removeUser(state) {
       state.bookmarks = null
       state.createdAt = null
@@ -48,5 +49,7 @@ export const userSlice = createSlice({
     },
   },
 })
+
+export const { setUser, removeUser } = userSlice.actions
 
 export default userSlice.reducer

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Box, Skeleton, Stack, Typography } from '@mui/material'
 
 import { useAppSelector } from '@hooks/redux'
-import { useAuth } from '@providers/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'

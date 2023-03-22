@@ -7,7 +7,7 @@ import { Divider, IconButton, Stack } from '@mui/material'
 import { Send } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
-import { useAuth } from '@providers/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeTextFieldAddComment } from '@ui/ThemeTextField'
 

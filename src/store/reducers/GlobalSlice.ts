@@ -20,16 +20,22 @@ export const globalSlice = createSlice({
     setLangRU(state) {
       state.language = 'ru'
     },
+
     setLangEN(state) {
       state.language = 'en'
     },
+
     setThemeLight(state) {
       state.theme = 'light'
     },
+
     setThemeDark(state) {
       state.theme = 'dark'
     },
   },
 })
+
+export const { setLangRU, setLangEN, setThemeLight, setThemeDark } =
+  globalSlice.actions
 
 export default globalSlice.reducer

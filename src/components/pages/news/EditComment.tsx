@@ -4,7 +4,7 @@ import { doc, runTransaction } from 'firebase/firestore'
 
 import { Box, Button, Stack } from '@mui/material'
 
-import { useAuth } from '@providers/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
 
 import { IComment, IPost } from 'src/types'

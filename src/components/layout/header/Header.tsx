@@ -33,12 +33,17 @@ import {
 } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
-import { useAuth } from '@providers/useAuth'
-import { globalSlice } from '@reducers/GlobalSlice'
-import { userSlice } from '@reducers/UserSlice'
-import { usersSlice } from '@reducers/UsersSlice'
-import { postsSlice } from '@reducers/PostsSlice'
-import { bookmarksSlice } from '@reducers/BookmarksSlice'
+import { useAuth } from '@hooks/useAuth'
+import {
+  setLangEN,
+  setLangRU,
+  setThemeDark,
+  setThemeLight,
+} from '@reducers/GlobalSlice'
+import { removeUser } from '@reducers/UserSlice'
+import { removeUsers } from '@reducers/UsersSlice'
+import { removePosts } from '@reducers/PostsSlice'
+import { removeBookmarks } from '@reducers/BookmarksSlice'
 import { StyledMenu } from '@ui/ThemeMenu'
 
 import { menu } from '../sidebar/menu/menuList'
@@ -53,12 +58,6 @@ export const Header: FC = () => {
 
   const { isAuth, uid } = useAppSelector((state) => state.user)
   const { language, theme } = useAppSelector((state) => state.global)
-  const { setLangRU, setLangEN, setThemeLight, setThemeDark } =
-    globalSlice.actions
-  const { removeUser } = userSlice.actions
-  const { removeUsers } = usersSlice.actions
-  const { removePosts } = postsSlice.actions
-  const { removeBookmarks } = bookmarksSlice.actions
   const dispatch = useAppDispatch()
 
   const handleClick = (event: any) => {

@@ -5,7 +5,7 @@ import { doc, runTransaction } from 'firebase/firestore'
 import { PersonAddAlt1, PersonRemoveAlt1 } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
-import { useAuth } from '@providers/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { ThemeButton } from '@ui/ThemeButton'
 
 import { IUser } from 'src/types'

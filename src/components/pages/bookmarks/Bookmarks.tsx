@@ -14,8 +14,8 @@ import {
 import { Collapse, Typography } from '@mui/material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
-import { useAuth } from '@providers/useAuth'
-import { bookmarksSlice } from '@reducers/BookmarksSlice'
+import { useAuth } from '@hooks/useAuth'
+import { setBookmarks } from '@reducers/BookmarksSlice'
 import { BorderBox } from '@ui/ThemeBox'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 
@@ -32,7 +32,6 @@ export const Bookmarks: FC = () => {
   const { uid } = useAppSelector((state) => state.user)
   const { users } = useAppSelector((state) => state.users)
   const { bookmarks } = useAppSelector((state) => state.bookmarks)
-  const { setBookmarks } = bookmarksSlice.actions
   const dispatch = useAppDispatch()
 
   useEffect(() => {

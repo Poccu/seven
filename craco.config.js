@@ -7,8 +7,10 @@ module.exports = {
     alias: {
       '@reducers': resolvePath('./src/store/reducers'),
       '@hooks': resolvePath('./src/hooks'),
-      '@providers': resolvePath('./src/components/providers'),
+      '@layout': resolvePath('./src/components/layout'),
       '@modals': resolvePath('./src/components/modals'),
+      '@pages': resolvePath('./src/components/pages'),
+      '@providers': resolvePath('./src/components/providers'),
       '@ui': resolvePath('./src/components/ui'),
     },
   },

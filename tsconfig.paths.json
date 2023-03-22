@@ -4,8 +4,10 @@
     "paths": {
       "@reducers/*": ["./src/store/reducers/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@providers/*": ["./src/components/providers/*"],
+      "@layout/*": ["./src/components/layout/*"],
       "@modals/*": ["./src/components/modals/*"],
+      "@pages/*": ["./src/components/pages/*"],
+      "@providers/*": ["./src/components/providers/*"],
       "@ui/*": ["./src/components/ui/*"]
     }
   }

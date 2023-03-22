@@ -16,48 +16,68 @@ export const bookmarksSlice = createSlice({
         state.bookmarks = action.payload.sort(
           (a, b) => +b.createdAt - +a.createdAt
         )
-      } else if (state.sortBookmarksBy === 'oldest') {
+      }
+
+      if (state.sortBookmarksBy === 'oldest') {
         state.bookmarks = action.payload.sort(
           (a, b) => +a.createdAt - +b.createdAt
         )
-      } else if (state.sortBookmarksBy === 'popularity') {
+      }
+
+      if (state.sortBookmarksBy === 'popularity') {
         state.bookmarks = action.payload.sort(
           (a, b) => b.likes.length - a.likes.length
         )
-      } else if (state.sortBookmarksBy === 'controversial') {
+      }
+
+      if (state.sortBookmarksBy === 'controversial') {
         state.bookmarks = action.payload.sort(
           (a, b) => b.comments.length - a.comments.length
         )
       }
     },
+
+    removeBookmarks(state) {
+      state.bookmarks = []
+    },
+
     setBookmarksByNewest(state) {
       state.sortBookmarksBy = 'newest'
       state.bookmarks = state.bookmarks.sort(
         (a, b) => +b.createdAt - +a.createdAt
       )
     },
+
     setBookmarksByOldest(state) {
       state.sortBookmarksBy = 'oldest'
       state.bookmarks = state.bookmarks.sort(
         (a, b) => +a.createdAt - +b.createdAt
       )
     },
+
     setBookmarksByPopularity(state) {
       state.sortBookmarksBy = 'popularity'
       state.bookmarks = state.bookmarks.sort(
         (a, b) => b.likes.length - a.likes.length
       )
     },
+
     setBookmarksByControversial(state) {
       state.sortBookmarksBy = 'controversial'
       state.bookmarks = state.bookmarks.sort(
         (a, b) => b.comments.length - a.comments.length
       )
     },
-    removeBookmarks(state) {
-      state.bookmarks = []
-    },
   },
 })
+
+export const {
+  setBookmarks,
+  removeBookmarks,
+  setBookmarksByNewest,
+  setBookmarksByOldest,
+  setBookmarksByPopularity,
+  setBookmarksByControversial,
+} = bookmarksSlice.actions
 
 export default bookmarksSlice.reducer

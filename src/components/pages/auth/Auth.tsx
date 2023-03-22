@@ -26,7 +26,7 @@ import {
   VisibilityOff,
 } from '@mui/icons-material'
 
-import { useAuth } from '@providers/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { ThemeTextFieldAuth } from '@ui/ThemeTextField'
 import { ThemeButton } from '@ui/ThemeButton'
 import { BackgroundPaperBox } from '@ui/ThemeBox'

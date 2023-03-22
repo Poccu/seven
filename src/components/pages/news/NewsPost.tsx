@@ -28,7 +28,7 @@ import {
 } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
-import { useAuth } from '@providers/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'

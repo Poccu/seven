@@ -16,8 +16,8 @@ import {
 import { Collapse } from '@mui/material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
-import { useAuth } from '@providers/useAuth'
-import { postsSlice } from '@reducers/PostsSlice'
+import { useAuth } from '@hooks/useAuth'
+import { setPosts } from '@reducers/PostsSlice'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 
 import { IPost } from 'src/types'
@@ -36,7 +36,6 @@ export const News: FC = () => {
 
   const { posts } = useAppSelector((state) => state.posts)
   const { users } = useAppSelector((state) => state.users)
-  const { setPosts } = postsSlice.actions
   const dispatch = useAppDispatch()
 
   useEffect(() => {

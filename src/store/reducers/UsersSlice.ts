@@ -13,10 +13,13 @@ export const usersSlice = createSlice({
     setUsers(state, action: PayloadAction<IUser[]>) {
       state.users = action.payload
     },
+
     removeUsers(state) {
       state.users = []
     },
   },
 })
+
+export const { setUsers, removeUsers } = usersSlice.actions
 
 export default usersSlice.reducer

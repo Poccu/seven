@@ -10,18 +10,17 @@ import {
 } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
-import { bookmarksSlice } from '@reducers/BookmarksSlice'
+import {
+  setBookmarksByControversial,
+  setBookmarksByNewest,
+  setBookmarksByOldest,
+  setBookmarksByPopularity,
+} from '@reducers/BookmarksSlice'
 
 export const BookmarksOrderBy: FC = () => {
   const { t } = useTranslation(['other'])
 
   const { sortBookmarksBy } = useAppSelector((state) => state.bookmarks)
-  const {
-    setBookmarksByNewest,
-    setBookmarksByOldest,
-    setBookmarksByPopularity,
-    setBookmarksByControversial,
-  } = bookmarksSlice.actions
   const dispatch = useAppDispatch()
 
   const handleSortBookmarksByNewest = () => {

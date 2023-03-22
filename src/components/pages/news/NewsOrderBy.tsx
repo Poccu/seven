@@ -10,18 +10,17 @@ import {
 } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
-import { postsSlice } from '@reducers/PostsSlice'
+import {
+  setPostsByControversial,
+  setPostsByNewest,
+  setPostsByOldest,
+  setPostsByPopularity,
+} from '@reducers/PostsSlice'
 
 export const NewsOrderBy: FC = () => {
   const { t } = useTranslation(['other'])
 
   const { sortPostsBy } = useAppSelector((state) => state.posts)
-  const {
-    setPostsByNewest,
-    setPostsByOldest,
-    setPostsByPopularity,
-    setPostsByControversial,
-  } = postsSlice.actions
   const dispatch = useAppDispatch()
 
   const handleSortPostsByNewest = () => {

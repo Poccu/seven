@@ -7,7 +7,7 @@ import { Box, IconButton, Stack } from '@mui/material'
 import { Clear, Send } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
-import { useAuth } from '@providers/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'

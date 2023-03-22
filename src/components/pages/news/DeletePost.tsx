@@ -5,7 +5,7 @@ import { deleteDoc, doc } from 'firebase/firestore'
 import { Box } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
-import { useAuth } from '@providers/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { ThemeButton } from '@ui/ThemeButton'
 import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
 

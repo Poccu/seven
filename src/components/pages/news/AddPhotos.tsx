@@ -5,7 +5,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { Box, IconButton } from '@mui/material'
 import { AddAPhoto } from '@mui/icons-material'
 
-import { useAuth } from '@providers/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
 
 type Props = {

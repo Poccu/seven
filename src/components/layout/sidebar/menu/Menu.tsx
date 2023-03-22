@@ -27,11 +27,11 @@ import {
 } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
-import { useAuth } from '@providers/useAuth'
-import { userSlice } from '@reducers/UserSlice'
-import { usersSlice } from '@reducers/UsersSlice'
-import { postsSlice } from '@reducers/PostsSlice'
-import { bookmarksSlice } from '@reducers/BookmarksSlice'
+import { useAuth } from '@hooks/useAuth'
+import { removeUser } from '@reducers/UserSlice'
+import { removeUsers } from '@reducers/UsersSlice'
+import { removePosts } from '@reducers/PostsSlice'
+import { removeBookmarks } from '@reducers/BookmarksSlice'
 import { BorderBox } from '@ui/ThemeBox'
 
 import { menu } from './menuList'
@@ -42,10 +42,6 @@ export const Menu: FC = () => {
   const navigate = useNavigate()
 
   const { uid, bookmarks } = useAppSelector((state) => state.user)
-  const { removeUser } = userSlice.actions
-  const { removeUsers } = usersSlice.actions
-  const { removePosts } = postsSlice.actions
-  const { removeBookmarks } = bookmarksSlice.actions
   const dispatch = useAppDispatch()
 
   const handleLogout = () => {

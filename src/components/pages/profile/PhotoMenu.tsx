@@ -17,7 +17,7 @@ import {
 import { Clear, Edit, Upload } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
-import { useAuth } from '@providers/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { MenuBox } from '@ui/ThemeBox'
 import { ThemeIconButton } from '@ui/ThemeIconButton'
 import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
