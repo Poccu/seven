@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import { Container } from '@mui/material'
 
-import { Socials } from './Socials'
+import { Socials } from './components/Socials'
 
 export const Footer: FC = () => {
   return (

@@ -1,6 +1,8 @@
 import * as Icons from '@mui/icons-material'
 
-export const socials: any[] = [
+import { ISocialsItem } from 'src/types/types'
+
+export const socials: ISocialsItem[] = [
   {
     link: 'https://t.me/mordoboy',
     icon: Icons.Telegram,

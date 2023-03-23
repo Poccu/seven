@@ -26,6 +26,7 @@ import {
   VisibilityOff,
 } from '@mui/icons-material'
 
+import logo from '@assets/images/logo7.png'
 import { useAuth } from '@hooks/useAuth'
 import { getRandomEmoji } from '@utils/getRandomEmoji'
 import { ThemeTextFieldAuth } from '@ui/ThemeTextField'
@@ -351,7 +352,7 @@ export const Auth: FC = () => {
       ></BackgroundPaperBox>
       <Box display="flex" alignItems="center" justifyContent="center">
         <img
-          src={`${process.env.PUBLIC_URL}/assets/images/logo7.png`}
+          src={logo}
           alt="Seven"
           height="150px"
           width="150px"

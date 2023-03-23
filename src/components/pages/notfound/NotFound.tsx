@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Box, Grid, Typography } from '@mui/material'
 
+import bg404 from '@assets/images/404-bg.png'
 import { ThemeButton } from '@ui/ThemeButton'
 import { BackgroundPaperBox } from '@ui/ThemeBox'
 
@@ -55,7 +56,7 @@ export const NotFound: FC = () => {
             alignItems="center"
           >
             <img
-              src={`${process.env.PUBLIC_URL}/assets/images/404-bg.png`}
+              src={bg404}
               alt="Not Found"
               height="100%"
               width="100%"
@@ -70,7 +71,7 @@ export const NotFound: FC = () => {
           >
             <Box display="flex" justifyContent="center" alignItems="center">
               <img
-                src={`${process.env.PUBLIC_URL}/assets/images/404-bg.png`}
+                src={bg404}
                 alt="Not Found"
                 height="85%"
                 width="85%"

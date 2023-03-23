@@ -12,9 +12,9 @@ import { BorderBox } from '@ui/ThemeBox'
 import { ThemeProfileAvatar } from '@ui/ThemeAvatar'
 
 import { IPost, IUser } from 'src/types/types'
-import { PhotoMenu } from './PhotoMenu'
-import { AddFriend } from './AddFriend'
-import { FriendList } from './FriendList'
+import { PhotoMenu } from './components/PhotoMenu'
+import { AddFriend } from './components/AddFriend'
+import { FriendList } from './components/FriendList'
 
 export const Profile: FC = () => {
   const { t } = useTranslation(['profile'])

@@ -20,8 +20,8 @@ import { BorderBox } from '@ui/ThemeBox'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 
 import { IPost } from 'src/types/types'
-import { BookmarksPost } from './BookmarksPost'
-import { BookmarksOrderBy } from './BookmarksOrderBy'
+import { BookmarksPost } from './components/BookmarksPost'
+import { BookmarksOrderBy } from './components/BookmarksOrderBy'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])

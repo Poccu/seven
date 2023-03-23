@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Box, Link, Typography } from '@mui/material'
 
+import logo from '@assets/images/logo7.png'
 import { BorderBox } from '@ui/ThemeBox'
 
 import { builtWithList } from './builtWithList'
@@ -15,7 +16,7 @@ export const About: FC = () => {
     <BorderBox sx={{ p: 3, mb: 2 }}>
       <Box display="flex" alignItems="center" justifyContent="center">
         <img
-          src={`${process.env.PUBLIC_URL}/assets/images/logo7.png`}
+          src={logo}
           alt="Seven"
           height="150px"
           width="150px"

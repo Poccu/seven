@@ -70,3 +70,8 @@ export interface IMenuItem {
   link: string
   icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & { muiName: string }
 }
+
+export interface ISocialsItem {
+  link: string
+  icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & { muiName: string }
+}

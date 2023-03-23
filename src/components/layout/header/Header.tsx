@@ -32,6 +32,7 @@ import {
   Person,
 } from '@mui/icons-material'
 
+import logo from '@assets/images/logo7.png'
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
 import {
@@ -221,7 +222,7 @@ export const Header: FC = () => {
                   sx={{ height: '65px', ml: 1 }}
                 >
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/logo7.png`}
+                    src={logo}
                     alt="Seven"
                     height="50px"
                     width="50px"

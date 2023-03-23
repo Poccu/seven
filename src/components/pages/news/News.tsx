@@ -21,9 +21,9 @@ import { setPosts } from '@reducers/PostsSlice'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 
 import { IPost } from 'src/types/types'
-import { NewsOrderBy } from './NewsOrderBy'
-import { NewsPost } from './NewsPost'
-import { AddPost } from './AddPost'
+import { NewsOrderBy } from './components//NewsOrderBy'
+import { NewsPost } from './components//NewsPost'
+import { AddPost } from './components/AddPost'
 
 export const News: FC = () => {
   const { t } = useTranslation(['news'])
