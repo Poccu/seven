@@ -346,7 +346,7 @@ export const NewsPost: FC<Props> = ({
             >
               {post.content}
             </Typography>
-            {post?.images?.length === 3 || post?.images?.length > 4 ? (
+            {post.images?.length === 3 || post.images?.length > 4 ? (
               <Stack
                 direction="row"
                 sx={{
@@ -378,7 +378,7 @@ export const NewsPost: FC<Props> = ({
                   </Box>
                 ))}
               </Stack>
-            ) : post?.images?.length === 2 || post?.images?.length === 4 ? (
+            ) : post.images?.length === 2 || post.images?.length === 4 ? (
               <Stack
                 direction="row"
                 sx={{
@@ -410,7 +410,7 @@ export const NewsPost: FC<Props> = ({
                   </Box>
                 ))}
               </Stack>
-            ) : post?.images?.length === 1 ? (
+            ) : post.images?.length === 1 ? (
               <Box
                 sx={{
                   mt: 2,
@@ -419,14 +419,14 @@ export const NewsPost: FC<Props> = ({
                 display="flex"
               >
                 <img
-                  src={post?.images[0]}
-                  alt={post?.images[0]}
+                  src={post.images[0]}
+                  alt={post.images[0]}
                   width="100%"
                   // height="500px"
                   className="image"
                   loading="lazy"
                   draggable={false}
-                  onClick={() => handleOpenImage(post?.images[0])}
+                  onClick={() => handleOpenImage(post.images[0])}
                 />
               </Box>
             ) : null}

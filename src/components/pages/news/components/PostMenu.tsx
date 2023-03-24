@@ -223,7 +223,7 @@ export const PostMenu: FC<Props> = ({
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
-                  {uid && !post?.bookmarks?.includes(uid) ? (
+                  {uid && !post.bookmarks.includes(uid) ? (
                     <MenuItem onClick={() => handleAddBookmark(post)}>
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <BookmarkAddOutlined color="primary" />
@@ -244,7 +244,6 @@ export const PostMenu: FC<Props> = ({
                   )}
                   {post.author.uid === uid &&
                     Date.now() - +post?.createdAt < 86400000 && (
-                      // post.likes.length < 2 &&
                       <MenuItem
                         onClick={() => {
                           setOpen(false)

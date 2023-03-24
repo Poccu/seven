@@ -137,7 +137,7 @@ export const Auth: FC = () => {
           try {
             await setDoc(doc(db, 'users', user.uid), {
               uid: user.uid,
-              displayName: user.displayName,
+              displayName: user.displayName || '',
               email: user.email,
               password: userData.password,
               photoURL: user.photoURL,
@@ -193,7 +193,7 @@ export const Auth: FC = () => {
               try {
                 await setDoc(docRef, {
                   uid: user.uid,
-                  displayName: user.displayName,
+                  displayName: user.displayName || '',
                   email: user.email,
                   password: null,
                   photoURL: user.photoURL?.slice(0, -6),
@@ -247,7 +247,7 @@ export const Auth: FC = () => {
               try {
                 await setDoc(docRef, {
                   uid: user.uid,
-                  displayName: user.displayName,
+                  displayName: user.displayName || '',
                   email: user.email,
                   password: null,
                   photoURL: user.photoURL,
@@ -301,7 +301,7 @@ export const Auth: FC = () => {
               try {
                 await setDoc(docRef, {
                   uid: user.uid,
-                  displayName: user.displayName,
+                  displayName: user.displayName || '',
                   email: user.email,
                   password: null,
                   photoURL: user.photoURL,

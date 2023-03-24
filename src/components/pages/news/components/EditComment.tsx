@@ -24,37 +24,34 @@ export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
   const [content, setContent] = useState(comment.content)
 
   const handleEditComment = async (post: IPost, comment: IComment) => {
-    if (content.trim()) {
-      const docRef = doc(db, 'posts', post.id)
+    if (!content.trim()) return
+    const docRef = doc(db, 'posts', post.id)
 
-      try {
-        await runTransaction(db, async (transaction) => {
-          const sfDoc = await transaction.get(docRef)
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(docRef)
 
-          if (!sfDoc.exists()) {
-            throw new Error('Document does not exist!')
-          }
+        if (!sfDoc.exists()) {
+          throw new Error('Document does not exist!')
+        }
 
-          const com: IComment = sfDoc
-            .data()
-            .comments.find((x: IComment) => x.id === comment.id)
-          com.content = content.trim()
+        const com: IComment = sfDoc
+          .data()
+          .comments.find((x: IComment) => x.id === comment.id)
+        com.content = content.trim()
 
-          const newCommentsArr = [
-            ...sfDoc
-              .data()
-              .comments.filter((x: IComment) => x.id !== comment.id),
-            com,
-          ].sort((a, b) => +a.createdAt - +b.createdAt)
+        const newCommentsArr = [
+          ...sfDoc.data().comments.filter((x: IComment) => x.id !== comment.id),
+          com,
+        ].sort((a, b) => +a.createdAt - +b.createdAt)
 
-          transaction.update(docRef, {
-            comments: newCommentsArr,
-          })
+        transaction.update(docRef, {
+          comments: newCommentsArr,
         })
-        setEditingId('')
-      } catch (e) {
-        console.log('Edit comment failed: ', e)
-      }
+      })
+      setEditingId('')
+    } catch (e) {
+      console.log('Edit comment failed: ', e)
     }
   }
 

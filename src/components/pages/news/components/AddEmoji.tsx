@@ -62,7 +62,7 @@ export const AddEmoji: FC<Props> = ({ setContent }) => {
         placement="bottom-end"
         transition
         disablePortal
-        sx={{ zIndex: 10 }}
+        sx={{ zIndex: 1600 }}
       >
         {({ TransitionProps, placement }) => (
           <Grow

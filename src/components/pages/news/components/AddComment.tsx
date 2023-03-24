@@ -30,39 +30,38 @@ export const AddComment: FC<Props> = ({ post }) => {
   )
 
   const handleSendComment = async (e: any) => {
-    if (content.trim()) {
-      const docRef = doc(db, 'posts', post.id)
+    if (!content.trim()) return
+    const docRef = doc(db, 'posts', post.id)
 
-      try {
-        await runTransaction(db, async (transaction) => {
-          const sfDoc = await transaction.get(docRef)
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(docRef)
 
-          if (!sfDoc.exists()) {
-            throw new Error('Document does not exist!')
-          }
+        if (!sfDoc.exists()) {
+          throw new Error('Document does not exist!')
+        }
 
-          const newCommentsArr = [
-            ...sfDoc.data().comments,
-            {
-              author: { uid, displayName, photoURL, emoji },
-              content: content.trim(),
-              createdAt: Date.now(),
-              images: [],
-              likes: [],
-              id: generateUniqueId(),
-            },
-          ]
+        const newCommentsArr = [
+          ...sfDoc.data().comments,
+          {
+            author: { uid, displayName, photoURL, emoji },
+            content: content.trim(),
+            createdAt: Date.now(),
+            images: [],
+            likes: [],
+            id: generateUniqueId(),
+          },
+        ]
 
-          transaction.update(docRef, {
-            comments: newCommentsArr,
-          })
+        transaction.update(docRef, {
+          comments: newCommentsArr,
         })
-      } catch (e) {
-        console.log('Comments Add failed: ', e)
-      }
-      setContent('')
-      e.target.blur()
+      })
+    } catch (e) {
+      console.log('Comments Add failed: ', e)
     }
+    setContent('')
+    e.target.blur()
   }
 
   return (

@@ -72,8 +72,8 @@ export const Profile: FC = () => {
             >
               <Stack alignItems="center" direction="row" spacing={0.7}>
                 <Typography variant="h4" sx={{ wordBreak: 'break-word' }}>
-                  {usersRdbList.length > 0 && user?.displayName ? (
-                    <b>{user.displayName}</b>
+                  {usersRdbList.length > 0 ? (
+                    <b>{user?.displayName}</b>
                   ) : (
                     <Skeleton width={250} />
                   )}
