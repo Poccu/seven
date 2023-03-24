@@ -24,6 +24,7 @@ import {
 
 import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
+import { isOneDayPassed } from '@utils/isOneDayPassed'
 import { MenuBox } from '@ui/ThemeBox'
 
 import { IPost } from 'src/types/types'
@@ -243,7 +244,7 @@ export const PostMenu: FC<Props> = ({
                     </MenuItem>
                   )}
                   {post.author.uid === uid &&
-                    Date.now() - +post?.createdAt < 86400000 && (
+                    !isOneDayPassed(+post.createdAt) && (
                       <MenuItem
                         onClick={() => {
                           setOpen(false)

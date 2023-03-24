@@ -29,6 +29,7 @@ import {
 
 import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
+import { showViews } from '@utils/showViews'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
@@ -515,9 +516,7 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
           <Stack alignItems="center" direction="row" spacing={1} sx={{ mt: 2 }}>
             <Visibility color="secondary" fontSize="small" />
             <Typography variant="caption" color="textSecondary">
-              {post.views < 1000
-                ? post.views
-                : Math.floor(post.views / 100) / 10 + 'K'}
+              {showViews(post.views)}
             </Typography>
           </Stack>
         </Stack>
