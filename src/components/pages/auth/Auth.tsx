@@ -70,9 +70,8 @@ const a11yProps = (index: number) => {
 
 export const Auth: FC = () => {
   const { t } = useTranslation(['auth'])
-  document.title = 'Seven'
-
   const { ga, db, gProvider, gitProvider, fProvider } = useAuth()
+  document.title = 'Seven'
 
   const [isRegForm, setIsRegForm] = useState(false)
   const [userData, setUserData] = useState<IUserData>({
@@ -89,9 +88,9 @@ export const Auth: FC = () => {
   const [userNotFound, setUserNotFound] = useState(false)
   const [wrongPassword, setWrongPassword] = useState(false)
 
-  const [value, setValue] = useState(0)
-
   const [showPassword, setShowPassword] = useState(false)
+
+  const [value, setValue] = useState(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)

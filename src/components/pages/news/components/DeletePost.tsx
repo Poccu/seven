@@ -23,10 +23,9 @@ export const DeletePost: FC<Props> = ({
   setDeletedPosts,
 }) => {
   const { t } = useTranslation(['news'])
+  const { db } = useAuth()
 
   const [progress, setProgress] = useState(0)
-
-  const { db } = useAuth()
 
   useEffect(() => {
     const interval = setInterval(

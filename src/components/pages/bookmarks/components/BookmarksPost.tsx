@@ -46,13 +46,12 @@ type Props = {
 export const BookmarksPost: FC<Props> = ({ post }) => {
   const { t } = useTranslation(['bookmarks'])
   const { db, usersRdb } = useAuth()
+  const theme = useTheme()
 
   const { emoji, uid, displayName, photoURL } = useAppSelector(
     (state) => state.user
   )
   const { users } = useAppSelector((state) => state.users)
-
-  const theme = useTheme()
 
   const [openModal, setOpenModal] = useState(false)
   const [modalData, setModalData] = useState<IUser[]>([])
@@ -60,7 +59,7 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
   const [openImage, setOpenImage] = useState(false)
   const [modalImage, setModalImage] = useState<string>('')
 
-  const [isVisible, setIsVisible] = useState<string>('')
+  const [visibleId, setVisibleId] = useState<string>('')
 
   const handleOpenModal = (post: IPost) => {
     setOpenModal(true)
@@ -247,10 +246,10 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
   }
 
   const handleShow = (comment: IComment) => {
-    setIsVisible(comment.id)
+    setVisibleId(comment.id)
   }
 
-  const handleHide = () => setIsVisible('')
+  const handleHide = () => setVisibleId('')
 
   return (
     <>
@@ -586,7 +585,7 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
                     </Stack>
                   </Stack>
                   <Stack justifyContent="space-between">
-                    {comment.author.uid === uid && isVisible === comment.id ? (
+                    {comment.author.uid === uid && comment.id === visibleId ? (
                       <IconButton
                         onClick={() => handleDeleteComment(post, comment.id)}
                         color="secondary"
@@ -602,7 +601,7 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
                       <Box sx={{ height: '40px', width: '40px' }}></Box>
                     )}
 
-                    {(comment.likes.length > 0 || isVisible === comment.id) && (
+                    {(comment.likes.length > 0 || comment.id === visibleId) && (
                       <Stack
                         alignItems="center"
                         direction="row"

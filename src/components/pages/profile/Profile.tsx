@@ -18,18 +18,16 @@ import { FriendList } from './components/FriendList'
 
 export const Profile: FC = () => {
   const { t } = useTranslation(['profile'])
-
   const { usersRdb } = useAuth()
-
-  const usersRdbList = Object.values(usersRdb)
-
   // eslint-disable-next-line
   const { id } = useParams()
-  const profileId = window.location.pathname.replace('/profile/', '')
 
   const { uid } = useAppSelector((state) => state.user)
   const { users } = useAppSelector((state) => state.users)
   const { posts } = useAppSelector((state) => state.posts)
+
+  const usersRdbList = Object.values(usersRdb)
+  const profileId = window.location.pathname.replace('/profile/', '')
 
   const user = users.find((user: IUser) => user.uid === profileId)
   const userPosts = posts.filter((post: IPost) => post.author.uid === profileId)

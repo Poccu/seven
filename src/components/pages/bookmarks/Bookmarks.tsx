@@ -25,9 +25,8 @@ import { BookmarksOrderBy } from './components/BookmarksOrderBy'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
-  document.title = t('Bookmarks')
-
   const { db } = useAuth()
+  document.title = t('Bookmarks')
 
   const { uid } = useAppSelector((state) => state.user)
   const { users } = useAppSelector((state) => state.users)

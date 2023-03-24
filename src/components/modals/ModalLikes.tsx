@@ -24,6 +24,7 @@ export const ModalLikes: FC<Props> = ({
   modalData,
 }) => {
   const { t } = useTranslation(['bookmarks'])
+
   const { users } = useAppSelector((state) => state.users)
 
   return (

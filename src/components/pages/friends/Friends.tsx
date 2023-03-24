@@ -12,9 +12,8 @@ import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
 
 export const Friends: FC = () => {
   const { t } = useTranslation(['friends'])
-  document.title = t('Friends')
-
   const { usersRdb } = useAuth()
+  document.title = t('Friends')
 
   const { friends } = useAppSelector((state) => state.user)
   const { users } = useAppSelector((state) => state.users)

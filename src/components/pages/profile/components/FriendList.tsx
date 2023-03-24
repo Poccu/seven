@@ -19,12 +19,11 @@ type Props = {
 
 export const FriendList: FC<Props> = ({ user }) => {
   const { t } = useTranslation(['profile'])
-
   const { usersRdb } = useAuth()
 
-  const usersRdbList = Object.values(usersRdb)
-
   const { users } = useAppSelector((state) => state.users)
+
+  const usersRdbList = Object.values(usersRdb)
 
   return (
     <BorderBox sx={{ p: 2, mb: 2 }}>

@@ -24,13 +24,14 @@ import { ThemeLinearProgress } from '@ui/ThemeLinearProgress'
 
 export const PhotoMenu: FC = () => {
   const { t } = useTranslation(['profile'])
-
   const { db, st, ga } = useAuth()
 
   const { uid, photoURL } = useAppSelector((state) => state.user)
 
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
+
+  const [progress, setProgress] = useState<number>(0)
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
@@ -55,8 +56,6 @@ export const PhotoMenu: FC = () => {
       setOpen(false)
     }
   }
-
-  const [progress, setProgress] = useState<number>(0)
 
   const handleDelete = async () => {
     setOpen(false)

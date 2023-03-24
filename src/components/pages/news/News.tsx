@@ -27,9 +27,8 @@ import { AddPost } from './components/AddPost'
 
 export const News: FC = () => {
   const { t } = useTranslation(['news'])
-  document.title = t('News')
-
   const { db } = useAuth()
+  document.title = t('News')
 
   const [editingId, setEditingId] = useState('')
   const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])

@@ -18,16 +18,15 @@ import { AddEmoji } from './AddEmoji'
 
 export const AddPost: FC = () => {
   const { t } = useTranslation(['news'])
-
   const { db } = useAuth()
-
-  const [content, setContent] = useState('')
-  const [images, setImages] = useState<string[]>([])
-  const [imagesIdDb, setImagesIdDb] = useState<string>('')
 
   const { emoji, uid, displayName, photoURL } = useAppSelector(
     (state) => state.user
   )
+
+  const [content, setContent] = useState('')
+  const [images, setImages] = useState<string[]>([])
+  const [imagesIdDb, setImagesIdDb] = useState<string>('')
 
   const handleSendPost = async (e: any) => {
     if (content.trim() || images.length > 0) {

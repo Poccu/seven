@@ -41,15 +41,13 @@ export const PostMenu: FC<Props> = ({
   setDeletedPosts,
 }) => {
   const { t } = useTranslation(['news'])
-
   const { db } = useAuth()
-
-  const [open, setOpen] = useState(false)
-  const anchorRef = useRef<HTMLButtonElement>(null)
+  const { enqueueSnackbar } = useSnackbar()
 
   const { uid } = useAppSelector((state) => state.user)
 
-  const { enqueueSnackbar } = useSnackbar()
+  const [open, setOpen] = useState(false)
+  const anchorRef = useRef<HTMLButtonElement>(null)
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)

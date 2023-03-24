@@ -18,7 +18,6 @@ type Props = {
 
 export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
   const { t } = useTranslation(['news'])
-
   const { db } = useAuth()
 
   const [content, setContent] = useState(comment.content)

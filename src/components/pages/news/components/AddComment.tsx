@@ -21,13 +21,13 @@ type Props = {
 
 export const AddComment: FC<Props> = ({ post }) => {
   const { t } = useTranslation(['news'])
-
-  const [content, setContent] = useState('')
   const { db } = useAuth()
 
   const { emoji, uid, displayName, photoURL } = useAppSelector(
     (state) => state.user
   )
+
+  const [content, setContent] = useState('')
 
   const handleSendComment = async (e: any) => {
     if (!content.trim()) return

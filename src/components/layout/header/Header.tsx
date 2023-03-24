@@ -51,15 +51,15 @@ import { menu } from '../sidebar/menu/menuList'
 
 export const Header: FC = () => {
   const { t, i18n } = useTranslation(['menu'])
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
-
-  const navigate = useNavigate()
   const { ga, rdb } = useAuth()
+  const navigate = useNavigate()
 
   const { isAuth, uid } = useAppSelector((state) => state.user)
   const { language, theme } = useAppSelector((state) => state.global)
   const dispatch = useAppDispatch()
+
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget)

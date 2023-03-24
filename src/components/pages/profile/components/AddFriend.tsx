@@ -12,14 +12,13 @@ import { IUser } from 'src/types/types'
 
 export const AddFriend: FC = () => {
   const { t } = useTranslation(['profile'])
-
   const { db } = useAuth()
-
-  const profileId = window.location.pathname.replace('/profile/', '')
 
   const { emoji, uid, displayName, photoURL, friends } = useAppSelector(
     (state) => state.user
   )
+
+  const profileId = window.location.pathname.replace('/profile/', '')
 
   const handleAddFriend = async () => {
     if (!uid) return

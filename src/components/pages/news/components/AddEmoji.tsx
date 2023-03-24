@@ -20,10 +20,10 @@ type Props = {
 export const AddEmoji: FC<Props> = ({ setContent }) => {
   const { t } = useTranslation(['emojiPicker'])
 
+  const { theme } = useAppSelector((state) => state.global)
+
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLButtonElement>(null)
-
-  const { theme } = useAppSelector((state) => state.global)
 
   const onEmojiClick = (emojiData: EmojiClickData, event: MouseEvent) => {
     let sym = emojiData.unified.split('-')

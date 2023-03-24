@@ -62,13 +62,12 @@ export const NewsPost: FC<Props> = ({
 }) => {
   const { t } = useTranslation(['news'])
   const { db, usersRdb } = useAuth()
+  const theme = useTheme()
 
   const { emoji, uid, displayName, photoURL } = useAppSelector(
     (state) => state.user
   )
   const { users } = useAppSelector((state) => state.users)
-
-  const theme = useTheme()
 
   const [openModal, setOpenModal] = useState(false)
   const [modalData, setModalData] = useState<IUser[]>([])
@@ -76,7 +75,7 @@ export const NewsPost: FC<Props> = ({
   const [openImage, setOpenImage] = useState(false)
   const [modalImage, setModalImage] = useState<string>('')
 
-  const [isVisible, setIsVisible] = useState<string>('')
+  const [visibleId, setVisibleId] = useState<string>('')
 
   const handleOpenModal = (post: IPost) => {
     setOpenModal(true)
@@ -103,6 +102,12 @@ export const NewsPost: FC<Props> = ({
     setOpenModal(true)
     setModalData(comment.likes)
   }
+
+  const handleShow = (comment: IComment) => {
+    setVisibleId(comment.id)
+  }
+
+  const handleHide = () => setVisibleId('')
 
   const handleLike = async (post: IPost) => {
     const docRef = doc(db, 'posts', post.id)
@@ -261,12 +266,6 @@ export const NewsPost: FC<Props> = ({
       console.log('Comment Delete failed: ', e)
     }
   }
-
-  const handleShow = (comment: IComment) => {
-    setIsVisible(comment.id)
-  }
-
-  const handleHide = () => setIsVisible('')
 
   return (
     <>
@@ -638,7 +637,7 @@ export const NewsPost: FC<Props> = ({
                           {moment(comment.createdAt).calendar()}
                         </Typography>
                         {comment.author.uid === uid &&
-                          isVisible === comment.id &&
+                          comment.id === visibleId &&
                           !isOneDayPassed(+comment.createdAt) && (
                             <Typography
                               variant="body2"
@@ -653,7 +652,7 @@ export const NewsPost: FC<Props> = ({
                     </Stack>
                   </Stack>
                   <Stack justifyContent="space-between">
-                    {comment.author.uid === uid && isVisible === comment.id ? (
+                    {comment.author.uid === uid && comment.id === visibleId ? (
                       <IconButton
                         onClick={() => handleDeleteComment(post, comment.id)}
                         color="secondary"
@@ -669,7 +668,7 @@ export const NewsPost: FC<Props> = ({
                       <Box sx={{ height: '40px', width: '40px' }}></Box>
                     )}
 
-                    {(comment.likes.length > 0 || isVisible === comment.id) && (
+                    {(comment.likes.length > 0 || comment.id === visibleId) && (
                       <Stack
                         alignItems="center"
                         direction="row"
