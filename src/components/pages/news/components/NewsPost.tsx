@@ -39,7 +39,7 @@ import { ModalLikes } from '@modals/ModalLikes'
 import { ModalImage } from '@modals/ModalImage'
 
 import { IComment, IPost, IUser } from 'src/types/types'
-import { PostMenu } from './PostMenu'
+import { NewsPostMenu } from './NewsPostMenu'
 import { EditPost } from './EditPost'
 import { DeletePost } from './DeletePost'
 import { EditComment } from './EditComment'
@@ -327,7 +327,7 @@ export const NewsPost: FC<Props> = ({
                 </Typography>
               </Stack>
             </Stack>
-            <PostMenu
+            <NewsPostMenu
               post={post}
               setEditingId={setEditingId}
               setDeletedPosts={setDeletedPosts}

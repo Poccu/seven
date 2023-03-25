@@ -38,6 +38,7 @@ import { ModalLikes } from '@modals/ModalLikes'
 import { ModalImage } from '@modals/ModalImage'
 
 import { IComment, IPost, IUser } from 'src/types/types'
+import { BookmarksPostMenu } from './BookmarksPostMenu'
 
 type Props = {
   post: IPost
@@ -305,11 +306,7 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
               </Typography>
             </Stack>
           </Stack>
-          {/* <PostMenu
-              post={post}
-              setEditingId={setEditingId}
-              setDeletedPosts={setDeletedPosts}
-            /> */}
+          <BookmarksPostMenu post={post} />
         </Stack>
         <Typography
           variant="body1"

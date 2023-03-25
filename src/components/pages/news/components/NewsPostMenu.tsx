@@ -35,7 +35,7 @@ type Props = {
   setDeletedPosts: React.Dispatch<React.SetStateAction<IPost[]>>
 }
 
-export const PostMenu: FC<Props> = ({
+export const NewsPostMenu: FC<Props> = ({
   post,
   setEditingId,
   setDeletedPosts,
