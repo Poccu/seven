@@ -6,6 +6,7 @@ import { Box, Skeleton, Stack, Typography } from '@mui/material'
 
 import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
+import { showUserName } from '@utils/showUserName'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
@@ -65,10 +66,9 @@ export const FriendList: FC<Props> = ({ user }) => {
                         textAlign="center"
                         fontSize="13px"
                       >
-                        {user.displayName.replace(/ .*/, '').length < 8
-                          ? user.displayName.replace(/ .*/, '')
-                          : user.displayName.replace(/ .*/, '').slice(0, 7) +
-                            '…'}
+                        {showUserName(
+                          users.find((u) => u.uid === user.uid)?.displayName
+                        )}
                       </Typography>
                     </Link>
                   </Box>

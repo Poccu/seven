@@ -6,7 +6,7 @@ import { PersonAddAlt1, PersonRemoveAlt1 } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
-import { ThemeButton } from '@ui/ThemeButton'
+import { ThemeSmallButton } from '@ui/ThemeButton'
 
 import { IUser } from 'src/types/types'
 
@@ -116,21 +116,19 @@ export const AddFriend: FC = () => {
   return (
     <>
       {!friends?.some((user) => user.uid === profileId) ? (
-        <ThemeButton
+        <ThemeSmallButton
           onClick={handleAddFriend}
-          startIcon={<PersonAddAlt1 style={{ fontSize: '18px' }} />}
-          sx={{ height: 28, fontSize: 15 }}
+          startIcon={<PersonAddAlt1 />}
         >
           <b>{t('Add friend')}</b>
-        </ThemeButton>
+        </ThemeSmallButton>
       ) : (
-        <ThemeButton
+        <ThemeSmallButton
           onClick={handleRemoveFriend}
-          startIcon={<PersonRemoveAlt1 style={{ fontSize: '18px' }} />}
-          sx={{ height: 28, fontSize: 15 }}
+          startIcon={<PersonRemoveAlt1 />}
         >
           <b>{t('Delete friend')}</b>
-        </ThemeButton>
+        </ThemeSmallButton>
       )}
     </>
   )

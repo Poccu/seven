@@ -1,24 +1,25 @@
 import { FC } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
 
 import { Box, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
-import { TaskAlt } from '@mui/icons-material'
+import { TaskAlt, Tune } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeProfileAvatar } from '@ui/ThemeAvatar'
+import { ThemeSmallButton } from '@ui/ThemeButton'
 
 import { IPost, IUser } from 'src/types/types'
-import { PhotoMenu } from './components/PhotoMenu'
 import { AddFriend } from './components/AddFriend'
 import { FriendList } from './components/FriendList'
 
 export const Profile: FC = () => {
   const { t } = useTranslation(['profile'])
   const { usersRdb } = useAuth()
+  const navigate = useNavigate()
   // eslint-disable-next-line
   const { id } = useParams()
 
@@ -34,6 +35,10 @@ export const Profile: FC = () => {
 
   document.title = user?.displayName || 'Seven'
 
+  const handleSettings = () => {
+    navigate('/profile/settings')
+  }
+
   return (
     <>
       <BorderBox sx={{ p: 3, mb: 2 }}>
@@ -44,16 +49,13 @@ export const Profile: FC = () => {
         >
           <Box>
             {usersRdbList.length > 0 && user?.uid ? (
-              <>
-                <ThemeProfileAvatar
-                  alt={user.displayName}
-                  src={user.photoURL}
-                  draggable="false"
-                >
-                  <Typography variant="h2">{user.emoji}</Typography>
-                </ThemeProfileAvatar>
-                {uid === profileId && <PhotoMenu />}
-              </>
+              <ThemeProfileAvatar
+                alt={user.displayName}
+                src={user.photoURL}
+                draggable="false"
+              >
+                <Typography variant="h2">{user.emoji}</Typography>
+              </ThemeProfileAvatar>
             ) : (
               <Skeleton
                 variant="circular"
@@ -163,6 +165,11 @@ export const Profile: FC = () => {
               </Stack>
               {usersRdbList.length > 0 && uid !== profileId && user?.uid && (
                 <AddFriend />
+              )}
+              {usersRdbList.length > 0 && user?.uid && uid === profileId && (
+                <ThemeSmallButton startIcon={<Tune />} onClick={handleSettings}>
+                  <b>{t('Settings')}</b>
+                </ThemeSmallButton>
               )}
             </Stack>
           </Stack>

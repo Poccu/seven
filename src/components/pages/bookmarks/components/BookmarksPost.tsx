@@ -283,7 +283,12 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
               <Stack alignItems="center" direction="row" spacing={0.5}>
                 <Link to={`/profile/${post.author.uid}`}>
                   <Typography variant="h6" sx={{ wordBreak: 'break-word' }}>
-                    <b>{post.author.displayName}</b>
+                    <b>
+                      {
+                        users.find((u) => u.uid === post.author.uid)
+                          ?.displayName
+                      }
+                    </b>
                   </Typography>
                 </Link>
                 {post.author.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
@@ -438,7 +443,9 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
                             src={
                               users.find((u) => u.uid === user.uid)?.photoURL
                             }
-                            title={user.displayName}
+                            title={
+                              users.find((u) => u.uid === user.uid)?.displayName
+                            }
                             sx={{
                               width: '40px',
                               height: '40px',
@@ -547,7 +554,12 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
                             variant="h6"
                             sx={{ wordBreak: 'break-word' }}
                           >
-                            <b>{comment.author.displayName}</b>
+                            <b>
+                              {
+                                users.find((u) => u.uid === comment.author.uid)
+                                  ?.displayName
+                              }
+                            </b>
                           </Typography>
                         </Link>
                         {comment.author.uid ===
@@ -645,7 +657,10 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
                                           users.find((u) => u.uid === user.uid)
                                             ?.photoURL
                                         }
-                                        title={user.displayName}
+                                        title={
+                                          users.find((u) => u.uid === user.uid)
+                                            ?.displayName
+                                        }
                                         sx={{
                                           width: '40px',
                                           height: '40px',

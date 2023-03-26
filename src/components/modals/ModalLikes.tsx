@@ -6,6 +6,7 @@ import { Box, IconButton, Modal, Stack, Typography } from '@mui/material'
 import { Clear, Favorite } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
+import { showUserNameLikes } from '@utils/showUserNameLikes'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeLikeIconButton } from '@ui/ThemeIconButton'
@@ -83,9 +84,9 @@ export const ModalLikes: FC<Props> = ({
                   </ThemeLikeIconButton>
                 </Box>
                 <Typography variant="body2" textAlign="center">
-                  {user.displayName.replace(/ .*/, '').length < 14
-                    ? user.displayName.replace(/ .*/, '')
-                    : user.displayName.replace(/ .*/, '').slice(0, 13) + '…'}
+                  {showUserNameLikes(
+                    users.find((u) => u.uid === user.uid)?.displayName
+                  )}
                 </Typography>
               </Link>
             </Box>

@@ -30,6 +30,7 @@ import {
   Logout,
   Menu,
   Person,
+  Tune,
 } from '@mui/icons-material'
 
 import logo from '@assets/images/logo7.png'
@@ -48,6 +49,7 @@ import { removeBookmarks } from '@reducers/BookmarksSlice'
 import { StyledMenu } from '@ui/ThemeMenu'
 
 import { menu } from '../sidebar/menu/menuList'
+import { ProfileMenu } from './components/ProfileMenu'
 
 export const Header: FC = () => {
   const { t, i18n } = useTranslation(['menu'])
@@ -141,10 +143,7 @@ export const Header: FC = () => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Stack
-              direction="row"
-              sx={{ ml: 1, display: { xs: 'flex', md: 'none' } }}
-            >
+            <Stack direction="row" sx={{ display: { xs: 'flex', md: 'none' } }}>
               {isAuth ? (
                 <Box>
                   <IconButton
@@ -174,6 +173,15 @@ export const Header: FC = () => {
                       <Person />
                       <ListItemText>{t('My profile')}</ListItemText>
                     </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to={'/profile/settings'}
+                      onClick={handleClose}
+                    >
+                      <Tune />
+                      <ListItemText>{t('Settings')}</ListItemText>
+                    </MenuItem>
+                    <Divider />
                     {menu.map((item, index) => (
                       <MenuItem
                         component={Link}
@@ -193,7 +201,6 @@ export const Header: FC = () => {
                       <BookmarkBorder />
                       <ListItemText>{t('Bookmarks')}</ListItemText>
                     </MenuItem>
-                    <Divider />
                     <MenuItem
                       component={Link}
                       to="/about"
@@ -290,6 +297,7 @@ export const Header: FC = () => {
                   <DarkModeOutlined fontSize="inherit" />
                 </IconButton>
               )}
+              {isAuth && <ProfileMenu />}
             </Stack>
           </Stack>
         </Container>

@@ -2,10 +2,13 @@ import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { doc, runTransaction } from 'firebase/firestore'
 
-import { Box, Button, Stack } from '@mui/material'
+import { Box, Stack } from '@mui/material'
+import { Check, Clear } from '@mui/icons-material'
 
 import { useAuth } from '@hooks/useAuth'
+import { moveFocusAtEnd } from '@utils/moveFocusAtEnd'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
+import { ThemeSmallButton } from '@ui/ThemeButton'
 
 import { IComment, IPost } from 'src/types/types'
 import { AddEmoji } from './AddEmoji'
@@ -54,40 +57,42 @@ export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
     }
   }
 
-  const moveFocusAtEnd = (e: any) => {
-    let temp_value = e.target.value
-    e.target.value = ''
-    e.target.value = temp_value
-  }
-
   return (
-    <Box sx={{ mt: 2 }}>
-      <Stack alignItems="center" direction="row">
-        <ThemeTextFieldAddPost
-          label={<b>{t('Edit comment')}</b>}
-          multiline
-          fullWidth
-          color="secondary"
-          focused
-          autoFocus
-          autoComplete="off"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          onFocus={moveFocusAtEnd}
-          sx={{ mr: 2 }}
-        />
-        <AddEmoji setContent={setContent} />
+    <Box sx={{ my: 2 }}>
+      <Stack direction="column" spacing={2}>
+        <Stack alignItems="center" direction="row">
+          <ThemeTextFieldAddPost
+            label={<b>{t('Edit comment')}</b>}
+            multiline
+            fullWidth
+            color="secondary"
+            focused
+            autoFocus
+            autoComplete="off"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            onFocus={moveFocusAtEnd}
+            sx={{ mr: 2 }}
+          />
+          <AddEmoji setContent={setContent} />
+        </Stack>
+        <Stack direction="row" spacing={2}>
+          <ThemeSmallButton
+            startIcon={<Clear />}
+            onClick={() => {
+              setEditingId('')
+            }}
+          >
+            {t('Cancel')}
+          </ThemeSmallButton>
+          <ThemeSmallButton
+            startIcon={<Check />}
+            onClick={() => handleEditComment(post, comment)}
+          >
+            {t('Save')}
+          </ThemeSmallButton>
+        </Stack>
       </Stack>
-      <Button
-        onClick={() => {
-          setEditingId('')
-        }}
-      >
-        {t('Cancel')}
-      </Button>
-      <Button onClick={() => handleEditComment(post, comment)}>
-        {t('Save')}
-      </Button>
     </Box>
   )
 }

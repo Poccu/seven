@@ -56,7 +56,9 @@ export const Friends: FC = () => {
                         </ThemeAvatar>
                       </ThemeOnlineBadge>
                       <Typography variant="h6" sx={{ wordBreak: 'break-word' }}>
-                        <b>{user.displayName}</b>
+                        <b>
+                          {users.find((u) => u.uid === user.uid)?.displayName}
+                        </b>
                       </Typography>
                     </Stack>
                   </Link>

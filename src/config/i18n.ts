@@ -10,6 +10,7 @@ import translationEnFriends from '@assets/translation/en/friends.json'
 import translationEnNews from '@assets/translation/en/news.json'
 import translationEnNotFound from '@assets/translation/en/notFound.json'
 import translationEnProfile from '@assets/translation/en/profile.json'
+import translationEnProfileSettings from '@assets/translation/en/profilesettings.json'
 import translationEnMenu from '@assets/translation/en/menu.json'
 import translationEnOther from '@assets/translation/en/other.json'
 import translationEnEmojiPicker from '@assets/translation/en/emojiPicker.json'
@@ -21,6 +22,7 @@ import translationRuFriends from '@assets/translation/ru/friends.json'
 import translationRuNews from '@assets/translation/ru/news.json'
 import translationRuNotFound from '@assets/translation/ru/notFound.json'
 import translationRuProfile from '@assets/translation/ru/profile.json'
+import translationRuProfileSettings from '@assets/translation/ru/profilesettings.json'
 import translationRuMenu from '@assets/translation/ru/menu.json'
 import translationRuOther from '@assets/translation/ru/other.json'
 import translationRuEmojiPicker from '@assets/translation/ru/emojiPicker.json'
@@ -34,6 +36,7 @@ const resources = {
     news: translationEnNews,
     notFound: translationEnNotFound,
     profile: translationEnProfile,
+    settings: translationEnProfileSettings,
     menu: translationEnMenu,
     other: translationEnOther,
     emojiPicker: translationEnEmojiPicker,
@@ -46,6 +49,7 @@ const resources = {
     news: translationRuNews,
     notFound: translationRuNotFound,
     profile: translationRuProfile,
+    settings: translationRuProfileSettings,
     menu: translationRuMenu,
     other: translationRuOther,
     emojiPicker: translationRuEmojiPicker,

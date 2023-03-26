@@ -4,6 +4,7 @@ import { Bookmarks } from '@pages/bookmarks/Bookmarks'
 import { Friends } from '@pages/friends/Friends'
 import { News } from '@pages/news/News'
 import { Profile } from '@pages/profile/Profile'
+import { ProfileSettings } from '@pages/profilesettings/ProfileSettings'
 
 export const routes = [
   {
@@ -16,6 +17,12 @@ export const routes = [
     path: '/profile/:id',
     exact: false,
     component: Profile,
+    auth: true,
+  },
+  {
+    path: '/profile/settings',
+    exact: true,
+    component: ProfileSettings,
     auth: true,
   },
   {

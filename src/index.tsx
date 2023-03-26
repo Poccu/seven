@@ -27,7 +27,7 @@ root.render(
     >
       <SnackbarProvider
         maxSnack={1}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         TransitionComponent={Grow}
       >
         <AuthProvider>

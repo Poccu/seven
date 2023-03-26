@@ -2,10 +2,13 @@ import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { doc, setDoc } from 'firebase/firestore'
 
-import { Box, Button, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
+import { Clear, Check } from '@mui/icons-material'
 
 import { useAuth } from '@hooks/useAuth'
+import { moveFocusAtEnd } from '@utils/moveFocusAtEnd'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
+import { ThemeSmallButton } from '@ui/ThemeButton'
 
 import { IPost } from 'src/types/types'
 import { AddEmoji } from './AddEmoji'
@@ -29,14 +32,8 @@ export const EditPost: FC<Props> = ({ post, setEditingId }) => {
     }
   }
 
-  const moveFocusAtEnd = (e: any) => {
-    let temp_value = e.target.value
-    e.target.value = ''
-    e.target.value = temp_value
-  }
-
   return (
-    <Box>
+    <Stack direction="column" spacing={2}>
       <Stack alignItems="center" direction="row">
         <ThemeTextFieldAddPost
           label={<b>{t('Edit post')}</b>}
@@ -53,14 +50,19 @@ export const EditPost: FC<Props> = ({ post, setEditingId }) => {
         />
         <AddEmoji setContent={setContent} />
       </Stack>
-      <Button
-        onClick={() => {
-          setEditingId('')
-        }}
-      >
-        {t('Cancel')}
-      </Button>
-      <Button onClick={handleEditPost}>{t('Save')}</Button>
-    </Box>
+      <Stack direction="row" spacing={2}>
+        <ThemeSmallButton
+          startIcon={<Clear />}
+          onClick={() => {
+            setEditingId('')
+          }}
+        >
+          {t('Cancel')}
+        </ThemeSmallButton>
+        <ThemeSmallButton startIcon={<Check />} onClick={handleEditPost}>
+          {t('Save')}
+        </ThemeSmallButton>
+      </Stack>
+    </Stack>
   )
 }

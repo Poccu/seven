@@ -1,14 +1,6 @@
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { signOut } from 'firebase/auth'
-import {
-  ref,
-  onValue,
-  onDisconnect,
-  set,
-  serverTimestamp,
-} from 'firebase/database'
 
 import {
   List,
@@ -19,65 +11,23 @@ import {
   Badge,
   Box,
 } from '@mui/material'
-import {
-  BookmarkBorder,
-  InfoOutlined,
-  Logout,
-  Person,
-} from '@mui/icons-material'
+import { BookmarkBorder, InfoOutlined } from '@mui/icons-material'
 
-import { useAppDispatch, useAppSelector } from '@hooks/redux'
-import { useAuth } from '@hooks/useAuth'
-import { removeUser } from '@reducers/UserSlice'
-import { removeUsers } from '@reducers/UsersSlice'
-import { removePosts } from '@reducers/PostsSlice'
-import { removeBookmarks } from '@reducers/BookmarksSlice'
+import { useAppSelector } from '@hooks/redux'
 import { BorderBox } from '@ui/ThemeBox'
 
 import { menu } from './menuList'
 
 export const Menu: FC = () => {
   const { t } = useTranslation(['menu'])
-  const { ga, rdb } = useAuth()
   const navigate = useNavigate()
 
-  const { uid, bookmarks } = useAppSelector((state) => state.user)
-  const dispatch = useAppDispatch()
-
-  const handleLogout = () => {
-    const isOnlineRef = ref(rdb, `users/${uid}/isOnline`)
-    const lastOnlineRef = ref(rdb, `users/${uid}/lastOnline`)
-    const connectedRef = ref(rdb, '.info/connected')
-
-    onValue(connectedRef, (snap) => {
-      if (snap.val() === true) {
-        set(isOnlineRef, false)
-        set(lastOnlineRef, serverTimestamp())
-
-        onDisconnect(lastOnlineRef).set(serverTimestamp())
-      }
-    })
-
-    signOut(ga)
-    dispatch(removeUser())
-    dispatch(removeUsers())
-    dispatch(removePosts())
-    dispatch(removeBookmarks())
-    navigate('/')
-  }
+  const { bookmarks } = useAppSelector((state) => state.user)
 
   return (
     <BorderBox sx={{ mb: 2 }}>
       <nav>
         <List>
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`/profile/${uid}`)}>
-              <ListItemIcon sx={{ mr: -2 }}>
-                <Person color="primary" />
-              </ListItemIcon>
-              <ListItemText primary={t('My profile')} />
-            </ListItemButton>
-          </ListItem>
           {menu.map((item, index) => (
             <ListItem key={`menu${index}`} disablePadding>
               <ListItemButton onClick={() => navigate(item.link)}>
@@ -118,14 +68,6 @@ export const Menu: FC = () => {
                 <InfoOutlined color="primary" />
               </ListItemIcon>
               <ListItemText primary={t('About')} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleLogout}>
-              <ListItemIcon sx={{ mr: -2 }}>
-                <Logout color="primary" />
-              </ListItemIcon>
-              <ListItemText primary={t('Logout')} />
             </ListItemButton>
           </ListItem>
         </List>
