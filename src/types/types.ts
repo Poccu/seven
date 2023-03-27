@@ -69,6 +69,7 @@ export interface IComment {
 export interface IMenuItem {
   link: string
   icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & { muiName: string }
+  title: string
 }
 
 export interface ISocialsItem {

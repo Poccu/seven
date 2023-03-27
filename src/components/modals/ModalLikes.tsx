@@ -55,40 +55,43 @@ export const ModalLikes: FC<Props> = ({
         </Stack>
         <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 2, mt: 2 }}>
           {modalData.map((user) => (
-            <Box key={user.uid} sx={{ width: '100px' }}>
-              <Link to={`/profile/${user.uid}`}>
-                <ThemeAvatar
-                  alt={user.displayName}
-                  src={users.find((u) => u.uid === user.uid)?.photoURL}
-                  sx={{
-                    width: '100px',
-                    height: '100px',
-                    mb: 1,
-                  }}
-                >
-                  <Typography variant="h3">{user.emoji}</Typography>
-                </ThemeAvatar>
-                <Box
-                  sx={{
-                    position: 'relative',
-                    top: '-33px',
-                    left: '74px',
-                    height: '30px',
-                    width: '30px',
-                    mb: '-33px',
-                    zIndex: 1,
-                  }}
-                >
-                  <ThemeLikeIconButton color="error">
-                    <Favorite fontSize="small" />
-                  </ThemeLikeIconButton>
-                </Box>
-                <Typography variant="body2" textAlign="center">
-                  {showUserNameLikes(
-                    users.find((u) => u.uid === user.uid)?.displayName
-                  )}
-                </Typography>
-              </Link>
+            <Box
+              key={user.uid}
+              sx={{ width: '100px' }}
+              component={Link}
+              to={`/profile/${user.uid}`}
+            >
+              <ThemeAvatar
+                alt={user.displayName}
+                src={users.find((u) => u.uid === user.uid)?.photoURL}
+                sx={{
+                  width: '100px',
+                  height: '100px',
+                  mb: 1,
+                }}
+              >
+                <Typography variant="h3">{user.emoji}</Typography>
+              </ThemeAvatar>
+              <Box
+                sx={{
+                  position: 'relative',
+                  top: '-33px',
+                  left: '74px',
+                  height: '30px',
+                  width: '30px',
+                  mb: '-33px',
+                  zIndex: 1,
+                }}
+              >
+                <ThemeLikeIconButton color="error">
+                  <Favorite fontSize="small" />
+                </ThemeLikeIconButton>
+              </Box>
+              <Typography variant="body2" textAlign="center">
+                {showUserNameLikes(
+                  users.find((u) => u.uid === user.uid)?.displayName
+                )}
+              </Typography>
             </Box>
           ))}
         </Stack>

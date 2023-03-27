@@ -9,9 +9,7 @@ import {
   ListItemText,
   ListItemButton,
   Badge,
-  Box,
 } from '@mui/material'
-import { BookmarkBorder, InfoOutlined } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
 import { BorderBox } from '@ui/ThemeBox'
@@ -34,42 +32,23 @@ export const Menu: FC = () => {
                 <ListItemIcon sx={{ mr: -2 }}>
                   <item.icon color="primary" />
                 </ListItemIcon>
-                <ListItemText primary={t(`title${index}`)} />
+                <ListItemText primary={t(item.title)} />
               </ListItemButton>
             </ListItem>
           ))}
-          <Box
-            sx={{ height: '48px', cursor: 'pointer' }}
+          <Badge
+            color="primary"
+            badgeContent={bookmarks?.length}
+            max={99}
             onClick={() => navigate('/bookmarks')}
-          >
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon sx={{ mr: -2 }}>
-                  <BookmarkBorder color="primary" />
-                </ListItemIcon>
-                <ListItemText primary={t('Bookmarks')} />
-              </ListItemButton>
-            </ListItem>
-            <Badge
-              color="primary"
-              badgeContent={bookmarks?.length}
-              max={99}
-              sx={{
-                position: 'relative',
-                top: '-25px',
-                left: '245px',
-                display: { md: 'none', lg: 'inline' },
-              }}
-            />
-          </Box>
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate('/about')}>
-              <ListItemIcon sx={{ mr: -2 }}>
-                <InfoOutlined color="primary" />
-              </ListItemIcon>
-              <ListItemText primary={t('About')} />
-            </ListItemButton>
-          </ListItem>
+            sx={{
+              position: 'absolute',
+              top: '128px',
+              left: '245px',
+              cursor: 'pointer',
+              display: { md: 'none', lg: 'inline' },
+            }}
+          />
         </List>
       </nav>
     </BorderBox>

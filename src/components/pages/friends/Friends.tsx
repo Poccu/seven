@@ -31,37 +31,40 @@ export const Friends: FC = () => {
             <>
               {friends?.length ? (
                 friends.map((user) => (
-                  <Link to={`/profile/${user.uid}`} key={user.uid}>
-                    <Stack direction="row" spacing={3} alignItems="center">
-                      <ThemeOnlineBadge
-                        overlap="circular"
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'right',
+                  <Stack
+                    direction="row"
+                    spacing={3}
+                    alignItems="center"
+                    key={user.uid}
+                    component={Link}
+                    to={`/profile/${user.uid}`}
+                  >
+                    <ThemeOnlineBadge
+                      overlap="circular"
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                      }}
+                      variant={usersRdb[user.uid]?.isOnline ? 'dot' : undefined}
+                    >
+                      <ThemeAvatar
+                        alt={user.displayName}
+                        src={users.find((u) => u.uid === user.uid)?.photoURL}
+                        sx={{
+                          height: '55px',
+                          width: '55px',
                         }}
-                        variant={
-                          usersRdb[user.uid]?.isOnline ? 'dot' : undefined
-                        }
+                        draggable="false"
                       >
-                        <ThemeAvatar
-                          alt={user.displayName}
-                          src={users.find((u) => u.uid === user.uid)?.photoURL}
-                          sx={{
-                            height: '55px',
-                            width: '55px',
-                          }}
-                          draggable="false"
-                        >
-                          <Typography variant="h5">{user.emoji}</Typography>
-                        </ThemeAvatar>
-                      </ThemeOnlineBadge>
-                      <Typography variant="h6" sx={{ wordBreak: 'break-word' }}>
-                        <b>
-                          {users.find((u) => u.uid === user.uid)?.displayName}
-                        </b>
-                      </Typography>
-                    </Stack>
-                  </Link>
+                        <Typography variant="h5">{user.emoji}</Typography>
+                      </ThemeAvatar>
+                    </ThemeOnlineBadge>
+                    <Typography variant="h6" sx={{ wordBreak: 'break-word' }}>
+                      <b>
+                        {users.find((u) => u.uid === user.uid)?.displayName}
+                      </b>
+                    </Typography>
+                  </Stack>
                 ))
               ) : (
                 <Typography

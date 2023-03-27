@@ -6,25 +6,21 @@ export const menu: IMenuItem[] = [
   {
     link: '/',
     icon: Icons.Article,
+    title: 'News',
   },
-  // {
-  //   link: '/messenger',
-  //   icon: Icons.Forum,
-  // },
   {
     link: '/friends',
     icon: Icons.Group,
+    title: 'Friends',
   },
-  // {
-  //   link: '/groups',
-  //   icon: Icons.Groups,
-  // },
-  // {
-  //   link: '/photos',
-  //   icon: Icons.Photo,
-  // },
-  // {
-  //   link: '/music',
-  //   icon: Icons.MusicNote,
-  // },
+  {
+    link: '/bookmarks',
+    icon: Icons.BookmarkBorder,
+    title: 'Bookmarks',
+  },
+  {
+    link: '/about',
+    icon: Icons.InfoOutlined,
+    title: 'About',
+  },
 ]

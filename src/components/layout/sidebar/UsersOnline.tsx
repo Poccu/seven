@@ -34,36 +34,35 @@ export const UsersOnline: FC = () => {
       <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mt: 1 }}>
         {usersRdbList.length > 0 && onlineUsersList.length > 0
           ? onlineUsersList.map((user: any) => (
-              <Box key={user.uid} sx={{ width: '55px' }}>
-                <Link to={`/profile/${user.uid}`}>
-                  <ThemeOnlineBadge
-                    overlap="circular"
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right',
+              <Box
+                key={user.uid}
+                sx={{ width: '55px' }}
+                component={Link}
+                to={`/profile/${user.uid}`}
+              >
+                <ThemeOnlineBadge
+                  overlap="circular"
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  variant={usersRdb[user.uid]?.isOnline ? 'dot' : undefined}
+                >
+                  <ThemeAvatar
+                    alt={user.displayName}
+                    src={users.find((u) => u.uid === user.uid)?.photoURL}
+                    sx={{
+                      width: '55px',
+                      height: '55px',
+                      mb: 0.5,
                     }}
-                    variant={usersRdb[user.uid]?.isOnline ? 'dot' : undefined}
                   >
-                    <ThemeAvatar
-                      alt={user.displayName}
-                      src={users.find((u) => u.uid === user.uid)?.photoURL}
-                      sx={{
-                        width: '55px',
-                        height: '55px',
-                        mb: 0.5,
-                      }}
-                    >
-                      <Typography variant="h5">{user.emoji}</Typography>
-                    </ThemeAvatar>
-                  </ThemeOnlineBadge>
-                  <Typography
-                    variant="body2"
-                    textAlign="center"
-                    fontSize="13px"
-                  >
-                    {showUserName(user.displayName)}
-                  </Typography>
-                </Link>
+                    <Typography variant="h5">{user.emoji}</Typography>
+                  </ThemeAvatar>
+                </ThemeOnlineBadge>
+                <Typography variant="body2" textAlign="center" fontSize="13px">
+                  {showUserName(user.displayName)}
+                </Typography>
               </Box>
             ))
           : [...Array(4).keys()].map((user) => (

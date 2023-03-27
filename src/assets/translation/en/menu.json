@@ -1,14 +1,9 @@
 {
-  "title0": "News",
-  "title1": "Friends",
-  "title2": "Messenger",
-  "title3": "Communities",
-  "title4": "Photos",
-  "title5": "Music",
+  "News": "News",
+  "Friends": "Friends",
   "Bookmarks": "Bookmarks",
   "About": "About",
   "Logout": "Logout",
-  "title9": "Sign in",
   "My profile": "My profile",
   "Settings": "Settings"
 }
