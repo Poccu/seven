@@ -1,9 +1,14 @@
 import { FC, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { serverTimestamp } from 'firebase/firestore'
 import { signOut } from 'firebase/auth'
-import { ref, onValue, set, onDisconnect } from 'firebase/database'
+import {
+  ref,
+  onValue,
+  set,
+  onDisconnect,
+  serverTimestamp,
+} from 'firebase/database'
 
 import {
   Box,

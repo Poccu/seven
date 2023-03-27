@@ -2,8 +2,14 @@ import { FC, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { signOut } from 'firebase/auth'
-import { ref, onValue, set, onDisconnect } from 'firebase/database'
-import { serverTimestamp } from 'firebase/firestore'
+import {
+  ref,
+  onValue,
+  set,
+  onDisconnect,
+  serverTimestamp,
+} from 'firebase/database'
+// import { serverTimestamp } from 'firebase/firestore'
 
 import { IconButton, MenuItem, ListItemText, Divider } from '@mui/material'
 import { Person, Tune, Logout, Menu } from '@mui/icons-material'
