@@ -106,7 +106,7 @@ export const BookmarksPostMenu: FC<Props> = ({ post }) => {
       console.log('Delete Bookmark failed: ', e)
     }
 
-    enqueueSnackbar(t('Post removed from Bookmarks!'), { variant: 'error' })
+    enqueueSnackbar(t('Post removed from Bookmarks'), { variant: 'error' })
   }
 
   return (

@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { deleteDoc, doc } from 'firebase/firestore'
+import { useSnackbar } from 'notistack'
 
 import { Box } from '@mui/material'
 import { Clear } from '@mui/icons-material'
@@ -24,6 +25,7 @@ export const DeletePost: FC<Props> = ({
 }) => {
   const { t } = useTranslation(['news'])
   const { db } = useAuth()
+  const { enqueueSnackbar } = useSnackbar()
 
   const [progress, setProgress] = useState(0)
 
@@ -41,6 +43,8 @@ export const DeletePost: FC<Props> = ({
   if (progress === 100) {
     setTimeout(() => {
       deleteDoc(doc(db, 'posts', post.id))
+
+      enqueueSnackbar(t('Post has been deleted'), { variant: 'error' })
     }, 290)
   }
 

@@ -2,8 +2,8 @@
   "News": "Новости",
   "What's new?": "Что нового?",
   "Leave a comment…": "Написать комментарий…",
-  "Post added to Bookmarks!": "Пост добавлен в Закладки!",
-  "Post removed from Bookmarks!": "Пост удален из Закладок!",
+  "Post added to Bookmarks": "Пост добавлен в Закладки",
+  "Post removed from Bookmarks": "Пост удален из Закладок",
   "Add to Bookmarks": "Добавить в Закладки",
   "Remove from Bookmarks": "Удалить из Закладок",
   "Edit": "Редактировать",
@@ -13,5 +13,8 @@
   "Edit comment": "Редактировать комментарий",
   "Undo": "Отменить",
   "Cancel": "Отменить",
-  "Save": "Сохранить"
+  "Save": "Сохранить",
+  "Post has been updated": "Пост обновлен",
+  "Comment has been updated": "Комментарий обновлен",
+  "Post has been deleted": "Пост удален"
 }

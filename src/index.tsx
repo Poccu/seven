@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { SnackbarProvider } from 'notistack'
 
-import { Grow } from '@mui/material'
+import { Slide } from '@mui/material'
 
 import { AuthProvider } from '@providers/AuthProvider'
 
@@ -26,9 +26,9 @@ root.render(
       onBeforeLift={onBeforeLift}
     >
       <SnackbarProvider
-        maxSnack={1}
+        maxSnack={3}
         autoHideDuration={5000}
-        TransitionComponent={Grow}
+        TransitionComponent={Slide}
       >
         <AuthProvider>
           <App />

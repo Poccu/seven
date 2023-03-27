@@ -9,7 +9,6 @@ import {
   onDisconnect,
   serverTimestamp,
 } from 'firebase/database'
-// import { serverTimestamp } from 'firebase/firestore'
 
 import { IconButton, MenuItem, ListItemText, Divider } from '@mui/material'
 import { Person, Tune, Logout, Menu } from '@mui/icons-material'

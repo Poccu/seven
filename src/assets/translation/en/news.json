@@ -2,8 +2,8 @@
   "News": "News",
   "What's new?": "What's new?",
   "Leave a comment…": "Leave a comment…",
-  "Post added to Bookmarks!": "Post added to Bookmarks!",
-  "Post removed from Bookmarks!": "Post removed from Bookmarks!",
+  "Post added to Bookmarks": "Post added to Bookmarks",
+  "Post removed from Bookmarks": "Post removed from Bookmarks",
   "Add to Bookmarks": "Add to Bookmarks",
   "Remove from Bookmarks": "Remove from Bookmarks",
   "Edit": "Edit",
@@ -13,5 +13,8 @@
   "Edit comment": "Edit comment",
   "Undo": "Undo",
   "Cancel": "Cancel",
-  "Save": "Save"
+  "Save": "Save",
+  "Post has been updated": "Post has been updated",
+  "Comment has been updated": "Comment has been updated",
+  "Post has been deleted": "Post has been deleted"
 }

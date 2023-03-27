@@ -133,7 +133,7 @@ export const NewsPostMenu: FC<Props> = ({
       console.log('Bookmark failed: ', e)
     }
 
-    enqueueSnackbar(t('Post added to Bookmarks!'), { variant: 'success' })
+    enqueueSnackbar(t('Post added to Bookmarks'), { variant: 'success' })
   }
 
   const handleRemoveBookmark = async (post: IPost) => {
@@ -182,7 +182,7 @@ export const NewsPostMenu: FC<Props> = ({
       console.log('Delete Bookmark failed: ', e)
     }
 
-    enqueueSnackbar(t('Post removed from Bookmarks!'), { variant: 'error' })
+    enqueueSnackbar(t('Post removed from Bookmarks'), { variant: 'error' })
   }
 
   return (

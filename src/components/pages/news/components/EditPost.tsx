@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { doc, setDoc } from 'firebase/firestore'
+import { useSnackbar } from 'notistack'
 
 import { Stack } from '@mui/material'
 import { Clear, Check } from '@mui/icons-material'
@@ -21,6 +22,7 @@ type Props = {
 export const EditPost: FC<Props> = ({ post, setEditingId }) => {
   const { t } = useTranslation(['news'])
   const { db } = useAuth()
+  const { enqueueSnackbar } = useSnackbar()
 
   const [content, setContent] = useState(post.content)
 
@@ -29,6 +31,8 @@ export const EditPost: FC<Props> = ({ post, setEditingId }) => {
       const docRef = doc(db, 'posts', post.id)
       setDoc(docRef, { content: content.trim() }, { merge: true })
       setEditingId('')
+
+      enqueueSnackbar(t('Post has been updated'), { variant: 'success' })
     }
   }
 

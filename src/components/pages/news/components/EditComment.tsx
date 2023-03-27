@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { doc, runTransaction } from 'firebase/firestore'
+import { useSnackbar } from 'notistack'
 
 import { Box, Stack } from '@mui/material'
 import { Check, Clear } from '@mui/icons-material'
@@ -22,6 +23,7 @@ type Props = {
 export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
   const { t } = useTranslation(['news'])
   const { db } = useAuth()
+  const { enqueueSnackbar } = useSnackbar()
 
   const [content, setContent] = useState(comment.content)
 
@@ -52,6 +54,8 @@ export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
         })
       })
       setEditingId('')
+
+      enqueueSnackbar(t('Comment has been updated'), { variant: 'success' })
     } catch (e) {
       console.log('Edit comment failed: ', e)
     }
