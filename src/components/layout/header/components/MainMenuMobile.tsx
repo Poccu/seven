@@ -19,7 +19,7 @@ import { removeUser } from '@reducers/UserSlice'
 import { removeUsers } from '@reducers/UsersSlice'
 import { removePosts } from '@reducers/PostsSlice'
 import { removeBookmarks } from '@reducers/BookmarksSlice'
-import { menu } from '@layout/sidebar/menu/menuList'
+import { menu } from '@layout/sidebar/components/menuList'
 import { StyledMenu } from '@ui/ThemeMenu'
 
 export const MainMenuMobile: FC = () => {
