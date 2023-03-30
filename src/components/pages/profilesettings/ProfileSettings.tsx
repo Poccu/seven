@@ -73,7 +73,7 @@ export const ProfileSettings: FC = () => {
           onFocus={moveFocusAtEnd}
           sx={{ maxWidth: '400px' }}
         />
-        <Stack direction="row" spacing={2}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <ThemeSmallButton startIcon={<Clear />} onClick={handleCancel}>
             {t('Cancel')}
           </ThemeSmallButton>

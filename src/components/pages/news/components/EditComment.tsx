@@ -76,11 +76,11 @@ export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             onFocus={moveFocusAtEnd}
-            sx={{ mr: 2 }}
+            sx={{ mr: { xs: 0, sm: 2 } }}
           />
           <AddEmoji setContent={setContent} />
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <ThemeSmallButton
             startIcon={<Clear />}
             onClick={() => {

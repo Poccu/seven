@@ -21,6 +21,7 @@ import {
 import {
   ChatBubbleOutline,
   Clear,
+  Edit,
   Favorite,
   FavoriteBorder,
   TaskAlt,
@@ -582,7 +583,7 @@ export const NewsPost: FC<Props> = ({
               >
                 <Divider sx={{ my: 2 }} />
                 <Stack direction="row" justifyContent="space-between">
-                  <Stack direction="row" spacing={2}>
+                  <Stack direction="row" spacing={2} sx={{ width: '100%' }}>
                     <Link to={`/profile/${comment.author.uid}`}>
                       <ThemeAvatar
                         alt={comment.author.displayName}
@@ -596,7 +597,7 @@ export const NewsPost: FC<Props> = ({
                         {comment.author.emoji}
                       </ThemeAvatar>
                     </Link>
-                    <Stack>
+                    <Stack sx={{ width: '100%' }}>
                       <Stack alignItems="center" direction="row" spacing={0.5}>
                         <Link to={`/profile/${comment.author.uid}`}>
                           <Typography
@@ -656,7 +657,10 @@ export const NewsPost: FC<Props> = ({
                               variant="body2"
                               color="textSecondary"
                               onClick={() => setEditingId(comment.id)}
-                              sx={{ cursor: 'pointer' }}
+                              sx={{
+                                cursor: 'pointer',
+                                display: { xs: 'none', sm: 'block' },
+                              }}
                             >
                               {t('Edit')}
                             </Typography>
@@ -680,6 +684,22 @@ export const NewsPost: FC<Props> = ({
                     ) : (
                       <Box sx={{ height: '40px', width: '40px' }}></Box>
                     )}
+
+                    {comment.author.uid === uid &&
+                      comment.id === visibleId &&
+                      !isOneDayPassed(+comment.createdAt) && (
+                        <IconButton
+                          onClick={() => setEditingId(comment.id)}
+                          color="secondary"
+                          sx={{
+                            height: '40px',
+                            width: '40px',
+                            display: { xs: 'block', sm: 'none' },
+                          }}
+                        >
+                          <Edit sx={{ height: '20px', width: '20px' }} />
+                        </IconButton>
+                      )}
 
                     {(comment.likes.length > 0 || comment.id === visibleId) && (
                       <Stack
