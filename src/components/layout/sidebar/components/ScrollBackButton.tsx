@@ -2,19 +2,17 @@ import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Stack, Typography } from '@mui/material'
-import { ExpandLess } from '@mui/icons-material'
+import { ExpandMore } from '@mui/icons-material'
 
 type Props = {
-  height: number
-  setHeightBack: React.Dispatch<React.SetStateAction<number>>
+  heightBack: number
 }
 
-export const ScrollToTopButton: FC<Props> = ({ height, setHeightBack }) => {
+export const ScrollBackButton: FC<Props> = ({ heightBack }) => {
   const { t } = useTranslation(['other'])
 
   const handleScroll = () => {
-    setHeightBack(height)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: heightBack, behavior: 'smooth' })
   }
 
   return (
@@ -32,9 +30,9 @@ export const ScrollToTopButton: FC<Props> = ({ height, setHeightBack }) => {
       }}
       onClick={handleScroll}
     >
-      <ExpandLess color="primary" fontSize="large" />
+      <ExpandMore color="primary" fontSize="large" />
       <Typography color="primary">
-        <b>{t('Up')}</b>
+        <b>{t('Back')}</b>
       </Typography>
     </Stack>
   )
