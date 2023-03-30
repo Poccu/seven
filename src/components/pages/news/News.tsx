@@ -30,12 +30,13 @@ export const News: FC = () => {
   const { db } = useAuth()
   document.title = t('News')
 
-  const [editingId, setEditingId] = useState('')
-  const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
-
   const { posts } = useAppSelector((state) => state.posts)
   const { users } = useAppSelector((state) => state.users)
   const dispatch = useAppDispatch()
+
+  const [numberVisiblePosts, setNumberVisiblePosts] = useState(3)
+  const [editingId, setEditingId] = useState('')
+  const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
 
   useEffect(() => {
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
@@ -64,24 +65,45 @@ export const News: FC = () => {
     // eslint-disable-next-line
   }, [db])
 
+  useEffect(() => {
+    document.addEventListener('scroll', handleScroll)
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  const handleScroll = (e: any) => {
+    const scrollHeight = e.target.documentElement.scrollHeight
+    const scrollTop = e.target.documentElement.scrollTop
+    const innerHeight = window.innerHeight
+
+    if (scrollHeight - (scrollTop + innerHeight) < 100) {
+      setNumberVisiblePosts((prev) => prev + 1)
+    }
+  }
+
   return (
     <>
       <AddPost />
-      <NewsOrderBy />
+      <NewsOrderBy setNumberVisiblePosts={setNumberVisiblePosts} />
       {users.length > 0 ? (
-        <TransitionGroup>
-          {posts.map((post) => (
-            <Collapse key={post.id}>
-              <NewsPost
-                post={post}
-                deletedPosts={deletedPosts}
-                setDeletedPosts={setDeletedPosts}
-                editingId={editingId}
-                setEditingId={setEditingId}
-              />
-            </Collapse>
-          ))}
-        </TransitionGroup>
+        <>
+          <TransitionGroup>
+            {posts.slice(0, numberVisiblePosts).map((post) => (
+              <Collapse key={post.id}>
+                <NewsPost
+                  post={post}
+                  deletedPosts={deletedPosts}
+                  setDeletedPosts={setDeletedPosts}
+                  editingId={editingId}
+                  setEditingId={setEditingId}
+                />
+              </Collapse>
+            ))}
+          </TransitionGroup>
+          {numberVisiblePosts < posts.length && <SkeletonPost />}
+        </>
       ) : (
         [...Array(3).keys()].map((post) => <SkeletonPost key={post} />)
       )}

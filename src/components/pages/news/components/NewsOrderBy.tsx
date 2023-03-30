@@ -17,25 +17,33 @@ import {
   setPostsByPopularity,
 } from '@reducers/PostsSlice'
 
-export const NewsOrderBy: FC = () => {
+type Props = {
+  setNumberVisiblePosts: React.Dispatch<React.SetStateAction<number>>
+}
+
+export const NewsOrderBy: FC<Props> = ({ setNumberVisiblePosts }) => {
   const { t } = useTranslation(['other'])
 
   const { sortPostsBy } = useAppSelector((state) => state.posts)
   const dispatch = useAppDispatch()
 
   const handleSortPostsByNewest = () => {
+    setNumberVisiblePosts(3)
     dispatch(setPostsByNewest())
   }
 
   const handleSortPostsByOldest = () => {
+    setNumberVisiblePosts(3)
     dispatch(setPostsByOldest())
   }
 
   const handleSortPostsByPopularity = () => {
+    setNumberVisiblePosts(3)
     dispatch(setPostsByPopularity())
   }
 
   const handleSortPostsByControversial = () => {
+    setNumberVisiblePosts(3)
     dispatch(setPostsByControversial())
   }
 

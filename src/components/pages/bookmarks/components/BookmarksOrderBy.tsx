@@ -17,25 +17,33 @@ import {
   setBookmarksByPopularity,
 } from '@reducers/BookmarksSlice'
 
-export const BookmarksOrderBy: FC = () => {
+type Props = {
+  setNumberVisiblePosts: React.Dispatch<React.SetStateAction<number>>
+}
+
+export const BookmarksOrderBy: FC<Props> = ({ setNumberVisiblePosts }) => {
   const { t } = useTranslation(['other'])
 
   const { sortBookmarksBy } = useAppSelector((state) => state.bookmarks)
   const dispatch = useAppDispatch()
 
   const handleSortBookmarksByNewest = () => {
+    setNumberVisiblePosts(4)
     dispatch(setBookmarksByNewest())
   }
 
   const handleSortBookmarksByOldest = () => {
+    setNumberVisiblePosts(4)
     dispatch(setBookmarksByOldest())
   }
 
   const handleSortBookmarksByPopularity = () => {
+    setNumberVisiblePosts(4)
     dispatch(setBookmarksByPopularity())
   }
 
   const handleSortBookmarksByControversial = () => {
+    setNumberVisiblePosts(4)
     dispatch(setBookmarksByControversial())
   }
 

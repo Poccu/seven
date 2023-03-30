@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TransitionGroup } from 'react-transition-group'
 import {
@@ -32,6 +32,8 @@ export const Bookmarks: FC = () => {
   const { users } = useAppSelector((state) => state.users)
   const { bookmarks } = useAppSelector((state) => state.bookmarks)
   const dispatch = useAppDispatch()
+
+  const [numberVisiblePosts, setNumberVisiblePosts] = useState(4)
 
   useEffect(() => {
     const q = query(
@@ -75,6 +77,24 @@ export const Bookmarks: FC = () => {
     }
   }, [db, uid])
 
+  useEffect(() => {
+    document.addEventListener('scroll', handleScroll)
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  const handleScroll = (e: any) => {
+    const scrollHeight = e.target.documentElement.scrollHeight
+    const scrollTop = e.target.documentElement.scrollTop
+    const innerHeight = window.innerHeight
+
+    if (scrollHeight - (scrollTop + innerHeight) < 100) {
+      setNumberVisiblePosts((prev) => prev + 1)
+    }
+  }
+
   return (
     <>
       <BorderBox sx={{ p: 3, mb: 2 }}>
@@ -82,15 +102,18 @@ export const Bookmarks: FC = () => {
           <b>{t('Bookmarks')}</b>
         </Typography>
       </BorderBox>
-      <BookmarksOrderBy />
+      <BookmarksOrderBy setNumberVisiblePosts={setNumberVisiblePosts} />
       {users.length > 0 ? (
-        <TransitionGroup>
-          {bookmarks.map((post) => (
-            <Collapse key={post.id}>
-              <BookmarksPost post={post} />
-            </Collapse>
-          ))}
-        </TransitionGroup>
+        <>
+          <TransitionGroup>
+            {bookmarks.slice(0, numberVisiblePosts).map((post) => (
+              <Collapse key={post.id}>
+                <BookmarksPost post={post} />
+              </Collapse>
+            ))}
+          </TransitionGroup>
+          {numberVisiblePosts < bookmarks.length && <SkeletonPost />}
+        </>
       ) : (
         [...Array(3).keys()].map((post) => <SkeletonPost key={post} />)
       )}
