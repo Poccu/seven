@@ -5,6 +5,7 @@ import Grid2 from '@mui/material/Unstable_Grid2'
 import { Analytics } from '@vercel/analytics/react'
 
 import { useAppSelector } from '@hooks/redux'
+import { ScrollToTop } from '@layout/ScrollToTop'
 
 import { Sidebar } from './sidebar/Sidebar'
 import { Header } from './header/Header'
@@ -19,6 +20,7 @@ export const Layout: FC<Props> = ({ children }) => {
 
   return (
     <>
+      <ScrollToTop />
       <Header />
       <main>
         <Container maxWidth="lg" sx={{ mt: 10, mb: 2 }}>
