@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Box, IconButton, Modal } from '@mui/material'
+import { IconButton, Modal } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
 type Props = {
@@ -17,34 +17,21 @@ export const ModalImage: FC<Props> = ({
   return (
     <Modal
       open={openImage}
-      onClose={handleCloseImage}
+      onClick={handleCloseImage}
       BackdropProps={{
         style: { backgroundColor: 'rgba(0, 0, 0, 0.95)' },
       }}
       sx={{ zIndex: 1600 }}
     >
       <>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-          display="flex"
-        >
-          <img
-            src={modalImage}
-            alt={modalImage}
-            height="100%"
-            width="100%"
-            className="contain"
-            loading="lazy"
-            draggable={false}
-          />
-        </Box>
+        <img
+          src={modalImage}
+          alt={modalImage}
+          className="contain"
+          loading="lazy"
+          draggable={false}
+        />
         <IconButton
-          onClick={handleCloseImage}
           color="secondary"
           sx={{
             position: 'absolute',
