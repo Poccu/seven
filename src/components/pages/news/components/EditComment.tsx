@@ -28,7 +28,7 @@ export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
   const [content, setContent] = useState(comment.content)
 
   const handleEditComment = async (post: IPost, comment: IComment) => {
-    if (!content.trim()) return
+    if (!content.replaceAll('ㅤ', '').trim()) return
     const docRef = doc(db, 'posts', post.id)
 
     try {
@@ -42,7 +42,7 @@ export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
         const com: IComment = sfDoc
           .data()
           .comments.find((x: IComment) => x.id === comment.id)
-        com.content = content.trim()
+        com.content = content.replaceAll('ㅤ', '').trim()
 
         const newCommentsArr = [
           ...sfDoc.data().comments.filter((x: IComment) => x.id !== comment.id),

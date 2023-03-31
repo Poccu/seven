@@ -27,13 +27,17 @@ export const EditPost: FC<Props> = ({ post, setEditingId }) => {
   const [content, setContent] = useState(post.content)
 
   const handleEditPost = async () => {
-    if (content.trim() || post.images.length > 0) {
-      const docRef = doc(db, 'posts', post.id)
-      setDoc(docRef, { content: content.trim() }, { merge: true })
-      setEditingId('')
+    if (!content.replaceAll('ㅤ', '').trim() && post.images.length === 0) return
+    const docRef = doc(db, 'posts', post.id)
 
-      enqueueSnackbar(t('Post has been updated'), { variant: 'success' })
-    }
+    setDoc(
+      docRef,
+      { content: content.replaceAll('ㅤ', '').trim() },
+      { merge: true }
+    )
+    setEditingId('')
+
+    enqueueSnackbar(t('Post has been updated'), { variant: 'success' })
   }
 
   return (

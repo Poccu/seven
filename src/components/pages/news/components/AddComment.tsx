@@ -30,7 +30,7 @@ export const AddComment: FC<Props> = ({ post }) => {
   const [content, setContent] = useState('')
 
   const handleSendComment = async (e: any) => {
-    if (!content.trim()) return
+    if (!content.replaceAll('ㅤ', '').trim()) return
     const docRef = doc(db, 'posts', post.id)
 
     try {
@@ -45,7 +45,7 @@ export const AddComment: FC<Props> = ({ post }) => {
           ...sfDoc.data().comments,
           {
             author: { uid, displayName, photoURL, emoji },
-            content: content.trim(),
+            content: content.replaceAll('ㅤ', '').trim(),
             createdAt: Date.now(),
             images: [],
             likes: [],

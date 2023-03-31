@@ -29,31 +29,30 @@ export const AddPost: FC = () => {
   const [imagesIdDb, setImagesIdDb] = useState<string>('')
 
   const handleSendPost = async (e: any) => {
-    if (content.trim() || images.length > 0) {
-      const uniqueId = generateUniqueId()
+    if (!content.replaceAll('ㅤ', '').trim() && images.length === 0) return
+    const uniqueId = generateUniqueId()
 
-      try {
-        await setDoc(doc(db, 'posts', imagesIdDb || uniqueId), {
-          author: { uid, displayName, photoURL, emoji },
-          content: content.trim(),
-          createdAt: Date.now(),
-          comments: [],
-          likes: [],
-          bookmarks: [],
-          images,
-          views: 0,
-          id: imagesIdDb || uniqueId,
-        })
+    try {
+      await setDoc(doc(db, 'posts', imagesIdDb || uniqueId), {
+        author: { uid, displayName, photoURL, emoji },
+        content: content.replaceAll('ㅤ', '').trim(),
+        createdAt: Date.now(),
+        comments: [],
+        likes: [],
+        bookmarks: [],
+        images,
+        views: 0,
+        id: imagesIdDb || uniqueId,
+      })
 
-        setContent('')
-      } catch (e) {
-        console.error('Error adding document: ', e)
-      }
       setContent('')
-      setImagesIdDb('')
-      setImages([])
-      e.target.blur()
+    } catch (e) {
+      console.error('Error adding document: ', e)
     }
+    setContent('')
+    setImagesIdDb('')
+    setImages([])
+    e.target.blur()
   }
 
   const handleDeleteImage = (imageUrl: string) => {
