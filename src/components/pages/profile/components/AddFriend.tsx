@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { doc, runTransaction } from 'firebase/firestore'
+import { useSnackbar } from 'notistack'
 
 import { PersonAddAlt1, PersonRemoveAlt1 } from '@mui/icons-material'
 
@@ -13,6 +14,7 @@ import { IUser } from 'src/types/types'
 export const AddFriend: FC = () => {
   const { t } = useTranslation(['profile'])
   const { db } = useAuth()
+  const { enqueueSnackbar } = useSnackbar()
 
   const { emoji, uid, displayName, photoURL, friends } = useAppSelector(
     (state) => state.user
@@ -68,6 +70,11 @@ export const AddFriend: FC = () => {
         transaction.update(curRef, {
           friends: newFriendsArrCur,
         })
+
+        enqueueSnackbar(t('User added to Friends'), {
+          preventDuplicate: true,
+          variant: 'success',
+        })
       })
     } catch (e) {
       console.log('Add friend failed: ', e)
@@ -106,6 +113,11 @@ export const AddFriend: FC = () => {
 
         transaction.update(curRef, {
           friends: newFriendsArrCur,
+        })
+
+        enqueueSnackbar(t('User removed from Friends'), {
+          preventDuplicate: true,
+          variant: 'error',
         })
       })
     } catch (e) {

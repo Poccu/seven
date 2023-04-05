@@ -6,5 +6,8 @@
   "Delete photo": "Удалить фото",
   "Add friend": "Добавить в друзья",
   "Delete friend": "Удалить из друзей",
-  "Settings": "Настройки"
+  "Settings": "Настройки",
+  "User added to Friends": "Пользователь добавлен в друзья",
+  "User removed from Friends": "Пользователь удален из друзей",
+  "Add friends": "Добавить друзей"
 }

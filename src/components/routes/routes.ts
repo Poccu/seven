@@ -2,6 +2,7 @@ import { About } from '@pages/about/About'
 import { Auth } from '@pages/auth/Auth'
 import { Bookmarks } from '@pages/bookmarks/Bookmarks'
 import { Friends } from '@pages/friends/Friends'
+import { Users } from '@pages/users/Users'
 import { News } from '@pages/news/News'
 import { Profile } from '@pages/profile/Profile'
 import { ProfileSettings } from '@pages/profilesettings/ProfileSettings'
@@ -29,6 +30,12 @@ export const routes = [
     path: '/friends',
     exact: true,
     component: Friends,
+    auth: true,
+  },
+  {
+    path: '/users',
+    exact: true,
+    component: Users,
     auth: true,
   },
   {

@@ -6,5 +6,8 @@
   "Delete photo": "Delete photo",
   "Add friend": "Add friend",
   "Delete friend": "Delete friend",
-  "Settings": "Settings"
+  "Settings": "Settings",
+  "User added to Friends": "User added to Friends",
+  "User removed from Friends": "User removed from Friends",
+  "Add friends": "Add friends"
 }

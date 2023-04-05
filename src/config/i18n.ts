@@ -7,6 +7,7 @@ import translationEnAbout from '@assets/translation/en/about.json'
 import translationEnAuth from '@assets/translation/en/auth.json'
 import translationEnBookmarks from '@assets/translation/en/bookmarks.json'
 import translationEnFriends from '@assets/translation/en/friends.json'
+import translationEnUsers from '@assets/translation/en/users.json'
 import translationEnNews from '@assets/translation/en/news.json'
 import translationEnNotFound from '@assets/translation/en/notFound.json'
 import translationEnProfile from '@assets/translation/en/profile.json'
@@ -19,6 +20,7 @@ import translationRuAbout from '@assets/translation/ru/about.json'
 import translationRuAuth from '@assets/translation/ru/auth.json'
 import translationRuBookmarks from '@assets/translation/ru/bookmarks.json'
 import translationRuFriends from '@assets/translation/ru/friends.json'
+import translationRuUsers from '@assets/translation/ru/users.json'
 import translationRuNews from '@assets/translation/ru/news.json'
 import translationRuNotFound from '@assets/translation/ru/notFound.json'
 import translationRuProfile from '@assets/translation/ru/profile.json'
@@ -33,6 +35,7 @@ const resources = {
     auth: translationEnAuth,
     bookmarks: translationEnBookmarks,
     friends: translationEnFriends,
+    users: translationEnUsers,
     news: translationEnNews,
     notFound: translationEnNotFound,
     profile: translationEnProfile,
@@ -46,6 +49,7 @@ const resources = {
     auth: translationRuAuth,
     bookmarks: translationRuBookmarks,
     friends: translationRuFriends,
+    users: translationRuUsers,
     news: translationRuNews,
     notFound: translationRuNotFound,
     profile: translationRuProfile,

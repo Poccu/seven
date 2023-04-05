@@ -14,6 +14,11 @@ export const menu: IMenuItem[] = [
     title: 'Friends',
   },
   {
+    link: '/users',
+    icon: Icons.EmojiPeople,
+    title: 'Users',
+  },
+  {
     link: '/bookmarks',
     icon: Icons.BookmarkBorder,
     title: 'Bookmarks',

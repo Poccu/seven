@@ -86,10 +86,7 @@ export const Profile: FC = () => {
                     >
                       <TaskAlt
                         color="info"
-                        sx={{
-                          width: '30px ',
-                          height: '30px',
-                        }}
+                        sx={{ width: '30px ', height: '30px' }}
                       />
                     </Tooltip>
                   )}

@@ -298,10 +298,7 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
                   >
                     <TaskAlt
                       color="info"
-                      sx={{
-                        width: '20px ',
-                        height: '20px',
-                      }}
+                      sx={{ width: '20px ', height: '20px' }}
                     />
                   </Tooltip>
                 )}
@@ -548,10 +545,7 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
                           >
                             <TaskAlt
                               color="info"
-                              sx={{
-                                width: '20px ',
-                                height: '20px',
-                              }}
+                              sx={{ width: '20px ', height: '20px' }}
                             />
                           </Tooltip>
                         )}
