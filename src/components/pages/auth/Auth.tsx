@@ -125,13 +125,11 @@ export const Auth: FC = () => {
         userData.password
       )
         .then(async (userCredential) => {
-          // console.log('REGISTERED', userCredential)
           const user = userCredential.user
 
           await updateProfile(user, {
             displayName: userData.displayName,
           })
-          // console.log('User profile updated', user)
 
           try {
             await setDoc(doc(db, 'users', user.uid), {
@@ -162,11 +160,7 @@ export const Auth: FC = () => {
         })
     } else {
       await signInWithEmailAndPassword(ga, userData.email, userData.password)
-        .then((userCredential) => {
-          // Signed in
-          // const user = userCredential.user
-          // ...
-        })
+        .then((userCredential) => {})
         .catch((error) => {
           error.code === 'auth/user-not-found' && setUserNotFound(true)
           error.code === 'auth/wrong-password' && setWrongPassword(true)
@@ -177,10 +171,6 @@ export const Auth: FC = () => {
   const handleGoogleLogin = () => {
     signInWithPopup(ga, gProvider)
       .then(async (result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result)
-        // const token = credential?.accessToken
-        // The signed-in user info.
         const user = result.user
         const docRef = doc(db, 'users', user.uid)
 
@@ -216,25 +206,15 @@ export const Auth: FC = () => {
         }
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code
         const errorMessage = error.message
         console.log('----------------', errorCode, errorMessage)
-        // The email of the user's account used.
-        // const email = error.customData.email
-        // The AuthCredential type that was used.
-        // const credential = GoogleAuthProvider.credentialFromError(error)
-        // ...
       })
   }
 
   const handleGithubLogin = () => {
     signInWithPopup(ga, gitProvider)
       .then(async (result) => {
-        // // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-        // const credential = GithubAuthProvider.credentialFromResult(result)
-        // const token = credential?.accessToken
-        // // The signed-in user info.
         const user = result.user
         const docRef = doc(db, 'users', user.uid)
 
@@ -270,25 +250,15 @@ export const Auth: FC = () => {
         }
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code
         const errorMessage = error.message
         console.log('----------------', errorCode, errorMessage)
-        // The email of the user's account used.
-        // const email = error.customData.email
-        // The AuthCredential type that was used.
-        // const credential = GithubAuthProvider.credentialFromError(error)
-        // ...
       })
   }
 
   const handleFacebookLogin = () => {
     signInWithPopup(ga, fProvider)
       .then(async (result) => {
-        // // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        // const credential = FacebookAuthProvider.credentialFromResult(result)
-        // const token = credential?.accessToken
-        // // The signed-in user info.
         const user = result.user
         const docRef = doc(db, 'users', user.uid)
 
@@ -324,15 +294,9 @@ export const Auth: FC = () => {
         }
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code
         const errorMessage = error.message
         console.log('----------------', errorCode, errorMessage)
-        // The email of the user's account used.
-        // const email = error.customData.email
-        // The AuthCredential type that was used.
-        // const credential = FacebookAuthProvider.credentialFromError(error)
-        // ...
       })
   }
 

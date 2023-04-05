@@ -77,13 +77,10 @@ export const PhotoMenu: FC = () => {
     const storageRef = ref(st, `images/users/${uid}/avatars/${file?.name}`)
     const uploadTask = uploadBytesResumable(storageRef, file)
 
-    // Listen for state changes, errors, and completion of the upload.
     uploadTask.on(
       'state_changed',
       (snapshot) => {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        // console.log('Upload is ' + progress + '% done')
         setProgress(progress)
         switch (snapshot.state) {
           case 'paused':
@@ -104,18 +101,13 @@ export const PhotoMenu: FC = () => {
           case 'storage/canceled':
             // User canceled the upload
             break
-
-          // ...
-
           case 'storage/unknown':
             // Unknown error occurred, inspect error.serverResponse
             break
         }
       },
       () => {
-        // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          // console.log('File available at', downloadURL)
           if (!uid || !ga.currentUser) return
           await updateProfile(ga.currentUser, { photoURL: downloadURL })
 
@@ -221,7 +213,6 @@ export const PhotoMenu: FC = () => {
               position: 'absolute',
               top: '0px',
               left: '0px',
-              // height: '30px',
               width: '100%',
               zIndex: 9999,
             }}

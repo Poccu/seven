@@ -428,8 +428,6 @@ export const NewsPost: FC<Props> = ({
                 <img
                   src={post.images[0]}
                   alt={post.images[0]}
-                  width="100%"
-                  // height="500px"
                   className="image"
                   loading="lazy"
                   draggable={false}

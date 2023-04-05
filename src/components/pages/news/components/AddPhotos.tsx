@@ -34,14 +34,11 @@ export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
       const storageRef = ref(st, `images/posts/${uniqueId}/${file?.name}`)
       const uploadTask = uploadBytesResumable(storageRef, file)
 
-      // Listen for state changes, errors, and completion of the upload.
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          // console.log('Upload is ' + progress + '% done')
           setProgress(progress)
           switch (snapshot.state) {
             case 'paused':
@@ -62,18 +59,13 @@ export const AddPhotos: FC<Props> = ({ setImages, setImagesIdDb }) => {
             case 'storage/canceled':
               // User canceled the upload
               break
-
-            // ...
-
             case 'storage/unknown':
               // Unknown error occurred, inspect error.serverResponse
               break
           }
         },
         () => {
-          // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            // console.log('File available at', downloadURL)
             setImages((prevImages) => [...prevImages, downloadURL])
             setProgress(0)
           })
