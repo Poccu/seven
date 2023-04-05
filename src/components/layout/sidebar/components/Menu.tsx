@@ -43,7 +43,7 @@ export const Menu: FC = () => {
             onClick={() => navigate('/bookmarks')}
             sx={{
               position: 'absolute',
-              top: '128px',
+              top: '176px',
               left: '245px',
               cursor: 'pointer',
               display: { md: 'none', lg: 'inline' },

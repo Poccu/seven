@@ -8,6 +8,7 @@ export const ThemeTooltip = styled(({ className, ...props }: TooltipProps) => (
     backgroundColor: theme.palette.background.default,
     border: '1px solid',
     borderColor: theme.palette.divider,
+    maxWidth: '100%',
   },
   [`& .${tooltipClasses.arrow}`]: {
     color: theme.palette.background.default,

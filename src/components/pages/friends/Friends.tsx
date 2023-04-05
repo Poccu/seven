@@ -1,18 +1,21 @@
 import { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 import { Skeleton, Stack, Typography } from '@mui/material'
+import { PersonAddAlt1 } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
+import { ThemeSmallButton } from '@ui/ThemeButton'
 
 export const Friends: FC = () => {
   const { t } = useTranslation(['friends'])
   const { usersRdb } = useAuth()
+  const navigate = useNavigate()
   document.title = t('Friends')
 
   const { friends } = useAppSelector((state) => state.user)
@@ -67,14 +70,22 @@ export const Friends: FC = () => {
                   </Stack>
                 ))
               ) : (
-                <Typography
-                  variant="h4"
-                  textAlign="center"
-                  color="textSecondary"
-                  sx={{ my: 4 }}
-                >
-                  <b>{t('No friends yet 😞')}</b>
-                </Typography>
+                <Stack direction="column" alignItems="center">
+                  <Typography
+                    variant="h4"
+                    textAlign="center"
+                    color="textSecondary"
+                    sx={{ my: 4 }}
+                  >
+                    <b>{t('No friends yet 😞')}</b>
+                  </Typography>
+                  <ThemeSmallButton
+                    onClick={() => navigate('/users')}
+                    startIcon={<PersonAddAlt1 />}
+                  >
+                    <b>{t('Add friends', { ns: ['profile'] })}</b>
+                  </ThemeSmallButton>
+                </Stack>
               )}
             </>
           ) : (

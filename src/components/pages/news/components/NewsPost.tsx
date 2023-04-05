@@ -33,7 +33,7 @@ import { useAuth } from '@hooks/useAuth'
 import { isOneDayPassed } from '@utils/isOneDayPassed'
 import { showViews } from '@utils/showViews'
 import { BorderBox } from '@ui/ThemeBox'
-import { ThemeAvatar } from '@ui/ThemeAvatar'
+import { ThemeAvatar, ThemeProfileAvatar } from '@ui/ThemeAvatar'
 import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
 import { ThemeTooltip } from '@ui/ThemeTooltip'
 import { ModalLikes } from '@modals/ModalLikes'
@@ -69,6 +69,7 @@ export const NewsPost: FC<Props> = ({
     (state) => state.user
   )
   const { users } = useAppSelector((state) => state.users)
+  const { posts } = useAppSelector((state) => state.posts)
 
   const [openModal, setOpenModal] = useState(false)
   const [modalData, setModalData] = useState<IUser[]>([])
@@ -285,22 +286,103 @@ export const NewsPost: FC<Props> = ({
               spacing={2}
               sx={{ mb: 2 }}
             >
-              <Link to={`/profile/${post.author.uid}`}>
-                <ThemeOnlineBadge
-                  overlap="circular"
-                  variant={
-                    usersRdb[post.author.uid]?.isOnline ? 'dot' : undefined
-                  }
-                >
-                  <ThemeAvatar
-                    alt={post.author.displayName}
-                    src={users.find((u) => u.uid === post.author.uid)?.photoURL}
-                    draggable={false}
+              <ThemeTooltip
+                title={
+                  <Stack
+                    direction={{ xs: 'column', sm: 'row' }}
+                    alignItems={{ xs: 'center', sm: 'flex-start' }}
+                    spacing={3}
+                    sx={{ p: 3 }}
                   >
-                    {post.author.emoji}
-                  </ThemeAvatar>
-                </ThemeOnlineBadge>
-              </Link>
+                    <ThemeProfileAvatar
+                      alt={post.author.displayName}
+                      src={
+                        users.find((u) => u.uid === post.author.uid)?.photoURL
+                      }
+                      draggable="false"
+                    >
+                      <Typography variant="h2">{post.author.emoji}</Typography>
+                    </ThemeProfileAvatar>
+                    <Stack direction="column" spacing={3.5}>
+                      <Stack alignItems="center" direction="row" spacing={0.7}>
+                        <Typography variant="h4">
+                          <b>
+                            {
+                              users.find((u) => u.uid === post.author.uid)
+                                ?.displayName
+                            }
+                          </b>
+                        </Typography>
+                        {post.author?.uid ===
+                          'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
+                          <TaskAlt
+                            color="info"
+                            sx={{ width: '30px ', height: '30px' }}
+                          />
+                        )}
+                      </Stack>
+                      <Stack direction="row" spacing={2}>
+                        <Stack
+                          justifyContent="center"
+                          alignItems="center"
+                          sx={{ width: '55px' }}
+                        >
+                          <Typography variant="h4" color="textSecondary">
+                            <b>
+                              {
+                                users.find((u) => u.uid === post.author.uid)
+                                  ?.friends?.length
+                              }
+                            </b>
+                          </Typography>
+                          <Typography color="textSecondary">
+                            {t('friends', { ns: ['profile'] })}
+                          </Typography>
+                        </Stack>
+                        <Stack
+                          justifyContent="center"
+                          alignItems="center"
+                          sx={{ width: '55px' }}
+                        >
+                          <Typography variant="h4" color="textSecondary">
+                            <b>
+                              {
+                                posts.filter(
+                                  (p: IPost) => p.author.uid === post.author.uid
+                                ).length
+                              }
+                            </b>
+                          </Typography>
+                          <Typography color="textSecondary">
+                            {t('posts', { ns: ['profile'] })}
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </Stack>
+                  </Stack>
+                }
+                placement="top"
+                followCursor
+              >
+                <Link to={`/profile/${post.author.uid}`}>
+                  <ThemeOnlineBadge
+                    overlap="circular"
+                    variant={
+                      usersRdb[post.author.uid]?.isOnline ? 'dot' : undefined
+                    }
+                  >
+                    <ThemeAvatar
+                      alt={post.author.displayName}
+                      src={
+                        users.find((u) => u.uid === post.author.uid)?.photoURL
+                      }
+                      draggable={false}
+                    >
+                      {post.author.emoji}
+                    </ThemeAvatar>
+                  </ThemeOnlineBadge>
+                </Link>
+              </ThemeTooltip>
               <Stack>
                 <Stack alignItems="center" direction="row" spacing={0.5}>
                   <Link to={`/profile/${post.author.uid}`}>
@@ -559,19 +641,108 @@ export const NewsPost: FC<Props> = ({
                 <Divider sx={{ my: 2 }} />
                 <Stack direction="row" justifyContent="space-between">
                   <Stack direction="row" spacing={2} sx={{ width: '100%' }}>
-                    <Link to={`/profile/${comment.author.uid}`}>
-                      <ThemeAvatar
-                        alt={comment.author.displayName}
-                        src={
-                          users.find((u) => u.uid === comment.author.uid)
-                            ?.photoURL
-                        }
-                        draggable={false}
-                        sx={{ mt: 0.6 }}
-                      >
-                        {comment.author.emoji}
-                      </ThemeAvatar>
-                    </Link>
+                    <ThemeTooltip
+                      title={
+                        <Stack
+                          direction={{ xs: 'column', sm: 'row' }}
+                          alignItems={{ xs: 'center', sm: 'flex-start' }}
+                          spacing={3}
+                          sx={{ p: 3 }}
+                        >
+                          <ThemeProfileAvatar
+                            alt={comment.author.displayName}
+                            src={
+                              users.find((u) => u.uid === comment.author.uid)
+                                ?.photoURL
+                            }
+                            draggable="false"
+                          >
+                            <Typography variant="h2">
+                              {comment.author.emoji}
+                            </Typography>
+                          </ThemeProfileAvatar>
+                          <Stack direction="column" spacing={3.5}>
+                            <Stack
+                              alignItems="center"
+                              direction="row"
+                              spacing={0.7}
+                            >
+                              <Typography variant="h4">
+                                <b>
+                                  {
+                                    users.find(
+                                      (u) => u.uid === comment.author.uid
+                                    )?.displayName
+                                  }
+                                </b>
+                              </Typography>
+                              {comment.author?.uid ===
+                                'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
+                                <TaskAlt
+                                  color="info"
+                                  sx={{ width: '30px ', height: '30px' }}
+                                />
+                              )}
+                            </Stack>
+                            <Stack direction="row" spacing={2}>
+                              <Stack
+                                justifyContent="center"
+                                alignItems="center"
+                                sx={{ width: '55px' }}
+                              >
+                                <Typography variant="h4" color="textSecondary">
+                                  <b>
+                                    {
+                                      users.find(
+                                        (u) => u.uid === comment.author.uid
+                                      )?.friends?.length
+                                    }
+                                  </b>
+                                </Typography>
+                                <Typography color="textSecondary">
+                                  {t('friends', { ns: ['profile'] })}
+                                </Typography>
+                              </Stack>
+                              <Stack
+                                justifyContent="center"
+                                alignItems="center"
+                                sx={{ width: '55px' }}
+                              >
+                                <Typography variant="h4" color="textSecondary">
+                                  <b>
+                                    {
+                                      posts.filter(
+                                        (p: IPost) =>
+                                          p.author.uid === comment.author.uid
+                                      ).length
+                                    }
+                                  </b>
+                                </Typography>
+                                <Typography color="textSecondary">
+                                  {t('posts', { ns: ['profile'] })}
+                                </Typography>
+                              </Stack>
+                            </Stack>
+                          </Stack>
+                        </Stack>
+                      }
+                      placement="top"
+                      followCursor
+                    >
+                      <Link to={`/profile/${comment.author.uid}`}>
+                        <ThemeAvatar
+                          alt={comment.author.displayName}
+                          src={
+                            users.find((u) => u.uid === comment.author.uid)
+                              ?.photoURL
+                          }
+                          draggable={false}
+                          sx={{ mt: 0.6 }}
+                        >
+                          {comment.author.emoji}
+                        </ThemeAvatar>
+                      </Link>
+                    </ThemeTooltip>
                     <Stack sx={{ width: '100%' }}>
                       <Stack alignItems="center" direction="row" spacing={0.5}>
                         <Link to={`/profile/${comment.author.uid}`}>

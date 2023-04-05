@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
@@ -11,6 +11,7 @@ import { useAuth } from '@hooks/useAuth'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeProfileAvatar } from '@ui/ThemeAvatar'
 import { ThemeSmallButton } from '@ui/ThemeButton'
+import { ModalImage } from '@modals/ModalImage'
 
 import { IPost, IUser } from 'src/types/types'
 import { AddFriend } from './components/AddFriend'
@@ -35,6 +36,20 @@ export const Profile: FC = () => {
 
   document.title = user?.displayName || 'Seven'
 
+  const [openImage, setOpenImage] = useState(false)
+  const [modalImage, setModalImage] = useState<string>('')
+
+  const handleOpenImage = (image: string) => {
+    if (!image) return
+    setOpenImage(true)
+    setModalImage(image)
+  }
+
+  const handleCloseImage = () => {
+    setOpenImage(false)
+    setModalImage('')
+  }
+
   const handleSettings = () => {
     navigate('/profile/settings')
   }
@@ -52,7 +67,9 @@ export const Profile: FC = () => {
               <ThemeProfileAvatar
                 alt={user.displayName}
                 src={user.photoURL}
+                sx={{ cursor: user.photoURL ? 'pointer' : 'auto' }}
                 draggable="false"
+                onClick={() => handleOpenImage(user.photoURL)}
               >
                 <Typography variant="h2">{user.emoji}</Typography>
               </ThemeProfileAvatar>
@@ -173,6 +190,11 @@ export const Profile: FC = () => {
         </Stack>
       </BorderBox>
       <FriendList user={user} />
+      <ModalImage
+        openImage={openImage}
+        handleCloseImage={handleCloseImage}
+        modalImage={modalImage}
+      />
     </>
   )
 }
