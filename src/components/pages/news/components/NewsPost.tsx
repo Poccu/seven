@@ -364,14 +364,7 @@ export const NewsPost: FC<Props> = ({
                 justifyContent="center"
               >
                 {post.images.map((image) => (
-                  <Box
-                    sx={{
-                      width: '258px',
-                      height: '258px',
-                      cursor: 'pointer',
-                    }}
-                    key={image}
-                  >
+                  <Box sx={{ width: '258px', height: '258px' }} key={image}>
                     <img
                       src={image}
                       alt={image}
@@ -396,14 +389,7 @@ export const NewsPost: FC<Props> = ({
                 justifyContent="center"
               >
                 {post.images.map((image) => (
-                  <Box
-                    sx={{
-                      width: '390px',
-                      height: '390px',
-                      cursor: 'pointer',
-                    }}
-                    key={image}
-                  >
+                  <Box sx={{ width: '390px', height: '390px' }} key={image}>
                     <img
                       src={image}
                       alt={image}
@@ -418,13 +404,7 @@ export const NewsPost: FC<Props> = ({
                 ))}
               </Stack>
             ) : post.images?.length === 1 ? (
-              <Box
-                sx={{
-                  mt: 2,
-                  cursor: 'pointer',
-                }}
-                display="flex"
-              >
+              <Box sx={{ mt: 2 }} display="flex">
                 <img
                   src={post.images[0]}
                   alt={post.images[0]}

@@ -11,11 +11,13 @@ a {
   border-radius: 5px;
   max-width: 100%;
   margin: auto;
+  cursor: pointer;
 }
 
 .cover {
   border-radius: 5px;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .contain {
