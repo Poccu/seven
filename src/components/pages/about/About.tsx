@@ -2,9 +2,11 @@ import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Box, Link, Typography } from '@mui/material'
+import { Paid } from '@mui/icons-material'
 
 import logo from '@assets/images/logo7.png'
 import { BorderBox } from '@ui/ThemeBox'
+import { ThemeButton } from '@ui/ThemeButton'
 
 import { builtWithList } from './builtWithList'
 
@@ -46,6 +48,17 @@ export const About: FC = () => {
           </Link>
         ))}
       </ul>
+      <Box textAlign="center">
+        <ThemeButton
+          onClick={() =>
+            window.open('https://www.donationalerts.com/r/poccu', '_blank')
+          }
+          startIcon={<Paid style={{ fontSize: '30px' }} />}
+          sx={{ mt: 1 }}
+        >
+          {t('Support')}
+        </ThemeButton>
+      </Box>
     </BorderBox>
   )
 }
