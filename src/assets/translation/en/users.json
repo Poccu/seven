@@ -2,11 +2,14 @@
   "Users": "Users",
   "Add Friend": "Add Friend",
   "Remove Friend": "Remove Friend",
+  "Chill": "Chill",
   "User added to Friends": "User added to Friends",
   "User removed from Friends": "User removed from Friends",
   "your friend": "your friend",
   "no mutual friends": "no mutual friends",
   "mutual friend": "mutual friend",
   "mutual friends": "mutual friends",
-  "many mutual friends": "many mutual friends"
+  "many mutual friends": "many mutual friends",
+  "it's you": "it's you",
+  "You can't add yourself, chill 😀": "You can't add yourself, chill 😀"
 }
