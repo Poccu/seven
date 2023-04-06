@@ -1,10 +1,18 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, SetStateAction, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Skeleton, Stack, Typography } from '@mui/material'
+import {
+  IconButton,
+  InputAdornment,
+  Skeleton,
+  Stack,
+  Typography,
+} from '@mui/material'
+import { Clear, PersonSearch } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
 import { BorderBox } from '@ui/ThemeBox'
+import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
 
 import { UsersOrderBy } from './components/UsersOrderBy'
 import { UserItem } from './components/UserItem'
@@ -16,6 +24,23 @@ export const Users: FC = () => {
   const { users } = useAppSelector((state) => state.users)
 
   const [numberVisibleUsers, setNumberVisibleUsers] = useState(9)
+  const [search, setSearch] = useState('')
+
+  const filteredUsers = users.filter((u) =>
+    u.displayName?.toLowerCase()?.includes(search?.toLowerCase())
+  )
+
+  const handleChangeSearch = (e: {
+    target: { value: SetStateAction<string> }
+  }) => {
+    setNumberVisibleUsers(9)
+    setSearch(e.target.value)
+  }
+
+  const handleClearSearch = () => {
+    setNumberVisibleUsers(9)
+    setSearch('')
+  }
 
   useEffect(() => {
     document.addEventListener('scroll', handleScroll)
@@ -44,13 +69,36 @@ export const Users: FC = () => {
       </BorderBox>
       <UsersOrderBy setNumberVisibleUsers={setNumberVisibleUsers} />
       <BorderBox sx={{ p: 3, mb: 2 }}>
-        <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 2 }}>
+        <ThemeTextFieldAddPost
+          label={t('Search user')}
+          autoComplete="off"
+          fullWidth
+          value={search}
+          onChange={handleChangeSearch}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PersonSearch />
+              </InputAdornment>
+            ),
+            endAdornment: search && (
+              <IconButton
+                aria-label="clear"
+                title={t('Clear') || ''}
+                onClick={handleClearSearch}
+              >
+                <Clear />
+              </IconButton>
+            ),
+          }}
+        />
+        <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 2, mt: 3 }}>
           {users.length > 0 ? (
             <>
-              {users.slice(0, numberVisibleUsers).map((user) => (
+              {filteredUsers.slice(0, numberVisibleUsers).map((user) => (
                 <UserItem user={user} key={user.uid} />
               ))}
-              {numberVisibleUsers < users.length && (
+              {numberVisibleUsers < filteredUsers.length && (
                 <>
                   {[...Array(3).keys()].map((user) => (
                     <Stack direction="column" key={user}>
@@ -90,6 +138,16 @@ export const Users: FC = () => {
             </>
           )}
         </Stack>
+        {filteredUsers.length === 0 && users.length > 0 && (
+          <Typography
+            variant="h4"
+            textAlign="center"
+            color="textSecondary"
+            sx={{ my: 4 }}
+          >
+            <b>{t('No users found 😞')}</b>
+          </Typography>
+        )}
       </BorderBox>
     </>
   )
