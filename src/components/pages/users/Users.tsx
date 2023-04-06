@@ -129,6 +129,33 @@ export const Users: FC = () => {
     }
   }
 
+  const myFriendsArr = friends?.map((u) => u.uid)
+
+  const showMutualFriends = (user: IUser) => {
+    if (!myFriendsArr) return
+    const userFriendsArr = user.friends.map((u) => u.uid)
+    const countMutualFriends = myFriendsArr.filter((u) =>
+      userFriendsArr.includes(u)
+    ).length
+
+    if (friends?.some((u) => u.uid === user.uid)) return t('your friend')
+
+    switch (countMutualFriends) {
+      case 0:
+        return t('no mutual friends')
+      case 1:
+        return `1 ${t('mutual friend')}`
+      case 2:
+        return `2 ${t('mutual friends')}`
+      case 3:
+        return `3 ${t('mutual friends')}`
+      case 4:
+        return `4 ${t('mutual friends')}`
+      default:
+        return t('many mutual friends')
+    }
+  }
+
   return (
     <>
       <BorderBox sx={{ p: 3, mb: 2 }}>
@@ -149,6 +176,7 @@ export const Users: FC = () => {
                       sx={{
                         height: '255px',
                         width: '255px',
+                        mb: 1,
                       }}
                       draggable="false"
                       variant="rounded"
@@ -161,28 +189,36 @@ export const Users: FC = () => {
                     justifyContent="space-between"
                     alignItems="center"
                   >
-                    <Stack alignItems="center" direction="row" spacing={0.5}>
-                      <Typography
-                        variant="body1"
-                        sx={{ ml: 1, wordBreak: 'break-word' }}
-                        component={Link}
-                        to={`/profile/${user.uid}`}
-                      >
-                        {showUserNameUsers(
-                          users.find((u) => u.uid === user.uid)?.displayName
-                        )}
-                      </Typography>
-                      {user.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
-                        <Tooltip
-                          title={t('Admin', { ns: ['other'] })}
-                          placement="top"
+                    <Stack>
+                      <Stack alignItems="center" direction="row" spacing={0.5}>
+                        <Typography
+                          sx={{ ml: 1, wordBreak: 'break-word' }}
+                          component={Link}
+                          to={`/profile/${user.uid}`}
                         >
-                          <TaskAlt
-                            color="info"
-                            sx={{ width: '20px ', height: '20px' }}
-                          />
-                        </Tooltip>
-                      )}
+                          {showUserNameUsers(
+                            users.find((u) => u.uid === user.uid)?.displayName
+                          )}
+                        </Typography>
+                        {user.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
+                          <Tooltip
+                            title={t('Admin', { ns: ['other'] })}
+                            placement="top"
+                          >
+                            <TaskAlt
+                              color="info"
+                              sx={{ width: '20px ', height: '20px' }}
+                            />
+                          </Tooltip>
+                        )}
+                      </Stack>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        sx={{ ml: 1 }}
+                      >
+                        {showMutualFriends(user)}
+                      </Typography>
                     </Stack>
                     {!friends?.some((u) => u.uid === user.uid) ? (
                       <IconButton
@@ -198,7 +234,7 @@ export const Users: FC = () => {
                         size="large"
                         onClick={() => handleRemoveFriend(user.uid)}
                       >
-                        <PersonRemoveAlt1 color="primary" />
+                        <PersonRemoveAlt1 color="secondary" />
                       </IconButton>
                     )}
                   </Stack>
@@ -215,6 +251,9 @@ export const Users: FC = () => {
                     variant="rounded"
                   />
                   <Typography sx={{ mt: 1 }}>
+                    <Skeleton />
+                  </Typography>
+                  <Typography variant="body2">
                     <Skeleton />
                   </Typography>
                 </Stack>

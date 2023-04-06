@@ -3,5 +3,10 @@
   "Add Friend": "Добавить в друзья",
   "Remove Friend": "Удалить из друзей",
   "User added to Friends": "Пользователь добавлен в друзья",
-  "User removed from Friends": "Пользователь удален из друзей"
+  "User removed from Friends": "Пользователь удален из друзей",
+  "your friend": "у вас в друзьях",
+  "no mutual friends": "нет общих друзей",
+  "mutual friend": "общий друг",
+  "mutual friends": "общих друга",
+  "many mutual friends": "много общих друзей"
 }
