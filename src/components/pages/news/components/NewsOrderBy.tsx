@@ -14,7 +14,7 @@ import {
   setPostsByControversial,
   setPostsByNewest,
   setPostsByOldest,
-  setPostsByPopularity,
+  setPostsByLikes,
 } from '@reducers/PostsSlice'
 
 type Props = {
@@ -37,9 +37,9 @@ export const NewsOrderBy: FC<Props> = ({ setNumberVisiblePosts }) => {
     dispatch(setPostsByOldest())
   }
 
-  const handleSortPostsByPopularity = () => {
+  const handleSortPostsByLikes = () => {
     setNumberVisiblePosts(3)
-    dispatch(setPostsByPopularity())
+    dispatch(setPostsByLikes())
   }
 
   const handleSortPostsByControversial = () => {
@@ -69,8 +69,8 @@ export const NewsOrderBy: FC<Props> = ({ setNumberVisiblePosts }) => {
       <Chip
         label={t('Likes')}
         icon={<FavoriteBorder sx={{ pl: 0.6 }} />}
-        color={sortPostsBy === 'popularity' ? 'primary' : 'default'}
-        onClick={handleSortPostsByPopularity}
+        color={sortPostsBy === 'likes' ? 'primary' : 'default'}
+        onClick={handleSortPostsByLikes}
       />
       <Chip
         label={t('Controversial')}

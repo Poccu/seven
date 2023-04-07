@@ -20,7 +20,7 @@ export const postsSlice = createSlice({
         state.posts = action.payload.sort((a, b) => +a.createdAt - +b.createdAt)
       }
 
-      if (state.sortPostsBy === 'popularity') {
+      if (state.sortPostsBy === 'likes') {
         state.posts = action.payload.sort(
           (a, b) => b.likes.length - a.likes.length
         )
@@ -47,8 +47,8 @@ export const postsSlice = createSlice({
       state.posts = state.posts.sort((a, b) => +a.createdAt - +b.createdAt)
     },
 
-    setPostsByPopularity(state) {
-      state.sortPostsBy = 'popularity'
+    setPostsByLikes(state) {
+      state.sortPostsBy = 'likes'
       state.posts = state.posts.sort((a, b) => b.likes.length - a.likes.length)
     },
 
@@ -66,7 +66,7 @@ export const {
   removePosts,
   setPostsByNewest,
   setPostsByOldest,
-  setPostsByPopularity,
+  setPostsByLikes,
   setPostsByControversial,
 } = postsSlice.actions
 

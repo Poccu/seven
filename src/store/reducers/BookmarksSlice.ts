@@ -24,7 +24,7 @@ export const bookmarksSlice = createSlice({
         )
       }
 
-      if (state.sortBookmarksBy === 'popularity') {
+      if (state.sortBookmarksBy === 'likes') {
         state.bookmarks = action.payload.sort(
           (a, b) => b.likes.length - a.likes.length
         )
@@ -55,8 +55,8 @@ export const bookmarksSlice = createSlice({
       )
     },
 
-    setBookmarksByPopularity(state) {
-      state.sortBookmarksBy = 'popularity'
+    setBookmarksByLikes(state) {
+      state.sortBookmarksBy = 'likes'
       state.bookmarks = state.bookmarks.sort(
         (a, b) => b.likes.length - a.likes.length
       )
@@ -76,7 +76,7 @@ export const {
   removeBookmarks,
   setBookmarksByNewest,
   setBookmarksByOldest,
-  setBookmarksByPopularity,
+  setBookmarksByLikes,
   setBookmarksByControversial,
 } = bookmarksSlice.actions
 

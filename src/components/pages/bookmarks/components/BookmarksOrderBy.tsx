@@ -14,7 +14,7 @@ import {
   setBookmarksByControversial,
   setBookmarksByNewest,
   setBookmarksByOldest,
-  setBookmarksByPopularity,
+  setBookmarksByLikes,
 } from '@reducers/BookmarksSlice'
 
 type Props = {
@@ -37,9 +37,9 @@ export const BookmarksOrderBy: FC<Props> = ({ setNumberVisiblePosts }) => {
     dispatch(setBookmarksByOldest())
   }
 
-  const handleSortBookmarksByPopularity = () => {
+  const handleSortBookmarksByLikes = () => {
     setNumberVisiblePosts(4)
-    dispatch(setBookmarksByPopularity())
+    dispatch(setBookmarksByLikes())
   }
 
   const handleSortBookmarksByControversial = () => {
@@ -69,8 +69,8 @@ export const BookmarksOrderBy: FC<Props> = ({ setNumberVisiblePosts }) => {
       <Chip
         label={t('Likes')}
         icon={<FavoriteBorder sx={{ pl: 0.6 }} />}
-        color={sortBookmarksBy === 'popularity' ? 'primary' : 'default'}
-        onClick={handleSortBookmarksByPopularity}
+        color={sortBookmarksBy === 'likes' ? 'primary' : 'default'}
+        onClick={handleSortBookmarksByLikes}
       />
       <Chip
         label={t('Controversial')}
