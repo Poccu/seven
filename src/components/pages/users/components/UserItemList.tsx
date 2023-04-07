@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { doc, runTransaction } from 'firebase/firestore'
 import { useSnackbar } from 'notistack'
 
-import { Stack, Typography, Tooltip, IconButton } from '@mui/material'
+import { Stack, Typography, Tooltip, IconButton, Box } from '@mui/material'
 import {
   TaskAlt,
   PersonAddAlt1,
@@ -23,7 +23,7 @@ type Props = {
   user: IUser
 }
 
-export const UserItem: FC<Props> = ({ user }) => {
+export const UserItemList: FC<Props> = ({ user }) => {
   const { t } = useTranslation(['users'])
   const { db } = useAuth()
   const { enqueueSnackbar } = useSnackbar()
@@ -169,36 +169,8 @@ export const UserItem: FC<Props> = ({ user }) => {
   }
 
   return (
-    <Stack direction="column">
-      <Link to={`/profile/${user.uid}`}>
-        <ThemeAvatar
-          alt={user.displayName}
-          src={users.find((u) => u.uid === user.uid)?.photoURL}
-          sx={{ height: '258px', width: '258px', mb: 0.5 }}
-          draggable="false"
-          variant="rounded"
-        >
-          <Typography variant="h1">{user.emoji}</Typography>
-        </ThemeAvatar>
-      </Link>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Stack sx={{ ml: 1 }}>
-          <Stack alignItems="center" direction="row" spacing={0.5}>
-            <Typography component={Link} to={`/profile/${user.uid}`}>
-              {showUserNameUsers(
-                users.find((u) => u.uid === user.uid)?.displayName
-              )}
-            </Typography>
-            {user.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
-              <Tooltip title={t('Admin', { ns: ['other'] })} placement="top">
-                <TaskAlt color="info" sx={{ width: '20px ', height: '20px' }} />
-              </Tooltip>
-            )}
-          </Stack>
-          <Typography variant="body2" color="textSecondary">
-            {showMutualFriends(user)}
-          </Typography>
-        </Stack>
+    <Stack direction="row" alignItems="center" spacing={2}>
+      <Box>
         {!friends?.some((u) => u.uid === user.uid) && uid !== user.uid ? (
           <IconButton
             title={t('Add Friend') || ''}
@@ -224,6 +196,40 @@ export const UserItem: FC<Props> = ({ user }) => {
             <SelfImprovement color="info" />
           </IconButton>
         )}
+      </Box>
+      <Link to={`/profile/${user.uid}`}>
+        <ThemeAvatar
+          alt={user.displayName}
+          src={users.find((u) => u.uid === user.uid)?.photoURL}
+          sx={{ height: '60px', width: '60px' }}
+          draggable="false"
+          variant="rounded"
+        >
+          <Typography variant="h5">{user.emoji}</Typography>
+        </ThemeAvatar>
+      </Link>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack>
+          <Stack alignItems="center" direction="row" spacing={0.5}>
+            <Typography
+              variant="h6"
+              component={Link}
+              to={`/profile/${user.uid}`}
+            >
+              {showUserNameUsers(
+                users.find((u) => u.uid === user.uid)?.displayName
+              )}
+            </Typography>
+            {user.uid === 'Y8kEZYAQAGa7VgaWhRBQZPKRmqw1' && (
+              <Tooltip title={t('Admin', { ns: ['other'] })} placement="top">
+                <TaskAlt color="info" sx={{ width: '20px ', height: '20px' }} />
+              </Tooltip>
+            )}
+          </Stack>
+          <Typography variant="body2" color="textSecondary">
+            {showMutualFriends(user)}
+          </Typography>
+        </Stack>
       </Stack>
     </Stack>
   )
