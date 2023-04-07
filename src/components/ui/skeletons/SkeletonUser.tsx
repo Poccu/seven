@@ -1,17 +1,21 @@
 import { FC } from 'react'
 
-import { Box, Skeleton, Typography } from '@mui/material'
+import { Skeleton, Stack, Typography } from '@mui/material'
 
 export const SkeletonUser: FC = () => {
   return (
-    <Box sx={{ width: '55px' }}>
+    <Stack direction="column">
       <Skeleton
-        variant="circular"
-        sx={{ width: '55px', height: '55px', mb: 0.5 }}
+        sx={{ height: '258px', width: '258px' }}
+        draggable="false"
+        variant="rounded"
       />
-      <Typography variant="body2" textAlign="center" fontSize="13px">
+      <Typography sx={{ mt: 0.5 }}>
         <Skeleton />
       </Typography>
-    </Box>
+      <Typography variant="body2">
+        <Skeleton />
+      </Typography>
+    </Stack>
   )
 }

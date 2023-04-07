@@ -13,6 +13,7 @@ import { Clear, PersonSearch } from '@mui/icons-material'
 import { useAppSelector } from '@hooks/redux'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
+import { SkeletonUser } from '@ui/skeletons/SkeletonUser'
 
 import { UsersOrderBy } from './components/UsersOrderBy'
 import { UserItem } from './components/UserItem'
@@ -101,19 +102,7 @@ export const Users: FC = () => {
               {numberVisibleUsers < filteredUsers.length && (
                 <>
                   {[...Array(3).keys()].map((user) => (
-                    <Stack direction="column" key={user}>
-                      <Skeleton
-                        sx={{ height: '258px', width: '258px' }}
-                        draggable="false"
-                        variant="rounded"
-                      />
-                      <Typography sx={{ mt: 0.5 }}>
-                        <Skeleton />
-                      </Typography>
-                      <Typography variant="body2">
-                        <Skeleton />
-                      </Typography>
-                    </Stack>
+                    <SkeletonUser key={user} />
                   ))}
                 </>
               )}
@@ -121,19 +110,7 @@ export const Users: FC = () => {
           ) : (
             <>
               {[...Array(3).keys()].map((user) => (
-                <Stack direction="column" key={user}>
-                  <Skeleton
-                    sx={{ height: '258px', width: '258px' }}
-                    draggable="false"
-                    variant="rounded"
-                  />
-                  <Typography sx={{ mt: 0.5 }}>
-                    <Skeleton />
-                  </Typography>
-                  <Typography variant="body2">
-                    <Skeleton />
-                  </Typography>
-                </Stack>
+                <SkeletonUser key={user} />
               ))}
             </>
           )}

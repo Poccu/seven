@@ -12,7 +12,7 @@ import { BorderBox } from '@ui/ThemeBox'
 import { ThemeAvatar } from '@ui/ThemeAvatar'
 import { ThemeOnlineBadge } from '@ui/ThemeOnlineBadge'
 import { ThemeSmallButton } from '@ui/ThemeButton'
-import { SkeletonUser } from '@ui/skeletons/SkeletonUser'
+import { SkeletonUserFriend } from '@ui/skeletons/SkeletonUserFriend'
 
 import { IUser } from 'src/types/types'
 
@@ -109,7 +109,7 @@ export const FriendList: FC<Props> = ({ user }) => {
           </Typography>
           <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, mt: 1 }}>
             {[...Array(4).keys()].map((user) => (
-              <SkeletonUser key={user} />
+              <SkeletonUserFriend key={user} />
             ))}
           </Stack>
         </>
