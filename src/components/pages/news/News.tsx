@@ -24,6 +24,7 @@ import { IPost } from 'src/types/types'
 import { NewsOrderBy } from './components//NewsOrderBy'
 import { NewsPost } from './components//NewsPost'
 import { AddPost } from './components/AddPost'
+import useHandleScroll from '@hooks/useScrollHandler'
 
 export const News: FC = () => {
   const { t } = useTranslation(['news'])
@@ -34,7 +35,7 @@ export const News: FC = () => {
   const { users } = useAppSelector((state) => state.users)
   const dispatch = useAppDispatch()
 
-  const [numberVisiblePosts, setNumberVisiblePosts] = useState(3)
+  const { numberVisiblePosts, setNumberVisiblePosts } = useHandleScroll()
   const [editingId, setEditingId] = useState('')
   const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
 
@@ -64,24 +65,6 @@ export const News: FC = () => {
     }
     // eslint-disable-next-line
   }, [db])
-
-  useEffect(() => {
-    document.addEventListener('scroll', handleScroll)
-
-    return () => {
-      document.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  const handleScroll = (e: any) => {
-    const scrollHeight = e.target.documentElement.scrollHeight
-    const scrollTop = e.target.documentElement.scrollTop
-    const innerHeight = window.innerHeight
-
-    if (scrollHeight - (scrollTop + innerHeight) < 100) {
-      setNumberVisiblePosts((prev) => prev + 1)
-    }
-  }
 
   return (
     <>

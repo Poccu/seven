@@ -33,7 +33,7 @@ import { ThemeTextFieldAuth } from '@ui/ThemeTextField'
 import { ThemeButton } from '@ui/ThemeButton'
 import { BackgroundPaperBox } from '@ui/ThemeBox'
 
-import { IUserData } from 'src/types/types'
+import { IAuthDataState, IUserData } from 'src/types/types'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -73,7 +73,6 @@ export const Auth: FC = () => {
   const { ga, db, gProvider, gitProvider, fProvider } = useAuth()
   document.title = 'Seven'
 
-  const [isRegForm, setIsRegForm] = useState(false)
   const [userData, setUserData] = useState<IUserData>({
     displayName: '',
     email: '',
@@ -81,33 +80,39 @@ export const Auth: FC = () => {
     photoURL: '',
   })
 
-  const [invalidEmail, setInvalidEmail] = useState(false)
-  const [alreadyInUseEmail, setAlreadyInUseEmail] = useState(false)
-  const [invalidPassword, setInvalidPassword] = useState(false)
-
-  const [userNotFound, setUserNotFound] = useState(false)
-  const [wrongPassword, setWrongPassword] = useState(false)
-
-  const [showPassword, setShowPassword] = useState(false)
+  const [authDataState, setDataAuthState] = useState<IAuthDataState>({
+    invalidEmail: false,
+    invalidPassword: false,
+    alreadyInUseEmail: false,
+    wrongPassword: false,
+    userNotFound: false,
+    showPassword: false,
+    isRegForm: false,
+  })
 
   const [value, setValue] = useState(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
-    setInvalidEmail(false)
-    setAlreadyInUseEmail(false)
-    setInvalidPassword(false)
-    setUserNotFound(false)
-    setWrongPassword(false)
-    setUserData({
-      email: '',
-      password: '',
-      displayName: '',
-      photoURL: '',
-    })
+    setDataAuthState({ ...authDataState, alreadyInUseEmail: false }),
+      setDataAuthState({ ...authDataState, invalidPassword: false }),
+      setDataAuthState({ ...authDataState, wrongPassword: false }),
+      setDataAuthState({ ...authDataState, invalidEmail: false }),
+      setDataAuthState({ ...authDataState, userNotFound: false }),
+      setDataAuthState({ ...authDataState, showPassword: false }),
+      setUserData({
+        email: '',
+        password: '',
+        displayName: '',
+        photoURL: '',
+      })
   }
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show)
+  const handleClickShowPassword = () =>
+    setDataAuthState((show) => ({
+      ...show,
+      showPassword: !show.showPassword,
+    }))
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -118,7 +123,7 @@ export const Auth: FC = () => {
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (isRegForm) {
+    if (authDataState.isRegForm) {
       await createUserWithEmailAndPassword(
         ga,
         userData.email,
@@ -153,17 +158,21 @@ export const Auth: FC = () => {
           }
         })
         .catch((error) => {
-          error.code === 'auth/invalid-email' && setInvalidEmail(true)
+          error.code === 'auth/invalid-email' &&
+            setDataAuthState({ ...authDataState, invalidEmail: true })
           error.code === 'auth/email-already-in-use' &&
-            setAlreadyInUseEmail(true)
-          error.code === 'auth/weak-password' && setInvalidPassword(true)
+            setDataAuthState({ ...authDataState, alreadyInUseEmail: true })
+          error.code === 'auth/weak-password' &&
+            setDataAuthState({ ...authDataState, invalidPassword: true })
         })
     } else {
       await signInWithEmailAndPassword(ga, userData.email, userData.password)
         .then((userCredential) => {})
         .catch((error) => {
-          error.code === 'auth/user-not-found' && setUserNotFound(true)
-          error.code === 'auth/wrong-password' && setWrongPassword(true)
+          error.code === 'auth/user-not-found' &&
+            setDataAuthState({ ...authDataState, userNotFound: true })
+          error.code === 'auth/wrong-password' &&
+            setDataAuthState({ ...authDataState, wrongPassword: true })
         })
     }
   }
@@ -371,12 +380,16 @@ export const Auth: FC = () => {
                 onChange={(e) =>
                   setUserData({ ...userData, email: e.target.value })
                 }
-                onFocus={() => setUserNotFound(false)}
-                error={userNotFound}
-                helperText={(userNotFound && t('Wrong email')) || ' '}
+                onFocus={() =>
+                  setDataAuthState({ ...authDataState, userNotFound: false })
+                }
+                error={authDataState.userNotFound}
+                helperText={
+                  (authDataState.userNotFound && t('Wrong email')) || ' '
+                }
               />
               <ThemeTextFieldAuth
-                type={showPassword ? 'text' : 'password'}
+                type={authDataState.showPassword ? 'text' : 'password'}
                 label={t('Password')}
                 required
                 autoComplete="off"
@@ -389,7 +402,11 @@ export const Auth: FC = () => {
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {authDataState.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -398,11 +415,20 @@ export const Auth: FC = () => {
                 onChange={(e) =>
                   setUserData({ ...userData, password: e.target.value })
                 }
-                onFocus={() => setWrongPassword(false)}
-                error={wrongPassword}
-                helperText={(wrongPassword && t('Wrong password')) || ' '}
+                onFocus={() =>
+                  setDataAuthState({ ...authDataState, wrongPassword: false })
+                }
+                error={authDataState.wrongPassword}
+                helperText={
+                  (authDataState.wrongPassword && t('Wrong password')) || ' '
+                }
               />
-              <ThemeButton type="submit" onClick={() => setIsRegForm(false)}>
+              <ThemeButton
+                type="submit"
+                onClick={() =>
+                  setDataAuthState({ ...authDataState, isRegForm: false })
+                }
+              >
                 <Typography sx={{ fontSize: { xs: '17px', sm: '22px' } }}>
                   <b>{t('Sign in')}</b>
                 </Typography>
@@ -503,20 +529,25 @@ export const Auth: FC = () => {
                   setUserData({ ...userData, email: e.target.value })
                 }
                 onFocus={() => {
-                  setInvalidEmail(false)
-                  setAlreadyInUseEmail(false)
+                  setDataAuthState({ ...authDataState, invalidEmail: false })
+                  setDataAuthState({
+                    ...authDataState,
+                    alreadyInUseEmail: false,
+                  })
                 }}
-                error={invalidEmail || alreadyInUseEmail}
+                error={
+                  authDataState.invalidEmail || authDataState.alreadyInUseEmail
+                }
                 helperText={
-                  invalidEmail
+                  authDataState.invalidEmail
                     ? t('Invalid email')
-                    : alreadyInUseEmail
+                    : authDataState.alreadyInUseEmail
                     ? t('Email is already in use')
                     : ' '
                 }
               />
               <ThemeTextFieldAuth
-                type={showPassword ? 'text' : 'password'}
+                type={authDataState.showPassword ? 'text' : 'password'}
                 label={t('Password')}
                 required
                 autoComplete="off"
@@ -529,7 +560,11 @@ export const Auth: FC = () => {
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {authDataState.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -538,11 +573,22 @@ export const Auth: FC = () => {
                 onChange={(e) =>
                   setUserData({ ...userData, password: e.target.value })
                 }
-                onFocus={() => setInvalidPassword(false)}
-                error={invalidPassword}
-                helperText={invalidPassword ? t('At least 6 characters') : ' '}
+                onFocus={() =>
+                  setDataAuthState({ ...authDataState, invalidPassword: false })
+                }
+                error={authDataState.invalidPassword}
+                helperText={
+                  authDataState.invalidPassword
+                    ? t('At least 6 characters')
+                    : ' '
+                }
               />
-              <ThemeButton type="submit" onClick={() => setIsRegForm(true)}>
+              <ThemeButton
+                type="submit"
+                onClick={() =>
+                  setDataAuthState({ ...authDataState, isRegForm: true })
+                }
+              >
                 <Typography sx={{ fontSize: { xs: '17px', sm: '22px' } }}>
                   <b>{t('Register')}</b>
                 </Typography>
