@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 
-const useHandleScroll = () => {
-  const [numberVisiblePosts, setNumberVisiblePosts] = useState(4)
+export const useHandleScroll = (start: number, count: number) => {
+  const [numberVisiblePosts, setNumberVisiblePosts] = useState(start)
+
   useEffect(() => {
     document.addEventListener('scroll', handleScroll)
 
@@ -16,10 +17,9 @@ const useHandleScroll = () => {
     const innerHeight = window.innerHeight
 
     if (scrollHeight - (scrollTop + innerHeight) < 100) {
-      setNumberVisiblePosts((prev) => prev + 1)
+      setNumberVisiblePosts((prev) => prev + count)
     }
   }
+
   return { numberVisiblePosts, setNumberVisiblePosts }
 }
-
-export default useHandleScroll

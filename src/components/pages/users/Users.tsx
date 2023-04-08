@@ -11,6 +11,7 @@ import {
 import { Clear, PersonSearch, ViewList, ViewModule } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
+import { useHandleScroll } from '@hooks/useHandleScroll'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
 import { SkeletonUser } from '@ui/skeletons/SkeletonUser'
@@ -19,7 +20,6 @@ import { SkeletonUserList } from '@ui/skeletons/SkeletonUserList'
 import { UsersOrderBy } from './components/UsersOrderBy'
 import { UserItem } from './components/UserItem'
 import { UserItemList } from './components/UserItemList'
-import useHandleScroll from '@hooks/useScrollHandler'
 
 export const Users: FC = () => {
   const { t } = useTranslation(['users'])
@@ -30,7 +30,7 @@ export const Users: FC = () => {
   const {
     setNumberVisiblePosts: setNumberVisibleUsers,
     numberVisiblePosts: numberVisibleUsers,
-  } = useHandleScroll()
+  } = useHandleScroll(9, 3)
   const [search, setSearch] = useState('')
   const [format, setFormat] = useState('module')
 

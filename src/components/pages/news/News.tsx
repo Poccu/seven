@@ -17,6 +17,7 @@ import { Collapse } from '@mui/material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
+import { useHandleScroll } from '@hooks/useHandleScroll'
 import { setPosts } from '@reducers/PostsSlice'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 
@@ -24,7 +25,6 @@ import { IPost } from 'src/types/types'
 import { NewsOrderBy } from './components//NewsOrderBy'
 import { NewsPost } from './components//NewsPost'
 import { AddPost } from './components/AddPost'
-import useHandleScroll from '@hooks/useScrollHandler'
 
 export const News: FC = () => {
   const { t } = useTranslation(['news'])
@@ -35,7 +35,7 @@ export const News: FC = () => {
   const { users } = useAppSelector((state) => state.users)
   const dispatch = useAppDispatch()
 
-  const { numberVisiblePosts, setNumberVisiblePosts } = useHandleScroll()
+  const { numberVisiblePosts, setNumberVisiblePosts } = useHandleScroll(4, 1)
   const [editingId, setEditingId] = useState('')
   const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
 

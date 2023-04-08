@@ -15,6 +15,7 @@ import { Collapse, Typography } from '@mui/material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
+import { useHandleScroll } from '@hooks/useHandleScroll'
 import { setBookmarks } from '@reducers/BookmarksSlice'
 import { BorderBox } from '@ui/ThemeBox'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
@@ -22,7 +23,6 @@ import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 import { IPost } from 'src/types/types'
 import { BookmarksPost } from './components/BookmarksPost'
 import { BookmarksOrderBy } from './components/BookmarksOrderBy'
-import useHandleScroll from '@hooks/useScrollHandler'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
@@ -34,7 +34,7 @@ export const Bookmarks: FC = () => {
   const { bookmarks } = useAppSelector((state) => state.bookmarks)
   const dispatch = useAppDispatch()
 
-  const { setNumberVisiblePosts, numberVisiblePosts } = useHandleScroll()
+  const { setNumberVisiblePosts, numberVisiblePosts } = useHandleScroll(4, 1)
 
   useEffect(() => {
     const q = query(

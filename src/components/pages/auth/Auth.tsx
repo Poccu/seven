@@ -33,7 +33,7 @@ import { ThemeTextFieldAuth } from '@ui/ThemeTextField'
 import { ThemeButton } from '@ui/ThemeButton'
 import { BackgroundPaperBox } from '@ui/ThemeBox'
 
-import { IAuthDataState, IUserData } from 'src/types/types'
+import { IAuthData, IUserData } from 'src/types/types'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -80,7 +80,7 @@ export const Auth: FC = () => {
     photoURL: '',
   })
 
-  const [authDataState, setDataAuthState] = useState<IAuthDataState>({
+  const [authData, setAuthData] = useState<IAuthData>({
     invalidEmail: false,
     invalidPassword: false,
     alreadyInUseEmail: false,
@@ -94,22 +94,24 @@ export const Auth: FC = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
-    setDataAuthState({ ...authDataState, alreadyInUseEmail: false }),
-      setDataAuthState({ ...authDataState, invalidPassword: false }),
-      setDataAuthState({ ...authDataState, wrongPassword: false }),
-      setDataAuthState({ ...authDataState, invalidEmail: false }),
-      setDataAuthState({ ...authDataState, userNotFound: false }),
-      setDataAuthState({ ...authDataState, showPassword: false }),
-      setUserData({
-        email: '',
-        password: '',
-        displayName: '',
-        photoURL: '',
-      })
+    setAuthData({
+      ...authData,
+      invalidEmail: false,
+      invalidPassword: false,
+      alreadyInUseEmail: false,
+      wrongPassword: false,
+      userNotFound: false,
+    })
+    setUserData({
+      email: '',
+      password: '',
+      displayName: '',
+      photoURL: '',
+    })
   }
 
   const handleClickShowPassword = () =>
-    setDataAuthState((show) => ({
+    setAuthData((show) => ({
       ...show,
       showPassword: !show.showPassword,
     }))
@@ -123,7 +125,7 @@ export const Auth: FC = () => {
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (authDataState.isRegForm) {
+    if (authData.isRegForm) {
       await createUserWithEmailAndPassword(
         ga,
         userData.email,
@@ -159,20 +161,20 @@ export const Auth: FC = () => {
         })
         .catch((error) => {
           error.code === 'auth/invalid-email' &&
-            setDataAuthState({ ...authDataState, invalidEmail: true })
+            setAuthData({ ...authData, invalidEmail: true })
           error.code === 'auth/email-already-in-use' &&
-            setDataAuthState({ ...authDataState, alreadyInUseEmail: true })
+            setAuthData({ ...authData, alreadyInUseEmail: true })
           error.code === 'auth/weak-password' &&
-            setDataAuthState({ ...authDataState, invalidPassword: true })
+            setAuthData({ ...authData, invalidPassword: true })
         })
     } else {
       await signInWithEmailAndPassword(ga, userData.email, userData.password)
         .then((userCredential) => {})
         .catch((error) => {
           error.code === 'auth/user-not-found' &&
-            setDataAuthState({ ...authDataState, userNotFound: true })
+            setAuthData({ ...authData, userNotFound: true })
           error.code === 'auth/wrong-password' &&
-            setDataAuthState({ ...authDataState, wrongPassword: true })
+            setAuthData({ ...authData, wrongPassword: true })
         })
     }
   }
@@ -381,15 +383,13 @@ export const Auth: FC = () => {
                   setUserData({ ...userData, email: e.target.value })
                 }
                 onFocus={() =>
-                  setDataAuthState({ ...authDataState, userNotFound: false })
+                  setAuthData({ ...authData, userNotFound: false })
                 }
-                error={authDataState.userNotFound}
-                helperText={
-                  (authDataState.userNotFound && t('Wrong email')) || ' '
-                }
+                error={authData.userNotFound}
+                helperText={(authData.userNotFound && t('Wrong email')) || ' '}
               />
               <ThemeTextFieldAuth
-                type={authDataState.showPassword ? 'text' : 'password'}
+                type={authData.showPassword ? 'text' : 'password'}
                 label={t('Password')}
                 required
                 autoComplete="off"
@@ -402,7 +402,7 @@ export const Auth: FC = () => {
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
-                        {authDataState.showPassword ? (
+                        {authData.showPassword ? (
                           <VisibilityOff />
                         ) : (
                           <Visibility />
@@ -416,18 +416,16 @@ export const Auth: FC = () => {
                   setUserData({ ...userData, password: e.target.value })
                 }
                 onFocus={() =>
-                  setDataAuthState({ ...authDataState, wrongPassword: false })
+                  setAuthData({ ...authData, wrongPassword: false })
                 }
-                error={authDataState.wrongPassword}
+                error={authData.wrongPassword}
                 helperText={
-                  (authDataState.wrongPassword && t('Wrong password')) || ' '
+                  (authData.wrongPassword && t('Wrong password')) || ' '
                 }
               />
               <ThemeButton
                 type="submit"
-                onClick={() =>
-                  setDataAuthState({ ...authDataState, isRegForm: false })
-                }
+                onClick={() => setAuthData({ ...authData, isRegForm: false })}
               >
                 <Typography sx={{ fontSize: { xs: '17px', sm: '22px' } }}>
                   <b>{t('Sign in')}</b>
@@ -529,25 +527,23 @@ export const Auth: FC = () => {
                   setUserData({ ...userData, email: e.target.value })
                 }
                 onFocus={() => {
-                  setDataAuthState({ ...authDataState, invalidEmail: false })
-                  setDataAuthState({
-                    ...authDataState,
+                  setAuthData({ ...authData, invalidEmail: false })
+                  setAuthData({
+                    ...authData,
                     alreadyInUseEmail: false,
                   })
                 }}
-                error={
-                  authDataState.invalidEmail || authDataState.alreadyInUseEmail
-                }
+                error={authData.invalidEmail || authData.alreadyInUseEmail}
                 helperText={
-                  authDataState.invalidEmail
+                  authData.invalidEmail
                     ? t('Invalid email')
-                    : authDataState.alreadyInUseEmail
+                    : authData.alreadyInUseEmail
                     ? t('Email is already in use')
                     : ' '
                 }
               />
               <ThemeTextFieldAuth
-                type={authDataState.showPassword ? 'text' : 'password'}
+                type={authData.showPassword ? 'text' : 'password'}
                 label={t('Password')}
                 required
                 autoComplete="off"
@@ -560,7 +556,7 @@ export const Auth: FC = () => {
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
-                        {authDataState.showPassword ? (
+                        {authData.showPassword ? (
                           <VisibilityOff />
                         ) : (
                           <Visibility />
@@ -574,20 +570,16 @@ export const Auth: FC = () => {
                   setUserData({ ...userData, password: e.target.value })
                 }
                 onFocus={() =>
-                  setDataAuthState({ ...authDataState, invalidPassword: false })
+                  setAuthData({ ...authData, invalidPassword: false })
                 }
-                error={authDataState.invalidPassword}
+                error={authData.invalidPassword}
                 helperText={
-                  authDataState.invalidPassword
-                    ? t('At least 6 characters')
-                    : ' '
+                  authData.invalidPassword ? t('At least 6 characters') : ' '
                 }
               />
               <ThemeButton
                 type="submit"
-                onClick={() =>
-                  setDataAuthState({ ...authDataState, isRegForm: true })
-                }
+                onClick={() => setAuthData({ ...authData, isRegForm: true })}
               >
                 <Typography sx={{ fontSize: { xs: '17px', sm: '22px' } }}>
                   <b>{t('Register')}</b>
