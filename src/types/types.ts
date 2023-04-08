@@ -76,3 +76,13 @@ export interface ISocialsItem {
   link: string
   icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & { muiName: string }
 }
+
+export interface IAuthDataState {
+  invalidEmail: boolean
+  invalidPassword: boolean
+  alreadyInUseEmail: boolean
+  wrongPassword: boolean
+  userNotFound: boolean
+  showPassword: boolean
+  isRegForm: boolean
+}

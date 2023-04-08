@@ -22,6 +22,7 @@ import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 import { IPost } from 'src/types/types'
 import { BookmarksPost } from './components/BookmarksPost'
 import { BookmarksOrderBy } from './components/BookmarksOrderBy'
+import useHandleScroll from '@hooks/useScrollHandler'
 
 export const Bookmarks: FC = () => {
   const { t } = useTranslation(['bookmarks'])
@@ -33,7 +34,7 @@ export const Bookmarks: FC = () => {
   const { bookmarks } = useAppSelector((state) => state.bookmarks)
   const dispatch = useAppDispatch()
 
-  const [numberVisiblePosts, setNumberVisiblePosts] = useState(4)
+  const { setNumberVisiblePosts, numberVisiblePosts } = useHandleScroll()
 
   useEffect(() => {
     const q = query(
@@ -76,24 +77,6 @@ export const Bookmarks: FC = () => {
       console.log('Delete Bookmark failed: ', e)
     }
   }, [db, uid])
-
-  useEffect(() => {
-    document.addEventListener('scroll', handleScroll)
-
-    return () => {
-      document.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  const handleScroll = (e: any) => {
-    const scrollHeight = e.target.documentElement.scrollHeight
-    const scrollTop = e.target.documentElement.scrollTop
-    const innerHeight = window.innerHeight
-
-    if (scrollHeight - (scrollTop + innerHeight) < 100) {
-      setNumberVisiblePosts((prev) => prev + 1)
-    }
-  }
 
   return (
     <>

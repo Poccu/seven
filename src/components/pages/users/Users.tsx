@@ -19,6 +19,7 @@ import { SkeletonUserList } from '@ui/skeletons/SkeletonUserList'
 import { UsersOrderBy } from './components/UsersOrderBy'
 import { UserItem } from './components/UserItem'
 import { UserItemList } from './components/UserItemList'
+import useHandleScroll from '@hooks/useScrollHandler'
 
 export const Users: FC = () => {
   const { t } = useTranslation(['users'])
@@ -26,7 +27,10 @@ export const Users: FC = () => {
 
   const { users } = useAppSelector((state) => state.users)
 
-  const [numberVisibleUsers, setNumberVisibleUsers] = useState(9)
+  const {
+    setNumberVisiblePosts: setNumberVisibleUsers,
+    numberVisiblePosts: numberVisibleUsers,
+  } = useHandleScroll()
   const [search, setSearch] = useState('')
   const [format, setFormat] = useState('module')
 
@@ -44,24 +48,6 @@ export const Users: FC = () => {
   const handleClearSearch = () => {
     setNumberVisibleUsers(9)
     setSearch('')
-  }
-
-  useEffect(() => {
-    document.addEventListener('scroll', handleScroll)
-
-    return () => {
-      document.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  const handleScroll = (e: any) => {
-    const scrollHeight = e.target.documentElement.scrollHeight
-    const scrollTop = e.target.documentElement.scrollTop
-    const innerHeight = window.innerHeight
-
-    if (scrollHeight - (scrollTop + innerHeight) < 100) {
-      setNumberVisibleUsers((prev) => prev + 3)
-    }
   }
 
   return (
