@@ -18,6 +18,7 @@ import {
 } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
+import { useHandleScroll } from '@hooks/useHandleScroll'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeSmallButton } from '@ui/ThemeButton'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
@@ -35,7 +36,10 @@ export const Friends: FC = () => {
   const { friends } = useAppSelector((state) => state.user)
   const { users } = useAppSelector((state) => state.users)
 
-  const [numberVisibleUsers, setNumberVisibleUsers] = useState(9)
+  const {
+    setNumberVisiblePosts: setNumberVisibleUsers,
+    numberVisiblePosts: numberVisibleUsers,
+  } = useHandleScroll(9, 3)
   const [search, setSearch] = useState('')
   const [format, setFormat] = useState('module')
 
