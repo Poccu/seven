@@ -367,7 +367,6 @@ export const Auth: FC = () => {
             sx={{ mb: 3, mt: 1 }}
           >
             <Stack
-              direction="column"
               justifyContent="space-center"
               alignItems="center"
               spacing={1}
@@ -434,9 +433,7 @@ export const Auth: FC = () => {
             </Stack>
           </Box>
           <Divider sx={{ width: '100%' }}>
-            <Typography color="textSecondary" variant="body1">
-              {t('or login with')}
-            </Typography>
+            <Typography color="textSecondary">{t('or login with')}</Typography>
           </Divider>
           <Stack
             direction="row"
@@ -497,7 +494,6 @@ export const Auth: FC = () => {
             sx={{ mb: 3, mt: 1 }}
           >
             <Stack
-              direction="column"
               justifyContent="space-center"
               alignItems="center"
               spacing={1}

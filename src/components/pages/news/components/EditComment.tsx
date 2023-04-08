@@ -63,7 +63,7 @@ export const EditComment: FC<Props> = ({ post, comment, setEditingId }) => {
 
   return (
     <Box sx={{ my: 2 }}>
-      <Stack direction="column" spacing={2}>
+      <Stack spacing={2}>
         <Stack alignItems="center" direction="row">
           <ThemeTextFieldAddPost
             label={<b>{t('Edit comment')}</b>}

@@ -1,4 +1,4 @@
-import { FC, SetStateAction, useEffect, useState } from 'react'
+import { FC, SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -141,7 +141,6 @@ export const Users: FC = () => {
           </Stack>
         ) : (
           <Stack
-            direction="column"
             spacing={2}
             sx={{ mt: 3, display: { xs: 'none', lg: 'flex' } }}
           >
@@ -167,11 +166,7 @@ export const Users: FC = () => {
             )}
           </Stack>
         )}
-        <Stack
-          direction="column"
-          spacing={2}
-          sx={{ mt: 3, display: { xs: 'flex', lg: 'none' } }}
-        >
+        <Stack spacing={2} sx={{ mt: 3, display: { xs: 'flex', lg: 'none' } }}>
           {users.length > 0 ? (
             <>
               {filteredUsers.slice(0, numberVisibleUsers).map((user) => (

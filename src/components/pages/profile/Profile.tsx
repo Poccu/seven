@@ -68,7 +68,7 @@ export const Profile: FC = () => {
                 alt={user.displayName}
                 src={user.photoURL}
                 sx={{ cursor: user.photoURL ? 'pointer' : 'auto' }}
-                draggable="false"
+                draggable={false}
                 onClick={() => handleOpenImage(user.photoURL)}
               >
                 <Typography variant="h2">{user.emoji}</Typography>
@@ -80,7 +80,7 @@ export const Profile: FC = () => {
               />
             )}
           </Box>
-          <Stack direction="column" spacing={3.5} sx={{ width: '100%' }}>
+          <Stack spacing={3.5} sx={{ width: '100%' }}>
             <Stack
               direction={{ xs: 'column', sm: 'row' }}
               justifyContent="space-between"
@@ -108,7 +108,7 @@ export const Profile: FC = () => {
                     </Tooltip>
                   )}
               </Stack>
-              <Typography variant="body1" color="textSecondary">
+              <Typography color="textSecondary">
                 {usersRdbList.length > 0 &&
                 user?.uid &&
                 usersRdb[profileId]?.isOnline ? (

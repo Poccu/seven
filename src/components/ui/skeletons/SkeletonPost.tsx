@@ -22,10 +22,10 @@ export const SkeletonPost: FC = () => {
           </Stack>
         </Stack>
       </Stack>
-      <Typography variant="body1" sx={{ ml: 1, wordBreak: 'break-word' }}>
+      <Typography sx={{ ml: 1, wordBreak: 'break-word' }}>
         <Skeleton />
       </Typography>
-      <Typography variant="body1" sx={{ ml: 1, wordBreak: 'break-word' }}>
+      <Typography sx={{ ml: 1, wordBreak: 'break-word' }}>
         <Skeleton />
       </Typography>
     </BorderBox>

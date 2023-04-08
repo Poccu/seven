@@ -41,7 +41,7 @@ export const EditPost: FC<Props> = ({ post, setEditingId }) => {
   }
 
   return (
-    <Stack direction="column" spacing={2}>
+    <Stack spacing={2}>
       <Stack alignItems="center" direction="row">
         <ThemeTextFieldAddPost
           label={<b>{t('Edit post')}</b>}

@@ -41,7 +41,7 @@ export const ModalLikes: FC<Props> = ({
         }}
       >
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">
+          <Typography>
             {t('Likes', { ns: ['news'] })}:{' '}
             {modalData.length > 0 && modalData.length}
           </Typography>

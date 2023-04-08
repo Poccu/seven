@@ -275,11 +275,11 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
                   <ThemeProfileAvatar
                     alt={post.author.displayName}
                     src={users.find((u) => u.uid === post.author.uid)?.photoURL}
-                    draggable="false"
+                    draggable={false}
                   >
                     <Typography variant="h2">{post.author.emoji}</Typography>
                   </ThemeProfileAvatar>
-                  <Stack direction="column" spacing={3.5}>
+                  <Stack spacing={3.5}>
                     <Stack alignItems="center" direction="row" spacing={0.7}>
                       <Typography variant="h4">
                         <b>
@@ -388,7 +388,6 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
           <BookmarksPostMenu post={post} />
         </Stack>
         <Typography
-          variant="body1"
           sx={{
             ml: 1,
             wordBreak: 'break-word',
@@ -600,13 +599,13 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
                               users.find((u) => u.uid === comment.author.uid)
                                 ?.photoURL
                             }
-                            draggable="false"
+                            draggable={false}
                           >
                             <Typography variant="h2">
                               {comment.author.emoji}
                             </Typography>
                           </ThemeProfileAvatar>
-                          <Stack direction="column" spacing={3.5}>
+                          <Stack spacing={3.5}>
                             <Stack
                               alignItems="center"
                               direction="row"
@@ -717,7 +716,6 @@ export const BookmarksPost: FC<Props> = ({ post }) => {
                         )}
                       </Stack>
                       <Typography
-                        variant="body1"
                         sx={{
                           mb: 1,
                           wordBreak: 'break-word',

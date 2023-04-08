@@ -227,18 +227,14 @@ export const NewsPostMenu: FC<Props> = ({
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <BookmarkAddOutlined color="primary" />
                       </ListItemIcon>
-                      <Typography variant="body1">
-                        {t('Add to Bookmarks')}
-                      </Typography>
+                      <Typography>{t('Add to Bookmarks')}</Typography>
                     </MenuItem>
                   ) : (
                     <MenuItem onClick={() => handleRemoveBookmark(post)}>
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <BookmarkRemoveOutlined color="primary" />
                       </ListItemIcon>
-                      <Typography variant="body1">
-                        {t('Remove from Bookmarks')}
-                      </Typography>
+                      <Typography>{t('Remove from Bookmarks')}</Typography>
                     </MenuItem>
                   )}
                   {post.author.uid === uid &&
@@ -252,7 +248,7 @@ export const NewsPostMenu: FC<Props> = ({
                         <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                           <Edit color="primary" />
                         </ListItemIcon>
-                        <Typography variant="body1">{t('Edit')}</Typography>
+                        <Typography>{t('Edit')}</Typography>
                       </MenuItem>
                     )}
                   {post.author.uid === uid && (
@@ -260,9 +256,7 @@ export const NewsPostMenu: FC<Props> = ({
                       <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                         <Clear color="error" />
                       </ListItemIcon>
-                      <Typography variant="body1">
-                        {t('Delete post')}
-                      </Typography>
+                      <Typography>{t('Delete post')}</Typography>
                     </MenuItem>
                   )}
                 </MenuList>

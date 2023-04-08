@@ -9,6 +9,7 @@ export const useHandleScroll = (start: number, count: number) => {
     return () => {
       document.removeEventListener('scroll', handleScroll)
     }
+    // eslint-disable-next-line
   }, [])
 
   const handleScroll = (): void => {

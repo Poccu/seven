@@ -13,8 +13,10 @@
   "it's you": "it's you",
   "You can't add yourself, chill 😀": "You can't add yourself, chill 😀",
   "Search user": "Search user",
+  "Search friend": "Search friend",
   "Clear": "Clear",
   "No users found 😞": "No users found 😞",
+  "No friends found 😞": "No friends found 😞",
   "Display list": "Display list",
   "Display block": "Display block"
 }

@@ -5,12 +5,7 @@ import { doc, runTransaction } from 'firebase/firestore'
 import { useSnackbar } from 'notistack'
 
 import { Stack, Typography, Tooltip, IconButton } from '@mui/material'
-import {
-  TaskAlt,
-  PersonAddAlt1,
-  PersonRemoveAlt1,
-  SelfImprovement,
-} from '@mui/icons-material'
+import { TaskAlt, PersonRemoveAlt1 } from '@mui/icons-material'
 
 import { useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
@@ -23,74 +18,13 @@ type Props = {
   user: IUser
 }
 
-export const UserItem: FC<Props> = ({ user }) => {
+export const UserItemFriend: FC<Props> = ({ user }) => {
   const { t } = useTranslation(['users'])
   const { db } = useAuth()
   const { enqueueSnackbar } = useSnackbar()
 
-  const { emoji, uid, displayName, photoURL, friends } = useAppSelector(
-    (state) => state.user
-  )
+  const { uid, friends } = useAppSelector((state) => state.user)
   const { users } = useAppSelector((state) => state.users)
-
-  const handleAddFriend = async (profileId: string) => {
-    if (!uid) return
-    const docRef = doc(db, 'users', profileId)
-    const curRef = doc(db, 'users', uid)
-
-    try {
-      await runTransaction(db, async (transaction) => {
-        const sfDoc = await transaction.get(docRef)
-        const sfCurDoc = await transaction.get(curRef)
-
-        if (!sfDoc.exists()) {
-          throw new Error('Document does not exist!')
-        }
-
-        const newFriendsArr = [
-          ...new Map(
-            [
-              ...sfDoc.data().friends,
-              { displayName, photoURL, uid, emoji },
-            ].map((user) => [user['uid'], user])
-          ).values(),
-        ]
-
-        transaction.update(docRef, {
-          friends: newFriendsArr,
-        })
-
-        if (!sfCurDoc.exists()) {
-          throw new Error('Document does not exist!')
-        }
-
-        const newFriendsArrCur = [
-          ...new Map(
-            [
-              ...sfCurDoc.data().friends,
-              {
-                displayName: sfDoc.data().displayName,
-                photoURL: sfDoc.data().photoURL,
-                uid: sfDoc.data().uid,
-                emoji: sfDoc.data().emoji,
-              },
-            ].map((user) => [user['uid'], user])
-          ).values(),
-        ]
-
-        transaction.update(curRef, {
-          friends: newFriendsArrCur,
-        })
-
-        enqueueSnackbar(t('User added to Friends'), {
-          preventDuplicate: true,
-          variant: 'success',
-        })
-      })
-    } catch (e) {
-      console.log('Add friend failed: ', e)
-    }
-  }
 
   const handleRemoveFriend = async (profileId: string) => {
     if (!uid) return
@@ -137,15 +71,15 @@ export const UserItem: FC<Props> = ({ user }) => {
   }
 
   const myFriendsArr = friends?.map((u) => u.uid)
+  const userFriendsArr = users
+    ?.find((u) => u.uid === user.uid)
+    ?.friends?.map((u) => u.uid)
 
   const showMutualFriends = (user: IUser) => {
-    if (!myFriendsArr) return
-    const userFriendsArr = user.friends.map((u) => u.uid)
+    if (!myFriendsArr || !userFriendsArr) return
     const countMutualFriends = myFriendsArr.filter((u) =>
       userFriendsArr.includes(u)
     ).length
-
-    if (uid === user.uid) return t(`it's you`)
 
     switch (countMutualFriends) {
       case 0:
@@ -161,10 +95,6 @@ export const UserItem: FC<Props> = ({ user }) => {
       default:
         return t('many mutual friends')
     }
-  }
-
-  const handleItsYou = () => {
-    enqueueSnackbar(t(`You can't add yourself, chill 😀`), { variant: 'info' })
   }
 
   return (
@@ -198,31 +128,13 @@ export const UserItem: FC<Props> = ({ user }) => {
             {showMutualFriends(user)}
           </Typography>
         </Stack>
-        {!friends?.some((u) => u.uid === user.uid) && uid !== user.uid ? (
-          <IconButton
-            title={t('Add Friend') || ''}
-            size="large"
-            onClick={() => handleAddFriend(user.uid)}
-          >
-            <PersonAddAlt1 color="primary" />
-          </IconButton>
-        ) : uid !== user.uid ? (
-          <IconButton
-            title={t('Remove Friend') || ''}
-            size="large"
-            onClick={() => handleRemoveFriend(user.uid)}
-          >
-            <PersonRemoveAlt1 color="secondary" />
-          </IconButton>
-        ) : (
-          <IconButton
-            title={t('Chill') || ''}
-            size="large"
-            onClick={handleItsYou}
-          >
-            <SelfImprovement color="info" />
-          </IconButton>
-        )}
+        <IconButton
+          title={t('Remove Friend') || ''}
+          size="large"
+          onClick={() => handleRemoveFriend(user.uid)}
+        >
+          <PersonRemoveAlt1 color="secondary" />
+        </IconButton>
       </Stack>
     </Stack>
   )

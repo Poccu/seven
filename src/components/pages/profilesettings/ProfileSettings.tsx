@@ -53,12 +53,12 @@ export const ProfileSettings: FC = () => {
 
   return (
     <BorderBox sx={{ p: 3, mb: 2 }}>
-      <Stack direction="column" alignItems="center" spacing={3}>
+      <Stack alignItems="center" spacing={3}>
         <Box>
           <ThemeProfileAvatar
             alt={displayName || ''}
             src={photoURL || ''}
-            draggable="false"
+            draggable={false}
           >
             <Typography variant="h2">{emoji}</Typography>
           </ThemeProfileAvatar>

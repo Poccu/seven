@@ -13,8 +13,10 @@
   "it's you": "это вы",
   "You can't add yourself, chill 😀": "Ты не можешь добавить себя, расслабься 😀",
   "Search user": "Поиск пользователя",
+  "Search friend": "Поиск друга",
   "Clear": "Очистить",
   "No users found 😞": "Пользователи не найдены 😞",
+  "No friends found 😞": "Друзья не найдены 😞",
   "Display list": "Показать списком",
   "Display block": "Показать блоками"
 }

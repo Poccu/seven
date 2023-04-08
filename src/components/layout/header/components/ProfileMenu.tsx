@@ -147,7 +147,7 @@ export const ProfileMenu: FC = () => {
                     <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                       <Person color="primary" />
                     </ListItemIcon>
-                    <Typography variant="body1">{t('My profile')}</Typography>
+                    <Typography>{t('My profile')}</Typography>
                   </MenuItem>
                   <MenuItem
                     component={Link}
@@ -157,14 +157,14 @@ export const ProfileMenu: FC = () => {
                     <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                       <Tune color="primary" />
                     </ListItemIcon>
-                    <Typography variant="body1">{t('Settings')}</Typography>
+                    <Typography>{t('Settings')}</Typography>
                   </MenuItem>
                   <Divider />
                   <MenuItem onClick={handleLogout}>
                     <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                       <Logout color="primary" />
                     </ListItemIcon>
-                    <Typography variant="body1">{t('Logout')}</Typography>
+                    <Typography>{t('Logout')}</Typography>
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>

@@ -150,9 +150,7 @@ export const BookmarksPostMenu: FC<Props> = ({ post }) => {
                     <ListItemIcon sx={{ ml: -0.5, mr: -0.5 }}>
                       <BookmarkRemoveOutlined color="primary" />
                     </ListItemIcon>
-                    <Typography variant="body1">
-                      {t('Remove from Bookmarks')}
-                    </Typography>
+                    <Typography>{t('Remove from Bookmarks')}</Typography>
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>

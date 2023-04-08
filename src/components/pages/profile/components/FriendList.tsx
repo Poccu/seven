@@ -82,7 +82,7 @@ export const FriendList: FC<Props> = ({ user }) => {
               </Stack>
             </>
           ) : (
-            <Stack direction="column" alignItems="center">
+            <Stack alignItems="center">
               <Typography
                 variant="h4"
                 textAlign="center"
