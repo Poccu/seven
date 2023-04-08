@@ -175,29 +175,17 @@ export const Friends: FC = () => {
           </Stack>
         )}
         <Stack spacing={2} sx={{ mt: 3, display: { xs: 'flex', lg: 'none' } }}>
-          {users.length > 0 ? (
+          {users.length > 0 && filteredFriends ? (
             <>
-              {friends?.length && filteredFriends ? (
-                filteredFriends.map((user) => (
-                  <UserItemFriendList user={user} key={user.uid} />
-                ))
-              ) : (
-                <Stack alignItems="center">
-                  <Typography
-                    variant="h4"
-                    textAlign="center"
-                    color="textSecondary"
-                    sx={{ my: 4 }}
-                  >
-                    <b>{t('No friends yet 😞')}</b>
-                  </Typography>
-                  <ThemeSmallButton
-                    onClick={() => navigate('/users')}
-                    startIcon={<PersonAddAlt1 />}
-                  >
-                    <b>{t('Add friends', { ns: ['profile'] })}</b>
-                  </ThemeSmallButton>
-                </Stack>
+              {filteredFriends.slice(0, numberVisibleUsers).map((user) => (
+                <UserItemFriendList user={user} key={user.uid} />
+              ))}
+              {numberVisibleUsers < filteredFriends.length && (
+                <>
+                  {[...Array(3).keys()].map((user) => (
+                    <SkeletonUserList key={user} />
+                  ))}
+                </>
               )}
             </>
           ) : (
@@ -208,16 +196,36 @@ export const Friends: FC = () => {
             </>
           )}
         </Stack>
-        {filteredFriends?.length === 0 && users.length > 0 && (
-          <Typography
-            variant="h4"
-            textAlign="center"
-            color="textSecondary"
-            sx={{ my: 4 }}
-          >
-            <b>{t('No friends found 😞', { ns: ['users'] })}</b>
-          </Typography>
+        {users.length > 0 && friends?.length === 0 && (
+          <Stack alignItems="center">
+            <Typography
+              variant="h4"
+              textAlign="center"
+              color="textSecondary"
+              sx={{ my: 4 }}
+            >
+              <b>{t('No friends yet 😞')}</b>
+            </Typography>
+            <ThemeSmallButton
+              onClick={() => navigate('/users')}
+              startIcon={<PersonAddAlt1 />}
+            >
+              <b>{t('Add friends', { ns: ['profile'] })}</b>
+            </ThemeSmallButton>
+          </Stack>
         )}
+        {friends?.length !== 0 &&
+          filteredFriends?.length === 0 &&
+          users.length > 0 && (
+            <Typography
+              variant="h4"
+              textAlign="center"
+              color="textSecondary"
+              sx={{ my: 4 }}
+            >
+              <b>{t('No friends found 😞', { ns: ['users'] })}</b>
+            </Typography>
+          )}
       </BorderBox>
     </>
   )
