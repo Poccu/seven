@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IPost } from 'src/types/types'
+import { IPost, IBookmarksState } from 'src/types/types'
 
 const initialState = {
   sortBookmarksBy: 'newest',
-  bookmarks: [] as IPost[],
-}
+  bookmarks: [],
+} as IBookmarksState
 
 export const bookmarksSlice = createSlice({
   name: 'bookmarks',

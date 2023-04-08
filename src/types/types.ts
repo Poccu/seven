@@ -34,8 +34,23 @@ export interface IUserState {
 }
 
 export interface IGlobalState {
-  language: string
-  theme: string
+  language: 'en' | 'ru'
+  theme: 'light' | 'dark'
+}
+
+export interface IPostsState {
+  sortPostsBy: 'newest' | 'oldest' | 'likes' | 'controversial'
+  posts: IPost[]
+}
+
+export interface IBookmarksState {
+  sortBookmarksBy: 'newest' | 'oldest' | 'likes' | 'controversial'
+  bookmarks: IPost[]
+}
+
+export interface IUsersState {
+  sortUsersBy: 'newest' | 'oldest' | 'popularity'
+  users: IUser[]
 }
 
 export interface IUserData {

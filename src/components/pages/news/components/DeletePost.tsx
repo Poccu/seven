@@ -48,7 +48,7 @@ export const DeletePost: FC<Props> = ({
     }, 290)
   }
 
-  const handleUndo = () => {
+  const handleCancel = () => {
     const newArr = deletedPosts.filter((x) => x.id !== post.id)
     setDeletedPosts(newArr)
   }
@@ -56,10 +56,10 @@ export const DeletePost: FC<Props> = ({
   return (
     <Box textAlign="center">
       <ThemeButton
-        onClick={handleUndo}
+        onClick={handleCancel}
         startIcon={<Clear style={{ fontSize: '30px' }} />}
       >
-        <b>{t('Undo')}</b>
+        <b>{t('Cancel')}</b>
       </ThemeButton>
       <ThemeLinearProgress
         variant="determinate"

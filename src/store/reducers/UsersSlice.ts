@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IUser } from 'src/types/types'
+import { IUser, IUsersState } from 'src/types/types'
 
 const initialState = {
   sortUsersBy: 'popularity',
-  users: [] as IUser[],
-}
+  users: [],
+} as IUsersState
 
 export const usersSlice = createSlice({
   name: 'users',

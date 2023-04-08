@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IPost } from 'src/types/types'
+import { IPost, IPostsState } from 'src/types/types'
 
 const initialState = {
   sortPostsBy: 'newest',
-  posts: [] as IPost[],
-}
+  posts: [],
+} as IPostsState
 
 export const postsSlice = createSlice({
   name: 'posts',
