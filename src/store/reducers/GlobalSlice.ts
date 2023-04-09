@@ -11,6 +11,7 @@ const preferredTheme = window.matchMedia('(prefers-color-scheme: light)')
 const initialState = {
   language: preferredLanguage,
   theme: preferredTheme,
+  format: 'module',
 } as IGlobalState
 
 export const globalSlice = createSlice({
@@ -32,10 +33,24 @@ export const globalSlice = createSlice({
     setThemeDark(state) {
       state.theme = 'dark'
     },
+
+    setFormatModule(state) {
+      state.format = 'module'
+    },
+
+    setFormatList(state) {
+      state.format = 'list'
+    },
   },
 })
 
-export const { setLangRU, setLangEN, setThemeLight, setThemeDark } =
-  globalSlice.actions
+export const {
+  setLangRU,
+  setLangEN,
+  setThemeLight,
+  setThemeDark,
+  setFormatModule,
+  setFormatList,
+} = globalSlice.actions
 
 export const globalReducer = globalSlice.reducer

@@ -17,8 +17,9 @@ import {
   ViewModule,
 } from '@mui/icons-material'
 
-import { useAppSelector } from '@hooks/redux'
+import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { useHandleScroll } from '@hooks/useHandleScroll'
+import { setFormatList, setFormatModule } from '@reducers/GlobalSlice'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeSmallButton } from '@ui/ThemeButton'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
@@ -33,15 +34,16 @@ export const Friends: FC = () => {
   const navigate = useNavigate()
   document.title = t('Friends')
 
+  const { format } = useAppSelector((state) => state.global)
   const { friends } = useAppSelector((state) => state.user)
   const { users } = useAppSelector((state) => state.users)
+  const dispatch = useAppDispatch()
 
   const {
     setNumberVisiblePosts: setNumberVisibleUsers,
     numberVisiblePosts: numberVisibleUsers,
   } = useHandleScroll(9, 3)
   const [search, setSearch] = useState('')
-  const [format, setFormat] = useState('module')
 
   const filteredFriends = friends?.filter((u) =>
     u.displayName?.toLowerCase()?.includes(search?.toLowerCase())
@@ -57,6 +59,14 @@ export const Friends: FC = () => {
   const handleClearSearch = () => {
     setNumberVisibleUsers(9)
     setSearch('')
+  }
+
+  const handleSetFormatList = () => {
+    dispatch(setFormatList())
+  }
+
+  const handleSetFormatModule = () => {
+    dispatch(setFormatModule())
   }
 
   return (
@@ -97,7 +107,7 @@ export const Friends: FC = () => {
           >
             <IconButton
               title={t('Display list', { ns: ['users'] }) || ''}
-              onClick={() => setFormat('list')}
+              onClick={handleSetFormatList}
               color={format === 'list' ? 'primary' : 'secondary'}
             >
               <ViewList />
@@ -109,7 +119,7 @@ export const Friends: FC = () => {
             />
             <IconButton
               title={t('Display block', { ns: ['users'] }) || ''}
-              onClick={() => setFormat('module')}
+              onClick={handleSetFormatModule}
               color={format === 'module' ? 'primary' : 'secondary'}
             >
               <ViewModule />
