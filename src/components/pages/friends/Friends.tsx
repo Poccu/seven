@@ -120,13 +120,13 @@ export const Friends: FC = () => {
             <IconButton
               title={t('Display block', { ns: ['users'] }) || ''}
               onClick={handleSetFormatModule}
-              color={format === 'module' ? 'primary' : 'secondary'}
+              color={format === 'block' ? 'primary' : 'secondary'}
             >
               <ViewModule />
             </IconButton>
           </Stack>
         </Stack>
-        {format === 'module' ? (
+        {format === 'block' ? (
           <Stack
             direction="row"
             sx={{

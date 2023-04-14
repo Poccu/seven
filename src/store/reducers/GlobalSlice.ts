@@ -11,7 +11,7 @@ const preferredTheme = window.matchMedia('(prefers-color-scheme: light)')
 const initialState = {
   language: preferredLanguage,
   theme: preferredTheme,
-  format: 'module',
+  format: 'block',
 } as IGlobalState
 
 export const globalSlice = createSlice({
@@ -35,7 +35,7 @@ export const globalSlice = createSlice({
     },
 
     setFormatModule(state) {
-      state.format = 'module'
+      state.format = 'block'
     },
 
     setFormatList(state) {

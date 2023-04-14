@@ -112,13 +112,13 @@ export const Users: FC = () => {
             <IconButton
               title={t('Display block') || ''}
               onClick={handleSetFormatModule}
-              color={format === 'module' ? 'primary' : 'secondary'}
+              color={format === 'block' ? 'primary' : 'secondary'}
             >
               <ViewModule />
             </IconButton>
           </Stack>
         </Stack>
-        {format === 'module' ? (
+        {format === 'block' ? (
           <Stack
             direction="row"
             sx={{

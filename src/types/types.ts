@@ -36,7 +36,7 @@ export interface IUserState {
 export interface IGlobalState {
   language: 'en' | 'ru'
   theme: 'light' | 'dark'
-  format: 'module' | 'list'
+  format: 'block' | 'list'
 }
 
 export interface IPostsState {
