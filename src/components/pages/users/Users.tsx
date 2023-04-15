@@ -96,12 +96,13 @@ export const Users: FC = () => {
           />
           <Stack
             direction="row"
-            sx={{ height: 40, display: { xs: 'none', lg: 'flex' } }}
+            sx={{ height: 50, display: { xs: 'none', lg: 'flex' } }}
           >
             <IconButton
               title={t('Display list') || ''}
               onClick={handleSetFormatList}
               color={format === 'list' ? 'primary' : 'secondary'}
+              sx={{ width: '50px ', height: '50px' }}
             >
               <ViewList />
             </IconButton>
@@ -114,6 +115,7 @@ export const Users: FC = () => {
               title={t('Display block') || ''}
               onClick={handleSetFormatBlock}
               color={format === 'block' ? 'primary' : 'secondary'}
+              sx={{ width: '50px ', height: '50px' }}
             >
               <ViewModule />
             </IconButton>

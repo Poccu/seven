@@ -105,6 +105,7 @@ export const UserItemFriendList: FC<Props> = ({ user }) => {
           title={t('Remove Friend') || ''}
           size="large"
           onClick={() => handleRemoveFriend(user.uid)}
+          sx={{ width: '50px ', height: '50px' }}
         >
           <PersonRemoveAlt1 color="secondary" />
         </IconButton>

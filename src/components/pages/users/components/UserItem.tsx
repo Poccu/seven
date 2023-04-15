@@ -203,6 +203,7 @@ export const UserItem: FC<Props> = ({ user }) => {
             title={t('Add Friend') || ''}
             size="large"
             onClick={() => handleAddFriend(user.uid)}
+            sx={{ width: '50px ', height: '50px' }}
           >
             <PersonAddAlt1 color="primary" />
           </IconButton>
@@ -211,6 +212,7 @@ export const UserItem: FC<Props> = ({ user }) => {
             title={t('Remove Friend') || ''}
             size="large"
             onClick={() => handleRemoveFriend(user.uid)}
+            sx={{ width: '50px ', height: '50px' }}
           >
             <PersonRemoveAlt1 color="secondary" />
           </IconButton>
@@ -219,6 +221,7 @@ export const UserItem: FC<Props> = ({ user }) => {
             title={t('Chill') || ''}
             size="large"
             onClick={handleItsYou}
+            sx={{ width: '50px ', height: '50px' }}
           >
             <SelfImprovement color="info" />
           </IconButton>

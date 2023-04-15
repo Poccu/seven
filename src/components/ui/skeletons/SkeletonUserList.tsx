@@ -5,7 +5,7 @@ import { Skeleton, Stack, Typography } from '@mui/material'
 export const SkeletonUserList: FC = () => {
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
-      <Skeleton sx={{ height: '48px', width: '48px' }} variant="rounded" />
+      <Skeleton sx={{ height: '50px', width: '50px' }} variant="rounded" />
       <Skeleton sx={{ height: '55px', width: '55px' }} variant="circular" />
       <Stack>
         <Typography variant="h6">
