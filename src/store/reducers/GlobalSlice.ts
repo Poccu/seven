@@ -34,7 +34,7 @@ export const globalSlice = createSlice({
       state.theme = 'dark'
     },
 
-    setFormatModule(state) {
+    setFormatBlock(state) {
       state.format = 'block'
     },
 
@@ -49,7 +49,7 @@ export const {
   setLangEN,
   setThemeLight,
   setThemeDark,
-  setFormatModule,
+  setFormatBlock,
   setFormatList,
 } = globalSlice.actions
 

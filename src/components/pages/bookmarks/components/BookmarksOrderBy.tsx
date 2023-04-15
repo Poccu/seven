@@ -51,7 +51,7 @@ export const BookmarksOrderBy: FC<Props> = ({ setNumberVisiblePosts }) => {
     <Stack
       alignItems="center"
       direction="row"
-      sx={{ ml: 2, mb: 2, flexWrap: 'wrap', gap: 2 }}
+      sx={{ flexWrap: 'wrap', gap: 2 }}
     >
       <Typography>{t('Sort by')}</Typography>
       <Chip

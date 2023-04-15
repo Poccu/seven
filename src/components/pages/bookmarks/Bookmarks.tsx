@@ -11,12 +11,22 @@ import {
   where,
 } from 'firebase/firestore'
 
-import { Collapse, Typography } from '@mui/material'
+import {
+  Checkbox,
+  Collapse,
+  FormControlLabel,
+  Stack,
+  Typography,
+} from '@mui/material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
 import { useHandleScroll } from '@hooks/useHandleScroll'
-import { setBookmarks } from '@reducers/BookmarksSlice'
+import {
+  setBookmarks,
+  setBookmarksWithPhoto,
+  setBookmarksWithoutPhoto,
+} from '@reducers/BookmarksSlice'
 import { BorderBox } from '@ui/ThemeBox'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 
@@ -31,10 +41,18 @@ export const Bookmarks: FC = () => {
 
   const { uid } = useAppSelector((state) => state.user)
   const { users } = useAppSelector((state) => state.users)
-  const { bookmarks } = useAppSelector((state) => state.bookmarks)
+  const { bookmarks, withPhoto } = useAppSelector((state) => state.bookmarks)
   const dispatch = useAppDispatch()
 
   const { setNumberVisiblePosts, numberVisiblePosts } = useHandleScroll(4, 1)
+
+  const handleCheckbox = () => {
+    setNumberVisiblePosts(4)
+
+    withPhoto
+      ? dispatch(setBookmarksWithoutPhoto())
+      : dispatch(setBookmarksWithPhoto())
+  }
 
   useEffect(() => {
     const q = query(
@@ -48,14 +66,20 @@ export const Bookmarks: FC = () => {
         postsArr.push(d.data())
       })
 
-      dispatch(setBookmarks(postsArr))
+      if (withPhoto) {
+        dispatch(
+          setBookmarks(postsArr.filter((post) => post?.images?.length > 0))
+        )
+      } else {
+        dispatch(setBookmarks(postsArr))
+      }
     })
 
     return () => {
       setPostsFunc()
     }
     // eslint-disable-next-line
-  }, [db, uid])
+  }, [db, uid, withPhoto])
 
   useEffect(() => {
     if (!uid) return
@@ -85,7 +109,18 @@ export const Bookmarks: FC = () => {
           <b>{t('Bookmarks')}</b>
         </Typography>
       </BorderBox>
-      <BookmarksOrderBy setNumberVisiblePosts={setNumberVisiblePosts} />
+      <Stack
+        alignItems="center"
+        direction="row"
+        justifyContent="space-between"
+        sx={{ ml: 2, mb: 2 }}
+      >
+        <BookmarksOrderBy setNumberVisiblePosts={setNumberVisiblePosts} />
+        <FormControlLabel
+          control={<Checkbox checked={withPhoto} onChange={handleCheckbox} />}
+          label={t('Only with photo')}
+        />
+      </Stack>
       {users.length > 0 ? (
         <>
           <TransitionGroup>

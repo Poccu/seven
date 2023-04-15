@@ -12,7 +12,7 @@ import { Clear, PersonSearch, ViewList, ViewModule } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { useHandleScroll } from '@hooks/useHandleScroll'
-import { setFormatList, setFormatModule } from '@reducers/GlobalSlice'
+import { setFormatList, setFormatBlock } from '@reducers/GlobalSlice'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
 import { SkeletonUser } from '@ui/skeletons/SkeletonUser'
@@ -56,8 +56,8 @@ export const Users: FC = () => {
     dispatch(setFormatList())
   }
 
-  const handleSetFormatModule = () => {
-    dispatch(setFormatModule())
+  const handleSetFormatBlock = () => {
+    dispatch(setFormatBlock())
   }
 
   return (
@@ -111,7 +111,7 @@ export const Users: FC = () => {
             />
             <IconButton
               title={t('Display block') || ''}
-              onClick={handleSetFormatModule}
+              onClick={handleSetFormatBlock}
               color={format === 'block' ? 'primary' : 'secondary'}
             >
               <ViewModule />

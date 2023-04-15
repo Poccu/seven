@@ -19,7 +19,7 @@ import {
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { useHandleScroll } from '@hooks/useHandleScroll'
-import { setFormatList, setFormatModule } from '@reducers/GlobalSlice'
+import { setFormatList, setFormatBlock } from '@reducers/GlobalSlice'
 import { BorderBox } from '@ui/ThemeBox'
 import { ThemeSmallButton } from '@ui/ThemeButton'
 import { ThemeTextFieldAddPost } from '@ui/ThemeTextField'
@@ -65,8 +65,8 @@ export const Friends: FC = () => {
     dispatch(setFormatList())
   }
 
-  const handleSetFormatModule = () => {
-    dispatch(setFormatModule())
+  const handleSetFormatBlock = () => {
+    dispatch(setFormatBlock())
   }
 
   return (
@@ -119,7 +119,7 @@ export const Friends: FC = () => {
             />
             <IconButton
               title={t('Display block', { ns: ['users'] }) || ''}
-              onClick={handleSetFormatModule}
+              onClick={handleSetFormatBlock}
               color={format === 'block' ? 'primary' : 'secondary'}
             >
               <ViewModule />
