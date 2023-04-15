@@ -34,6 +34,7 @@ export const Users: FC = () => {
     setNumberVisiblePosts: setNumberVisibleUsers,
     numberVisiblePosts: numberVisibleUsers,
   } = useHandleScroll(9, 3)
+
   const [search, setSearch] = useState('')
 
   const filteredUsers = users.filter((u) =>

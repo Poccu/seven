@@ -13,7 +13,7 @@ import {
   DocumentData,
 } from 'firebase/firestore'
 
-import { Collapse } from '@mui/material'
+import { Checkbox, Collapse, FormControlLabel, Stack } from '@mui/material'
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
@@ -36,8 +36,14 @@ export const News: FC = () => {
   const dispatch = useAppDispatch()
 
   const { numberVisiblePosts, setNumberVisiblePosts } = useHandleScroll(4, 1)
+
   const [editingId, setEditingId] = useState('')
   const [deletedPosts, setDeletedPosts] = useState<IPost[]>([])
+  const [withPhoto, setWithPhoto] = useState(false)
+
+  const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setWithPhoto(event.target.checked)
+  }
 
   useEffect(() => {
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
@@ -56,7 +62,11 @@ export const News: FC = () => {
         postsArr.push(d.data())
       })
 
-      dispatch(setPosts(postsArr))
+      if (withPhoto) {
+        dispatch(setPosts(postsArr.filter((post) => post?.images?.length > 0)))
+      } else {
+        dispatch(setPosts(postsArr))
+      }
     })
 
     return () => {
@@ -64,12 +74,23 @@ export const News: FC = () => {
       setPostsFunc()
     }
     // eslint-disable-next-line
-  }, [db])
+  }, [db, withPhoto])
 
   return (
     <>
       <AddPost />
-      <NewsOrderBy setNumberVisiblePosts={setNumberVisiblePosts} />
+      <Stack
+        alignItems="center"
+        direction="row"
+        justifyContent="space-between"
+        sx={{ ml: 2, mb: 2 }}
+      >
+        <NewsOrderBy setNumberVisiblePosts={setNumberVisiblePosts} />
+        <FormControlLabel
+          control={<Checkbox checked={withPhoto} onChange={handleCheckbox} />}
+          label={t('Only with photo')}
+        />
+      </Stack>
       {users.length > 0 ? (
         <>
           <TransitionGroup>

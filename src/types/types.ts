@@ -46,7 +46,6 @@ export interface IPostsState {
 
 export interface IBookmarksState {
   sortBookmarksBy: 'newest' | 'oldest' | 'likes' | 'controversial'
-  withPhoto: boolean
   bookmarks: IPost[]
 }
 

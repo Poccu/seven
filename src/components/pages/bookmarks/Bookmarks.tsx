@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TransitionGroup } from 'react-transition-group'
 import {
@@ -22,11 +22,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@hooks/redux'
 import { useAuth } from '@hooks/useAuth'
 import { useHandleScroll } from '@hooks/useHandleScroll'
-import {
-  setBookmarks,
-  setBookmarksWithPhoto,
-  setBookmarksWithoutPhoto,
-} from '@reducers/BookmarksSlice'
+import { setBookmarks } from '@reducers/BookmarksSlice'
 import { BorderBox } from '@ui/ThemeBox'
 import { SkeletonPost } from '@ui/skeletons/SkeletonPost'
 
@@ -41,17 +37,15 @@ export const Bookmarks: FC = () => {
 
   const { uid } = useAppSelector((state) => state.user)
   const { users } = useAppSelector((state) => state.users)
-  const { bookmarks, withPhoto } = useAppSelector((state) => state.bookmarks)
+  const { bookmarks } = useAppSelector((state) => state.bookmarks)
   const dispatch = useAppDispatch()
 
   const { setNumberVisiblePosts, numberVisiblePosts } = useHandleScroll(4, 1)
 
-  const handleCheckbox = () => {
-    setNumberVisiblePosts(4)
+  const [withPhoto, setWithPhoto] = useState(false)
 
-    withPhoto
-      ? dispatch(setBookmarksWithoutPhoto())
-      : dispatch(setBookmarksWithPhoto())
+  const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setWithPhoto(event.target.checked)
   }
 
   useEffect(() => {

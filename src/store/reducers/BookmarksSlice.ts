@@ -4,7 +4,6 @@ import { IPost, IBookmarksState } from 'src/types/types'
 
 const initialState = {
   sortBookmarksBy: 'newest',
-  withPhoto: true,
   bookmarks: [],
 } as IBookmarksState
 
@@ -69,14 +68,6 @@ export const bookmarksSlice = createSlice({
         (a, b) => b.comments.length - a.comments.length
       )
     },
-
-    setBookmarksWithPhoto(state) {
-      state.withPhoto = true
-    },
-
-    setBookmarksWithoutPhoto(state) {
-      state.withPhoto = false
-    },
   },
 })
 
@@ -87,8 +78,6 @@ export const {
   setBookmarksByOldest,
   setBookmarksByLikes,
   setBookmarksByControversial,
-  setBookmarksWithPhoto,
-  setBookmarksWithoutPhoto,
 } = bookmarksSlice.actions
 
 export const bookmarksReducer = bookmarksSlice.reducer

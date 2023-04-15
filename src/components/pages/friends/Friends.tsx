@@ -43,6 +43,7 @@ export const Friends: FC = () => {
     setNumberVisiblePosts: setNumberVisibleUsers,
     numberVisiblePosts: numberVisibleUsers,
   } = useHandleScroll(9, 3)
+
   const [search, setSearch] = useState('')
 
   const filteredFriends = friends?.filter((u) =>
